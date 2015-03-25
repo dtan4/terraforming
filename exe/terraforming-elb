@@ -46,55 +46,23 @@ resource "aws_elb" "#{load_balancer['LoadBalancerName']}" {
 end
 
 def tfstate(data)
-  tfstate_db_instances = data['DBInstances'].inject({}) do |result, instance|
-    security_groups = {
-      # TODO: key
-      "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
-    }
-
-    instance['DBSecurityGroups'].each do |security_group|
-      security_groups["security_group_names.#{security_group['OptionGroupName']}"] = security_group['OptionGroupName']
-    end
-
-    vpc_security_groups = {
-      "vpc_security_group_ids.#" => instance['VpcSecurityGroups'].length.to_s
-    }
-
-    instance['VpcSecurityGroups'].each do |vpc_security_group|
-      # TODO: key
-      security_groups["vpc_security_group_ids.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
-    end
-
+  tfstate_db_instances = data['LoadBalancerDescriptions'].inject({}) do |result, load_balancer|
     attributes = {
-      "address" => instance['Endpoint']['Address'],
-      "allocated_storage" => instance['AllocatedStorage'].to_s,
-      "availability_zone" => instance['AvailabilityZone'],
-      "backup_retention_period" => instance['BackupRetentionPeriod'].to_s,
-      "backup_window" => instance['PreferredBackupWindow'],
-      "db_subnet_group_name" => instance['DBSubnetGroup'] ? instance['DBSubnetGroup']['DBSubnetGroupName'] : "",
-      "endpoint" => instance['Endpoint']['Address'],
-      "engine" => instance['Engine'],
-      "engine_version" => instance['EngineVersion'],
-      "final_snapshot_identifier" => "#{instance['DBInstanceIdentifier']}-final",
-      "id" => instance['DBInstanceIdentifier'],
-      "identifier" => instance['DBInstanceIdentifier'],
-      "instance_class" => instance['DBInstanceClass'],
-      "maintenance_window" => instance['PreferredMaintenanceWindow'],
-      "multi_az" => instance['MultiAZ'].to_s,
-      "name" => instance['DBName'],
-      "parameter_group_name" => instance['DBParameterGroups'][0]['DBParameterGroupName'],
-      "password" => "xxxxxxxx",
-      "port" => instance['Endpoint']['Port'].to_s,
-      "publicly_accessible" => instance['PubliclyAccessible'].to_s,
-      "status" => instance['DBInstanceStatus'],
-      "storage_type" => instance['StorageType'],
-      "username" => instance['MasterUsername'],
-    }.merge(security_groups).merge(vpc_security_groups)
+      "availability_zones.#" => load_balancer['AvailabilityZones'].length.to_s,
+      "dns_name" => load_balancer['DNSName'],
+      "health_check.#" => "1",
+      "id" => load_balancer['LoadBalancerName'],
+      "instances.#" => load_balancer['Instances'].length.to_s,
+      "listener.#" => load_balancer['ListenerDescriptions'].length.to_s,
+      "name" => load_balancer['LoadBalancerName'],
+      "security_groups.#" => load_balancer['SecurityGroups'].length.to_s,
+      "subnets.#" => load_balancer['Subnets'].length.to_s,
+    }
 
-    result["aws_db_instance.#{instance['DBInstanceIdentifier']}"] = {
-      "type" => "aws_db_instance",
+    result["aws_elb.#{load_balancer['LoadBalancerName']}"] = {
+      "type" => "aws_elb",
       "primary" => {
-        "id" => instance['DBInstanceIdentifier'],
+        "id" => load_balancer['LoadBalancerName'],
         "attributes" => attributes
       }
     }
