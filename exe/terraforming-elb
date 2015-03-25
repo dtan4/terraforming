@@ -1,0 +1,112 @@
+#!/usr/bin/env ruby
+
+#
+# terraforming-elb
+#
+# Usage:
+#   aws elb describe-load-balancers | ./terraforming-elb
+#
+
+require "json"
+
+def tf(data)
+  data['LoadBalancerDescriptions'].inject([]) do |result, load_balancer|
+    listeners = load_balancer['ListenerDescriptions'].map { |ld| ld['Listener'] }.map do |listener|
+      <<-EOS
+    listener {
+        instance_port      = #{listener['InstancePort']}
+        instance_protocol  = "#{listener['InstanceProtocol'].downcase}"
+        lb_port            = #{listener['LoadBalancerPort']}
+        lb_protocol        = "#{listener['Protocol'].downcase}"
+        ssl_certificate_id = "#{listener['SSLCertificateId']}"
+    }
+      EOS
+    end.join("\n")
+
+    result << <<-EOS
+resource "aws_elb" "#{load_balancer['LoadBalancerName']}" {
+    name               = "#{load_balancer['LoadBalancerName']}"
+    availability_zones = #{load_balancer['AvailabilityZones'].inspect}
+    subnets            = #{load_balancer['Subnets'].inspect}
+    security_groups    = #{load_balancer['SecurityGroups'].inspect}
+    instances          = #{load_balancer['Instances'].map { |instance| instance['InstanceId'] }.inspect}
+
+#{listeners}
+
+    health_check {
+        healthy_threshold   = #{load_balancer['HealthCheck']['HealthyThreshold']}
+        unhealthy_threshold = #{load_balancer['HealthCheck']['UnhealthyThreshold']}
+        interval            = #{load_balancer['HealthCheck']['Interval']}
+        target              = "#{load_balancer['HealthCheck']['Target']}"
+        timeout             = #{load_balancer['HealthCheck']['Timeout']}
+    }
+}
+    EOS
+  end.join("\n")
+end
+
+def tfstate(data)
+  tfstate_db_instances = data['DBInstances'].inject({}) do |result, instance|
+    security_groups = {
+      # TODO: key
+      "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
+    }
+
+    instance['DBSecurityGroups'].each do |security_group|
+      security_groups["security_group_names.#{security_group['OptionGroupName']}"] = security_group['OptionGroupName']
+    end
+
+    vpc_security_groups = {
+      "vpc_security_group_ids.#" => instance['VpcSecurityGroups'].length.to_s
+    }
+
+    instance['VpcSecurityGroups'].each do |vpc_security_group|
+      # TODO: key
+      security_groups["vpc_security_group_ids.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
+    end
+
+    attributes = {
+      "address" => instance['Endpoint']['Address'],
+      "allocated_storage" => instance['AllocatedStorage'].to_s,
+      "availability_zone" => instance['AvailabilityZone'],
+      "backup_retention_period" => instance['BackupRetentionPeriod'].to_s,
+      "backup_window" => instance['PreferredBackupWindow'],
+      "db_subnet_group_name" => instance['DBSubnetGroup'] ? instance['DBSubnetGroup']['DBSubnetGroupName'] : "",
+      "endpoint" => instance['Endpoint']['Address'],
+      "engine" => instance['Engine'],
+      "engine_version" => instance['EngineVersion'],
+      "final_snapshot_identifier" => "#{instance['DBInstanceIdentifier']}-final",
+      "id" => instance['DBInstanceIdentifier'],
+      "identifier" => instance['DBInstanceIdentifier'],
+      "instance_class" => instance['DBInstanceClass'],
+      "maintenance_window" => instance['PreferredMaintenanceWindow'],
+      "multi_az" => instance['MultiAZ'].to_s,
+      "name" => instance['DBName'],
+      "parameter_group_name" => instance['DBParameterGroups'][0]['DBParameterGroupName'],
+      "password" => "xxxxxxxx",
+      "port" => instance['Endpoint']['Port'].to_s,
+      "publicly_accessible" => instance['PubliclyAccessible'].to_s,
+      "status" => instance['DBInstanceStatus'],
+      "storage_type" => instance['StorageType'],
+      "username" => instance['MasterUsername'],
+    }.merge(security_groups).merge(vpc_security_groups)
+
+    result["aws_db_instance.#{instance['DBInstanceIdentifier']}"] = {
+      "type" => "aws_db_instance",
+      "primary" => {
+        "id" => instance['DBInstanceIdentifier'],
+        "attributes" => attributes
+      }
+    }
+    result
+  end
+
+  JSON.pretty_generate(tfstate_db_instances)
+end
+
+generate_tfstate = ARGV.length > 0 && ARGV.shift == "--tfstate"
+
+json = ARGF.read
+data = JSON.parse(json)
+
+puts generate_tfstate ? tfstate(data) : tf(data)
