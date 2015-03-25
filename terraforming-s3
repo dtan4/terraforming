@@ -4,28 +4,31 @@
 # terraforming-s3
 #
 # Usage:
-#   aws s3 ls | ./terraforming-s3
+#   aws s3api list-buckets | ./terraforming-s3
 #
 
 require "json"
 
-out = ARGF.read.chomp
-buckets = out.lines.map { |line| line.split(" ")[2] }
+json = ARGF.read
+data = JSON.parse(json)
 
-tfstate_s3_buckets = buckets.map do |bucket|
-  {
-    "aws_s3_bucket.#{bucket}" => {
+tfstate_s3_buckets = data['Buckets'].inject([]) do |result, bucket|
+  tfstate_s3_bucket = {
+    "aws_s3_bucket.#{bucket['Name']}" => {
       "type" => "aws_s3_bucket",
       "primary" => {
-        "id" => bucket,
+        "id" => bucket['Name'],
         "attributes" => {
           "acl" => "private",
-          "bucket" => bucket,
-          "id" => bucket
+          "bucket" => bucket['Name'],
+          "id" => bucket['Name']
         }
       }
     }
   }
+
+  result << tfstate_s3_bucket
+  result
 end
 
 puts JSON.pretty_generate(tfstate_s3_buckets)
