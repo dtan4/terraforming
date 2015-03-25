@@ -40,24 +40,6 @@ end
 
 def tfstate(data)
   tfstate_db_instances = data['DBInstances'].inject({}) do |result, instance|
-    security_groups = {
-      # TODO: key
-      "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
-    }
-
-    instance['DBSecurityGroups'].each do |security_group|
-      security_groups["security_group_names.#{security_group['OptionGroupName']}"] = security_group['OptionGroupName']
-    end
-
-    vpc_security_groups = {
-      "vpc_security_group_ids.#" => instance['VpcSecurityGroups'].length.to_s
-    }
-
-    instance['VpcSecurityGroups'].each do |vpc_security_group|
-      # TODO: key
-      security_groups["vpc_security_group_ids.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
-    end
-
     attributes = {
       "address" => instance['Endpoint']['Address'],
       "allocated_storage" => instance['AllocatedStorage'].to_s,
@@ -79,10 +61,12 @@ def tfstate(data)
       "password" => "xxxxxxxx",
       "port" => instance['Endpoint']['Port'].to_s,
       "publicly_accessible" => instance['PubliclyAccessible'].to_s,
+      "security_group_names.#" => instance['DBSecurityGroups'].length.to_s,
       "status" => instance['DBInstanceStatus'],
       "storage_type" => instance['StorageType'],
       "username" => instance['MasterUsername'],
-    }.merge(security_groups).merge(vpc_security_groups)
+      "vpc_security_group_ids.#" => instance['VpcSecurityGroups'].length.to_s,
+    }
 
     result["aws_db_instance.#{instance['DBInstanceIdentifier']}"] = {
       "type" => "aws_db_instance",
