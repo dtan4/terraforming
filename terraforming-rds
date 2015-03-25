@@ -7,6 +7,7 @@ data = JSON.parse(json)
 
 tfstate_db_instances = data['DBInstances'].inject([]) do |result, instance|
   security_groups = {
+    # TODO: key
     "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
   }
 
@@ -19,6 +20,7 @@ tfstate_db_instances = data['DBInstances'].inject([]) do |result, instance|
   }
 
   instance['VpcSecurityGroups'].each do |vpc_security_group|
+    # TODO: key
     security_groups["security_group_names.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
   end
 
