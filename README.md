@@ -7,14 +7,20 @@ Convert existing AWS resource to [Terraform](https://terraform.io/) style (tf, t
 
 ## Usage
 
+### ELB
+
+```bash
+$ aws elb describe-load-balancers | terraforming-elb [--tfstate]
+```
+
 ### RDS
 
 ```bash
-$ aws rds describe-db-instances | ./terraforming-rds [--tfstate]
+$ aws rds describe-db-instances | terraforming-rds [--tfstate]
 ```
 
 ### S3
 
 ```bash
-$ aws s3api list-buckets | ./terraforming-s3 [--tfstate]
+$ aws s3api list-buckets | terraforming-s3 [--tfstate]
 ```
