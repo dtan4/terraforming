@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+out = ARGF.read.chomp
+buckets = out.lines.map { |line| line.split(" ")[2] }
+
+tfstate_s3_buckets = buckets.map do |bucket|
+  {
+    "aws_s3_bucket.#{bucket}" => {
+      "type" => "aws_s3_bucket",
+      "primary" => {
+        "id" => bucket,
+        "attributes" => {
+          "acl" => "private",
+          "bucket" => bucket,
+          "id" => bucket
+        }
+      }
+    }
+  }
+end
+
+puts JSON.pretty_generate(tfstate_s3_buckets)
