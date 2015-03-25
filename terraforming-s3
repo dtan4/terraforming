@@ -4,31 +4,49 @@
 # terraforming-s3
 #
 # Usage:
-#   aws s3api list-buckets | ./terraforming-s3
+#   aws s3api list-buckets | ./terraforming-s3 [--tfstate]
 #
 
 require "json"
 
-json = ARGF.read
-data = JSON.parse(json)
+def tf(data)
+  data['Buckets'].inject([]) do |result, bucket|
+    result << <<-EOS
+resource "aws_s3_bucket" "#{bucket['Name']}" {
+    bucket = "#{bucket['Name']}"
+    acl    = "private"
+}
+    EOS
+    result
+  end.join("\n")
+end
 
-tfstate_s3_buckets = data['Buckets'].inject([]) do |result, bucket|
-  tfstate_s3_bucket = {
-    "aws_s3_bucket.#{bucket['Name']}" => {
-      "type" => "aws_s3_bucket",
-      "primary" => {
-        "id" => bucket['Name'],
-        "attributes" => {
-          "acl" => "private",
-          "bucket" => bucket['Name'],
-          "id" => bucket['Name']
+def tfstate(data)
+  tfstate_s3_buckets = data['Buckets'].inject([]) do |result, bucket|
+    tfstate_s3_bucket = {
+      "aws_s3_bucket.#{bucket['Name']}" => {
+        "type" => "aws_s3_bucket",
+        "primary" => {
+          "id" => bucket['Name'],
+          "attributes" => {
+            "acl" => "private",
+            "bucket" => bucket['Name'],
+            "id" => bucket['Name']
+          }
         }
       }
     }
-  }
 
-  result << tfstate_s3_bucket
-  result
+    result << tfstate_s3_bucket
+    result
+  end
+
+  JSON.pretty_generate(tfstate_s3_buckets)
 end
 
-puts JSON.pretty_generate(tfstate_s3_buckets)
+generate_tfstate = ARGV.length > 0 && ARGV.shift == "--tfstate"
+
+json = ARGF.read
+data = JSON.parse(json)
+
+puts generate_tfstate ? tfstate(data) : tf(data)
