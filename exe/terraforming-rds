@@ -39,7 +39,7 @@ resource "aws_db_instance" "#{instance['DBInstanceIdentifier']}" {
 end
 
 def tfstate(data)
-  tfstate_db_instances = data['DBInstances'].inject([]) do |result, instance|
+  tfstate_db_instances = data['DBInstances'].inject({}) do |result, instance|
     security_groups = {
       # TODO: key
       "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
@@ -84,17 +84,13 @@ def tfstate(data)
       "username" => instance['MasterUsername'],
     }.merge(security_groups).merge(vpc_security_groups)
 
-    tfstate_db_instance = {
-      "aws_db_instance.#{instance['DBInstanceIdentifier']}" => {
-        "type" => "aws_db_instance",
-        "primary" => {
-          "id" => instance['DBInstanceIdentifier'],
-          "attributes" => attributes
-        }
+    result["aws_db_instance.#{instance['DBInstanceIdentifier']}"] = {
+      "type" => "aws_db_instance",
+      "primary" => {
+        "id" => instance['DBInstanceIdentifier'],
+        "attributes" => attributes
       }
     }
-
-    result << tfstate_db_instance
     result
   end
 
