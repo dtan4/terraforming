@@ -20,7 +20,7 @@ resource "aws_db_instance" "#{instance['DBInstanceIdentifier']}" {
     engine_version            = "#{instance['EngineVersion']}"
     instance_class            = "#{instance['DBInstanceClass']}"
     name                      = "#{instance['DBName']}"
-    username                  = "xxxxxxxx"
+    username                  = "#{instance['MasterUsername']}"
     password                  = "xxxxxxxx"
     port                      = #{instance['Endpoint']['Port']}
     publicly_accessible       = #{instance['PubliclyAccessible']}
