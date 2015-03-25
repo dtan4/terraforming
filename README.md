@@ -24,3 +24,9 @@ $ aws rds describe-db-instances | terraforming-rds [--tfstate]
 ```bash
 $ aws s3api list-buckets | terraforming-s3 [--tfstate]
 ```
+
+### VPC
+
+```bash
+$ aws ec2 describe-vpcs | terraforming-vpc [--tfstate]
+```
