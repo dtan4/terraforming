@@ -9,14 +9,21 @@
 
 require "json"
 
+def vpc_name_of(vpc)
+  name_tag = vpc['Tags'].find { |tag| tag['Key'] == "Name" }
+  name_tag ? name_tag['Value'] : vpc['VpcId']
+end
+
 def tf(data)
   data['Vpcs'].inject([]) do |result, vpc|
     tags = vpc['Tags'].map do |tag|
-      "        #{tag['Name']} = \"#{tag['Value']}\""
+      <<-EOS
+        #{tag['Key']} = "#{tag['Value']}"
+      EOS
     end.join("\n")
 
     result << <<-EOS
-resource "aws_vpc" "#{security_group['GroupName']}" {
+resource "aws_vpc" "#{vpc_name_of(vpc)}" {
     cidr_block       = "#{vpc['CidrBlock']}"
     instance_tenancy = "#{vpc['InstanceTenancy']}"
 
@@ -29,55 +36,18 @@ resource "aws_vpc" "#{security_group['GroupName']}" {
 end
 
 def tfstate(data)
-  tfstate_db_instances = data['DBInstances'].inject({}) do |result, instance|
-    security_groups = {
-      # TODO: key
-      "security_group_names.#" => instance['DBSecurityGroups'].length.to_s
-    }
-
-    instance['DBSecurityGroups'].each do |security_group|
-      security_groups["security_group_names.#{security_group['OptionGroupName']}"] = security_group['OptionGroupName']
-    end
-
-    vpc_security_groups = {
-      "vpc_security_group_ids.#" => instance['VpcSecurityGroups'].length.to_s
-    }
-
-    instance['VpcSecurityGroups'].each do |vpc_security_group|
-      # TODO: key
-      security_groups["vpc_security_group_ids.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
-    end
-
+  tfstate_db_instances = data['Vpcs'].inject({}) do |result, vpc|
     attributes = {
-      "address" => instance['Endpoint']['Address'],
-      "allocated_storage" => instance['AllocatedStorage'].to_s,
-      "availability_zone" => instance['AvailabilityZone'],
-      "backup_retention_period" => instance['BackupRetentionPeriod'].to_s,
-      "backup_window" => instance['PreferredBackupWindow'],
-      "db_subnet_group_name" => instance['DBSubnetGroup'] ? instance['DBSubnetGroup']['DBSubnetGroupName'] : "",
-      "endpoint" => instance['Endpoint']['Address'],
-      "engine" => instance['Engine'],
-      "engine_version" => instance['EngineVersion'],
-      "final_snapshot_identifier" => "#{instance['DBInstanceIdentifier']}-final",
-      "id" => instance['DBInstanceIdentifier'],
-      "identifier" => instance['DBInstanceIdentifier'],
-      "instance_class" => instance['DBInstanceClass'],
-      "maintenance_window" => instance['PreferredMaintenanceWindow'],
-      "multi_az" => instance['MultiAZ'].to_s,
-      "name" => instance['DBName'],
-      "parameter_group_name" => instance['DBParameterGroups'][0]['DBParameterGroupName'],
-      "password" => "xxxxxxxx",
-      "port" => instance['Endpoint']['Port'].to_s,
-      "publicly_accessible" => instance['PubliclyAccessible'].to_s,
-      "status" => instance['DBInstanceStatus'],
-      "storage_type" => instance['StorageType'],
-      "username" => instance['MasterUsername'],
-    }.merge(security_groups).merge(vpc_security_groups)
+      "cidr_block" => vpc['CidrBlock'],
+      "id" => vpc['VpcId'],
+      "instance_tenancy" => vpc['InstanceTenancy'],
+      "tags.#" => vpc['Tags'].length.to_s,
+    }
 
-    result["aws_elb.#{instance['']}"] = {
-      "type" => "aws_db_instance",
+    result["aws_vpc.#{vpc_name_of(vpc)}"] = {
+      "type" => "aws_vpc",
       "primary" => {
-        "id" => instance['DBInstanceIdentifier'],
+        "id" => vpc['VpcId'],
         "attributes" => attributes
       }
     }
