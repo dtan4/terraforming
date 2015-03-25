@@ -22,22 +22,18 @@ resource "aws_s3_bucket" "#{bucket['Name']}" {
 end
 
 def tfstate(data)
-  tfstate_s3_buckets = data['Buckets'].inject([]) do |result, bucket|
-    tfstate_s3_bucket = {
-      "aws_s3_bucket.#{bucket['Name']}" => {
-        "type" => "aws_s3_bucket",
-        "primary" => {
-          "id" => bucket['Name'],
-          "attributes" => {
-            "acl" => "private",
-            "bucket" => bucket['Name'],
-            "id" => bucket['Name']
-          }
+  tfstate_s3_buckets = data['Buckets'].inject({}) do |result, bucket|
+    result["aws_s3_bucket.#{bucket['Name']}"] = {
+      "type" => "aws_s3_bucket",
+      "primary" => {
+        "id" => bucket['Name'],
+        "attributes" => {
+          "acl" => "private",
+          "bucket" => bucket['Name'],
+          "id" => bucket['Name']
         }
       }
     }
-
-    result << tfstate_s3_bucket
     result
   end
 
