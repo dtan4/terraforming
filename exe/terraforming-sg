@@ -36,7 +36,7 @@ def tf(data)
     result << <<-EOS
 resource "aws_security_group" "#{security_group['GroupName']}" {
     name        = "#{security_group['GroupName']}"
-    description = "#{security_group['Description'].inspect}"
+    description = "#{security_group['Description']}"
 
 #{ingresses}
 #{egresses}
