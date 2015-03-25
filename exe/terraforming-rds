@@ -81,7 +81,7 @@ def tfstate(data)
       "publicly_accessible" => instance['PubliclyAccessible'].to_s,
       "status" => instance['DBInstanceStatus'],
       "storage_type" => instance['StorageType'],
-      "username" => "xxxxxxxx",
+      "username" => instance['MasterUsername'],
     }.merge(security_groups).merge(vpc_security_groups)
 
     tfstate_db_instance = {
