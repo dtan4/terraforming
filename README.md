@@ -26,6 +26,12 @@ $ aws rds describe-db-instances | terraforming-rds [--tfstate]
 $ aws s3api list-buckets | terraforming-s3 [--tfstate]
 ```
 
+### Security Group
+
+```bash
+$ aws ec2 describe-security-groups | terraforming-sg [--tfstate]
+```
+
 ### VPC
 
 ```bash
