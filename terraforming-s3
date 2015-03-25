@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+#
+# terraforming-s3
+#
+# Usage:
+#   aws s3 ls | ./terraforming-s3
+#
+
 require "json"
 
 out = ARGF.read.chomp

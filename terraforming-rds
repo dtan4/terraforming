@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+#
+# terraforming-rds
+#
+# Usage:
+#   aws rds describe-db-instances | ./terraforming-rds
+#
+
 require "json"
 
 json = ARGF.read
