@@ -1,5 +1,6 @@
 # Terraforming
-Convert existing AWS resource to [Terraform](https://terraform.io/) style (tf, tfstate)
+
+Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
 
 ## Prerequisites
 
