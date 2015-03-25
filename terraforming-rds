@@ -21,7 +21,7 @@ tfstate_db_instances = data['DBInstances'].inject([]) do |result, instance|
 
   instance['VpcSecurityGroups'].each do |vpc_security_group|
     # TODO: key
-    security_groups["security_group_names.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
+    security_groups["vpc_security_group_ids.#{vpc_security_group['VpcSecurityGroupId']}"] = vpc_security_group['VpcSecurityGroupId']
   end
 
   attributes = {
