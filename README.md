@@ -1,5 +1,5 @@
-# terraforming
-Convert existing AWS resource to tfstate
+# Terraforming
+Convert existing AWS resource to [Terraform](https://terraform.io/) style (tf, tfstate)
 
 ## Prerequisites
 
@@ -10,11 +10,11 @@ Convert existing AWS resource to tfstate
 ### RDS
 
 ```bash
-$ aws rds describe-db-instances | ./terraforming-rds
+$ aws rds describe-db-instances | ./terraforming-rds [--tfstate]
 ```
 
 ### S3
 
 ```bash
-$ aws s3api list-buckets | ./terraforming-s3
+$ aws s3api list-buckets | ./terraforming-s3 [--tfstate]
 ```
