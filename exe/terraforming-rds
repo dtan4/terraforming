@@ -25,6 +25,7 @@ resource "aws_db_instance" "#{instance['DBInstanceIdentifier']}" {
     port                      = #{instance['Endpoint']['Port']}
     publicly_accessible       = #{instance['PubliclyAccessible']}
     availability_zone         = "#{instance['AvailabilityZone']}"
+    security_group_names      = #{instance['DBSecurityGroups'].map { |sg| sg['DBSecurityGroupName'] }.inspect}
     vpc_security_group_ids    = #{instance['VpcSecurityGroups'].map { |sg| sg['VpcSecurityGroupId'] }.inspect}
     db_subnet_group_name      = "#{instance['DBSubnetGroup'] ? instance['DBSubnetGroup']['DBSubnetGroupName'] : ""}"
     parameter_group_name      = "#{instance['DBParameterGroups'][0]['DBParameterGroupName']}"
