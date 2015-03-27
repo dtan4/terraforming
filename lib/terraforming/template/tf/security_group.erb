@@ -1,0 +1,24 @@
+<% data['SecurityGroups'].each do |security_group| %>
+resource "aws_security_group" "<%= security_group['GroupName'] %>" {
+    name        = "<%= security_group['GroupName'] %>"
+    description = "<%= security_group['Description'] %>"
+
+<% security_group['IpPermissions'].map do |permission| %>
+    ingress {
+        from_port   = <%= permission['FromPort'] || 0 %>
+        to_port     = <%= permission['ToPort'] || 0 %>
+        protocol    = "<%= permission['IpProtocol'] %>"
+        cidr_blocks = <%= permission['IpRanges'].map { |range| range['CidrIp'] }.inspect %>
+    }
+<% end %>
+
+<% security_group['IpPermissionsEgress'].map do |permission| %>
+    egress {
+        from_port   = <%= permission['FromPort'] || 0 %>
+        to_port     = <%= permission['ToPort'] || 0 %>
+        protocol    = "<%= permission['IpProtocol'] %>"
+        cidr_blocks = <%= permission['IpRanges'].map { |range| range['CidrIp'] }.inspect %>
+    }
+<% end %>
+}
+<% end %>
