@@ -1,15 +1,7 @@
 module Terraforming::Resource
   class S3
     def self.tf(data)
-      data['Buckets'].inject([]) do |result, bucket|
-        result << <<-EOS
-resource "aws_s3_bucket" "#{bucket['Name']}" {
-    bucket = "#{bucket['Name']}"
-    acl    = "private"
-}
-    EOS
-        result
-      end.join("\n")
+      ERB.new(open(Terraforming.template_path("tf/s3")).read).result(binding)
     end
 
     def self.tfstate(data)
