@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+#
+# terraforming-ec2
+#
+# Usage:
+#   aws ec2 describe-instances | ./terraforming-ec2
+#
+
+require "terraforming"
+
+generate_tfstate = ARGV.length > 0 && ARGV.shift == "--tfstate"
+
+json = ARGF.read
+data = JSON.parse(json)
+
+puts generate_tfstate ? Terraforming::Resource::EC2.tfstate(data) : Terraforming::Resource::EC2.tf(data)
