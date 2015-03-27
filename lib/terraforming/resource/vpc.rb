@@ -6,24 +6,7 @@ module Terraforming::Resource
     end
 
     def self.tf(data)
-      data['Vpcs'].inject([]) do |result, vpc|
-        tags = vpc['Tags'].map do |tag|
-      <<-EOS
-        #{tag['Key']} = "#{tag['Value']}"
-      EOS
-        end.join("\n")
-
-        result << <<-EOS
-resource "aws_vpc" "#{vpc_name_of(vpc)}" {
-    cidr_block       = "#{vpc['CidrBlock']}"
-    instance_tenancy = "#{vpc['InstanceTenancy']}"
-
-    tags {
-#{tags}
-    }
-}
-    EOS
-      end.join("\n")
+      ERB.new(open(Terraforming.template_path("tf/vpc")).read).result(binding)
     end
 
     def self.tfstate(data)

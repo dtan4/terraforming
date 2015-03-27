@@ -1,3 +1,4 @@
+require "erb"
 require "json"
 
 require "terraforming/version"
@@ -9,5 +10,7 @@ require "terraforming/resource/security_group"
 require "terraforming/resource/vpc"
 
 module Terraforming
-  # Your code goes here...
+  def self.template_path(template_name)
+    File.join(File.expand_path(File.dirname(__FILE__)), "terraforming", "template", template_name) << ".erb"
+  end
 end

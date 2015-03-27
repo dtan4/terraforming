@@ -1,0 +1,12 @@
+<% data['Vpcs'].each do |vpc| %>
+resource "aws_vpc" "<%= vpc_name_of(vpc) %>" {
+    cidr_block       = "<%= vpc['CidrBlock'] %>"
+    instance_tenancy = "<%= vpc['InstanceTenancy'] %>"
+
+    tags {
+<% vpc['Tags'].map do |tag| %>
+        <%= tag['Key'] %> = "<%= tag['Value'] %>"
+<% end %>
+    }
+}
+<% end %>
