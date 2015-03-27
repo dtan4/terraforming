@@ -11,6 +11,8 @@ data = JSON.parse(json)
 resource_class = case resource_type
                  when "db-sg"
                    Terraforming::Resource::DBSecurityGroup
+                 when "db-subnet"
+                   Terraforming::Resource::DBSubnetGroup
                  when "ec2"
                    Terraforming::Resource::EC2
                  when "elb"

@@ -1,0 +1,7 @@
+<% data['DBSubnetGroups'].each do |subnet_group| %>
+resource "aws_db_subnet_group" "<%= subnet_group['DBSubnetGroupName'] %>" {
+    name        = "<%= subnet_group['DBSubnetGroupName'] %>"
+    description = "<%= subnet_group['DBSubnetGroupDescription'] %>"
+    subnet_ids  = <%= subnet_group['Subnets'].map { |subnet| subnet['SubnetIdentifier'] }.inspect %>
+}
+<% end %>

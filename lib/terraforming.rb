@@ -4,6 +4,7 @@ require "json"
 require "terraforming/version"
 
 require "terraforming/resource/db_security_group"
+require "terraforming/resource/db_subnet_group"
 require "terraforming/resource/ec2"
 require "terraforming/resource/elb"
 require "terraforming/resource/rds"
