@@ -2,6 +2,7 @@ require "json"
 
 require "terraforming/version"
 
+require "terraforming/resource/elb"
 require "terraforming/resource/rds"
 require "terraforming/resource/s3"
 
