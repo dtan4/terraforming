@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class DBSubnetGroup
     def self.tf(data)
-      ERB.new(open(Terraforming.template_path("tf/db_subnet_group")).read).result(binding)
+      ERB.new(open(Terraforming.template_path("tf/db_subnet_group")).read, nil, "-").result(binding)
     end
 
     def self.tfstate(data)

@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class ELB
     def self.tf(data)
-      ERB.new(open(Terraforming.template_path("tf/elb")).read).result(binding)
+      ERB.new(open(Terraforming.template_path("tf/elb")).read, nil, "-").result(binding)
     end
 
     def self.tfstate(data)

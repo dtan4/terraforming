@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class RDS
     def self.tf(data)
-      ERB.new(open(Terraforming.template_path("tf/rds")).read).result(binding)
+      ERB.new(open(Terraforming.template_path("tf/rds")).read, nil, "-").result(binding)
     end
 
     def self.tfstate(data)
