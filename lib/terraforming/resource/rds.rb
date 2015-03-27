@@ -1,33 +1,7 @@
 module Terraforming::Resource
   class RDS
     def self.tf(data)
-      data['DBInstances'].inject([]) do |result, instance|
-        result << <<-EOS
-resource "aws_db_instance" "#{instance['DBInstanceIdentifier']}" {
-    identifier                = "#{instance['DBInstanceIdentifier']}"
-    allocated_storage         = #{instance['AllocatedStorage']}
-    storage_type              = "#{instance['StorageType']}"
-    engine                    = "#{instance['Engine']}"
-    engine_version            = "#{instance['EngineVersion']}"
-    instance_class            = "#{instance['DBInstanceClass']}"
-    name                      = "#{instance['DBName']}"
-    username                  = "#{instance['MasterUsername']}"
-    password                  = "xxxxxxxx"
-    port                      = #{instance['Endpoint']['Port']}
-    publicly_accessible       = #{instance['PubliclyAccessible']}
-    availability_zone         = "#{instance['AvailabilityZone']}"
-    security_group_names      = #{instance['DBSecurityGroups'].map { |sg| sg['DBSecurityGroupName'] }.inspect}
-    vpc_security_group_ids    = #{instance['VpcSecurityGroups'].map { |sg| sg['VpcSecurityGroupId'] }.inspect}
-    db_subnet_group_name      = "#{instance['DBSubnetGroup'] ? instance['DBSubnetGroup']['DBSubnetGroupName'] : ""}"
-    parameter_group_name      = "#{instance['DBParameterGroups'][0]['DBParameterGroupName']}"
-    multi_az                  = #{instance['MultiAZ']}
-    backup_retention_period   = #{instance['BackupRetentionPeriod']}
-    backup_window             = "#{instance['PreferredBackupWindow']}"
-    maintenance_window        = "#{instance['PreferredMaintenanceWindow']}"
-    final_snapshot_identifier = "#{instance['DBInstanceIdentifier']}-final"
-}
-    EOS
-      end.join("\n")
+      ERB.new(open(Terraforming.template_path("tf/rds")).read).result(binding)
     end
 
     def self.tfstate(data)
