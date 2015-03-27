@@ -1,0 +1,7 @@
+<% data['DBParameterGroups'].each do |parameter_group| %>
+resource "aws_db_parameter_group" "<%= parameter_group['DBParameterGroupName'] %>" {
+    name        = "<%= parameter_group['DBParameterGroupName'] %>"
+    family      = "<%= parameter_group['DBParameterGroupFamily'] %>"
+    description = "<%= parameter_group['Description'] %>"
+}
+<% end %>

@@ -9,6 +9,8 @@ json = ARGF.read
 data = JSON.parse(json)
 
 resource_class = case resource_type
+                 when "db-pg"
+                   Terraforming::Resource::DBParameterGroup
                  when "db-sg"
                    Terraforming::Resource::DBSecurityGroup
                  when "db-subnet"
