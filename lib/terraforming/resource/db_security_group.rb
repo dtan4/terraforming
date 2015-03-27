@@ -1,8 +1,7 @@
 module Terraforming::Resource
   class DBSecurityGroup
     def self.tf(data)
-      # TODO: implement DBSecurityGroup.tf
-      raise NotImplementedError
+      ERB.new(open(Terraforming.template_path("tf/db_security_group")).read).result(binding)
     end
 
     def self.tfstate(data)
