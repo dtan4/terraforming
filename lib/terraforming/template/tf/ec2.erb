@@ -1,6 +1,17 @@
 <% data['Reservations'].map { |resv| resv['Instances'] }.flatten.each do |instance| %>
 resource "aws_instance" "<%= instance['InstanceId'] %>" {
-    ami           = "<%= instance['ImageId'] %>"
-    instance_type = "<%= instance['InstanceType'] %>"
+    ami               = "<%= instance['ImageId'] %>"
+    availability_zone = "<%= instance['Placement']['AvailabilityZone'] %>"
+    ebs_optimized     = <%= instance['EbsOptimized'] %>
+    instance_type     = "<%= instance['InstanceType'] %>"
+    key_name          = "<%= instance['KeyName'] %>"
+    security_groups   = <%= instance['SecurityGroups'].map { |sg| sg['GroupId'] }.inspect %>
+    subnet_id         = "<%= instance['SubnetId'] %>"
+
+    tags {
+<% instance['Tags'].each do |tag| -%>
+        <%= tag['Key'] %> = "<%= tag['Value'] %>"
+<% end -%>
+    }
 }
 <% end %>
