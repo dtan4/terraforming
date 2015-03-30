@@ -1,0 +1,74 @@
+{
+    "DBInstances": [
+        {
+            "PubliclyAccessible": false,
+            "MasterUsername": "user",
+            "LicenseModel": "postgresql-license",
+            "VpcSecurityGroups": [
+                {
+                    "Status": "active",
+                    "VpcSecurityGroupId": "sg-1234abcd"
+                }
+            ],
+            "InstanceCreateTime": "2014-01-01T00:00:00.000Z",
+            "OptionGroupMemberships": [
+                {
+                    "Status": "in-sync",
+                    "OptionGroupName": "default:postgres-9-4"
+                }
+            ],
+            "PendingModifiedValues": {},
+            "Engine": "postgres",
+            "MultiAZ": false,
+            "LatestRestorableTime": "2015-01-01T00:00:00Z",
+            "DBSecurityGroups": [],
+            "DBParameterGroups": [
+                {
+                    "DBParameterGroupName": "default.postgres9.4",
+                    "ParameterApplyStatus": "in-sync"
+                }
+            ],
+            "AutoMinorVersionUpgrade": false,
+            "PreferredBackupWindow": "23:00-23:30",
+            "DBSubnetGroup": {
+                "Subnets": [
+                    {
+                        "SubnetStatus": "Active",
+                        "SubnetIdentifier": "subnet-1234abcd",
+                        "SubnetAvailabilityZone": {
+                            "Name": "ap-northeast-1b"
+                        }
+                    },
+                    {
+                        "SubnetStatus": "Active",
+                        "SubnetIdentifier": "subnet-5678efgh",
+                        "SubnetAvailabilityZone": {
+                            "Name": "ap-northeast-1c"
+                        }
+                    }
+                ],
+                "DBSubnetGroupName": "hogedb-subnet",
+                "VpcId": "vpc-1234abcd",
+                "DBSubnetGroupDescription": "hogehoge",
+                "SubnetGroupStatus": "Complete"
+            },
+            "ReadReplicaDBInstanceIdentifiers": [],
+            "AllocatedStorage": 10,
+            "BackupRetentionPeriod": 1,
+            "DBName": "hogedb",
+            "PreferredMaintenanceWindow": "mon:00:00-mon:00:30",
+            "Endpoint": {
+                "Port": 5432,
+                "Address": "hogefuga.ap-northeast-1.rds.amazonaws.com"
+            },
+            "DBInstanceStatus": "available",
+            "EngineVersion": "9.4.1",
+            "AvailabilityZone": "ap-northeast-1b",
+            "StorageType": "standard",
+            "DbiResourceId": "db-1234ABCD5678EFGH1234ABCD56",
+            "StorageEncrypted": false,
+            "DBInstanceClass": "db.m3.large",
+            "DBInstanceIdentifier": "hogedb"
+        }
+    ]
+}
