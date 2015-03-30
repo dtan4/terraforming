@@ -15,7 +15,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 ### Database Parameter Group
 
 ```bash
-$ aws rds describe-db-parameters | terraforming db-pg [--tfstate]
+$ aws rds describe-db-parameter-groups | terraforming db-pg [--tfstate]
 ```
 
 ### Database Security Group
