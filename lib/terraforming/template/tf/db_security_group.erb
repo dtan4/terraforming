@@ -1,14 +1,16 @@
-<% data['DBSecurityGroups'].each do |security_group| %>
+<% data['DBSecurityGroups'].each do |security_group| -%>
 resource "aws_db_security_group" "<%= security_group['DBSecurityGroupName'] %>" {
     name        = "<%= security_group['DBSecurityGroupName'] %>"
     description = "<%= security_group['DBSecurityGroupDescription'] %>"
 
-<% security_group['EC2SecurityGroups'].map do |ec2_sg| %>
+<% security_group['EC2SecurityGroups'].map do |ec2_sg| -%>
     ingress {
         security_group_name     = "<%= ec2_sg['EC2SecurityGroupName'] %>"
         security_group_id       = "<%= ec2_sg['EC2SecurityGroupId'] %>"
         security_group_owner_id = "<%= ec2_sg['EC2SecurityGroupOwnerId'] %>"
     }
-<% end %>
+
+<% end -%>
 }
-<% end %>
+
+<% end -%>

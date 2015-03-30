@@ -1,0 +1,37 @@
+{
+    "DBSecurityGroups": [
+        {
+            "IPRanges": [],
+            "OwnerId": "123456789012",
+            "DBSecurityGroupDescription": "default",
+            "EC2SecurityGroups": [
+                {
+                    "Status": "authorized",
+                    "EC2SecurityGroupName": "default",
+                    "EC2SecurityGroupOwnerId": "123456789012",
+                    "EC2SecurityGroupId": "sg-1234abcd"
+                }
+            ],
+            "DBSecurityGroupName": "default"
+        },
+        {
+            "IPRanges": [
+                {
+                    "Status": "authorized",
+                    "CIDRIP": "0.0.0.0/0"
+                }
+            ],
+            "OwnerId": "3456789012",
+            "DBSecurityGroupDescription": "foobar group",
+            "EC2SecurityGroups": [
+                {
+                    "Status": "authorized",
+                    "EC2SecurityGroupName": "foobar",
+                    "EC2SecurityGroupOwnerId": "3456789012",
+                    "EC2SecurityGroupId": "sg-5678efgh"
+                }
+            ],
+            "DBSecurityGroupName": "sgfoobar"
+        }
+    ]
+}
