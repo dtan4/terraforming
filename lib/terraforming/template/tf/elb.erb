@@ -1,4 +1,4 @@
-<% data['LoadBalancerDescriptions'].each do |load_balancer| %>
+<% data['LoadBalancerDescriptions'].each do |load_balancer| -%>
 resource "aws_elb" "<%= load_balancer['LoadBalancerName'] %>" {
     name               = "<%= load_balancer['LoadBalancerName'] %>"
     availability_zones = <%= load_balancer['AvailabilityZones'].inspect %>
@@ -6,7 +6,7 @@ resource "aws_elb" "<%= load_balancer['LoadBalancerName'] %>" {
     security_groups    = <%= load_balancer['SecurityGroups'].inspect %>
     instances          = <%= load_balancer['Instances'].map { |instance| instance['InstanceId'] }.inspect %>
 
-<% load_balancer['ListenerDescriptions'].map { |ld| ld['Listener'] }.map do |listener| %>
+<% load_balancer['ListenerDescriptions'].map { |ld| ld['Listener'] }.map do |listener| -%>
     listener {
         instance_port      = <%= listener['InstancePort'] %>
         instance_protocol  = "<%= listener['InstanceProtocol'].downcase %>"
@@ -14,8 +14,8 @@ resource "aws_elb" "<%= load_balancer['LoadBalancerName'] %>" {
         lb_protocol        = "<%= listener['Protocol'].downcase %>"
         ssl_certificate_id = "<%= listener['SSLCertificateId'] %>"
     }
-<% end %>
 
+<% end -%>
     health_check {
         healthy_threshold   = <%= load_balancer['HealthCheck']['HealthyThreshold'] %>
         unhealthy_threshold = <%= load_balancer['HealthCheck']['UnhealthyThreshold'] %>
@@ -24,4 +24,5 @@ resource "aws_elb" "<%= load_balancer['LoadBalancerName'] %>" {
         timeout             = <%= load_balancer['HealthCheck']['Timeout'] %>
     }
 }
-<% end %>
+
+<% end -%>

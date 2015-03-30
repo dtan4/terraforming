@@ -1,4 +1,4 @@
-<% data['DBInstances'].each do |instance| %>
+<% data['DBInstances'].each do |instance| -%>
 resource "aws_db_instance" "<%= instance['DBInstanceIdentifier'] %>" {
     identifier                = "<%= instance['DBInstanceIdentifier'] %>"
     allocated_storage         = <%= instance['AllocatedStorage'] %>
@@ -22,4 +22,4 @@ resource "aws_db_instance" "<%= instance['DBInstanceIdentifier'] %>" {
     maintenance_window        = "<%= instance['PreferredMaintenanceWindow'] %>"
     final_snapshot_identifier = "<%= instance['DBInstanceIdentifier'] %>-final"
 }
-<% end %>
+<% end -%>
