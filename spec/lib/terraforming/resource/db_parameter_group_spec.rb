@@ -25,6 +25,14 @@ resource "aws_db_parameter_group" "default.postgres9.4" {
         EOS
         end
       end
+
+      describe ".tfstate" do
+        it "should raise NotImplementedError" do
+          expect do
+            described_class.tfstate(json)
+          end.to raise_error NotImplementedError
+        end
+      end
     end
   end
 end
