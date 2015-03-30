@@ -39,10 +39,33 @@ resource "aws_db_security_group" "sgfoobar" {
       end
 
       describe ".tfstate" do
-        xit "should raise NotImplementedError" do
-          expect do
-            described_class.tfstate(json)
-          end.to raise_error NotImplementedError
+        it "should generate tfstate" do
+          expect(described_class.tfstate(json)).to eq JSON.pretty_generate({
+            "aws_db_security_group.default" => {
+              "type" => "aws_db_security_group",
+              "primary" => {
+                "id" => "default",
+                "attributes" => {
+                  "db_subnet_group_name" => "default",
+                  "id" => "default",
+                  "ingress.#" => "1",
+                  "name" => "default",
+                }
+              }
+            },
+            "aws_db_security_group.sgfoobar" => {
+              "type" => "aws_db_security_group",
+              "primary" => {
+                "id" => "sgfoobar",
+                "attributes" => {
+                  "db_subnet_group_name" => "sgfoobar",
+                  "id" => "sgfoobar",
+                  "ingress.#" => "1",
+                  "name" => "sgfoobar",
+                }
+              }
+            }
+          })
         end
       end
     end
