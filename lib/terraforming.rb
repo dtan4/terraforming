@@ -1,3 +1,4 @@
+require "aws-sdk-core"
 require "erb"
 require "json"
 
