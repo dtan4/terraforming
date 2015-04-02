@@ -1,10 +1,10 @@
 module Terraforming::Resource
   class RDS
-    def self.tf(client = Aws::RDS::Client)
+    def self.tf(client = Aws::RDS::Client.new)
       ERB.new(open(Terraforming.template_path("tf/rds")).read, nil, "-").result(binding)
     end
 
-    def self.tfstate(client = Aws::RDS::Client)
+    def self.tfstate(client = Aws::RDS::Client.new)
       tfstate_db_instances = client.describe_db_instances.db_instances.inject({}) do |result, instance|
         attributes = {
           "address" => instance.endpoint.address,

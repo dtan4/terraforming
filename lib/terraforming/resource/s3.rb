@@ -1,10 +1,10 @@
 module Terraforming::Resource
   class S3
-    def self.tf(client = Aws::S3::Client)
+    def self.tf(client = Aws::S3::Client.new)
       ERB.new(open(Terraforming.template_path("tf/s3")).read, nil, "-").result(binding)
     end
 
-    def self.tfstate(client = Aws::S3::Client)
+    def self.tfstate(client = Aws::S3::Client.new)
       tfstate_s3_buckets = client.list_buckets.buckets.inject({}) do |result, bucket|
         result["aws_s3_bucket.#{bucket.name}"] = {
           "type" => "aws_s3_bucket",
