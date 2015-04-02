@@ -1,10 +1,10 @@
 module Terraforming::Resource
   class ELB
-    def self.tf(client = Aws::ElasticLoadBalancing::Client)
+    def self.tf(client = Aws::ElasticLoadBalancing::Client.new)
       ERB.new(open(Terraforming.template_path("tf/elb")).read, nil, "-").result(binding)
     end
 
-    def self.tfstate(client = Aws::ElasticLoadBalancing::Client)
+    def self.tfstate(client = Aws::ElasticLoadBalancing::Client.new)
       tfstate_db_instances = client.describe_load_balancers.load_balancer_descriptions.inject({}) do |result, load_balancer|
         attributes = {
           "availability_zones.#" => load_balancer.availability_zones.length.to_s,
