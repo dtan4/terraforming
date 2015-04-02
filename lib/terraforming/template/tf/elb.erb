@@ -1,27 +1,27 @@
-<% data['LoadBalancerDescriptions'].each do |load_balancer| -%>
-resource "aws_elb" "<%= load_balancer['LoadBalancerName'] %>" {
-    name               = "<%= load_balancer['LoadBalancerName'] %>"
-    availability_zones = <%= load_balancer['AvailabilityZones'].inspect %>
-    subnets            = <%= load_balancer['Subnets'].inspect %>
-    security_groups    = <%= load_balancer['SecurityGroups'].inspect %>
-    instances          = <%= load_balancer['Instances'].map { |instance| instance['InstanceId'] }.inspect %>
+<% client.describe_load_balancers.load_balancer_descriptions.each do |load_balancer| -%>
+resource "aws_elb" "<%= load_balancer.load_balancer_name %>" {
+    name               = "<%= load_balancer.load_balancer_name %>"
+    availability_zones = <%= load_balancer.availability_zones.inspect %>
+    subnets            = <%= load_balancer.subnets.inspect %>
+    security_groups    = <%= load_balancer.security_groups.inspect %>
+    instances          = <%= load_balancer.instances.map { |instance| instance.instance_id }.inspect %>
 
-<% load_balancer['ListenerDescriptions'].map { |ld| ld['Listener'] }.map do |listener| -%>
+<% load_balancer.listener_descriptions.map { |ld| ld.listener }.map do |listener| -%>
     listener {
-        instance_port      = <%= listener['InstancePort'] %>
-        instance_protocol  = "<%= listener['InstanceProtocol'].downcase %>"
-        lb_port            = <%= listener['LoadBalancerPort'] %>
-        lb_protocol        = "<%= listener['Protocol'].downcase %>"
-        ssl_certificate_id = "<%= listener['SSLCertificateId'] %>"
+        instance_port      = <%= listener.instance_port %>
+        instance_protocol  = "<%= listener.instance_protocol.downcase %>"
+        lb_port            = <%= listener.load_balancer_port %>
+        lb_protocol        = "<%= listener.protocol.downcase %>"
+        ssl_certificate_id = "<%= listener.ssl_certificate_id %>"
     }
 
 <% end -%>
     health_check {
-        healthy_threshold   = <%= load_balancer['HealthCheck']['HealthyThreshold'] %>
-        unhealthy_threshold = <%= load_balancer['HealthCheck']['UnhealthyThreshold'] %>
-        interval            = <%= load_balancer['HealthCheck']['Interval'] %>
-        target              = "<%= load_balancer['HealthCheck']['Target'] %>"
-        timeout             = <%= load_balancer['HealthCheck']['Timeout'] %>
+        healthy_threshold   = <%= load_balancer.health_check.healthy_threshold %>
+        unhealthy_threshold = <%= load_balancer.health_check.unhealthy_threshold %>
+        interval            = <%= load_balancer.health_check.interval %>
+        target              = "<%= load_balancer.health_check.target %>"
+        timeout             = <%= load_balancer.health_check.timeout %>
     }
 }
 

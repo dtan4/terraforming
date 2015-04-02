@@ -1,27 +1,27 @@
 module Terraforming::Resource
   class ELB
-    def self.tf(data)
+    def self.tf(client = Aws::ElasticLoadBalancing::Client)
       ERB.new(open(Terraforming.template_path("tf/elb")).read, nil, "-").result(binding)
     end
 
-    def self.tfstate(data)
-      tfstate_db_instances = data['LoadBalancerDescriptions'].inject({}) do |result, load_balancer|
+    def self.tfstate(client = Aws::ElasticLoadBalancing::Client)
+      tfstate_db_instances = client.describe_load_balancers.load_balancer_descriptions.inject({}) do |result, load_balancer|
         attributes = {
-          "availability_zones.#" => load_balancer['AvailabilityZones'].length.to_s,
-          "dns_name" => load_balancer['DNSName'],
+          "availability_zones.#" => load_balancer.availability_zones.length.to_s,
+          "dns_name" => load_balancer.dns_name,
           "health_check.#" => "1",
-          "id" => load_balancer['LoadBalancerName'],
-          "instances.#" => load_balancer['Instances'].length.to_s,
-          "listener.#" => load_balancer['ListenerDescriptions'].length.to_s,
-          "name" => load_balancer['LoadBalancerName'],
-          "security_groups.#" => load_balancer['SecurityGroups'].length.to_s,
-          "subnets.#" => load_balancer['Subnets'].length.to_s,
+          "id" => load_balancer.load_balancer_name,
+          "instances.#" => load_balancer.instances.length.to_s,
+          "listener.#" => load_balancer.listener_descriptions.length.to_s,
+          "name" => load_balancer.load_balancer_name,
+          "security_groups.#" => load_balancer.security_groups.length.to_s,
+          "subnets.#" => load_balancer.subnets.length.to_s,
         }
 
-        result["aws_elb.#{load_balancer['LoadBalancerName']}"] = {
+        result["aws_elb.#{load_balancer.load_balancer_name}"] = {
           "type" => "aws_elb",
           "primary" => {
-            "id" => load_balancer['LoadBalancerName'],
+            "id" => load_balancer.load_balancer_name,
             "attributes" => attributes
           }
         }
