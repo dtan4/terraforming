@@ -1,6 +1,6 @@
-<% data['Buckets'].each do |bucket| -%>
-resource "aws_s3_bucket" "<%= bucket['Name'] %>" {
-    bucket = "<%= bucket['Name'] %>"
+<% client.list_buckets.buckets.each do |bucket| -%>
+resource "aws_s3_bucket" "<%= bucket.name %>" {
+    bucket = "<%= bucket.name %>"
     acl    = "private"
 }
 
