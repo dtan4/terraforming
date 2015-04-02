@@ -1,8 +1,8 @@
-<% data['DBSubnetGroups'].each do |subnet_group| -%>
-resource "aws_db_subnet_group" "<%= subnet_group['DBSubnetGroupName'] %>" {
-    name        = "<%= subnet_group['DBSubnetGroupName'] %>"
-    description = "<%= subnet_group['DBSubnetGroupDescription'] %>"
-    subnet_ids  = <%= subnet_group['Subnets'].map { |subnet| subnet['SubnetIdentifier'] }.inspect %>
+<% client.describe_db_subnet_groups.db_subnet_groups.each do |subnet_group| -%>
+resource "aws_db_subnet_group" "<%= subnet_group.db_subnet_group_name %>" {
+    name        = "<%= subnet_group.db_subnet_group_name %>"
+    description = "<%= subnet_group.db_subnet_group_description %>"
+    subnet_ids  = <%= subnet_group.subnets.map { |subnet| subnet.subnet_identifier }.inspect %>
 }
 
 <% end -%>
