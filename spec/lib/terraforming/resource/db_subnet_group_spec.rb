@@ -81,7 +81,7 @@ resource "aws_db_subnet_group" "fuga" {
     describe ".tfstate" do
       it "should raise NotImplementedError" do
         expect do
-          expect(described_class.tfstate(client))
+          described_class.tfstate(client)
         end.to raise_error NotImplementedError
       end
     end
