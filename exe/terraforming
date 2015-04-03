@@ -2,31 +2,4 @@
 
 require "terraforming"
 
-resource_type = ARGV.shift.downcase
-generate_tfstate = (ARGV.shift == "--tfstate")
-
-json = ARGF.read
-data = JSON.parse(json)
-
-resource_class = case resource_type
-                 when "db-pg"
-                   Terraforming::Resource::DBParameterGroup
-                 when "db-sg"
-                   Terraforming::Resource::DBSecurityGroup
-                 when "db-subnet"
-                   Terraforming::Resource::DBSubnetGroup
-                 when "ec2"
-                   Terraforming::Resource::EC2
-                 when "elb"
-                   Terraforming::Resource::ELB
-                 when "rds"
-                   Terraforming::Resource::RDS
-                 when "s3"
-                   Terraforming::Resource::S3
-                 when "sg"
-                   Terraforming::Resource::SecurityGroup
-                 when "vpc"
-                   Terraforming::Resource::VPC
-                 end
-
-puts generate_tfstate ? resource_class.tfstate(data) : resource_class.tf(data)
+Terraforming::CLI.start(ARGV)

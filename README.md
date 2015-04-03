@@ -8,60 +8,24 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 
 ## Prerequisites
 
-- [AWS Command Line Interface (awscli)](http://aws.amazon.com/cli/?nc2=h_ls)
+You need to set AWS credentials.
+
+```bash
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=
+```
 
 ## Usage
 
-### Database Parameter Group
-
 ```bash
-$ aws rds describe-db-parameter-groups | terraforming db-pg [--tfstate]
-```
-
-### Database Security Group
-
-```bash
-$ aws rds describe-db-security-groups | terraforming db-sg [--tfstate]
-```
-
-### Database Subnet Group
-
-```bash
-$ aws rds describe-db-subnet-groups | terraforming db-subnet [--tfstate]
-```
-
-### EC2
-
-```bash
-$ aws ec2 describe-instances | terraforming ec2 [--tfstate]
-```
-
-### ELB
-
-```bash
-$ aws elb describe-load-balancers | terraforming elb [--tfstate]
-```
-
-### RDS
-
-```bash
-$ aws rds describe-db-instances | terraforming rds [--tfstate]
-```
-
-### S3
-
-```bash
-$ aws s3api list-buckets | terraforming s3 [--tfstate]
-```
-
-### Security Group
-
-```bash
-$ aws ec2 describe-security-groups | terraforming sg [--tfstate]
-```
-
-### VPC
-
-```bash
-$ aws ec2 describe-vpcs | terraforming vpc [--tfstate]
+$ terraforming
+Commands:
+  terraforming dbpg            # Database Parameter Group
+  terraforming dbsg            # Database Security Group
+  terraforming dbsn            # Database Subnet Group
+  terraforming elb             # ELB
+  terraforming help [COMMAND]  # Describe available commands or one specific command
+  terraforming rds             # RDS
+  terraforming s3              # S3
 ```
