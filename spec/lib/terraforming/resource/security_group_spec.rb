@@ -24,7 +24,15 @@ module Terraforming::Resource
               ]
             }
           ],
-          ip_permissions_egress: [],
+          ip_permissions_egress: [
+            {
+              ip_protocol: "-1",
+              user_id_group_pairs: [],
+              ip_ranges: [
+                { cidr_ip: "0.0.0.0/0" }
+              ]
+            },
+          ],
           tags: []
         },
         {
@@ -83,6 +91,13 @@ resource "aws_security_group" "hoge" {
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
+
+    egress {
+        from_port       = 0
+        to_port         = 0
+        protocol        = "-1"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
 
 }
 
