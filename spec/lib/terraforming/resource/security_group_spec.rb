@@ -82,13 +82,7 @@ resource "aws_security_group" "hoge" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    egress {
 
-    }
-
-    tags {
-
-    }
 }
 
 resource "aws_security_group" "fuga" {
@@ -99,7 +93,7 @@ resource "aws_security_group" "fuga" {
         from_port   = 1
         to_port     = 65535
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = []
     }
 
     ingress {
@@ -109,9 +103,6 @@ resource "aws_security_group" "fuga" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    egress {
-
-    }
 
     tags {
         Name = "fuga"
