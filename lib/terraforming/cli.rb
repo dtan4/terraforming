@@ -3,37 +3,43 @@ module Terraforming
     desc "dbpg", "Database Parameter Group"
     option :tfstate, type: :boolean
     def dbpg
-      puts options[:tfstate] ? Terraforming::Resource::DBParameterGroup.tfstate : Terraforming::Resource::DBParameterGroup.tf
+      execute(Terraforming::Resource::DBParameterGroup, options)
     end
 
     desc "dbsg", "Database Security Group"
     option :tfstate, type: :boolean
     def dbsg
-      puts options[:tfstate] ? Terraforming::Resource::DBSecurityGroup.tfstate : Terraforming::Resource::DBSecurityGroup.tf
+      execute(Terraforming::Resource::DBSecurityGroup, options)
     end
 
     desc "dbsubnet", "Database Subnet Group"
     option :tfstate, type: :boolean
     def dbsubnet
-      puts options[:tfstate] ? Terraforming::Resource::DBSubnetGroup.tfstate : Terraforming::Resource::DBSubnetGroup.tf
+      execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
     desc "elb", "ELB"
     option :tfstate, type: :boolean
     def elb
-      puts options[:tfstate] ? Terraforming::Resource::ELB.tfstate : Terraforming::Resource::ELB.tf
+      execute(Terraforming::Resource::ELB, options)
     end
 
     desc "rds", "RDS"
     option :tfstate, type: :boolean
     def rds
-      puts options[:tfstate] ? Terraforming::Resource::RDS.tfstate : Terraforming::Resource::RDS.tf
+      execute(Terraforming::Resource::RDS, options)
     end
 
     desc "s3", "S3"
     option :tfstate, type: :boolean
     def s3
-      puts options[:tfstate] ? Terraforming::Resource::S3.tfstate : Terraforming::Resource::S3.tf
+      execute(Terraforming::Resource::S3, options)
+    end
+
+    private
+
+    def execute(klass, options)
+      puts options[:tfstate] ? klass.tfstate : klass.tf
     end
   end
 end
