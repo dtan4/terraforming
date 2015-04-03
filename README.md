@@ -18,56 +18,14 @@ AWS_REGION=
 
 ## Usage
 
-### Database Parameter Group
-
 ```bash
-$ terraforming dbpg [--tfstate]
-```
-
-### Database Security Group
-
-```bash
-$ terraforming dbsg [--tfstate]
-```
-
-### Database Subnet Group
-
-```bash
-$ terraforming dbsn [--tfstate]
-```
-
-### (TODO) EC2
-
-```bash
-$ terraforming ec2 [--tfstate]
-```
-
-### ELB
-
-```bash
-$ terraforming elb [--tfstate]
-```
-
-### RDS
-
-```bash
-$ terraforming rds [--tfstate]
-```
-
-### S3
-
-```bash
-$ terraforming s3 [--tfstate]
-```
-
-### (TODO) Security Group
-
-```bash
-$ terraforming sg [--tfstate]
-```
-
-### (TODO) VPC
-
-```bash
-$ terraforming vpc [--tfstate]
+$ terraforming
+Commands:
+  terraforming dbpg            # Database Parameter Group
+  terraforming dbsg            # Database Security Group
+  terraforming dbsn            # Database Subnet Group
+  terraforming elb             # ELB
+  terraforming help [COMMAND]  # Describe available commands or one specific command
+  terraforming rds             # RDS
+  terraforming s3              # S3
 ```
