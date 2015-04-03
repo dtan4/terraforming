@@ -12,9 +12,9 @@ module Terraforming
       execute(Terraforming::Resource::DBSecurityGroup, options)
     end
 
-    desc "dbsubnet", "Database Subnet Group"
+    desc "dbsn", "Database Subnet Group"
     option :tfstate, type: :boolean
-    def dbsubnet
+    def dbsn
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
