@@ -77,10 +77,10 @@ resource "aws_security_group" "hoge" {
     owner_id    = "012345678901"
 
     ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        cidr_blocks     = ["0.0.0.0/0"]
     }
 
 
@@ -92,17 +92,17 @@ resource "aws_security_group" "fuga" {
     owner_id    = "098765432109"
 
     ingress {
-        from_port   = 1
-        to_port     = 65535
-        protocol    = "tcp"
-        cidr_blocks = []
+        from_port       = 1
+        to_port         = 65535
+        protocol        = "tcp"
+        security_groups = ["sg-9012ijkl"]
     }
 
     ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        cidr_blocks     = ["0.0.0.0/0"]
     }
 
 

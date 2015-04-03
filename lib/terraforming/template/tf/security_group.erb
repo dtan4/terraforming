@@ -6,20 +6,26 @@ resource "aws_security_group" "<%= security_group.group_name %>" {
 
 <% security_group.ip_permissions.each do |permission| -%>
     ingress {
-        from_port   = <%= permission.from_port || 0 %>
-        to_port     = <%= permission.to_port || 0 %>
-        protocol    = "<%= permission.ip_protocol %>"
-        cidr_blocks = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
+        from_port       = <%= permission.from_port || 0 %>
+        to_port         = <%= permission.to_port || 0 %>
+        protocol        = "<%= permission.ip_protocol %>"
+<%- if permission.ip_ranges.length > 0 -%>
+        cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
+<%- end -%>
+<%- if permission.user_id_group_pairs.length > 0 -%>
+        security_groups = <%= permission.user_id_group_pairs.map { |range| range.group_id }.inspect %>
+<%- end -%>
     }
 
 <% end -%>
 
 <% security_group.ip_permissions_egress.each do |permission| -%>
     egress {
-        from_port   = <%= permission.from_port || 0 %>
-        to_port     = <%= permission.to_port || 0 %>
-        protocol    = "<%= permission.ip_protocol %>"
-        cidr_blocks = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
+        from_port       = <%= permission.from_port || 0 %>
+        to_port         = <%= permission.to_port || 0 %>
+        protocol        = "<%= permission.ip_protocol %>"
+        cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
+        security_groups = <%= permission.user_id_group_pairs.map { |range| range.group_id }.inspect %>
     }
 
 <% end -%>
