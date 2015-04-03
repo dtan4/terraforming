@@ -74,6 +74,7 @@ module Terraforming::Resource
 resource "aws_security_group" "hoge" {
     name        = "hoge"
     description = "Group for hoge"
+    owner_id    = "012345678901"
 
     ingress {
         from_port   = 22
@@ -88,6 +89,7 @@ resource "aws_security_group" "hoge" {
 resource "aws_security_group" "fuga" {
     name        = "fuga"
     description = "Group for fuga"
+    owner_id    = "098765432109"
 
     ingress {
         from_port   = 1
