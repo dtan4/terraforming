@@ -5,8 +5,41 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      # TODO: implement this
-      raise NotImplementedError
+      tfstate_instances = client.describe_instances.reservations.map(&:instances).flatten.inject({}) do |result, instance|
+        attributes = {
+          "ami"=> instance.image_id,
+          "associate_public_ip_address"=> "true",
+          "availability_zone"=> instance.placement.availability_zone,
+          "ebs_block_device.#"=> instance.block_device_mappings.length.to_s,
+          "ebs_optimized"=> instance.ebs_optimized.to_s,
+          "ephemeral_block_device.#"=> "0",
+          "id"=> instance.instance_id,
+          "instance_type"=> instance.instance_type,
+          "private_dns"=> instance.private_dns_name,
+          "private_ip"=> instance.private_ip_address,
+          "public_dns"=> instance.public_dns_name,
+          "public_ip"=> instance.public_ip_address,
+          "root_block_device.#"=> instance.root_device_name ? "1" : "0",
+          "security_groups.#"=> instance.security_groups.length.to_s,
+          "source_dest_check"=> instance.source_dest_check.to_s,
+          "subnet_id"=> instance.subnet_id,
+          "tenancy"=> instance.placement.tenancy
+        }
+        result["aws_instance.#{Terraforming::Resource.name_from_tag(instance, instance.instance_id)}"] = {
+          "type" => "aws_instance",
+          "primary" => {
+            "id" => instance.instance_id,
+            "attributes" => attributes,
+            "meta" => {
+              "schema_version" => "1"
+            }
+          }
+        }
+
+        result
+      end
+
+      JSON.pretty_generate(tfstate_instances)
     end
   end
 end
