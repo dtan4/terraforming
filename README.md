@@ -46,6 +46,59 @@ Commands:
   terraforming s3              # S3
 ```
 
+Output `.tf` style (e.g. S3 buckets):
+
+```bash
+$ terraforming s3
+```
+
+```
+resource "aws_s3_bucket" "hoge" {
+    bucket = "hoge"
+    acl    = "private"
+}
+
+resource "aws_s3_bucket" "fuga" {
+    bucket = "fuga"
+    acl    = "private"
+}
+```
+
+To output `.tfstate` style, specify `--tfstate` option (e.g. S3 buckets):
+
+```bash
+$ terraforming s3 --tfstate
+```
+
+```
+{
+  "aws_s3_bucket.hoge: {
+    "type": "aws_s3_bucket",
+    "primary": {
+      "id": "hoge",
+      "attributes": {
+        "acl": "private",
+        "bucket": "hoge",
+        "id": "hoge"
+      }
+    }
+  },
+  "aws_s3_bucket.fuga": {
+    "type": "aws_s3_bucket",
+    "primary": {
+      "id": "fuga",
+      "attributes": {
+        "acl": "private",
+        "bucket": "fuga",
+        "id": "fuga"
+      }
+    }
+  }
+}
+```
+
+(Probably you have to modify the output to add it to existing `terraforming.tfstate`)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
