@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class SecurityGroup
     def self.tf(client = Aws::EC2::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/security_group")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/security_group")
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)

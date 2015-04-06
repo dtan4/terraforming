@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class ELB
     def self.tf(client = Aws::ElasticLoadBalancing::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/elb")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/elb")
     end
 
     def self.tfstate(client = Aws::ElasticLoadBalancing::Client.new)

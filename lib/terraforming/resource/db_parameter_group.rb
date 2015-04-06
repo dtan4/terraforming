@@ -2,7 +2,7 @@ module Terraforming::Resource
   class DBParameterGroup
     def self.tf(client = Aws::RDS::Client.new)
       # TODO: fetch parameter (describe-db-parameters)
-      ERB.new(open(Terraforming.template_path("tf/db_parameter_group")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/db_parameter_group")
     end
 
     def self.tfstate(data)
