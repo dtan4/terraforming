@@ -1,12 +1,19 @@
-<% data['Vpcs'].each do |vpc| %>
+<%-
+def self.vpc_name_of(vpc)
+  name_tag = vpc.tags.find { |tag| tag.key == "Name" }
+  name_tag ? name_tag.value : vpc.vpc_id
+end
+-%>
+<% client.describe_vpcs.vpcs.each do |vpc| -%>
 resource "aws_vpc" "<%= vpc_name_of(vpc) %>" {
-    cidr_block       = "<%= vpc['CidrBlock'] %>"
-    instance_tenancy = "<%= vpc['InstanceTenancy'] %>"
+    cidr_block       = "<%= vpc.cidr_block %>"
+    instance_tenancy = "<%= vpc.instance_tenancy %>"
 
     tags {
-<% vpc['Tags'].map do |tag| %>
-        <%= tag['Key'] %> = "<%= tag['Value'] %>"
-<% end %>
+<% vpc.tags.each do |tag| -%>
+        <%= tag.key %> = "<%= tag.value %>"
+<% end -%>
     }
 }
-<% end %>
+
+<% end -%>

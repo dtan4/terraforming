@@ -1,11 +1,6 @@
 module Terraforming::Resource
   class VPC
-    def self.vpc_name_of(vpc)
-      name_tag = vpc['Tags'].find { |tag| tag['Key'] == "Name" }
-      name_tag ? name_tag['Value'] : vpc['VpcId']
-    end
-
-    def self.tf(data)
+    def self.tf(client = Aws::EC2::Client.new)
       Terraforming::Resource.apply_template(client, "tf/vpc")
     end
 
