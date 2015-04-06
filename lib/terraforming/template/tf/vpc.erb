@@ -1,11 +1,5 @@
-<%-
-def self.vpc_name_of(vpc)
-  name_tag = vpc.tags.find { |tag| tag.key == "Name" }
-  name_tag ? name_tag.value : vpc.vpc_id
-end
--%>
 <% client.describe_vpcs.vpcs.each do |vpc| -%>
-resource "aws_vpc" "<%= vpc_name_of(vpc) %>" {
+resource "aws_vpc" "<%= Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id) %>" {
     cidr_block       = "<%= vpc.cidr_block %>"
     instance_tenancy = "<%= vpc.instance_tenancy %>"
 
