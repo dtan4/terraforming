@@ -3,6 +3,11 @@ module Terraforming::Resource
     ERB.new(open(template_path(erb)).read, nil, "-").result(binding)
   end
 
+  def self.name_from_tag(resource, default_name)
+    name_tag = resource.tags.find { |tag| tag.key == "Name" }
+    name_tag ? name_tag.value : default_name
+  end
+
   def self.template_path(template_name)
     File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
   end
