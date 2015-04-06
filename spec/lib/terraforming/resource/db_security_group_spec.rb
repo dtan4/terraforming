@@ -56,6 +56,7 @@ resource "aws_db_security_group" "default" {
     description = "default"
 
     ingress {
+        cidr                    = ""
         security_group_name     = "default"
         security_group_id       = "sg-1234abcd"
         security_group_owner_id = "123456789012"
@@ -68,6 +69,7 @@ resource "aws_db_security_group" "sgfoobar" {
     description = "foobar group"
 
     ingress {
+        cidr                    = "0.0.0.0/0"
         security_group_name     = "foobar"
         security_group_id       = "sg-5678efgh"
         security_group_owner_id = "3456789012"
