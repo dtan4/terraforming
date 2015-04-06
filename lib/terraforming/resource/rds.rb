@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class RDS
     def self.tf(client = Aws::RDS::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/rds")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/rds")
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)

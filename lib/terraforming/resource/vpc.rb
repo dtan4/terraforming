@@ -6,7 +6,7 @@ module Terraforming::Resource
     end
 
     def self.tf(data)
-      ERB.new(open(Terraforming.template_path("tf/vpc")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/vpc")
     end
 
     def self.tfstate(data)

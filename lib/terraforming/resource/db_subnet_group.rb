@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class DBSubnetGroup
     def self.tf(client = Aws::RDS::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/db_subnet_group")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/db_subnet_group")
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
