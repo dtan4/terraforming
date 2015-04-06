@@ -44,11 +44,7 @@ resource "aws_db_parameter_group" "default.postgres9.4" {
       end
 
       describe ".tfstate" do
-        it "should raise NotImplementedError" do
-          expect do
-            described_class.tfstate(client)
-          end.to raise_error NotImplementedError
-        end
+        xit "should generate tfstate"
       end
     end
   end
