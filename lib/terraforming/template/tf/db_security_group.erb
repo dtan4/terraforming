@@ -3,9 +3,18 @@ resource "aws_db_security_group" "<%= security_group.db_security_group_name %>" 
     name        = "<%= security_group.db_security_group_name %>"
     description = "<%= security_group.db_security_group_description %>"
 
-<% security_group.ec2_security_groups.zip(security_group.ip_ranges).each do |ec2_sg, cidr| -%>
+<% security_group.ip_ranges.each do |cidr| -%>
     ingress {
-        cidr                    = "<%= cidr ? cidr.cidrip : '' %>"
+        cidr                    = "<%= cidr.cidrip %>"
+        security_group_name     = ""
+        security_group_id       = ""
+        security_group_owner_id = ""
+    }
+
+<% end -%>
+<% security_group.ec2_security_groups.each do |ec2_sg| -%>
+    ingress {
+        cidr                    = ""
         security_group_name     = "<%= ec2_sg.ec2_security_group_name %>"
         security_group_id       = "<%= ec2_sg.ec2_security_group_id %>"
         security_group_owner_id = "<%= ec2_sg.ec2_security_group_owner_id %>"
