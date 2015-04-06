@@ -79,7 +79,32 @@ resource "aws_db_subnet_group" "fuga" {
     end
 
     describe ".tfstate" do
-      xit "should generate tfstate"
+      it "should generate tfstate" do
+        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          "aws_db_subnet_group.hoge" => {
+            "type" => "aws_db_subnet_group",
+            "primary" => {
+              "id" => "hoge",
+              "attributes" => {
+                "description" => "DB subnet group hoge",
+                "name" => "hoge",
+                "subnet_ids.#" => "2",
+              }
+            }
+          },
+          "aws_db_subnet_group.fuga" => {
+            "type" => "aws_db_subnet_group",
+            "primary" => {
+              "id" => "fuga",
+              "attributes" => {
+                "description" => "DB subnet group fuga",
+                "name" => "fuga",
+                "subnet_ids.#" => "2",
+              }
+            }
+          },
+        })
+      end
     end
   end
 end
