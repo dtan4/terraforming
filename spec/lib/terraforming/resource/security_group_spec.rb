@@ -43,11 +43,11 @@ module Terraforming::Resource
           ip_permissions: [
             {
               ip_protocol: "tcp",
-              from_port: 1,
+              from_port: 0,
               to_port: 65535,
               user_id_group_pairs: [
                 {
-                  user_id: "user1",
+                  user_id: "001122334455",
                   group_name: "group1",
                   group_id: "sg-9012ijkl"
                 }
@@ -107,7 +107,7 @@ resource "aws_security_group" "fuga" {
     owner_id    = "098765432109"
 
     ingress {
-        from_port       = 1
+        from_port       = 0
         to_port         = 65535
         protocol        = "tcp"
         security_groups = ["sg-9012ijkl"]
