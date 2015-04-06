@@ -67,5 +67,36 @@ resource "aws_vpc" "fuga" {
         EOS
       end
     end
+
+    describe ".tfstate" do
+      it "should generate tfstate" do
+        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          "aws_vpc.hoge" => {
+            "type" => "aws_vpc",
+            "primary" => {
+              "id" => "vpc-1234abcd",
+              "attributes" => {
+                "cidr_block" => "10.0.0.0/16",
+                "id" => "vpc-1234abcd",
+                "instance_tenancy" => "default",
+                "tags.#" => "1",
+              }
+            }
+          },
+          "aws_vpc.fuga" => {
+            "type" => "aws_vpc",
+            "primary" => {
+              "id" => "vpc-5678efgh",
+              "attributes" => {
+                "cidr_block" => "10.0.0.0/16",
+                "id" => "vpc-5678efgh",
+                "instance_tenancy" => "default",
+                "tags.#" => "1",
+              }
+            }
+          },
+        })
+      end
+    end
   end
 end
