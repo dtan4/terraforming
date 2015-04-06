@@ -17,7 +17,6 @@ module Terraforming::Resource
           "security_groups.#" => load_balancer.security_groups.length.to_s,
           "subnets.#" => load_balancer.subnets.length.to_s,
         }
-
         result["aws_elb.#{load_balancer.load_balancer_name}"] = {
           "type" => "aws_elb",
           "primary" => {
@@ -25,6 +24,7 @@ module Terraforming::Resource
             "attributes" => attributes
           }
         }
+
         result
       end
 

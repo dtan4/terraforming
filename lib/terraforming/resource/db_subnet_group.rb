@@ -11,7 +11,6 @@ module Terraforming::Resource
           "name" => subnet_group.db_subnet_group_name,
           "subnet_ids.#" => subnet_group.subnets.length.to_s
         }
-
         result["aws_db_subnet_group.#{subnet_group.db_subnet_group_name}"] = {
           "type" => "aws_db_subnet_group",
           "primary" => {

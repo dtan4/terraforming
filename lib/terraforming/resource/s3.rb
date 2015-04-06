@@ -17,6 +17,7 @@ module Terraforming::Resource
             }
           }
         }
+
         result
       end
 

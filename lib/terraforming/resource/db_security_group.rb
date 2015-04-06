@@ -13,7 +13,6 @@ module Terraforming::Resource
           "ingress.#" => (security_group.ec2_security_groups.length + security_group.ip_ranges.length).to_s,
           "name" => security_group.db_security_group_name,
         }
-
         result["aws_db_security_group.#{security_group.db_security_group_name}"] = {
           "type" => "aws_db_security_group",
           "primary" => {
@@ -21,6 +20,7 @@ module Terraforming::Resource
             "attributes" => attributes
           }
         }
+
         result
       end
 
