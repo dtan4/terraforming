@@ -70,6 +70,13 @@ resource "aws_db_security_group" "sgfoobar" {
 
     ingress {
         cidr                    = "0.0.0.0/0"
+        security_group_name     = ""
+        security_group_id       = ""
+        security_group_owner_id = ""
+    }
+
+    ingress {
+        cidr                    = ""
         security_group_name     = "foobar"
         security_group_id       = "sg-5678efgh"
         security_group_owner_id = "3456789012"
@@ -103,7 +110,7 @@ resource "aws_db_security_group" "sgfoobar" {
               "attributes" => {
                 "db_subnet_group_name" => "sgfoobar",
                 "id" => "sgfoobar",
-                "ingress.#" => "1",
+                "ingress.#" => "2",
                 "name" => "sgfoobar",
               }
             }

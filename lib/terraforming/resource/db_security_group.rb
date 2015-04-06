@@ -10,7 +10,7 @@ module Terraforming::Resource
         attributes = {
           "db_subnet_group_name" => security_group.db_security_group_name,
           "id" => security_group.db_security_group_name,
-          "ingress.#" => security_group.ec2_security_groups.length.to_s,
+          "ingress.#" => (security_group.ec2_security_groups.length + security_group.ip_ranges.length).to_s,
           "name" => security_group.db_security_group_name,
         }
 
