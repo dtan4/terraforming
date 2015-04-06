@@ -1,17 +1,27 @@
-<% data['Reservations'].map { |resv| resv['Instances'] }.flatten.each do |instance| %>
-resource "aws_instance" "<%= instance['InstanceId'] %>" {
-    ami               = "<%= instance['ImageId'] %>"
-    availability_zone = "<%= instance['Placement']['AvailabilityZone'] %>"
-    ebs_optimized     = <%= instance['EbsOptimized'] %>
-    instance_type     = "<%= instance['InstanceType'] %>"
-    key_name          = "<%= instance['KeyName'] %>"
-    security_groups   = <%= instance['SecurityGroups'].map { |sg| sg['GroupId'] }.inspect %>
-    subnet_id         = "<%= instance['SubnetId'] %>"
+<% client.describe_instances.reservations.map(&:instances).flatten.each do |instance| -%>
+resource "aws_instance" "<%= Terraforming::Resource.name_from_tag(instance, instance.instance_id) %>" {
+    ami                         = "<%= instance.image_id %>"
+    availability_zone           = "<%= instance.placement.availability_zone %>"
+    ebs_optimized               = <%= instance.ebs_optimized %>
+    instance_type               = "<%= instance.instance_type %>"
+    key_name                    = "<%= instance.key_name %>"
+    security_groups             = <%= instance.security_groups.map { |sg| sg.group_id }.inspect %>
+    subnet_id                   = "<%= instance.subnet_id %>"
+    associate_public_ip_address = "<%= instance.public_ip_address %>"
+    private_ip                  = "<%= instance.private_ip_address %>"
+    source_dest_check           = <%= instance.source_dest_check %>
 
+<% instance.block_device_mappings.each do |block_device| -%>
+    ebs_block_device {
+        device_name = "<%= block_device.device_name %>"
+    }
+
+<% end -%>
     tags {
-<% instance['Tags'].each do |tag| -%>
-        <%= tag['Key'] %> = "<%= tag['Value'] %>"
+<% instance.tags.each do |tag| -%>
+        <%= tag.key %> = "<%= tag.value %>"
 <% end -%>
     }
 }
-<% end %>
+
+<% end -%>

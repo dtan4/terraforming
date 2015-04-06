@@ -112,13 +112,20 @@ module Terraforming::Resource
       it "should generate tf" do
         expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_instance" "hoge" {
-    ami               = "ami-1234abcd"
-    availability_zone = "ap-northeast-1b"
-    ebs_optimized     = false
-    instance_type     = "t2.micro"
-    key_name          = "hoge-key"
-    security_groups   = ["sg-1234abcd"]
-    subnet_id         = "subnet-1234abcd"
+    ami                         = "ami-1234abcd"
+    availability_zone           = "ap-northeast-1b"
+    ebs_optimized               = false
+    instance_type               = "t2.micro"
+    key_name                    = "hoge-key"
+    security_groups             = ["sg-1234abcd"]
+    subnet_id                   = "subnet-1234abcd"
+    associate_public_ip_address = "54.12.0.0"
+    private_ip                  = "10.0.0.100"
+    source_dest_check           = true
+
+    ebs_block_device {
+        device_name = "/dev/sda1"
+    }
 
     tags {
         Name = "hoge"
