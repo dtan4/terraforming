@@ -5,8 +5,28 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      # TODO: implement SecurityGroup.tfstate
-      raise NotImplementedError
+      tfstate_security_groups =
+        client.describe_security_groups.security_groups.inject({}) do |result, security_group|
+        attributes = {
+          "description" => security_group.description,
+          "egress.#" => security_group.ip_permissions_egress.length.to_s,
+          "id" => security_group.group_id,
+          "ingress.#" => security_group.ip_permissions.length.to_s,
+          "name" => security_group.group_name,
+          "owner_id" => security_group.owner_id,
+        }
+        result["aws_security_group.#{security_group.group_name}"] = {
+          "type" => "aws_security_group",
+          "primary" => {
+            "id" => security_group.group_id,
+            "attributes" => attributes
+          }
+        }
+
+        result
+      end
+
+      JSON.pretty_generate(tfstate_security_groups)
     end
   end
 end
