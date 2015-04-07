@@ -103,6 +103,7 @@ resource "aws_db_parameter_group" "default.mysql5.6" {
         value        = "/path/to/archive %p"
         apply_method = "immediate"
     }
+
 }
 
 resource "aws_db_parameter_group" "default.postgres9.4" {
@@ -118,9 +119,10 @@ resource "aws_db_parameter_group" "default.postgres9.4" {
 
     parameter {
         name         = "array_nulls"
-        value        = "0"
+        value        = ""
         apply_method = "immediate"
     }
+
 }
 
         EOS
