@@ -1,12 +1,10 @@
 module Terraforming::Resource
   class DBParameterGroup
     def self.tf(client = Aws::RDS::Client.new)
-      # TODO: fetch parameter (describe-db-parameters)
       Terraforming::Resource.apply_template(client, "tf/db_parameter_group")
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      # TODO: implement DBParameterGroup.tfstate
       tfstate_db_parameter_groups =
         client.describe_db_parameter_groups.db_parameter_groups.inject({}) do |result, parameter_group|
         attributes = {
