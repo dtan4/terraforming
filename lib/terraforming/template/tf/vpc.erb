@@ -1,12 +1,13 @@
-<% data['Vpcs'].each do |vpc| %>
-resource "aws_vpc" "<%= vpc_name_of(vpc) %>" {
-    cidr_block       = "<%= vpc['CidrBlock'] %>"
-    instance_tenancy = "<%= vpc['InstanceTenancy'] %>"
+<% client.describe_vpcs.vpcs.each do |vpc| -%>
+resource "aws_vpc" "<%= Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id) %>" {
+    cidr_block       = "<%= vpc.cidr_block %>"
+    instance_tenancy = "<%= vpc.instance_tenancy %>"
 
     tags {
-<% vpc['Tags'].map do |tag| %>
-        <%= tag['Key'] %> = "<%= tag['Value'] %>"
-<% end %>
+<% vpc.tags.each do |tag| -%>
+        <%= tag.key %> = "<%= tag.value %>"
+<% end -%>
     }
 }
-<% end %>
+
+<% end -%>

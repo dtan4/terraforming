@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class RDS
     def self.tf(client = Aws::RDS::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/rds")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/rds")
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
@@ -33,7 +33,6 @@ module Terraforming::Resource
           "username" => instance.master_username,
           "vpc_security_group_ids.#" => instance.vpc_security_groups.length.to_s,
         }
-
         result["aws_db_instance.#{instance.db_instance_identifier}"] = {
           "type" => "aws_db_instance",
           "primary" => {
@@ -41,6 +40,7 @@ module Terraforming::Resource
             "attributes" => attributes
           }
         }
+
         result
       end
 

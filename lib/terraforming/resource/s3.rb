@@ -1,7 +1,7 @@
 module Terraforming::Resource
   class S3
     def self.tf(client = Aws::S3::Client.new)
-      ERB.new(open(Terraforming.template_path("tf/s3")).read, nil, "-").result(binding)
+      Terraforming::Resource.apply_template(client, "tf/s3")
     end
 
     def self.tfstate(client = Aws::S3::Client.new)
@@ -17,6 +17,7 @@ module Terraforming::Resource
             }
           }
         }
+
         result
       end
 
