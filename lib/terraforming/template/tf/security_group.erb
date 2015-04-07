@@ -3,6 +3,7 @@ resource "aws_security_group" "<%= security_group.group_name %>" {
     name        = "<%= security_group.group_name %>"
     description = "<%= security_group.description %>"
     owner_id    = "<%= security_group.owner_id %>"
+    vpc_id      = "<%= security_group.vpc_id || '' %>"
 
 <% security_group.ip_permissions.each do |permission| -%>
     ingress {

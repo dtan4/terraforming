@@ -14,6 +14,7 @@ module Terraforming::Resource
           "ingress.#" => security_group.ip_permissions.length.to_s,
           "name" => security_group.group_name,
           "owner_id" => security_group.owner_id,
+          "vpc_id" => security_group.vpc_id || "",
         }
         result["aws_security_group.#{security_group.group_name}"] = {
           "type" => "aws_security_group",

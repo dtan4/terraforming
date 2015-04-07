@@ -33,6 +33,7 @@ module Terraforming::Resource
               ]
             },
           ],
+          vpc_id: nil,
           tags: []
         },
         {
@@ -65,6 +66,7 @@ module Terraforming::Resource
             },
           ],
           ip_permissions_egress: [],
+          vpc_id: "vpc-1234abcd",
           tags: [
             { key: "Name", value: "fuga" }
           ]
@@ -83,6 +85,7 @@ resource "aws_security_group" "hoge" {
     name        = "hoge"
     description = "Group for hoge"
     owner_id    = "012345678901"
+    vpc_id      = ""
 
     ingress {
         from_port       = 22
@@ -105,6 +108,7 @@ resource "aws_security_group" "fuga" {
     name        = "fuga"
     description = "Group for fuga"
     owner_id    = "098765432109"
+    vpc_id      = "vpc-1234abcd"
 
     ingress {
         from_port       = 0
@@ -143,7 +147,8 @@ resource "aws_security_group" "fuga" {
                 "id" => "sg-1234abcd",
                 "ingress.#" => "1",
                 "name" => "hoge",
-                "owner_id" => "012345678901"
+                "owner_id" => "012345678901",
+                "vpc_id" => "",
               }
             }
           },
@@ -157,7 +162,8 @@ resource "aws_security_group" "fuga" {
                 "id" => "sg-5678efgh",
                 "ingress.#" => "2",
                 "name" => "fuga",
-                "owner_id" => "098765432109"
+                "owner_id" => "098765432109",
+                "vpc_id" => "vpc-1234abcd",
               }
             }
           }
