@@ -129,5 +129,9 @@ resource "aws_security_group" "fuga" {
         EOS
       end
     end
+
+    describe ".tfstate" do
+      xit "should generate tfstate"
+    end
   end
 end

@@ -1,34 +1,29 @@
 module Terraforming::Resource
   class VPC
-    def self.vpc_name_of(vpc)
-      name_tag = vpc['Tags'].find { |tag| tag['Key'] == "Name" }
-      name_tag ? name_tag['Value'] : vpc['VpcId']
+    def self.tf(client = Aws::EC2::Client.new)
+      Terraforming::Resource.apply_template(client, "tf/vpc")
     end
 
-    def self.tf(data)
-      ERB.new(open(Terraforming.template_path("tf/vpc")).read, nil, "-").result(binding)
-    end
-
-    def self.tfstate(data)
-      tfstate_db_instances = data['Vpcs'].inject({}) do |result, vpc|
+    def self.tfstate(client = Aws::EC2::Client.new)
+      tfstate_vpcs = client.describe_vpcs.vpcs.inject({}) do |result, vpc|
         attributes = {
-          "cidr_block" => vpc['CidrBlock'],
-          "id" => vpc['VpcId'],
-          "instance_tenancy" => vpc['InstanceTenancy'],
-          "tags.#" => vpc['Tags'].length.to_s,
+          "cidr_block" => vpc.cidr_block,
+          "id" => vpc.vpc_id,
+          "instance_tenancy" => vpc.instance_tenancy,
+          "tags.#" => vpc.tags.length.to_s,
         }
-
-        result["aws_vpc.#{vpc_name_of(vpc)}"] = {
+        result["aws_vpc.#{Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id)}"] = {
           "type" => "aws_vpc",
           "primary" => {
-            "id" => vpc['VpcId'],
+            "id" => vpc.vpc_id,
             "attributes" => attributes
           }
         }
+
         result
       end
 
-      JSON.pretty_generate(tfstate_db_instances)
+      JSON.pretty_generate(tfstate_vpcs)
     end
   end
 end
