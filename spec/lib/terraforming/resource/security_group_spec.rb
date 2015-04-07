@@ -33,6 +33,7 @@ module Terraforming::Resource
               ]
             },
           ],
+          vpc_id: nil,
           tags: []
         },
         {
@@ -43,11 +44,11 @@ module Terraforming::Resource
           ip_permissions: [
             {
               ip_protocol: "tcp",
-              from_port: 1,
+              from_port: 0,
               to_port: 65535,
               user_id_group_pairs: [
                 {
-                  user_id: "user1",
+                  user_id: "001122334455",
                   group_name: "group1",
                   group_id: "sg-9012ijkl"
                 }
@@ -65,6 +66,7 @@ module Terraforming::Resource
             },
           ],
           ip_permissions_egress: [],
+          vpc_id: "vpc-1234abcd",
           tags: [
             { key: "Name", value: "fuga" }
           ]
@@ -83,6 +85,7 @@ resource "aws_security_group" "hoge" {
     name        = "hoge"
     description = "Group for hoge"
     owner_id    = "012345678901"
+    vpc_id      = ""
 
     ingress {
         from_port       = 22
@@ -105,9 +108,10 @@ resource "aws_security_group" "fuga" {
     name        = "fuga"
     description = "Group for fuga"
     owner_id    = "098765432109"
+    vpc_id      = "vpc-1234abcd"
 
     ingress {
-        from_port       = 1
+        from_port       = 0
         to_port         = 65535
         protocol        = "tcp"
         security_groups = ["sg-9012ijkl"]
@@ -131,7 +135,40 @@ resource "aws_security_group" "fuga" {
     end
 
     describe ".tfstate" do
-      xit "should generate tfstate"
+      it "should generate tfstate" do
+        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          "aws_security_group.hoge" => {
+            "type" => "aws_security_group",
+            "primary" => {
+              "id" => "sg-1234abcd",
+              "attributes" => {
+                "description" => "Group for hoge",
+                "egress.#" => "1",
+                "id" => "sg-1234abcd",
+                "ingress.#" => "1",
+                "name" => "hoge",
+                "owner_id" => "012345678901",
+                "vpc_id" => "",
+              }
+            }
+          },
+          "aws_security_group.fuga" => {
+            "type" => "aws_security_group",
+            "primary" => {
+              "id" => "sg-5678efgh",
+              "attributes" => {
+                "description" => "Group for fuga",
+                "egress.#" => "0",
+                "id" => "sg-5678efgh",
+                "ingress.#" => "2",
+                "name" => "fuga",
+                "owner_id" => "098765432109",
+                "vpc_id" => "vpc-1234abcd",
+              }
+            }
+          }
+        })
+      end
     end
   end
 end
