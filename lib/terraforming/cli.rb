@@ -18,6 +18,12 @@ module Terraforming
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
+    desc "ec2", "EC2"
+    option :tfstate, type: :boolean
+    def ec2
+      execute(Terraforming::Resource::EC2, options)
+    end
+
     desc "elb", "ELB"
     option :tfstate, type: :boolean
     def elb
@@ -34,6 +40,18 @@ module Terraforming
     option :tfstate, type: :boolean
     def s3
       execute(Terraforming::Resource::S3, options)
+    end
+
+    desc "sg", "SecurityGroup"
+    option :tfstate, type: :boolean
+    def sg
+      execute(Terraforming::Resource::SecurityGroup, options)
+    end
+
+    desc "vpc", "VPC"
+    option :tfstate, type: :boolean
+    def vpc
+      execute(Terraforming::Resource::VPC, options)
     end
 
     private
