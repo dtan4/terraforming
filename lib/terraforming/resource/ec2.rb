@@ -39,19 +39,7 @@ module Terraforming::Resource
         result
       end
 
-      tfstate =  {
-        "version" => 1,
-        "serial" => 84,
-        "modules" => {
-          "path" => [
-            "root"
-          ],
-          "outputs" => {},
-          "resources" => resources
-        }
-      }
-
-      JSON.pretty_generate(tfstate)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end
