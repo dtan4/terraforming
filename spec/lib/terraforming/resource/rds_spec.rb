@@ -124,7 +124,7 @@ resource "aws_db_instance" "hogedb" {
       it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
           "version" => 1,
-          "serial" => 84,
+          "serial" => 1,
           "modules" => {
             "path" => [
               "root"
