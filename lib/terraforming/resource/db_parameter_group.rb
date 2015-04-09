@@ -13,7 +13,7 @@ module Terraforming::Resource
           "name" => parameter_group.db_parameter_group_name,
           "parameter.#" => client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters.length.to_s
         }
-        result["aws_db_parameter_group.#{parameter_group.db_parameter_group_name}"] = {
+        result["aws_db_parameter_group.#{Terraforming::Resource.normalize_module_name(parameter_group.db_parameter_group_name)}"] = {
           "type" => "aws_db_parameter_group",
           "primary" => {
             "id" => parameter_group.db_parameter_group_name,

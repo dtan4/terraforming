@@ -6,7 +6,7 @@ module Terraforming::Resource
 
     def self.tfstate(client = Aws::S3::Client.new)
       resources = client.list_buckets.buckets.inject({}) do |result, bucket|
-        result["aws_s3_bucket.#{bucket.name}"] = {
+        result["aws_s3_bucket.#{Terraforming::Resource.normalize_module_name(bucket.name)}"] = {
           "type" => "aws_s3_bucket",
           "primary" => {
             "id" => bucket.name,
