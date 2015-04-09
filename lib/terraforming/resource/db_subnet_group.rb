@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      tfstate_db_subnet_groups = client.describe_db_subnet_groups.db_subnet_groups.inject({}) do |result, subnet_group|
+      resources = client.describe_db_subnet_groups.db_subnet_groups.inject({}) do |result, subnet_group|
         attributes = {
           "description" => subnet_group.db_subnet_group_description,
           "name" => subnet_group.db_subnet_group_name,
@@ -22,7 +22,19 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_db_subnet_groups)
+      tfstate = {
+        "version" => 1,
+        "serial" => 84,
+        "modules" => {
+          "path" => [
+            "root"
+          ],
+          "outputs" => {},
+          "resources" => resources
+        }
+      }
+
+      JSON.pretty_generate(tfstate)
     end
   end
 end
