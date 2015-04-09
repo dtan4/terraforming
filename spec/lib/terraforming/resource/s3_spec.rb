@@ -50,25 +50,35 @@ resource "aws_s3_bucket" "fuga" {
     describe ".tfstate" do
       it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "aws_s3_bucket.hoge" => {
-            "type" => "aws_s3_bucket",
-            "primary" => {
-              "id" => "hoge",
-              "attributes" => {
-                "acl" => "private",
-                "bucket" => "hoge",
-                "id" => "hoge"
-              }
-            }
-          },
-          "aws_s3_bucket.fuga" => {
-            "type" => "aws_s3_bucket",
-            "primary" => {
-              "id" => "fuga",
-              "attributes" => {
-                "acl" => "private",
-                "bucket" => "fuga",
-                "id" => "fuga"
+          "version" => 1,
+          "serial" => 1,
+          "modules" => {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {
+              "aws_s3_bucket.hoge" => {
+                "type" => "aws_s3_bucket",
+                "primary" => {
+                  "id" => "hoge",
+                  "attributes" => {
+                    "acl" => "private",
+                    "bucket" => "hoge",
+                    "id" => "hoge"
+                  }
+                }
+              },
+              "aws_s3_bucket.fuga" => {
+                "type" => "aws_s3_bucket",
+                "primary" => {
+                  "id" => "fuga",
+                  "attributes" => {
+                    "acl" => "private",
+                    "bucket" => "fuga",
+                    "id" => "fuga"
+                  }
+                }
               }
             }
           }

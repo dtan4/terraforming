@@ -5,8 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      tfstate_db_security_groups =
-        client.describe_db_security_groups.db_security_groups.inject({}) do |result, security_group|
+      resources = client.describe_db_security_groups.db_security_groups.inject({}) do |result, security_group|
         attributes = {
           "db_subnet_group_name" => security_group.db_security_group_name,
           "id" => security_group.db_security_group_name,
@@ -24,7 +23,7 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_db_security_groups)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end

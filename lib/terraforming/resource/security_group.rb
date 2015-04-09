@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      tfstate_security_groups =
+      resources =
         client.describe_security_groups.security_groups.inject({}) do |result, security_group|
         attributes = {
           "description" => security_group.description,
@@ -27,7 +27,7 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_security_groups)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end

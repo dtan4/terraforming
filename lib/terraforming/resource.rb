@@ -11,4 +11,20 @@ module Terraforming::Resource
   def self.template_path(template_name)
     File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
   end
+
+  def self.tfstate(resources)
+    tfstate = {
+      "version" => 1,
+      "serial" => 1,
+      "modules" => {
+        "path" => [
+          "root"
+        ],
+        "outputs" => {},
+        "resources" => resources
+      }
+    }
+
+    JSON.pretty_generate(tfstate)
+  end
 end

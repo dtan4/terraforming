@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      tfstate_instances = client.describe_instances.reservations.map(&:instances).flatten.inject({}) do |result, instance|
+      resources = client.describe_instances.reservations.map(&:instances).flatten.inject({}) do |result, instance|
         attributes = {
           "ami"=> instance.image_id,
           "associate_public_ip_address"=> "true",
@@ -39,7 +39,7 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_instances)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end

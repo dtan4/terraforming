@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      tfstate_db_instances = client.describe_db_instances.db_instances.inject({}) do |result, instance|
+      resources = client.describe_db_instances.db_instances.inject({}) do |result, instance|
         attributes = {
           "address" => instance.endpoint.address,
           "allocated_storage" => instance.allocated_storage.to_s,
@@ -44,7 +44,7 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_db_instances)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end

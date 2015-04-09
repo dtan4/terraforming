@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      tfstate_vpcs = client.describe_vpcs.vpcs.inject({}) do |result, vpc|
+      resources = client.describe_vpcs.vpcs.inject({}) do |result, vpc|
         attributes = {
           "cidr_block" => vpc.cidr_block,
           "id" => vpc.vpc_id,
@@ -23,7 +23,7 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_vpcs)
+      Terraforming::Resource.tfstate(resources)
     end
   end
 end
