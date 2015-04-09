@@ -15,7 +15,7 @@ module Terraforming::Resource
   def self.tfstate(resources)
     tfstate = {
       "version" => 1,
-      "serial" => 84,
+      "serial" => 1,
       "modules" => {
         "path" => [
           "root"
