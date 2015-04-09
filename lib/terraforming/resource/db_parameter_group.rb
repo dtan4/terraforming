@@ -5,8 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      tfstate_db_parameter_groups =
-        client.describe_db_parameter_groups.db_parameter_groups.inject({}) do |result, parameter_group|
+      resources = client.describe_db_parameter_groups.db_parameter_groups.inject({}) do |result, parameter_group|
         attributes = {
           "description" => parameter_group.description,
           "family" => parameter_group.db_parameter_group_family,
@@ -25,7 +24,19 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_db_parameter_groups)
+      tfstate = {
+        "version" => 1,
+        "serial" => 84,
+        "modules" => {
+          "path" => [
+            "root"
+          ],
+          "outputs" => {},
+          "resources" => resources
+        }
+      }
+
+      JSON.pretty_generate(tfstate)
     end
   end
 end
