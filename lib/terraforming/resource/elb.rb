@@ -5,7 +5,7 @@ module Terraforming::Resource
     end
 
     def self.tfstate(client = Aws::ElasticLoadBalancing::Client.new)
-      tfstate_db_instances = client.describe_load_balancers.load_balancer_descriptions.inject({}) do |result, load_balancer|
+      resources = client.describe_load_balancers.load_balancer_descriptions.inject({}) do |result, load_balancer|
         attributes = {
           "availability_zones.#" => load_balancer.availability_zones.length.to_s,
           "dns_name" => load_balancer.dns_name,
@@ -28,7 +28,19 @@ module Terraforming::Resource
         result
       end
 
-      JSON.pretty_generate(tfstate_db_instances)
+      tfstate = {
+        "version" => 1,
+        "serial" => 84,
+        "modules" => {
+          "path" => [
+            "root"
+          ],
+          "outputs" => {},
+          "resources" => resources
+        }
+      }
+
+      JSON.pretty_generate(tfstate)
     end
   end
 end

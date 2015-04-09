@@ -193,37 +193,47 @@ resource "aws_elb" "fuga" {
     describe ".tfstate" do
       it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "aws_elb.hoge" => {
-            "type" => "aws_elb",
-            "primary" => {
-              "id" => "hoge",
-              "attributes" => {
-                "availability_zones.#" => "2",
-                "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                "health_check.#" => "1",
-                "id" => "hoge",
-                "instances.#" => "1",
-                "listener.#" => "1",
-                "name" => "hoge",
-                "security_groups.#" => "2",
-                "subnets.#" => "2",
-              }
-            }
-          },
-          "aws_elb.fuga" => {
-            "type" => "aws_elb",
-            "primary" => {
-              "id" => "fuga",
-              "attributes" => {
-                "availability_zones.#" => "2",
-                "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
-                "health_check.#" => "1",
-                "id" => "fuga",
-                "instances.#" => "1",
-                "listener.#" => "1",
-                "name" => "fuga",
-                "security_groups.#" => "2",
-                "subnets.#" => "2",
+          "version" => 1,
+          "serial" => 84,
+          "modules" => {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {
+              "aws_elb.hoge" => {
+                "type" => "aws_elb",
+                "primary" => {
+                  "id" => "hoge",
+                  "attributes" => {
+                    "availability_zones.#" => "2",
+                    "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                    "health_check.#" => "1",
+                    "id" => "hoge",
+                    "instances.#" => "1",
+                    "listener.#" => "1",
+                    "name" => "hoge",
+                    "security_groups.#" => "2",
+                    "subnets.#" => "2",
+                  }
+                }
+              },
+              "aws_elb.fuga" => {
+                "type" => "aws_elb",
+                "primary" => {
+                  "id" => "fuga",
+                  "attributes" => {
+                    "availability_zones.#" => "2",
+                    "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
+                    "health_check.#" => "1",
+                    "id" => "fuga",
+                    "instances.#" => "1",
+                    "listener.#" => "1",
+                    "name" => "fuga",
+                    "security_groups.#" => "2",
+                    "subnets.#" => "2",
+                  }
+                }
               }
             }
           }
