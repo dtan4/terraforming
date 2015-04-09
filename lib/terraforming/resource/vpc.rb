@@ -12,7 +12,7 @@ module Terraforming::Resource
           "instance_tenancy" => vpc.instance_tenancy,
           "tags.#" => vpc.tags.length.to_s,
         }
-        result["aws_vpc.#{Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id)}"] = {
+        result["aws_vpc.#{Terraforming::Resource.normalize_module_name(Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id))}"] = {
           "type" => "aws_vpc",
           "primary" => {
             "id" => vpc.vpc_id,

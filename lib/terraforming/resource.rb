@@ -8,6 +8,10 @@ module Terraforming::Resource
     name_tag ? name_tag.value : default_name
   end
 
+  def self.normalize_module_name(name)
+    name.gsub(/[^a-zA-Z0-9_-]/, "-")
+  end
+
   def self.template_path(template_name)
     File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
   end

@@ -87,7 +87,7 @@ module Terraforming::Resource
     describe ".tf" do
       it "should generate tf" do
         expect(described_class.tf(client)).to eq <<-EOS
-resource "aws_db_parameter_group" "default.mysql5.6" {
+resource "aws_db_parameter_group" "default-mysql5-6" {
     name        = "default.mysql5.6"
     family      = "mysql5.6"
     description = "Default parameter group for mysql5.6"
@@ -106,7 +106,7 @@ resource "aws_db_parameter_group" "default.mysql5.6" {
 
 }
 
-resource "aws_db_parameter_group" "default.postgres9.4" {
+resource "aws_db_parameter_group" "default-postgres9-4" {
     name        = "default.postgres9.4"
     family      = "postgres9.4"
     description = "Default parameter group for postgres9.4"
@@ -139,7 +139,7 @@ resource "aws_db_parameter_group" "default.postgres9.4" {
               ],
               "outputs" => {},
               "resources" => {
-                "aws_db_parameter_group.default.mysql5.6" => {
+                "aws_db_parameter_group.default-mysql5-6" => {
                   "type" => "aws_db_parameter_group",
                   "primary" => {
                     "id" => "default.mysql5.6",
@@ -152,7 +152,7 @@ resource "aws_db_parameter_group" "default.postgres9.4" {
                     }
                   }
                 },
-                "aws_db_parameter_group.default.postgres9.4" => {
+                "aws_db_parameter_group.default-postgres9-4" => {
                   "type" => "aws_db_parameter_group",
                   "primary" => {
                     "id" => "default.postgres9.4",

@@ -25,7 +25,7 @@ module Terraforming::Resource
           "subnet_id"=> instance.subnet_id,
           "tenancy"=> instance.placement.tenancy
         }
-        result["aws_instance.#{Terraforming::Resource.name_from_tag(instance, instance.instance_id)}"] = {
+        result["aws_instance.#{Terraforming::Resource.normalize_module_name(Terraforming::Resource.name_from_tag(instance, instance.instance_id))}"] = {
           "type" => "aws_instance",
           "primary" => {
             "id" => instance.instance_id,

@@ -1,5 +1,5 @@
 <% client.describe_security_groups.security_groups.each do |security_group| -%>
-resource "aws_security_group" "<%= security_group.group_name %>" {
+resource "aws_security_group" "<%= Terraforming::Resource.normalize_module_name(security_group.group_name) %>" {
     name        = "<%= security_group.group_name %>"
     description = "<%= security_group.description %>"
     owner_id    = "<%= security_group.owner_id %>"

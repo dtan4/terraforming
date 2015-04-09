@@ -1,6 +1,6 @@
 <% client.describe_db_instances.db_instances.each do |instance| -%>
 resource "aws_db_instance" "<%= instance.db_instance_identifier %>" {
-    identifier                = "<%= instance.db_instance_identifier %>"
+    identifier                = "<%= Terraforming::Resource.normalize_module_name(instance.db_instance_identifier) %>"
     allocated_storage         = <%= instance.allocated_storage %>
     storage_type              = "<%= instance.storage_type %>"
     engine                    = "<%= instance.engine %>"
