@@ -1,5 +1,5 @@
 <% client.describe_instances.reservations.map(&:instances).flatten.each do |instance| -%>
-resource "aws_instance" "<%= Terraforming::Resource.normalize_module_name(Terraforming::Resource.name_from_tag(instance, instance.instance_id)) %>" {
+resource "aws_instance" "<%= normalize_module_name(name_from_tag(instance, instance.instance_id)) %>" {
     ami                         = "<%= instance.image_id %>"
     availability_zone           = "<%= instance.placement.availability_zone %>"
     ebs_optimized               = <%= instance.ebs_optimized %>

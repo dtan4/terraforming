@@ -1,5 +1,5 @@
 <% client.list_buckets.buckets.each do |bucket| -%>
-resource "aws_s3_bucket" "<%= Terraforming::Resource.normalize_module_name(bucket.name) %>" {
+resource "aws_s3_bucket" "<%= normalize_module_name(bucket.name) %>" {
     bucket = "<%= bucket.name %>"
     acl    = "private"
 }

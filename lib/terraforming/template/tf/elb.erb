@@ -1,5 +1,5 @@
 <% client.describe_load_balancers.load_balancer_descriptions.each do |load_balancer| -%>
-resource "aws_elb" "<%= Terraforming::Resource.normalize_module_name(load_balancer.load_balancer_name) %>" {
+resource "aws_elb" "<%= normalize_module_name(load_balancer.load_balancer_name) %>" {
     name               = "<%= load_balancer.load_balancer_name %>"
     availability_zones = <%= load_balancer.availability_zones.inspect %>
     subnets            = <%= load_balancer.subnets.inspect %>
