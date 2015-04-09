@@ -40,10 +40,13 @@ Commands:
   terraforming dbpg            # Database Parameter Group
   terraforming dbsg            # Database Security Group
   terraforming dbsn            # Database Subnet Group
+  terraforming ec2             # EC2
   terraforming elb             # ELB
   terraforming help [COMMAND]  # Describe available commands or one specific command
   terraforming rds             # RDS
   terraforming s3              # S3
+  terraforming sg              # SecurityGroup
+  terraforming vpc             # VPC
 ```
 
 Output `.tf` style (e.g. S3 buckets):
@@ -72,25 +75,36 @@ $ terraforming s3 --tfstate
 
 ```
 {
-  "aws_s3_bucket.hoge: {
-    "type": "aws_s3_bucket",
-    "primary": {
-      "id": "hoge",
-      "attributes": {
-        "acl": "private",
-        "bucket": "hoge",
-        "id": "hoge"
-      }
-    }
-  },
-  "aws_s3_bucket.fuga": {
-    "type": "aws_s3_bucket",
-    "primary": {
-      "id": "fuga",
-      "attributes": {
-        "acl": "private",
-        "bucket": "fuga",
-        "id": "fuga"
+  "version": 1,
+  "serial": 1,
+  "modules": {
+    "path": [
+      "root"
+    ],
+    "outputs": {
+    },
+    "resources": {
+      "aws_s3_bucket.hoge": {
+        "type": "aws_s3_bucket",
+        "primary": {
+          "id": "hoge",
+          "attributes": {
+            "acl": "private",
+            "bucket": "hoge",
+            "id": "hoge"
+          }
+        }
+      },
+      "aws_s3_bucket.fuga": {
+        "type": "aws_s3_bucket",
+        "primary": {
+          "id": "fuga",
+          "attributes": {
+            "acl": "private",
+            "bucket": "fuga",
+            "id": "fuga"
+          }
+        }
       }
     }
   }
