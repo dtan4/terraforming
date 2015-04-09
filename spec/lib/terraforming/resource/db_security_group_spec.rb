@@ -91,27 +91,37 @@ resource "aws_db_security_group" "sgfoobar" {
     describe ".tfstate" do
       it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "aws_db_security_group.default" => {
-            "type" => "aws_db_security_group",
-            "primary" => {
-              "id" => "default",
-              "attributes" => {
-                "db_subnet_group_name" => "default",
-                "id" => "default",
-                "ingress.#" => "1",
-                "name" => "default",
-              }
-            }
-          },
-          "aws_db_security_group.sgfoobar" => {
-            "type" => "aws_db_security_group",
-            "primary" => {
-              "id" => "sgfoobar",
-              "attributes" => {
-                "db_subnet_group_name" => "sgfoobar",
-                "id" => "sgfoobar",
-                "ingress.#" => "2",
-                "name" => "sgfoobar",
+          "version" => 1,
+          "serial" => 84,
+          "modules" => {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {
+              "aws_db_security_group.default" => {
+                "type" => "aws_db_security_group",
+                "primary" => {
+                  "id" => "default",
+                  "attributes" => {
+                    "db_subnet_group_name" => "default",
+                    "id" => "default",
+                    "ingress.#" => "1",
+                    "name" => "default",
+                  }
+                }
+              },
+              "aws_db_security_group.sgfoobar" => {
+                "type" => "aws_db_security_group",
+                "primary" => {
+                  "id" => "sgfoobar",
+                  "attributes" => {
+                    "db_subnet_group_name" => "sgfoobar",
+                    "id" => "sgfoobar",
+                    "ingress.#" => "2",
+                    "name" => "sgfoobar",
+                  }
+                }
               }
             }
           }
