@@ -149,6 +149,12 @@ resource "aws_db_parameter_group" "default-postgres9-4" {
                       "id" => "default.mysql5.6",
                       "name" => "default.mysql5.6",
                       "parameter.#" => "2",
+                      "parameter.1979235646.name" => "application_name",
+                      "parameter.1979235646.value" => "",
+                      "parameter.1979235646.apply_method" => "immediate",
+                      "parameter.3997332651.name" => "archive_command",
+                      "parameter.3997332651.value" => "/path/to/archive %p",
+                      "parameter.3997332651.apply_method" => "immediate",
                     }
                   }
                 },
@@ -162,6 +168,12 @@ resource "aws_db_parameter_group" "default-postgres9-4" {
                       "id" => "default.postgres9.4",
                       "name" => "default.postgres9.4",
                       "parameter.#" => "2",
+                      "parameter.1262558217.name" => "archive_timeout",
+                      "parameter.1262558217.value" => "300",
+                      "parameter.1262558217.apply_method" => "immediate",
+                      "parameter.3256607492.name" => "array_nulls",
+                      "parameter.3256607492.value" => "",
+                      "parameter.3256607492.apply_method" => "immediate",
                     }
                   }
                 }

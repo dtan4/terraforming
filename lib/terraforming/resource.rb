@@ -3,6 +3,11 @@ module Terraforming::Resource
     ERB.new(open(template_path(erb)).read, nil, "-").result(binding)
   end
 
+  def self.hashcode(string)
+    hash = Zlib.crc32(string)
+    hash < 0 ? -hash : hash
+  end
+
   def self.name_from_tag(resource, default_name)
     name_tag = resource.tags.find { |tag| tag.key == "Name" }
     name_tag ? name_tag.value : default_name
