@@ -137,33 +137,43 @@ resource "aws_security_group" "fuga" {
     describe ".tfstate" do
       it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "aws_security_group.hoge" => {
-            "type" => "aws_security_group",
-            "primary" => {
-              "id" => "sg-1234abcd",
-              "attributes" => {
-                "description" => "Group for hoge",
-                "egress.#" => "1",
-                "id" => "sg-1234abcd",
-                "ingress.#" => "1",
-                "name" => "hoge",
-                "owner_id" => "012345678901",
-                "vpc_id" => "",
-              }
-            }
-          },
-          "aws_security_group.fuga" => {
-            "type" => "aws_security_group",
-            "primary" => {
-              "id" => "sg-5678efgh",
-              "attributes" => {
-                "description" => "Group for fuga",
-                "egress.#" => "0",
-                "id" => "sg-5678efgh",
-                "ingress.#" => "2",
-                "name" => "fuga",
-                "owner_id" => "098765432109",
-                "vpc_id" => "vpc-1234abcd",
+          "version" => 1,
+          "serial" => 84,
+          "modules" => {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {
+              "aws_security_group.hoge" => {
+                "type" => "aws_security_group",
+                "primary" => {
+                  "id" => "sg-1234abcd",
+                  "attributes" => {
+                    "description" => "Group for hoge",
+                    "egress.#" => "1",
+                    "id" => "sg-1234abcd",
+                    "ingress.#" => "1",
+                    "name" => "hoge",
+                    "owner_id" => "012345678901",
+                    "vpc_id" => "",
+                  }
+                }
+              },
+              "aws_security_group.fuga" => {
+                "type" => "aws_security_group",
+                "primary" => {
+                  "id" => "sg-5678efgh",
+                  "attributes" => {
+                    "description" => "Group for fuga",
+                    "egress.#" => "0",
+                    "id" => "sg-5678efgh",
+                    "ingress.#" => "2",
+                    "name" => "fuga",
+                    "owner_id" => "098765432109",
+                    "vpc_id" => "vpc-1234abcd",
+                  }
+                }
               }
             }
           }
