@@ -1,20 +1,34 @@
 module Terraforming::Resource
   class VPC
+    include Terraforming::Util
+
     def self.tf(client = Aws::EC2::Client.new)
-      Terraforming::Resource.apply_template(client, "tf/vpc")
+      self.new(client).tf
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      resources = client.describe_vpcs.vpcs.inject({}) do |result, vpc|
+      self.new(client).tfstate
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def tf
+      apply_template(@client, "tf/vpc")
+    end
+
+    def tfstate
+      resources = vpcs.inject({}) do |result, vpc|
         attributes = {
           "cidr_block" => vpc.cidr_block,
-          "enable_dns_hostnames" => client.describe_vpc_attribute(vpc_id: vpc.vpc_id, attribute: :enableDnsHostnames).enable_dns_hostnames.value.to_s,
-          "enable_dns_support" => client.describe_vpc_attribute(vpc_id: vpc.vpc_id, attribute: :enableDnsSupport).enable_dns_support.value.to_s,
+          "enable_dns_hostnames" => enable_dns_hostnames?(vpc).to_s,
+          "enable_dns_support" => enable_dns_support?(vpc).to_s,
           "id" => vpc.vpc_id,
           "instance_tenancy" => vpc.instance_tenancy,
           "tags.#" => vpc.tags.length.to_s,
         }
-        result["aws_vpc.#{Terraforming::Resource.normalize_module_name(Terraforming::Resource.name_from_tag(vpc, vpc.vpc_id))}"] = {
+        result["aws_vpc.#{normalize_module_name(name_from_tag(vpc, vpc.vpc_id))}"] = {
           "type" => "aws_vpc",
           "primary" => {
             "id" => vpc.vpc_id,
@@ -25,7 +39,25 @@ module Terraforming::Resource
         result
       end
 
-      Terraforming::Resource.tfstate(resources)
+      generate_tfstate(resources)
+    end
+
+    private
+
+    def vpcs
+      @client.describe_vpcs.vpcs
+    end
+
+    def vpc_attribute(vpc, attribute)
+      @client.describe_vpc_attribute(vpc_id: vpc.vpc_id, attribute: attribute)
+    end
+
+    def enable_dns_hostnames?(vpc)
+      vpc_attribute(vpc, :enableDnsHostnames).enable_dns_hostnames.value
+    end
+
+    def enable_dns_support?(vpc)
+      vpc_attribute(vpc, :enableDnsSupport).enable_dns_support.value
     end
   end
 end

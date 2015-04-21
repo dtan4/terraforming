@@ -1,11 +1,25 @@
 module Terraforming::Resource
   class EC2
+    include Terraforming::Util
+
     def self.tf(client = Aws::EC2::Client.new)
-      Terraforming::Resource.apply_template(client, "tf/ec2")
+      self.new(client).tf
     end
 
     def self.tfstate(client = Aws::EC2::Client.new)
-      resources = client.describe_instances.reservations.map(&:instances).flatten.inject({}) do |result, instance|
+      self.new(client).tfstate
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def tf
+      apply_template(@client, "tf/ec2")
+    end
+
+    def tfstate
+      resources = instances.inject({}) do |result, instance|
         attributes = {
           "ami"=> instance.image_id,
           "associate_public_ip_address"=> "true",
@@ -25,7 +39,7 @@ module Terraforming::Resource
           "subnet_id"=> instance.subnet_id,
           "tenancy"=> instance.placement.tenancy
         }
-        result["aws_instance.#{Terraforming::Resource.normalize_module_name(Terraforming::Resource.name_from_tag(instance, instance.instance_id))}"] = {
+        result["aws_instance.#{normalize_module_name(name_from_tag(instance, instance.instance_id))}"] = {
           "type" => "aws_instance",
           "primary" => {
             "id" => instance.instance_id,
@@ -39,7 +53,13 @@ module Terraforming::Resource
         result
       end
 
-      Terraforming::Resource.tfstate(resources)
+      generate_tfstate(resources)
+    end
+
+    private
+
+    def instances
+      @client.describe_instances.reservations.map(&:instances).flatten
     end
   end
 end
