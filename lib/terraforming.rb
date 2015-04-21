@@ -6,6 +6,7 @@ require "erb"
 require "json"
 require "thor"
 
+require "terraforming/util"
 require "terraforming/version"
 
 require "terraforming/cli"
