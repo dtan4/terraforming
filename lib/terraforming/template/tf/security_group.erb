@@ -1,4 +1,4 @@
-<% client.describe_security_groups.security_groups.each do |security_group| -%>
+<% security_groups.each do |security_group| -%>
 resource "aws_security_group" "<%= normalize_module_name(security_group.group_name) %>" {
     name        = "<%= security_group.group_name %>"
     description = "<%= security_group.description %>"
