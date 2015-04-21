@@ -8,6 +8,8 @@ module Terraforming::Resource
       resources = client.describe_vpcs.vpcs.inject({}) do |result, vpc|
         attributes = {
           "cidr_block" => vpc.cidr_block,
+          "enable_dns_hostnames" => client.describe_vpc_attribute(vpc_id: vpc.vpc_id, attribute: :enableDnsHostnames).enable_dns_hostnames.value.to_s,
+          "enable_dns_support" => client.describe_vpc_attribute(vpc_id: vpc.vpc_id, attribute: :enableDnsSupport).enable_dns_support.value.to_s,
           "id" => vpc.vpc_id,
           "instance_tenancy" => vpc.instance_tenancy,
           "tags.#" => vpc.tags.length.to_s,
