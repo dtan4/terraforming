@@ -1,11 +1,25 @@
 module Terraforming::Resource
   class ELB
+    include Terraforming::Util
+
     def self.tf(client = Aws::ElasticLoadBalancing::Client.new)
-      Terraforming::Resource.apply_template(client, "tf/elb")
+      self.new(client).tf
     end
 
     def self.tfstate(client = Aws::ElasticLoadBalancing::Client.new)
-      resources = client.describe_load_balancers.load_balancer_descriptions.inject({}) do |result, load_balancer|
+      self.new(client).tfstate
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def tf
+      apply_template(@client, "tf/elb")
+    end
+
+    def tfstate
+      resources = load_balancers.inject({}) do |result, load_balancer|
         attributes = {
           "availability_zones.#" => load_balancer.availability_zones.length.to_s,
           "dns_name" => load_balancer.dns_name,
@@ -17,7 +31,7 @@ module Terraforming::Resource
           "security_groups.#" => load_balancer.security_groups.length.to_s,
           "subnets.#" => load_balancer.subnets.length.to_s,
         }
-        result["aws_elb.#{Terraforming::Resource.normalize_module_name(load_balancer.load_balancer_name)}"] = {
+        result["aws_elb.#{normalize_module_name(load_balancer.load_balancer_name)}"] = {
           "type" => "aws_elb",
           "primary" => {
             "id" => load_balancer.load_balancer_name,
@@ -28,7 +42,11 @@ module Terraforming::Resource
         result
       end
 
-      Terraforming::Resource.tfstate(resources)
+      generate_tfstate(resources)
+    end
+
+    def load_balancers
+      @client.describe_load_balancers.load_balancer_descriptions
     end
   end
 end
