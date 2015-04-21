@@ -1,4 +1,4 @@
-<% client.describe_db_subnet_groups.db_subnet_groups.each do |subnet_group| -%>
+<% db_subnet_groups.each do |subnet_group| -%>
 resource "aws_db_subnet_group" "<%= normalize_module_name(subnet_group.db_subnet_group_name) %>" {
     name        = "<%= subnet_group.db_subnet_group_name %>"
     description = "<%= subnet_group.db_subnet_group_description %>"
