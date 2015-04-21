@@ -55,7 +55,7 @@ Output `.tf` style (e.g. S3 buckets):
 $ terraforming s3
 ```
 
-```
+```go
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
@@ -73,7 +73,7 @@ To output `.tfstate` style, specify `--tfstate` option (e.g. S3 buckets):
 $ terraforming s3 --tfstate
 ```
 
-```
+```json
 {
   "version": 1,
   "serial": 1,
