@@ -1,11 +1,25 @@
 module Terraforming::Resource
   class RDS
+    include Terraforming::Util
+
     def self.tf(client = Aws::RDS::Client.new)
-      Terraforming::Resource.apply_template(client, "tf/rds")
+      self.new(client).tf
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      resources = client.describe_db_instances.db_instances.inject({}) do |result, instance|
+      self.new(client).tfstate
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def tf
+      apply_template(@client, "tf/rds")
+    end
+
+    def tfstate
+      resources = db_instances.inject({}) do |result, instance|
         attributes = {
           "address" => instance.endpoint.address,
           "allocated_storage" => instance.allocated_storage.to_s,
@@ -33,7 +47,7 @@ module Terraforming::Resource
           "username" => instance.master_username,
           "vpc_security_group_ids.#" => instance.vpc_security_groups.length.to_s,
         }
-        result["aws_db_instance.#{Terraforming::Resource.normalize_module_name(instance.db_instance_identifier)}"] = {
+        result["aws_db_instance.#{normalize_module_name(instance.db_instance_identifier)}"] = {
           "type" => "aws_db_instance",
           "primary" => {
             "id" => instance.db_instance_identifier,
@@ -44,7 +58,13 @@ module Terraforming::Resource
         result
       end
 
-      Terraforming::Resource.tfstate(resources)
+      generate_tfstate(resources)
+    end
+
+    private
+
+    def db_instances
+      @client.describe_db_instances.db_instances
     end
   end
 end
