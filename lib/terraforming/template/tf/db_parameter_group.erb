@@ -1,10 +1,10 @@
-<% client.describe_db_parameter_groups.db_parameter_groups.each do |parameter_group| -%>
+<% db_parameter_groups.each do |parameter_group| -%>
 resource "aws_db_parameter_group" "<%= normalize_module_name(parameter_group.db_parameter_group_name) %>" {
     name        = "<%= parameter_group.db_parameter_group_name %>"
     family      = "<%= parameter_group.db_parameter_group_family %>"
     description = "<%= parameter_group.description %>"
 
-<% client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters.each do |parameter| -%>
+<% db_parameters_in(parameter_group).each do |parameter| -%>
     parameter {
         name         = "<%= parameter.parameter_name %>"
         value        = "<%= parameter.parameter_value || '' %>"

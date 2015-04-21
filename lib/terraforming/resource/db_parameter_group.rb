@@ -1,19 +1,33 @@
 module Terraforming::Resource
   class DBParameterGroup
+    include Terraforming::Util
+
     def self.tf(client = Aws::RDS::Client.new)
-      Terraforming::Resource.apply_template(client, "tf/db_parameter_group")
+      self.new(client).tf
     end
 
     def self.tfstate(client = Aws::RDS::Client.new)
-      resources = client.describe_db_parameter_groups.db_parameter_groups.inject({}) do |result, parameter_group|
+      self.new(client).tfstate
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def tf
+      apply_template(@client, "tf/db_parameter_group")
+    end
+
+    def tfstate
+      resources = db_parameter_groups.inject({}) do |result, parameter_group|
         attributes = {
           "description" => parameter_group.description,
           "family" => parameter_group.db_parameter_group_family,
           "id" => parameter_group.db_parameter_group_name,
           "name" => parameter_group.db_parameter_group_name,
-          "parameter.#" => client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters.length.to_s
+          "parameter.#" => db_parameters_in(parameter_group).length.to_s
         }
-        result["aws_db_parameter_group.#{Terraforming::Resource.normalize_module_name(parameter_group.db_parameter_group_name)}"] = {
+        result["aws_db_parameter_group.#{normalize_module_name(parameter_group.db_parameter_group_name)}"] = {
           "type" => "aws_db_parameter_group",
           "primary" => {
             "id" => parameter_group.db_parameter_group_name,
@@ -24,7 +38,17 @@ module Terraforming::Resource
         result
       end
 
-      Terraforming::Resource.tfstate(resources)
+      generate_tfstate(resources)
+    end
+
+    private
+
+    def db_parameter_groups
+      @client.describe_db_parameter_groups.db_parameter_groups
+    end
+
+    def db_parameters_in(parameter_group)
+      @client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters
     end
   end
 end
