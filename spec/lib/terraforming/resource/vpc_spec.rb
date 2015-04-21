@@ -41,6 +41,16 @@ module Terraforming::Resource
 
     before do
       client.stub_responses(:describe_vpcs, vpcs: vpcs)
+
+      attr_stub_responses = []
+
+      %w(vpc-1234abcd vpc-5678efgh).each do |vpc_id|
+        %i(enable_dns_hostnames enable_dns_support).each do |attr|
+          attr_stub_responses << { attr => { value: true }  }
+        end
+      end
+
+      client.stub_responses(:describe_vpc_attribute, attr_stub_responses)
     end
 
     describe ".tf" do
@@ -85,6 +95,8 @@ resource "aws_vpc" "fuga" {
                   "id" => "vpc-1234abcd",
                   "attributes" => {
                     "cidr_block" => "10.0.0.0/16",
+                    "enable_dns_hostnames" => "true",
+                    "enable_dns_support" => "true",
                     "id" => "vpc-1234abcd",
                     "instance_tenancy" => "default",
                     "tags.#" => "1",
@@ -97,6 +109,8 @@ resource "aws_vpc" "fuga" {
                   "id" => "vpc-5678efgh",
                   "attributes" => {
                     "cidr_block" => "10.0.0.0/16",
+                    "enable_dns_hostnames" => "true",
+                    "enable_dns_support" => "true",
                     "id" => "vpc-5678efgh",
                     "instance_tenancy" => "default",
                     "tags.#" => "1",
