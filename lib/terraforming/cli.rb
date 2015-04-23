@@ -48,6 +48,12 @@ module Terraforming
       execute(Terraforming::Resource::SecurityGroup, options)
     end
 
+    desc "sn", "Subnet"
+    option :tfstate, type: :boolean
+    def sn
+      execute(Terraforming::Resource::Subnet, options)
+    end
+
     desc "vpc", "VPC"
     option :tfstate, type: :boolean
     def vpc

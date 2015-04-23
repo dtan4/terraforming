@@ -130,6 +130,22 @@ module Terraforming
       end
     end
 
+    describe "sn" do
+      context "without --tfstate" do
+        it "should export SecurityGroup tf" do
+          expect(Terraforming::Resource::Subnet).to receive(:tf)
+          described_class.new.invoke(:sn, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export SecurityGroup tfstate" do
+          expect(Terraforming::Resource::Subnet).to receive(:tfstate)
+          described_class.new.invoke(:sn, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "vpc" do
       context "without --tfstate" do
         it "should export VPC tf" do
