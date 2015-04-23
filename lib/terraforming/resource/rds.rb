@@ -47,7 +47,7 @@ module Terraforming::Resource
           "username" => instance.master_username,
           "vpc_security_group_ids.#" => instance.vpc_security_groups.length.to_s,
         }
-        result["aws_db_instance.#{normalize_module_name(instance.db_instance_identifier)}"] = {
+        result["aws_db_instance.#{module_name_of(instance)}"] = {
           "type" => "aws_db_instance",
           "primary" => {
             "id" => instance.db_instance_identifier,
@@ -65,6 +65,10 @@ module Terraforming::Resource
 
     def db_instances
       @client.describe_db_instances.db_instances
+    end
+
+    def module_name_of(instance)
+      normalize_module_name(instance.db_instance_identifier)
     end
   end
 end

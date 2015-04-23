@@ -29,7 +29,7 @@ module Terraforming::Resource
           "owner_id" => security_group.owner_id,
           "vpc_id" => security_group.vpc_id || "",
         }
-        result["aws_security_group.#{normalize_module_name(security_group.group_name)}"] = {
+        result["aws_security_group.#{module_name_of(security_group)}"] = {
           "type" => "aws_security_group",
           "primary" => {
             "id" => security_group.group_id,
@@ -44,6 +44,10 @@ module Terraforming::Resource
     end
 
     private
+
+    def module_name_of(security_group)
+      normalize_module_name(security_group.group_name)
+    end
 
     def security_groups
       @client.describe_security_groups.security_groups

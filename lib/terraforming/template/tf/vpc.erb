@@ -1,5 +1,5 @@
 <% vpcs.each do |vpc| -%>
-resource "aws_vpc" "<%= normalize_module_name(name_from_tag(vpc, vpc.vpc_id)) %>" {
+resource "aws_vpc" "<%= module_name_of(vpc) %>" {
     cidr_block           = "<%= vpc.cidr_block %>"
     enable_dns_hostnames = <%= enable_dns_hostnames?(vpc) %>
     enable_dns_support   = <%= enable_dns_support?(vpc) %>

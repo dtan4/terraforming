@@ -27,7 +27,7 @@ module Terraforming::Resource
           "name" => parameter_group.db_parameter_group_name,
           "parameter.#" => db_parameters_in(parameter_group).length.to_s
         }
-        result["aws_db_parameter_group.#{normalize_module_name(parameter_group.db_parameter_group_name)}"] = {
+        result["aws_db_parameter_group.#{module_name_of(parameter_group)}"] = {
           "type" => "aws_db_parameter_group",
           "primary" => {
             "id" => parameter_group.db_parameter_group_name,
@@ -49,6 +49,10 @@ module Terraforming::Resource
 
     def db_parameters_in(parameter_group)
       @client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters
+    end
+
+    def module_name_of(parameter_group)
+      normalize_module_name(parameter_group.db_parameter_group_name)
     end
   end
 end

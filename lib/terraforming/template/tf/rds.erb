@@ -1,6 +1,6 @@
 <% db_instances.each do |instance| -%>
 resource "aws_db_instance" "<%= instance.db_instance_identifier %>" {
-    identifier                = "<%= normalize_module_name(instance.db_instance_identifier) %>"
+    identifier                = "<%= module_name_of(instance) %>"
     allocated_storage         = <%= instance.allocated_storage %>
     storage_type              = "<%= instance.storage_type %>"
     engine                    = "<%= instance.engine %>"
