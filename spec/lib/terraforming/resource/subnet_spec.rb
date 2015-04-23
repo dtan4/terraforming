@@ -1,0 +1,112 @@
+require "spec_helper"
+
+module Terraforming::Resource
+  describe Subnet do
+    let(:client) do
+      Aws::EC2::Client.new(stub_responses: true)
+    end
+
+    let(:subnets) do
+      [
+        {
+          subnet_id: "subnet-1234abcd",
+          state: "available",
+          vpc_id: "vpc-1234abcd",
+          cidr_block: "10.0.8.0/21",
+          available_ip_address_count: 1000,
+          availability_zone: "ap-northeast-1c",
+          default_for_az: false,
+          map_public_ip_on_launch: false,
+          tags: [
+            { key: "Name", value: "hoge" }
+          ]
+        },
+        {
+          subnet_id: "subnet-5678efgh",
+          state: "available",
+          vpc_id: "vpc-5678efgh",
+          cidr_block: "10.0.8.0/21",
+          available_ip_address_count: 2000,
+          availability_zone: "ap-northeast-1c",
+          default_for_az: false,
+          map_public_ip_on_launch: false,
+          tags: [
+            { key: "Name", value: "fuga" }
+          ]
+        }
+      ]
+    end
+
+    before do
+      client.stub_responses(:describe_subnets, subnets: subnets)
+    end
+
+    describe ".tf" do
+      it "should generate tf" do
+        expect(described_class.tf(client)).to eq <<-EOS
+resource "aws_subnet" "hoge" {
+    vpc_id                  = "vpc-1234abcd"
+    cidr_block              = "10.0.8.0/21"
+    availability_zone       = "ap-northeast-1c"
+    map_public_ip_on_launch = false
+
+    tags {
+        Name = "hoge"
+    }
+}
+
+resource "aws_subnet" "fuga" {
+    vpc_id                  = "vpc-5678efgh"
+    cidr_block              = "10.0.8.0/21"
+    availability_zone       = "ap-northeast-1c"
+    map_public_ip_on_launch = false
+
+    tags {
+        Name = "fuga"
+    }
+}
+
+        EOS
+      end
+    end
+
+    describe ".tfstate" do
+      xit "should generate tfstate" do
+        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          "version" => 1,
+          "serial" => 1,
+          "modules" => {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {
+              "aws_db_subnet_group.hoge" => {
+                "type" => "aws_db_subnet_group",
+                "primary" => {
+                  "id" => "hoge",
+                  "attributes" => {
+                    "description" => "DB subnet group hoge",
+                    "name" => "hoge",
+                    "subnet_ids.#" => "2",
+                  }
+                }
+              },
+              "aws_db_subnet_group.fuga" => {
+                "type" => "aws_db_subnet_group",
+                "primary" => {
+                  "id" => "fuga",
+                  "attributes" => {
+                    "description" => "DB subnet group fuga",
+                    "name" => "fuga",
+                    "subnet_ids.#" => "2",
+                  }
+                }
+              }
+            }
+          }
+        })
+      end
+    end
+  end
+end
