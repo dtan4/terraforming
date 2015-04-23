@@ -2,11 +2,11 @@ module Terraforming::Resource
   class Subnet
     include Terraforming::Util
 
-    def self.tf(client = Aws::RDS::Client.new)
+    def self.tf(client = Aws::EC2::Client.new)
       self.new(client).tf
     end
 
-    def self.tfstate(client = Aws::RDS::Client.new)
+    def self.tfstate(client = Aws::EC2::Client.new)
       self.new(client).tfstate
     end
 
