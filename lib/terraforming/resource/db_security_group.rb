@@ -26,7 +26,7 @@ module Terraforming::Resource
           "ingress.#" => (security_group.ec2_security_groups.length + security_group.ip_ranges.length).to_s,
           "name" => security_group.db_security_group_name,
         }
-        result["aws_db_security_group.#{normalize_module_name(security_group.db_security_group_name)}"] = {
+        result["aws_db_security_group.#{module_name_of(security_group)}"] = {
           "type" => "aws_db_security_group",
           "primary" => {
             "id" => security_group.db_security_group_name,
@@ -44,6 +44,10 @@ module Terraforming::Resource
 
     def db_security_groups
       @client.describe_db_security_groups.db_security_groups
+    end
+
+    def module_name_of(security_group)
+      normalize_module_name(security_group.db_security_group_name)
     end
   end
 end
