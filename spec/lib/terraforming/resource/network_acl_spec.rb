@@ -120,6 +120,7 @@ resource "aws_network_acl" "hoge" {
         protocol   = "-1"
         cidr_block = "0.0.0.0/0"
     }
+
 }
 
 resource "aws_network_acl" "fuga" {
@@ -142,6 +143,7 @@ resource "aws_network_acl" "fuga" {
         protocol   = "-1"
         cidr_block = "0.0.0.0/0"
     }
+
 }
 
         EOS
