@@ -31,7 +31,7 @@ module Terraforming::Resource
           "security_groups.#" => load_balancer.security_groups.length.to_s,
           "subnets.#" => load_balancer.subnets.length.to_s,
         }
-        result["aws_elb.#{normalize_module_name(load_balancer.load_balancer_name)}"] = {
+        result["aws_elb.#{module_name_of(load_balancer)}"] = {
           "type" => "aws_elb",
           "primary" => {
             "id" => load_balancer.load_balancer_name,
@@ -47,6 +47,10 @@ module Terraforming::Resource
 
     def load_balancers
       @client.describe_load_balancers.load_balancer_descriptions
+    end
+
+    def module_name_of(load_balancer)
+      normalize_module_name(load_balancer.load_balancer_name)
     end
   end
 end
