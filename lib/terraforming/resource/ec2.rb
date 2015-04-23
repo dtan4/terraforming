@@ -39,7 +39,7 @@ module Terraforming::Resource
           "subnet_id"=> instance.subnet_id,
           "tenancy"=> instance.placement.tenancy
         }
-        result["aws_instance.#{normalize_module_name(name_from_tag(instance, instance.instance_id))}"] = {
+        result["aws_instance.#{module_name_of(instance)}"] = {
           "type" => "aws_instance",
           "primary" => {
             "id" => instance.instance_id,
@@ -60,6 +60,10 @@ module Terraforming::Resource
 
     def instances
       @client.describe_instances.reservations.map(&:instances).flatten
+    end
+
+    def module_name_of(instance)
+      normalize_module_name(name_from_tag(instance, instance.instance_id))
     end
   end
 end
