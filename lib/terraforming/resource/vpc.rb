@@ -28,7 +28,7 @@ module Terraforming::Resource
           "instance_tenancy" => vpc.instance_tenancy,
           "tags.#" => vpc.tags.length.to_s,
         }
-        result["aws_vpc.#{normalize_module_name(name_from_tag(vpc, vpc.vpc_id))}"] = {
+        result["aws_vpc.#{module_name_of(vpc)}"] = {
           "type" => "aws_vpc",
           "primary" => {
             "id" => vpc.vpc_id,
@@ -58,6 +58,10 @@ module Terraforming::Resource
 
     def enable_dns_support?(vpc)
       vpc_attribute(vpc, :enableDnsSupport).enable_dns_support.value
+    end
+
+    def module_name_of(vpc)
+      normalize_module_name(name_from_tag(vpc, vpc.vpc_id))
     end
   end
 end
