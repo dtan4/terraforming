@@ -46,10 +46,7 @@ module Terraforming::Resource
             },
           ],
           tags: [
-            {
-              key: "Name",
-              value: "hoge"
-            },
+            { key: "Name", value: "hoge" },
           ]
         },
         {
@@ -90,10 +87,7 @@ module Terraforming::Resource
             },
           ],
           tags: [
-            {
-              key: "Name",
-              value: "fuga"
-            },
+            { key: "Name", value: "fuga" },
           ]
         },
       ]
@@ -155,7 +149,7 @@ resource "aws_network_acl" "fuga" {
     end
 
     describe ".tfstate" do
-      xit "should generate tfstate" do
+      it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
           "version" => 1,
           "serial" => 1,
@@ -165,33 +159,27 @@ resource "aws_network_acl" "fuga" {
             ],
             "outputs" => {},
             "resources" => {
-              "aws_security_group.hoge" => {
-                "type" => "aws_security_group",
+              "aws_network_acl.hoge" => {
+                "type" => "aws_network_acl",
                 "primary" => {
-                  "id" => "sg-1234abcd",
+                  "id" => "acl-1234abcd",
                   "attributes" => {
-                    "description" => "Group for hoge",
                     "egress.#" => "1",
-                    "id" => "sg-1234abcd",
+                    "id" => "acl-1234abcd",
                     "ingress.#" => "1",
-                    "name" => "hoge",
-                    "owner_id" => "012345678901",
-                    "vpc_id" => "",
+                    "vpc_id" => "vpc-1234abcd",
                   }
                 }
               },
-              "aws_security_group.fuga" => {
-                "type" => "aws_security_group",
+              "aws_network_acl.fuga" => {
+                "type" => "aws_network_acl",
                 "primary" => {
-                  "id" => "sg-5678efgh",
+                  "id" => "acl-5678efgh",
                   "attributes" => {
-                    "description" => "Group for fuga",
-                    "egress.#" => "0",
-                    "id" => "sg-5678efgh",
-                    "ingress.#" => "2",
-                    "name" => "fuga",
-                    "owner_id" => "098765432109",
-                    "vpc_id" => "vpc-1234abcd",
+                    "egress.#" => "1",
+                    "id" => "acl-5678efgh",
+                    "ingress.#" => "1",
+                    "vpc_id" => "vpc-5678efgh",
                   }
                 }
               }

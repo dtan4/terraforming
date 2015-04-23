@@ -19,20 +19,17 @@ module Terraforming::Resource
     end
 
     def tfstate
-      resources = security_groups.inject({}) do |result, security_group|
+      resources = network_acls.inject({}) do |result, network_acl|
         attributes = {
-          "description" => security_group.description,
-          "egress.#" => security_group.ip_permissions_egress.length.to_s,
-          "id" => security_group.group_id,
-          "ingress.#" => security_group.ip_permissions.length.to_s,
-          "name" => security_group.group_name,
-          "owner_id" => security_group.owner_id,
-          "vpc_id" => security_group.vpc_id || "",
+          "egress.#" => egresses_of(network_acl).length.to_s,
+          "id" => network_acl.network_acl_id,
+          "ingress.#" => ingresses_of(network_acl).length.to_s,
+          "vpc_id" => network_acl.vpc_id,
         }
-        result["aws_security_group.#{module_name_of(security_group)}"] = {
-          "type" => "aws_security_group",
+        result["aws_network_acl.#{module_name_of(network_acl)}"] = {
+          "type" => "aws_network_acl",
           "primary" => {
-            "id" => security_group.group_id,
+            "id" => network_acl.network_acl_id,
             "attributes" => attributes
           }
         }
