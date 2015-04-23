@@ -19,16 +19,19 @@ module Terraforming::Resource
     end
 
     def tfstate
-      resources = db_subnet_groups.inject({}) do |result, subnet_group|
+      resources = subnets.inject({}) do |result, subnet|
         attributes = {
-          "description" => subnet_group.db_subnet_group_description,
-          "name" => subnet_group.db_subnet_group_name,
-          "subnet_ids.#" => subnet_group.subnets.length.to_s
+          "availability_zone" => subnet.availability_zone,
+          "cidr_block" => subnet.cidr_block,
+          "id" => subnet.subnet_id,
+          "map_public_ip_on_launch" => subnet.map_public_ip_on_launch.to_s,
+          "tags.#" => subnet.tags.length.to_s,
+          "vpc_id" => subnet.vpc_id,
         }
-        result["aws_db_subnet_group.#{module_name_of(subnet_group)}"] = {
-          "type" => "aws_db_subnet_group",
+        result["aws_subnet.#{module_name_of(subnet)}"] = {
+          "type" => "aws_subnet",
           "primary" => {
-            "id" => subnet_group.db_subnet_group_name,
+            "id" => subnet.subnet_id,
             "attributes" => attributes
           }
         }

@@ -71,7 +71,7 @@ resource "aws_subnet" "fuga" {
     end
 
     describe ".tfstate" do
-      xit "should generate tfstate" do
+      it "should generate tfstate" do
         expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
           "version" => 1,
           "serial" => 1,
@@ -81,25 +81,31 @@ resource "aws_subnet" "fuga" {
             ],
             "outputs" => {},
             "resources" => {
-              "aws_db_subnet_group.hoge" => {
-                "type" => "aws_db_subnet_group",
+              "aws_subnet.hoge" => {
+                "type" => "aws_subnet",
                 "primary" => {
-                  "id" => "hoge",
+                  "id" => "subnet-1234abcd",
                   "attributes" => {
-                    "description" => "DB subnet group hoge",
-                    "name" => "hoge",
-                    "subnet_ids.#" => "2",
+                    "availability_zone" => "ap-northeast-1c",
+                    "cidr_block" => "10.0.8.0/21",
+                    "id" => "subnet-1234abcd",
+                    "map_public_ip_on_launch" => "false",
+                    "tags.#" => "1",
+                    "vpc_id" => "vpc-1234abcd"
                   }
                 }
               },
-              "aws_db_subnet_group.fuga" => {
-                "type" => "aws_db_subnet_group",
+              "aws_subnet.fuga" => {
+                "type" => "aws_subnet",
                 "primary" => {
-                  "id" => "fuga",
+                  "id" => "subnet-5678efgh",
                   "attributes" => {
-                    "description" => "DB subnet group fuga",
-                    "name" => "fuga",
-                    "subnet_ids.#" => "2",
+                    "availability_zone" => "ap-northeast-1c",
+                    "cidr_block" => "10.0.8.0/21",
+                    "id" => "subnet-5678efgh",
+                    "map_public_ip_on_launch" => "false",
+                    "tags.#" => "1",
+                    "vpc_id" => "vpc-5678efgh"
                   }
                 }
               }
