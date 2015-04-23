@@ -24,6 +24,7 @@ module Terraforming::Resource
           "egress.#" => egresses_of(network_acl).length.to_s,
           "id" => network_acl.network_acl_id,
           "ingress.#" => ingresses_of(network_acl).length.to_s,
+          "tags.#" => network_acl.tags.length.to_s,
           "vpc_id" => network_acl.vpc_id,
         }
         result["aws_network_acl.#{module_name_of(network_acl)}"] = {

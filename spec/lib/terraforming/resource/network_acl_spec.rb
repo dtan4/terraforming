@@ -121,6 +121,9 @@ resource "aws_network_acl" "hoge" {
         cidr_block = "0.0.0.0/0"
     }
 
+    tags {
+        Name = "hoge"
+    }
 }
 
 resource "aws_network_acl" "fuga" {
@@ -144,6 +147,9 @@ resource "aws_network_acl" "fuga" {
         cidr_block = "0.0.0.0/0"
     }
 
+    tags {
+        Name = "fuga"
+    }
 }
 
         EOS
@@ -169,6 +175,7 @@ resource "aws_network_acl" "fuga" {
                     "egress.#" => "1",
                     "id" => "acl-1234abcd",
                     "ingress.#" => "1",
+                    "tags.#" => "1",
                     "vpc_id" => "vpc-1234abcd",
                   }
                 }
@@ -181,6 +188,7 @@ resource "aws_network_acl" "fuga" {
                     "egress.#" => "1",
                     "id" => "acl-5678efgh",
                     "ingress.#" => "1",
+                    "tags.#" => "1",
                     "vpc_id" => "vpc-5678efgh",
                   }
                 }
