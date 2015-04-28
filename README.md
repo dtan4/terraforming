@@ -43,9 +43,11 @@ Commands:
   terraforming ec2             # EC2
   terraforming elb             # ELB
   terraforming help [COMMAND]  # Describe available commands or one specific command
+  terraforming nacl            # Network ACL
   terraforming rds             # RDS
   terraforming s3              # S3
   terraforming sg              # SecurityGroup
+  terraforming sn              # Subnet
   terraforming vpc             # VPC
 ```
 
