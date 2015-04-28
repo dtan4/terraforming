@@ -82,6 +82,22 @@ module Terraforming
       end
     end
 
+    describe "nacl" do
+      context "without --tfstate" do
+        it "should export NetworkACL tf" do
+          expect(Terraforming::Resource::NetworkACL).to receive(:tf)
+          described_class.new.invoke(:nacl, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export NetworkACL tfstate" do
+          expect(Terraforming::Resource::NetworkACL).to receive(:tfstate)
+          described_class.new.invoke(:nacl, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "RDS" do
       context "without --tfstate" do
         it "should export RDS tf" do

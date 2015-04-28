@@ -30,6 +30,12 @@ module Terraforming
       execute(Terraforming::Resource::ELB, options)
     end
 
+    desc "nacl", "Network ACL"
+    option :tfstate, type: :boolean
+    def nacl
+      execute(Terraforming::Resource::NetworkACL, options)
+    end
+
     desc "rds", "RDS"
     option :tfstate, type: :boolean
     def rds
