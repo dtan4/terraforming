@@ -60,7 +60,7 @@ module Terraforming::Resource
     end
 
     def network_acls
-      @client.describe_network_acls(filters: [{ name: "default", values: ["false"] }]).network_acls
+      @client.describe_network_acls.network_acls
     end
 
     def to_port_of(entry)
