@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/dtan4/terraforming/badges/gpa.svg)](https://codeclimate.com/github/dtan4/terraforming)
 [![Test Coverage](https://codeclimate.com/github/dtan4/terraforming/badges/coverage.svg)](https://codeclimate.com/github/dtan4/terraforming)
 
-Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
+Import existing AWS resources into [Terraform](https://terraform.io/) style (tf, tfstate)
 
 ## Installation
 
