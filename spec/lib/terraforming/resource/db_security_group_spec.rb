@@ -1,56 +1,57 @@
 require "spec_helper"
 
-module Terraforming::Resource
-  describe DBSecurityGroup do
-    let(:client) do
-      Aws::RDS::Client.new(stub_responses: true)
-    end
+module Terraforming
+  module Resource
+    describe DBSecurityGroup do
+      let(:client) do
+        Aws::RDS::Client.new(stub_responses: true)
+      end
 
-    let(:db_security_groups) do
-      [
-        {
-          ip_ranges: [],
-          owner_id: "123456789012",
-          db_security_group_description: "default",
-          ec2_security_groups: [
-            {
-              status: "authorized",
-              ec2_security_group_name: "default",
-              ec2_security_group_owner_id: "123456789012",
-              ec2_security_group_id: "sg-1234abcd"
-            }
-          ],
-          db_security_group_name: "default"
-        },
-        {
-          ip_ranges: [
-            {
-              status: "authorized",
-              cidrip: "0.0.0.0/0"
-            }
-          ],
-          owner_id: "3456789012",
-          db_security_group_description: "foobar group",
-          ec2_security_groups: [
-            {
-              status: "authorized",
-              ec2_security_group_name: "foobar",
-              ec2_security_group_owner_id: "3456789012",
-              ec2_security_group_id: "sg-5678efgh"
-            }
-          ],
-          db_security_group_name: "sgfoobar"
-        }
-      ]
-    end
+      let(:db_security_groups) do
+        [
+          {
+            ip_ranges: [],
+            owner_id: "123456789012",
+            db_security_group_description: "default",
+            ec2_security_groups: [
+              {
+                status: "authorized",
+                ec2_security_group_name: "default",
+                ec2_security_group_owner_id: "123456789012",
+                ec2_security_group_id: "sg-1234abcd"
+              }
+            ],
+            db_security_group_name: "default"
+          },
+          {
+            ip_ranges: [
+              {
+                status: "authorized",
+                cidrip: "0.0.0.0/0"
+              }
+            ],
+            owner_id: "3456789012",
+            db_security_group_description: "foobar group",
+            ec2_security_groups: [
+              {
+                status: "authorized",
+                ec2_security_group_name: "foobar",
+                ec2_security_group_owner_id: "3456789012",
+                ec2_security_group_id: "sg-5678efgh"
+              }
+            ],
+            db_security_group_name: "sgfoobar"
+          }
+        ]
+      end
 
-    before do
-      client.stub_responses(:describe_db_security_groups, db_security_groups: db_security_groups)
-    end
+      before do
+        client.stub_responses(:describe_db_security_groups, db_security_groups: db_security_groups)
+      end
 
-    describe ".tf" do
-      it "should generate tf" do
-        expect(described_class.tf(client)).to eq <<-EOS
+      describe ".tf" do
+        it "should generate tf" do
+          expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_db_security_group" "default" {
     name        = "default"
     description = "default"
@@ -85,47 +86,48 @@ resource "aws_db_security_group" "sgfoobar" {
 }
 
         EOS
+        end
       end
-    end
 
-    describe ".tfstate" do
-      it "should generate tfstate" do
-        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "version" => 1,
-          "serial" => 1,
-          "modules" => {
-            "path" => [
-              "root"
-            ],
-            "outputs" => {},
-            "resources" => {
-              "aws_db_security_group.default" => {
-                "type" => "aws_db_security_group",
-                "primary" => {
-                  "id" => "default",
-                  "attributes" => {
-                    "db_subnet_group_name" => "default",
+      describe ".tfstate" do
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+            "version" => 1,
+            "serial" => 1,
+            "modules" => {
+              "path" => [
+                "root"
+              ],
+              "outputs" => {},
+              "resources" => {
+                "aws_db_security_group.default" => {
+                  "type" => "aws_db_security_group",
+                  "primary" => {
                     "id" => "default",
-                    "ingress.#" => "1",
-                    "name" => "default",
+                    "attributes" => {
+                      "db_subnet_group_name" => "default",
+                      "id" => "default",
+                      "ingress.#" => "1",
+                      "name" => "default",
+                    }
                   }
-                }
-              },
-              "aws_db_security_group.sgfoobar" => {
-                "type" => "aws_db_security_group",
-                "primary" => {
-                  "id" => "sgfoobar",
-                  "attributes" => {
-                    "db_subnet_group_name" => "sgfoobar",
+                },
+                "aws_db_security_group.sgfoobar" => {
+                  "type" => "aws_db_security_group",
+                  "primary" => {
                     "id" => "sgfoobar",
-                    "ingress.#" => "2",
-                    "name" => "sgfoobar",
+                    "attributes" => {
+                      "db_subnet_group_name" => "sgfoobar",
+                      "id" => "sgfoobar",
+                      "ingress.#" => "2",
+                      "name" => "sgfoobar",
+                    }
                   }
                 }
               }
             }
-          }
-        })
+          })
+        end
       end
     end
   end
