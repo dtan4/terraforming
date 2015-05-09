@@ -1,105 +1,106 @@
 require "spec_helper"
 
-module Terraforming::Resource
-  describe NetworkACL do
-    let(:client) do
-      Aws::EC2::Client.new(stub_responses: true)
-    end
+module Terraforming
+  module Resource
+    describe NetworkACL do
+      let(:client) do
+        Aws::EC2::Client.new(stub_responses: true)
+      end
 
-    let(:network_acls) do
-      [
-        {
-          network_acl_id: "acl-1234abcd",
-          vpc_id: "vpc-1234abcd",
-          is_default: true,
-          entries: [
-            {
-              rule_number: 100,
-              protocol: "-1",
-              rule_action: "allow",
-              egress: false,
-              cidr_block: "0.0.0.0/0",
-              port_range: nil,
-            },
-            {
-              rule_number: 32767,
-              protocol: "-1",
-              rule_action: "deny",
-              egress: true,
-              cidr_block: "0.0.0.0/0",
-              port_range: {
-                from: 80,
-                to: 80,
+      let(:network_acls) do
+        [
+          {
+            network_acl_id: "acl-1234abcd",
+            vpc_id: "vpc-1234abcd",
+            is_default: true,
+            entries: [
+              {
+                rule_number: 100,
+                protocol: "-1",
+                rule_action: "allow",
+                egress: false,
+                cidr_block: "0.0.0.0/0",
+                port_range: nil,
               },
-            },
-          ],
-          associations: [
-            {
-              network_acl_association_id: "aclassoc-1234abcd",
-              network_acl_id: "acl-1234abcd",
-              subnet_id: "subnet-1234abcd"
-            },
-            {
-              network_acl_association_id: "aclassoc-5678efgh",
-              network_acl_id: "acl-1234abcd",
-              subnet_id: "subnet-5678efgh"
-            },
-          ],
-          tags: [
-            { key: "Name", value: "hoge" },
-          ]
-        },
-        {
-          network_acl_id: "acl-5678efgh",
-          vpc_id: "vpc-5678efgh",
-          is_default: true,
-          entries: [
-            {
-              rule_number: 100,
-              protocol: "-1",
-              rule_action: "allow",
-              egress: false,
-              cidr_block: "0.0.0.0/0",
-              port_range: nil,
-            },
-            {
-              rule_number: 32767,
-              protocol: "-1",
-              rule_action: "deny",
-              egress: true,
-              cidr_block: "0.0.0.0/0",
-              port_range: {
-                from: 80,
-                to: 80
-              }
-            },
-          ],
-          associations: [
-            {
-              network_acl_association_id: "aclassoc-9012ijkl",
-              network_acl_id: "acl-5678efgh",
-              subnet_id: "subnet-9012ijkl"
-            },
-            {
-              network_acl_association_id: "aclassoc-3456mnop",
-              network_acl_id: "acl-5678efgh",
-              subnet_id: "subnet-3456mnop"
-            },
-          ],
-          tags: [
-            { key: "Name", value: "fuga" },
-          ]
-        },
-      ]
-    end
+              {
+                rule_number: 32767,
+                protocol: "-1",
+                rule_action: "deny",
+                egress: true,
+                cidr_block: "0.0.0.0/0",
+                port_range: {
+                  from: 80,
+                  to: 80,
+                },
+              },
+            ],
+            associations: [
+              {
+                network_acl_association_id: "aclassoc-1234abcd",
+                network_acl_id: "acl-1234abcd",
+                subnet_id: "subnet-1234abcd"
+              },
+              {
+                network_acl_association_id: "aclassoc-5678efgh",
+                network_acl_id: "acl-1234abcd",
+                subnet_id: "subnet-5678efgh"
+              },
+            ],
+            tags: [
+              { key: "Name", value: "hoge" },
+            ]
+          },
+          {
+            network_acl_id: "acl-5678efgh",
+            vpc_id: "vpc-5678efgh",
+            is_default: true,
+            entries: [
+              {
+                rule_number: 100,
+                protocol: "-1",
+                rule_action: "allow",
+                egress: false,
+                cidr_block: "0.0.0.0/0",
+                port_range: nil,
+              },
+              {
+                rule_number: 32767,
+                protocol: "-1",
+                rule_action: "deny",
+                egress: true,
+                cidr_block: "0.0.0.0/0",
+                port_range: {
+                  from: 80,
+                  to: 80
+                }
+              },
+            ],
+            associations: [
+              {
+                network_acl_association_id: "aclassoc-9012ijkl",
+                network_acl_id: "acl-5678efgh",
+                subnet_id: "subnet-9012ijkl"
+              },
+              {
+                network_acl_association_id: "aclassoc-3456mnop",
+                network_acl_id: "acl-5678efgh",
+                subnet_id: "subnet-3456mnop"
+              },
+            ],
+            tags: [
+              { key: "Name", value: "fuga" },
+            ]
+          },
+        ]
+      end
 
-    before do
-      client.stub_responses(:describe_network_acls, network_acls: network_acls)
-    end
+      before do
+        client.stub_responses(:describe_network_acls, network_acls: network_acls)
+      end
 
-    describe ".tf" do
-      it "should generate tf" do
-        expect(described_class.tf(client)).to eq <<-EOS
+      describe ".tf" do
+        it "should generate tf" do
+          expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_network_acl" "hoge" {
     vpc_id = "vpc-1234abcd"
 
@@ -153,49 +154,50 @@ resource "aws_network_acl" "fuga" {
 }
 
         EOS
+        end
       end
-    end
 
-    describe ".tfstate" do
-      it "should generate tfstate" do
-        expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-          "version" => 1,
-          "serial" => 1,
-          "modules" => {
-            "path" => [
-              "root"
-            ],
-            "outputs" => {},
-            "resources" => {
-              "aws_network_acl.hoge" => {
-                "type" => "aws_network_acl",
-                "primary" => {
-                  "id" => "acl-1234abcd",
-                  "attributes" => {
-                    "egress.#" => "1",
+      describe ".tfstate" do
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+            "version" => 1,
+            "serial" => 1,
+            "modules" => {
+              "path" => [
+                "root"
+              ],
+              "outputs" => {},
+              "resources" => {
+                "aws_network_acl.hoge" => {
+                  "type" => "aws_network_acl",
+                  "primary" => {
                     "id" => "acl-1234abcd",
-                    "ingress.#" => "1",
-                    "tags.#" => "1",
-                    "vpc_id" => "vpc-1234abcd",
+                    "attributes" => {
+                      "egress.#" => "1",
+                      "id" => "acl-1234abcd",
+                      "ingress.#" => "1",
+                      "tags.#" => "1",
+                      "vpc_id" => "vpc-1234abcd",
+                    }
                   }
-                }
-              },
-              "aws_network_acl.fuga" => {
-                "type" => "aws_network_acl",
-                "primary" => {
-                  "id" => "acl-5678efgh",
-                  "attributes" => {
-                    "egress.#" => "1",
+                },
+                "aws_network_acl.fuga" => {
+                  "type" => "aws_network_acl",
+                  "primary" => {
                     "id" => "acl-5678efgh",
-                    "ingress.#" => "1",
-                    "tags.#" => "1",
-                    "vpc_id" => "vpc-5678efgh",
+                    "attributes" => {
+                      "egress.#" => "1",
+                      "id" => "acl-5678efgh",
+                      "ingress.#" => "1",
+                      "tags.#" => "1",
+                      "vpc_id" => "vpc-5678efgh",
+                    }
                   }
                 }
               }
             }
-          }
-        })
+          })
+        end
       end
     end
   end
