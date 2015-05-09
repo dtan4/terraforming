@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Terraforming by dtan4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Terraforming</h1>
+      <h2 class="project-tagline">Import existing AWS resources into Terraform style (tf, tfstate)</h2>
+      <a href="https://github.com/dtan4/terraforming" class="btn">View on GitHub</a>
+      <a href="https://github.com/dtan4/terraforming/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/dtan4/terraforming/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="terraforming" class="anchor" href="#terraforming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Terraforming</h1>
+
+<p><a href="https://travis-ci.org/dtan4/terraforming"><img src="https://travis-ci.org/dtan4/terraforming.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/dtan4/terraforming"><img src="https://codeclimate.com/github/dtan4/terraforming/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/dtan4/terraforming"><img src="https://codeclimate.com/github/dtan4/terraforming/badges/coverage.svg" alt="Test Coverage"></a>
+<a href="http://badge.fury.io/rb/terraforming"><img src="https://badge.fury.io/rb/terraforming.svg" alt="Gem Version"></a></p>
+
+<p>Import existing AWS resources into <a href="https://terraform.io/">Terraform</a> style (tf, tfstate)</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>terraforming<span class="pl-pds">'</span></span></pre></div>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install terraforming
+</code></pre>
+
+<h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<p>You need to set AWS credentials.</p>
+
+<div class="highlight highlight-bash"><pre>AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-bash"><pre>$ terraforming
+Commands:
+  terraforming dbpg            <span class="pl-c"># Database Parameter Group</span>
+  terraforming dbsg            <span class="pl-c"># Database Security Group</span>
+  terraforming dbsn            <span class="pl-c"># Database Subnet Group</span>
+  terraforming ec2             <span class="pl-c"># EC2</span>
+  terraforming elb             <span class="pl-c"># ELB</span>
+  terraforming <span class="pl-c1">help</span> [COMMAND]  <span class="pl-c"># Describe available commands or one specific command</span>
+  terraforming nacl            <span class="pl-c"># Network ACL</span>
+  terraforming rds             <span class="pl-c"># RDS</span>
+  terraforming s3              <span class="pl-c"># S3</span>
+  terraforming sg              <span class="pl-c"># SecurityGroup</span>
+  terraforming sn              <span class="pl-c"># Subnet</span>
+  terraforming vpc             <span class="pl-c"># VPC</span></pre></div>
+
+<p>Output <code>.tf</code> style (e.g. S3 buckets):</p>
+
+<div class="highlight highlight-bash"><pre>$ terraforming s3</pre></div>
+
+<div class="highlight highlight-go"><pre>resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span> {
+    bucket = <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>
+    acl    = <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>
+}
+
+resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span> {
+    bucket = <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>
+    acl    = <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<p>To output <code>.tfstate</code> style, specify <code>--tfstate</code> option (e.g. S3 buckets):</p>
+
+<div class="highlight highlight-bash"><pre>$ terraforming s3 --tfstate</pre></div>
+
+<div class="highlight highlight-json"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+  <span class="pl-s"><span class="pl-pds">"</span>serial<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+  <span class="pl-s"><span class="pl-pds">"</span>modules<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>: [
+      <span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span>
+    ],
+    <span class="pl-s"><span class="pl-pds">"</span>outputs<span class="pl-pds">"</span></span>: {
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>resources<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket.hoge<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>acl<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>
+          }
+        }
+      },
+      <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket.fuga<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>acl<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>
+          }
+        }
+      }
+    }
+  }
+}</pre></div>
+
+<p>(Probably you have to modify the output to add it to existing <code>terraforming.tfstate</code>)</p>
+
+<h2>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<p>After checking out the repo, run <code>scripts/setup</code> to install dependencies. Then, run <code>scripts/console</code> for an interactive prompt that will allow you to experiment.</p>
+
+<p>To install this gem onto your local machine, run <code>bundle exec rake install</code>. To release a new version, update the version number in <code>version.rb</code>, and then run <code>bundle exec rake release</code> to create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/dtan4/terraforming/fork">https://github.com/dtan4/terraforming/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h2>
+
+<p><a href="LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/dtan4/terraforming">Terraforming</a> is maintained by <a href="https://github.com/dtan4">dtan4</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
