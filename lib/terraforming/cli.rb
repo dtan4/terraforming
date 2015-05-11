@@ -30,6 +30,12 @@ module Terraforming
       execute(Terraforming::Resource::ELB, options)
     end
 
+    desc "iamu", "IAM User"
+    option :tfstate, type: :boolean
+    def iamu
+      execute(Terraforming::Resource::IAMUser, options)
+    end
+
     desc "nacl", "Network ACL"
     option :tfstate, type: :boolean
     def nacl

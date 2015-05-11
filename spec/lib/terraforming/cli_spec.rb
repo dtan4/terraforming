@@ -82,6 +82,22 @@ module Terraforming
       end
     end
 
+    describe "iamu" do
+      context "without --tfstate" do
+        it "should export IAM user tf" do
+          expect(Terraforming::Resource::IAMUser).to receive(:tf)
+          described_class.new.invoke(:iamu, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export IAM user tfstate" do
+          expect(Terraforming::Resource::IAMUser).to receive(:tfstate)
+          described_class.new.invoke(:iamu, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "nacl" do
       context "without --tfstate" do
         it "should export NetworkACL tf" do
