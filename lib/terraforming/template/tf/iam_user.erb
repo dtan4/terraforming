@@ -1,0 +1,7 @@
+<% iam_users.each do |user| -%>
+resource "aws_iam_user" "<%= user.user_name %>" {
+    name = "<%= user.user_name %>"
+    path = "<%= user.path %>"
+}
+
+<% end -%>
