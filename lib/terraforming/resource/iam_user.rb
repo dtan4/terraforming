@@ -20,7 +20,26 @@ module Terraforming
       end
 
       def tfstate
+        resources = iam_users.inject({}) do |result, user|
+          attributes = {
+            "arn"=> user.arn,
+            "id" => user.user_name,
+            "name" => user.user_name,
+            "path" => user.path,
+            "unique_id" => user.user_id,
+          }
+          result["aws_iam_user.#{user.user_name}"] = {
+            "type" => "aws_iam_user",
+            "primary" => {
+              "id" => user.user_name,
+              "attributes" => attributes
+            }
+          }
 
+          result
+        end
+
+        generate_tfstate(resources)
       end
 
       private

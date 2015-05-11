@@ -50,7 +50,7 @@ resource "aws_iam_user" "fuga" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -81,7 +81,7 @@ resource "aws_iam_user" "fuga" {
                       "arn"=> "arn:aws:iam::345678901234:user/fuga",
                       "id" => "fuga",
                       "name" => "fuga",
-                      "path" => "/",
+                      "path" => "/system/",
                       "unique_id" => "OPQRSTUVWXYZA8901234",
                     }
                   }
