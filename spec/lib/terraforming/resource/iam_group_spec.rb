@@ -13,14 +13,14 @@ module Terraforming
             path: "/",
             group_name: "hoge",
             group_id: "ABCDEFGHIJKLMN1234567",
-            arn: "arn:aws:iam::123456789012:user/hoge",
+            arn: "arn:aws:iam::123456789012:group/hoge",
             create_date: Time.parse("2015-04-01 12:34:56 UTC"),
           },
           {
             path: "/system/",
             group_name: "fuga",
             group_id: "OPQRSTUVWXYZA8901234",
-            arn: "arn:aws:iam::345678901234:user/fuga",
+            arn: "arn:aws:iam::345678901234:group/fuga",
             create_date: Time.parse("2015-05-01 12:34:56 UTC"),
           },
         ]
@@ -48,7 +48,7 @@ resource "aws_iam_group" "fuga" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -58,12 +58,12 @@ resource "aws_iam_group" "fuga" {
               ],
               "outputs" => {},
               "resources" => {
-                "aws_iam_user.hoge" => {
-                  "type" => "aws_iam_user",
+                "aws_iam_group.hoge" => {
+                  "type" => "aws_iam_group",
                   "primary" => {
                     "id" => "hoge",
                     "attributes" => {
-                      "arn"=> "arn:aws:iam::123456789012:user/hoge",
+                      "arn"=> "arn:aws:iam::123456789012:group/hoge",
                       "id" => "hoge",
                       "name" => "hoge",
                       "path" => "/",
@@ -71,12 +71,12 @@ resource "aws_iam_group" "fuga" {
                     }
                   }
                 },
-                "aws_iam_user.fuga" => {
-                  "type" => "aws_iam_user",
+                "aws_iam_group.fuga" => {
+                  "type" => "aws_iam_group",
                   "primary" => {
                     "id" => "fuga",
                     "attributes" => {
-                      "arn"=> "arn:aws:iam::345678901234:user/fuga",
+                      "arn"=> "arn:aws:iam::345678901234:group/fuga",
                       "id" => "fuga",
                       "name" => "fuga",
                       "path" => "/system/",

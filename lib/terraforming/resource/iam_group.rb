@@ -20,7 +20,26 @@ module Terraforming
       end
 
       def tfstate
+        resources = iam_groups.inject({}) do |result, group|
+          attributes = {
+            "arn"=> group.arn,
+            "id" => group.group_name,
+            "name" => group.group_name,
+            "path" => group.path,
+            "unique_id" => group.group_id,
+          }
+          result["aws_iam_group.#{group.group_name}"] = {
+            "type" => "aws_iam_group",
+            "primary" => {
+              "id" => group.group_name,
+              "attributes" => attributes
+            }
+          }
 
+          result
+        end
+
+        generate_tfstate(resources)
       end
 
       private
