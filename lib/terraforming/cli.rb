@@ -30,6 +30,12 @@ module Terraforming
       execute(Terraforming::Resource::ELB, options)
     end
 
+    desc "iamg", "IAM Group"
+    option :tfstate, type: :boolean
+    def iamg
+      execute(Terraforming::Resource::IAMGroup, options)
+    end
+
     desc "iamu", "IAM User"
     option :tfstate, type: :boolean
     def iamu
