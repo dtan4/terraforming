@@ -113,15 +113,6 @@ resource "aws_network_acl" "hoge" {
         cidr_block = "0.0.0.0/0"
     }
 
-    egress {
-        from_port  = 80
-        to_port    = 80
-        rule_no    = 32767
-        action     = "deny"
-        protocol   = "-1"
-        cidr_block = "0.0.0.0/0"
-    }
-
     tags {
         Name = "hoge"
     }
@@ -135,15 +126,6 @@ resource "aws_network_acl" "fuga" {
         to_port    = 65535
         rule_no    = 100
         action     = "allow"
-        protocol   = "-1"
-        cidr_block = "0.0.0.0/0"
-    }
-
-    egress {
-        from_port  = 80
-        to_port    = 80
-        rule_no    = 32767
-        action     = "deny"
         protocol   = "-1"
         cidr_block = "0.0.0.0/0"
     }
@@ -173,7 +155,7 @@ resource "aws_network_acl" "fuga" {
                   "primary" => {
                     "id" => "acl-1234abcd",
                     "attributes" => {
-                      "egress.#" => "1",
+                      "egress.#" => "0",
                       "id" => "acl-1234abcd",
                       "ingress.#" => "1",
                       "tags.#" => "1",
@@ -186,7 +168,7 @@ resource "aws_network_acl" "fuga" {
                   "primary" => {
                     "id" => "acl-5678efgh",
                     "attributes" => {
-                      "egress.#" => "1",
+                      "egress.#" => "0",
                       "id" => "acl-5678efgh",
                       "ingress.#" => "1",
                       "tags.#" => "1",

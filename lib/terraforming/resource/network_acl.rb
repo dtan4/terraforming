@@ -44,8 +44,16 @@ module Terraforming
 
       private
 
+      def default_entry?(entry)
+        entry.rule_number == default_rule_number
+      end
+
+      def default_rule_number
+        32767
+      end
+
       def egresses_of(network_acl)
-        network_acl.entries.select { |entry| entry.egress }
+        network_acl.entries.select { |entry| entry.egress && !default_entry?(entry) }
       end
 
       def from_port_of(entry)
@@ -53,7 +61,7 @@ module Terraforming
       end
 
       def ingresses_of(network_acl)
-        network_acl.entries.select { |entry| !entry.egress }
+        network_acl.entries.select { |entry| !entry.egress && !default_entry?(entry) }
       end
 
       def module_name_of(network_acl)
