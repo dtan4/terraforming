@@ -1,10 +1,15 @@
 <% load_balancers.each do |load_balancer| -%>
+  <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
 resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
-    name               = "<%= load_balancer.load_balancer_name %>"
-    availability_zones = <%= load_balancer.availability_zones.inspect %>
-    subnets            = <%= load_balancer.subnets.inspect %>
-    security_groups    = <%= load_balancer.security_groups.inspect %>
-    instances          = <%= load_balancer.instances.map { |instance| instance.instance_id }.inspect %>
+    name                        = "<%= load_balancer.load_balancer_name %>"
+    availability_zones          = <%= load_balancer.availability_zones.inspect %>
+    subnets                     = <%= load_balancer.subnets.inspect %>
+    security_groups             = <%= load_balancer.security_groups.inspect %>
+    instances                   = <%= load_balancer.instances.map { |instance| instance.instance_id }.inspect %>
+    cross_zone_load_balancing   = <%= load_balancer_attributes.cross_zone_load_balancing.enabled %>
+    idle_timeout                = <%= load_balancer_attributes.connection_settings.idle_timeout %>
+    connection_draining         = <%= load_balancer_attributes.connection_draining.enabled %>
+    connection_draining_timeout = <%= load_balancer_attributes.connection_draining.timeout %>
 
 <% load_balancer.listener_descriptions.map { |ld| ld.listener }.map do |listener| -%>
     listener {
