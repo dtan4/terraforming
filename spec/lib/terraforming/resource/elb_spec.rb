@@ -126,7 +126,7 @@ module Terraforming
             scheme: "internet-facing",
             source_security_group: {
               owner_alias: "345678901234",
-              group_name: "default"
+              group_name: "elb"
             }
           }
         ]
@@ -251,6 +251,7 @@ resource "aws_elb" "fuga" {
                       "listener.#" => "1",
                       "name" => "hoge",
                       "security_groups.#" => "2",
+                      "source_security_group" => "default",
                       "subnets.#" => "2",
                     }
                   }
@@ -272,6 +273,7 @@ resource "aws_elb" "fuga" {
                       "listener.#" => "1",
                       "name" => "fuga",
                       "security_groups.#" => "2",
+                      "source_security_group" => "elb",
                       "subnets.#" => "2",
                     }
                   }

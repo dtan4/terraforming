@@ -35,6 +35,7 @@ module Terraforming
             "listener.#" => load_balancer.listener_descriptions.length.to_s,
             "name" => load_balancer.load_balancer_name,
             "security_groups.#" => load_balancer.security_groups.length.to_s,
+            "source_security_group" => load_balancer.source_security_group.group_name,
             "subnets.#" => load_balancer.subnets.length.to_s,
           }
           result["aws_elb.#{module_name_of(load_balancer)}"] = {
