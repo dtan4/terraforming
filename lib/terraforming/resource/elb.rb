@@ -50,6 +50,10 @@ module Terraforming
         @client.describe_load_balancers.load_balancer_descriptions
       end
 
+      def load_balancer_attributes_of(load_balancer)
+        @client.describe_load_balancer_attributes(load_balancer_name: load_balancer.load_balancer_name).load_balancer_attributes
+      end
+
       def module_name_of(load_balancer)
         normalize_module_name(load_balancer.load_balancer_name)
       end

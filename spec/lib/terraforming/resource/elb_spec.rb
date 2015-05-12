@@ -132,19 +132,47 @@ module Terraforming
         ]
       end
 
+      let(:hoge_attributes) do
+        {
+          cross_zone_load_balancing: { enabled: true },
+          access_log: { enabled: false },
+          connection_draining: { enabled: true, timeout: 300 },
+          connection_settings: { idle_timeout: 60 },
+          additional_attributes: []
+        }
+      end
+
+      let(:fuga_attributes) do
+        {
+          cross_zone_load_balancing: { enabled: true },
+          access_log: { enabled: false },
+          connection_draining: { enabled: true, timeout: 900 },
+          connection_settings: { idle_timeout: 90 },
+          additional_attributes: []
+        }
+      end
+
       before do
         client.stub_responses(:describe_load_balancers, load_balancer_descriptions: load_balancer_descriptions)
+        client.stub_responses(:describe_load_balancer_attributes, [
+          { load_balancer_attributes: hoge_attributes },
+          { load_balancer_attributes: fuga_attributes }
+        ])
       end
 
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_elb" "hoge" {
-    name               = "hoge"
-    availability_zones = ["ap-northeast-1b", "ap-northeast-1c"]
-    subnets            = ["subnet-1234abcd", "subnet-5678efgh"]
-    security_groups    = ["sg-1234abcd", "sg-5678efgh"]
-    instances          = ["i-1234abcd"]
+    name                        = "hoge"
+    availability_zones          = ["ap-northeast-1b", "ap-northeast-1c"]
+    subnets                     = ["subnet-1234abcd", "subnet-5678efgh"]
+    security_groups             = ["sg-1234abcd", "sg-5678efgh"]
+    instances                   = ["i-1234abcd"]
+    cross_zone_load_balancing   = true
+    idle_timeout                = 60
+    connection_draining         = true
+    connection_draining_timeout = 300
 
     listener {
         instance_port      = 80
@@ -164,11 +192,15 @@ resource "aws_elb" "hoge" {
 }
 
 resource "aws_elb" "fuga" {
-    name               = "fuga"
-    availability_zones = ["ap-northeast-1b", "ap-northeast-1c"]
-    subnets            = ["subnet-9012ijkl", "subnet-3456mnop"]
-    security_groups    = ["sg-9012ijkl", "sg-3456mnop"]
-    instances          = ["i-5678efgh"]
+    name                        = "fuga"
+    availability_zones          = ["ap-northeast-1b", "ap-northeast-1c"]
+    subnets                     = ["subnet-9012ijkl", "subnet-3456mnop"]
+    security_groups             = ["sg-9012ijkl", "sg-3456mnop"]
+    instances                   = ["i-5678efgh"]
+    cross_zone_load_balancing   = true
+    idle_timeout                = 90
+    connection_draining         = true
+    connection_draining_timeout = 900
 
     listener {
         instance_port      = 80
@@ -192,7 +224,7 @@ resource "aws_elb" "fuga" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
+        xit "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
