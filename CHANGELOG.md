@@ -1,5 +1,9 @@
 # v0.1.0 [UNRELEASED]
 
+## Fixed
+
+- Include AWS ELB additional attributes #39
+
 ### Resource
 
 - AWS IAM group
