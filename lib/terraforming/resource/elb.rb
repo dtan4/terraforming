@@ -21,11 +21,16 @@ module Terraforming
 
       def tfstate
         resources = load_balancers.inject({}) do |result, load_balancer|
+          load_balancer_attributes = load_balancer_attributes_of(load_balancer)
           attributes = {
             "availability_zones.#" => load_balancer.availability_zones.length.to_s,
+            "connection_draining" => load_balancer_attributes.connection_draining.enabled.to_s,
+            "connection_draining_timeout" => load_balancer_attributes.connection_draining.timeout.to_s,
+            "cross_zone_load_balancing" => load_balancer_attributes.cross_zone_load_balancing.enabled.to_s,
             "dns_name" => load_balancer.dns_name,
             "health_check.#" => "1",
             "id" => load_balancer.load_balancer_name,
+            "idle_timeout" => load_balancer_attributes.connection_settings.idle_timeout.to_s,
             "instances.#" => load_balancer.instances.length.to_s,
             "listener.#" => load_balancer.listener_descriptions.length.to_s,
             "name" => load_balancer.load_balancer_name,

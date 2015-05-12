@@ -224,7 +224,7 @@ resource "aws_elb" "fuga" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -240,9 +240,13 @@ resource "aws_elb" "fuga" {
                     "id" => "hoge",
                     "attributes" => {
                       "availability_zones.#" => "2",
+                      "connection_draining" => "true",
+                      "connection_draining_timeout" => "300",
+                      "cross_zone_load_balancing" => "true",
                       "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
                       "health_check.#" => "1",
                       "id" => "hoge",
+                      "idle_timeout" => "60",
                       "instances.#" => "1",
                       "listener.#" => "1",
                       "name" => "hoge",
@@ -257,9 +261,13 @@ resource "aws_elb" "fuga" {
                     "id" => "fuga",
                     "attributes" => {
                       "availability_zones.#" => "2",
+                      "connection_draining" => "true",
+                      "connection_draining_timeout" => "900",
+                      "cross_zone_load_balancing" => "true",
                       "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
                       "health_check.#" => "1",
                       "id" => "fuga",
+                      "idle_timeout" => "90",
                       "instances.#" => "1",
                       "listener.#" => "1",
                       "name" => "fuga",
