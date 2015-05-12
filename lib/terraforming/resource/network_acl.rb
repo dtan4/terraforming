@@ -73,7 +73,7 @@ module Terraforming
       end
 
       def to_port_of(entry)
-        entry.port_range ? entry.port_range.to : 65535
+        entry.port_range ? entry.port_range.to : 0
       end
     end
   end

@@ -106,7 +106,7 @@ resource "aws_network_acl" "hoge" {
 
     ingress {
         from_port  = 0
-        to_port    = 65535
+        to_port    = 0
         rule_no    = 100
         action     = "allow"
         protocol   = "-1"
@@ -123,7 +123,7 @@ resource "aws_network_acl" "fuga" {
 
     ingress {
         from_port  = 0
-        to_port    = 65535
+        to_port    = 0
         rule_no    = 100
         action     = "allow"
         protocol   = "-1"
