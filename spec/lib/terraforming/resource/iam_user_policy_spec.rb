@@ -96,7 +96,7 @@ EOF
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -106,29 +106,25 @@ EOF
               ],
               "outputs" => {},
               "resources" => {
-                "aws_iam_user.hoge" => {
-                  "type" => "aws_iam_user",
+                "aws_iam_user_policy.hoge_policy" => {
+                  "type" => "aws_iam_user_policy",
                   "primary" => {
-                    "id" => "hoge",
+                    "id" => "hoge:hoge_policy",
                     "attributes" => {
-                      "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                      "id" => "hoge",
-                      "name" => "hoge",
-                      "path" => "/",
-                      "unique_id" => "ABCDEFGHIJKLMN1234567",
+                      "id" => "hoge:hoge_policy",
+                      "name" => "hoge_policy",
+                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
                     }
                   }
                 },
-                "aws_iam_user.fuga" => {
-                  "type" => "aws_iam_user",
+                "aws_iam_user_policy.fuga_policy" => {
+                  "type" => "aws_iam_user_policy",
                   "primary" => {
-                    "id" => "fuga",
+                    "id" => "fuga:fuga_policy",
                     "attributes" => {
-                      "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                      "id" => "fuga",
-                      "name" => "fuga",
-                      "path" => "/system/",
-                      "unique_id" => "OPQRSTUVWXYZA8901234",
+                      "id" => "fuga:fuga_policy",
+                      "name" => "fuga_policy",
+                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
                     }
                   }
                 },

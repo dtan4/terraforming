@@ -20,13 +20,34 @@ module Terraforming
       end
 
       def tfstate
+        resources = iam_user_policies.inject({}) do |result, policy|
+          attributes = {
+            "id" => iam_user_policy_id_of(policy),
+            "name" => policy.policy_name,
+            "policy" => CGI.unescape(policy.policy_document)
+          }
+          result["aws_iam_user_policy.#{policy.policy_name}"] = {
+            "type" => "aws_iam_user_policy",
+            "primary" => {
+              "id" => iam_user_policy_id_of(policy),
+              "attributes" => attributes
+            }
+          }
 
+          result
+        end
+
+        generate_tfstate(resources)
       end
 
       private
 
       def iam_users
         @client.list_users.users
+      end
+
+      def iam_user_policy_id_of(policy)
+        "#{policy.user_name}:#{policy.policy_name}"
       end
 
       def iam_user_policy_names_in(user)
