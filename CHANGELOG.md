@@ -8,6 +8,7 @@
 
 - AWS IAM group
 - AWS IAM user
+- AWS IAM user policy
 
 # [v0.0.2](https://github.com/dtan4/terraforming/releases/tag/v0.0.2) (2015-05-09)
 
