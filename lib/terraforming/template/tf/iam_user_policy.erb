@@ -1,0 +1,10 @@
+<% iam_user_policies.each do |policy| -%>
+resource "aws_iam_user_policy" "<%= policy.policy_name %>" {
+    name   = "<%= policy.policy_name %>"
+    user   = "<%= policy.user_name %>"
+    policy = <<EOF
+<%= CGI.unescape(policy.policy_document) -%>
+EOF
+}
+
+<% end -%>
