@@ -36,10 +36,22 @@ module Terraforming
       execute(Terraforming::Resource::IAMGroup, options)
     end
 
+    desc "iamgp", "IAM Group Policy"
+    option :tfstate, type: :boolean
+    def iamgp
+      execute(Terraforming::Resource::IAMGroupPolicy, options)
+    end
+
     desc "iamu", "IAM User"
     option :tfstate, type: :boolean
     def iamu
       execute(Terraforming::Resource::IAMUser, options)
+    end
+
+    desc "iamup", "IAM User Policy"
+    option :tfstate, type: :boolean
+    def iamup
+      execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
     desc "nacl", "Network ACL"
