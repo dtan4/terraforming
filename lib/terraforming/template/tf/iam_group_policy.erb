@@ -2,9 +2,9 @@
 resource "aws_iam_group_policy" "<%= policy.policy_name %>" {
     name   = "<%= policy.policy_name %>"
     group  = "<%= policy.group_name %>"
-    policy = <<EOF
+    policy = <<POLICY
 <%= CGI.unescape(policy.policy_document).strip %>
-EOF
+POLICY
 }
 
 <% end -%>

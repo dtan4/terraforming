@@ -54,7 +54,7 @@ module Terraforming
 resource "aws_iam_group_policy" "hoge_policy" {
     name   = "hoge_policy"
     group  = "hoge"
-    policy = <<EOF
+    policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -67,13 +67,13 @@ resource "aws_iam_group_policy" "hoge_policy" {
     }
   ]
 }
-EOF
+POLICY
 }
 
 resource "aws_iam_group_policy" "fuga_policy" {
     name   = "fuga_policy"
     group  = "fuga"
-    policy = <<EOF
+    policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -86,7 +86,7 @@ resource "aws_iam_group_policy" "fuga_policy" {
     }
   ]
 }
-EOF
+POLICY
 }
 
         EOS
