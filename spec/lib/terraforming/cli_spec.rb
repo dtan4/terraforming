@@ -130,6 +130,22 @@ module Terraforming
       end
     end
 
+    describe "iamup" do
+      context "without --tfstate" do
+        it "should export IAM user policy tf" do
+          expect(Terraforming::Resource::IAMUserPolicy).to receive(:tf)
+          described_class.new.invoke(:iamup, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export IAM user policy tfstate" do
+          expect(Terraforming::Resource::IAMUserPolicy).to receive(:tfstate)
+          described_class.new.invoke(:iamup, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "nacl" do
       context "without --tfstate" do
         it "should export NetworkACL tf" do

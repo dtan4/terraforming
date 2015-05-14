@@ -48,6 +48,12 @@ module Terraforming
       execute(Terraforming::Resource::IAMUser, options)
     end
 
+    desc "iamup", "IAM User Policy"
+    option :tfstate, type: :boolean
+    def iamup
+      execute(Terraforming::Resource::IAMUserPolicy, options)
+    end
+
     desc "nacl", "Network ACL"
     option :tfstate, type: :boolean
     def nacl
