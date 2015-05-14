@@ -7,6 +7,7 @@
 ### Resource
 
 - AWS IAM group
+- AWS IAM group policy
 - AWS IAM user
 - AWS IAM user policy
 
