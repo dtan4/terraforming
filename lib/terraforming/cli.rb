@@ -36,6 +36,12 @@ module Terraforming
       execute(Terraforming::Resource::IAMGroup, options)
     end
 
+    desc "iamgp", "IAM Group Policy"
+    option :tfstate, type: :boolean
+    def iamgp
+      execute(Terraforming::Resource::IAMGroupPolicy, options)
+    end
+
     desc "iamu", "IAM User"
     option :tfstate, type: :boolean
     def iamu
