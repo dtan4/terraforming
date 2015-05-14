@@ -1,0 +1,147 @@
+require "spec_helper"
+
+module Terraforming
+  module Resource
+    describe IAMPolicy do
+      let(:client) do
+        Aws::IAM::Client.new(stub_responses: true)
+      end
+
+      let(:policies) do
+        [
+          {
+            policy_name: "hoge_policy",
+            policy_id: "ABCDEFGHIJKLMN1234567",
+            arn: "arn:aws:iam::123456789012:policy/hoge_policy",
+            path: "/",
+            default_version_id: "v1",
+            attachment_count: 0,
+            is_attachable: true,
+            create_date: Time.parse("2015-04-01 12:34:56 UTC"),
+            update_date: Time.parse("2015-05-14 11:25:36 UTC")
+          },
+          {
+            policy_name: "fuga_policy",
+            policy_id: "OPQRSTUVWXYZA8901234",
+            arn: "arn:aws:iam::345678901234:policy/fuga-policy",
+            path: "/system/",
+            default_version_id: "v1",
+            attachment_count: 1,
+            is_attachable: true,
+            create_date: Time.parse("2015-04-01 12:00:00 UTC"),
+            update_date: Time.parse("2015-04-26 19:54:56 UTC")
+          }
+        ]
+      end
+
+      let(:hoge_policy_version) do
+        {
+          document: "%7B%0A%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribe%2A%22%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%20%20%5D%0A%7D%0A",
+          version_id: "v1",
+          is_default_version: true,
+          create_date: Time.parse("2015-05-14 11:25:36 UTC"),
+        }
+      end
+
+      let(:fuga_policy_version) do
+        {
+          document: "%7B%0A%20%20%22Version%22%3A%20%222012-10-17%22%2C%0A%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribe%2A%22%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%20%20%5D%0A%7D%0A",
+          version_id: "v1",
+          is_default_version: true,
+          create_date: Time.parse("2015-04-26 19:54:56 UTC"),
+        }
+      end
+
+      before do
+        client.stub_responses(:list_policies, policies: policies)
+        client.stub_responses(:get_policy_version, [{ policy_version: hoge_policy_version } , { policy_version: fuga_policy_version }])
+      end
+
+      describe ".tf" do
+        it "should generate tf" do
+          expect(described_class.tf(client)).to eq <<-EOS
+resource "aws_iam_policy" "hoge_policy" {
+    name   = "hoge_policy"
+    path   = "/"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_policy" "fuga_policy" {
+    name   = "fuga_policy"
+    path   = "/system/"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
+
+        EOS
+        end
+      end
+
+      describe ".tfstate" do
+        xit "should generate tfstate" do
+          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+            "version" => 1,
+            "serial" => 1,
+            "modules" => {
+              "path" => [
+                "root"
+              ],
+              "outputs" => {},
+              "resources" => {
+                "aws_iam_group_policy.hoge_policy" => {
+                  "type" => "aws_iam_group_policy",
+                  "primary" => {
+                    "id" => "hoge:hoge_policy",
+                    "attributes" => {
+                      "group" => "hoge",
+                      "id" => "hoge:hoge_policy",
+                      "name" => "hoge_policy",
+                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                    }
+                  }
+                },
+                "aws_iam_group_policy.fuga_policy" => {
+                  "type" => "aws_iam_group_policy",
+                  "primary" => {
+                    "id" => "fuga:fuga_policy",
+                    "attributes" => {
+                      "group" => "fuga",
+                      "id" => "fuga:fuga_policy",
+                      "name" => "fuga_policy",
+                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                    }
+                  }
+                },
+              }
+            }
+          })
+        end
+      end
+    end
+  end
+end
