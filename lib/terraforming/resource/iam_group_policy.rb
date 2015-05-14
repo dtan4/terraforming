@@ -20,16 +20,17 @@ module Terraforming
       end
 
       def tfstate
-        resources = iam_user_policies.inject({}) do |result, policy|
+        resources = iam_group_policies.inject({}) do |result, policy|
           attributes = {
-            "id" => iam_user_policy_id_of(policy),
+            "group" => policy.group_name,
+            "id" => iam_group_policy_id_of(policy),
             "name" => policy.policy_name,
             "policy" => CGI.unescape(policy.policy_document)
           }
-          result["aws_iam_user_policy.#{policy.policy_name}"] = {
-            "type" => "aws_iam_user_policy",
+          result["aws_iam_group_policy.#{policy.policy_name}"] = {
+            "type" => "aws_iam_group_policy",
             "primary" => {
-              "id" => iam_user_policy_id_of(policy),
+              "id" => iam_group_policy_id_of(policy),
               "attributes" => attributes
             }
           }
