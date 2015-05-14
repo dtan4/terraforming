@@ -114,6 +114,7 @@ EOF
                       "id" => "hoge:hoge_policy",
                       "name" => "hoge_policy",
                       "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      "user" => "hoge",
                     }
                   }
                 },
@@ -125,6 +126,7 @@ EOF
                       "id" => "fuga:fuga_policy",
                       "name" => "fuga_policy",
                       "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      "user" => "fuga",
                     }
                   }
                 },
