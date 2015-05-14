@@ -42,6 +42,12 @@ module Terraforming
       execute(Terraforming::Resource::IAMGroupPolicy, options)
     end
 
+    desc "iamp", "IAM Policy"
+    option :tfstate, type: :boolean
+    def iamp
+      execute(Terraforming::Resource::IAMPolicy, options)
+    end
+
     desc "iamu", "IAM User"
     option :tfstate, type: :boolean
     def iamu
