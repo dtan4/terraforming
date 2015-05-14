@@ -8,6 +8,7 @@
 
 - AWS IAM group
 - AWS IAM group policy
+- AWS IAM policy
 - AWS IAM user
 - AWS IAM user policy
 
