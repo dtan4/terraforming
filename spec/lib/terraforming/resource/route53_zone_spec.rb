@@ -94,7 +94,7 @@ resource "aws_route53_zone" "fuga-net" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -104,32 +104,30 @@ resource "aws_route53_zone" "fuga-net" {
               ],
               "outputs" => {},
               "resources" => {
-                "aws_instance.hoge"=> {
-                  "type"=> "aws_instance",
+                "aws_route53_zone.hoge-net"=> {
+                  "type"=> "aws_route53_zone",
                   "primary"=> {
-                    "id"=> "i-1234abcd",
+                    "id"=> "ABCDEFGHIJKLMN",
                     "attributes"=> {
-                      "ami"=> "ami-1234abcd",
-                      "associate_public_ip_address"=> "true",
-                      "availability_zone"=> "ap-northeast-1b",
-                      "ebs_block_device.#"=> "1",
-                      "ebs_optimized"=> "false",
-                      "ephemeral_block_device.#"=> "0",
-                      "id"=> "i-1234abcd",
-                      "instance_type"=> "t2.micro",
-                      "private_dns"=> "ip-10-0-0-100.ap-northeast-1.compute.internal",
-                      "private_ip"=> "10.0.0.100",
-                      "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
-                      "public_ip"=> "54.12.0.0",
-                      "root_block_device.#"=> "1",
-                      "security_groups.#"=> "1",
-                      "source_dest_check"=> "true",
-                      "subnet_id"=> "subnet-1234abcd",
-                      "tenancy"=> "default"
+                      "id"=> "ABCDEFGHIJKLMN",
+                      "name"=> "hoge.net",
+                      "name_servers.#" => "4",
+                      "tags.#" => "1",
+                      "zone_id" => "ABCDEFGHIJKLMN",
                     },
-                    "meta"=> {
-                      "schema_version"=> "1"
-                    }
+                  }
+                },
+                "aws_route53_zone.fuga-net"=> {
+                  "type"=> "aws_route53_zone",
+                  "primary"=> {
+                    "id"=>  "OPQRSTUVWXYZAB",
+                    "attributes"=> {
+                      "id"=> "OPQRSTUVWXYZAB",
+                      "name"=> "fuga.net",
+                      "name_servers.#" => "4",
+                      "tags.#" => "1",
+                      "zone_id" => "OPQRSTUVWXYZAB",
+                    },
                   }
                 }
               }
