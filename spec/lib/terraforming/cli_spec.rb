@@ -178,6 +178,22 @@ module Terraforming
       end
     end
 
+    describe "r53z" do
+      context "without --tfstate" do
+        it "should export Route53Zone tf" do
+          expect(Terraforming::Resource::Route53Zone).to receive(:tf)
+          described_class.new.invoke(:r53z, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export Route53Zone tfstate" do
+          expect(Terraforming::Resource::Route53Zone).to receive(:tfstate)
+          described_class.new.invoke(:r53z, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "RDS" do
       context "without --tfstate" do
         it "should export RDS tf" do
