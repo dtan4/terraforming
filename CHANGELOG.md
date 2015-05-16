@@ -11,6 +11,7 @@
 - AWS IAM policy
 - AWS IAM user
 - AWS IAM user policy
+- AWS Route53 hosted zone
 
 # [v0.0.2](https://github.com/dtan4/terraforming/releases/tag/v0.0.2) (2015-05-09)
 
