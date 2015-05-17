@@ -55,7 +55,9 @@ module Terraforming
       end
 
       def records
-        hosted_zones.map { |hosted_zone| record_sets_of(hosted_zone) }.flatten
+        hosted_zones.map do |hosted_zone|
+          record_sets_of(hosted_zone).map { |record| { record: record, zone_id: zone_id_of(hosted_zone) } }
+        end.flatten
       end
 
       # TODO(dtan4): change method name...

@@ -1,7 +1,7 @@
-<% hosted_zones.each do |hosted_zone| -%>
-<% record_sets_of(hosted_zone).each do |record| -%>
+<% records.each do |r| -%>
+  <%- record, zone_id = r[:record], r[:zone_id] -%>
 resource "aws_route53_record" "<%= module_name_of(record) %>" {
-    zone_id = "<%= zone_id_of(hosted_zone) %>"
+    zone_id = "<%= zone_id %>"
     name    = "<%= name_of(record.name) %>"
     type    = "<%= record.type %>"
     ttl     = "<%= record.ttl %>"
@@ -25,5 +25,4 @@ resource "aws_route53_record" "<%= module_name_of(record) %>" {
     <%- end -%>
 }
 
-<% end -%>
 <% end -%>
