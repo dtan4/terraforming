@@ -20,20 +20,27 @@ module Terraforming
       end
 
       def tfstate
-        resources = hosted_zones.inject({}) do |result, hosted_zone|
-          zone_id = zone_id_of(hosted_zone)
+        resources = records.inject({}) do |result, r|
+          record, zone_id = r[:record], r[:zone_id]
+          record_id = record_id_of(record, zone_id)
 
           attributes = {
-            "id"=> zone_id,
-            "name"=> name_of(hosted_zone),
-            "name_servers.#" => name_servers_of(hosted_zone).length.to_s,
-            "tags.#" => tags_of(hosted_zone).length.to_s,
+            "id"=> record_id,
+            "name"=> name_of(record.name),
+            "ttl" => record.ttl.to_s,
+            "type" => record.type,
             "zone_id" => zone_id,
           }
-          result["aws_route53_zone.#{module_name_of(hosted_zone)}"] = {
-            "type" => "aws_route53_zone",
+
+          # TODO(dtan4): alias
+          attributes["records.#"] = record.resource_records.length.to_s unless record.resource_records.empty?
+          attributes["weight"] = record.weight.to_s if record.weight
+          attributes["set_identifier"] = record.set_identifier if record.set_identifier
+
+          result["aws_route53_record.#{module_name_of(record)}"] = {
+            "type" => "aws_route53_record",
             "primary" => {
-              "id" => zone_id,
+              "id" => record_id,
               "attributes" => attributes,
             }
           }
@@ -48,6 +55,10 @@ module Terraforming
 
       def hosted_zones
         @client.list_hosted_zones.hosted_zones
+      end
+
+      def record_id_of(record, zone_id)
+        "#{zone_id}_#{name_of(record.name)}_#{record.type}"
       end
 
       def record_sets_of(hosted_zone)

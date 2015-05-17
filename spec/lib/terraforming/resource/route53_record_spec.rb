@@ -99,7 +99,7 @@ resource "aws_route53_record" "www-fuga-net" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -109,29 +109,32 @@ resource "aws_route53_record" "www-fuga-net" {
               ],
               "outputs" => {},
               "resources" => {
-                "aws_route53_zone.hoge-net"=> {
-                  "type"=> "aws_route53_zone",
-                  "primary"=> {
-                    "id"=> "ABCDEFGHIJKLMN",
+                "aws_route53_record.hoge-net" => {
+                  "type" => "aws_route53_record",
+                  "primary" => {
+                    "id" => "ABCDEFGHIJKLMN_hoge.net_A",
                     "attributes"=> {
-                      "id"=> "ABCDEFGHIJKLMN",
-                      "name"=> "hoge.net",
-                      "name_servers.#" => "4",
-                      "tags.#" => "1",
+                      "id" => "ABCDEFGHIJKLMN_hoge.net_A",
+                      "name" => "hoge.net",
+                      "ttl" => "3600",
+                      "type" => "A",
                       "zone_id" => "ABCDEFGHIJKLMN",
+                      "records.#" => "2",
+                      "set_identifier" => "dev",
                     },
                   }
                 },
-                "aws_route53_zone.fuga-net"=> {
-                  "type"=> "aws_route53_zone",
-                  "primary"=> {
-                    "id"=>  "OPQRSTUVWXYZAB",
-                    "attributes"=> {
-                      "id"=> "OPQRSTUVWXYZAB",
-                      "name"=> "fuga.net",
-                      "name_servers.#" => "4",
-                      "tags.#" => "1",
+                "aws_route53_record.www-fuga-net" => {
+                  "type" => "aws_route53_record",
+                  "primary" => {
+                    "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
+                    "attributes" => {
+                      "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
+                      "name" => "www.fuga.net",
+                      "ttl" => "600",
+                      "type" => "A",
                       "zone_id" => "OPQRSTUVWXYZAB",
+                      "weight" => "10",
                     },
                   }
                 }
