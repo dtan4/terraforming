@@ -66,6 +66,12 @@ module Terraforming
       execute(Terraforming::Resource::NetworkACL, options)
     end
 
+    desc "r53r", "Route53 Record"
+    option :tfstate, type: :boolean
+    def r53r
+      execute(Terraforming::Resource::Route53Record, options)
+    end
+
     desc "r53z", "Route53 Hosted Zone"
     option :tfstate, type: :boolean
     def r53z
