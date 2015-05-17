@@ -1,0 +1,30 @@
+<% records.each do |r| -%>
+  <%- record, zone_id = r[:record], r[:zone_id] -%>
+resource "aws_route53_record" "<%= module_name_of(record) %>" {
+    zone_id = "<%= zone_id %>"
+    name    = "<%= name_of(record.name) %>"
+    type    = "<%= record.type %>"
+<%- unless record.resource_records.empty? -%>
+    records = <%= record.resource_records.map(&:value).to_s %>
+<%- end -%>
+<%- if record.ttl -%>
+    ttl     = "<%= record.ttl %>"
+<%- end -%>
+<%- if record.weight -%>
+    weight  = <%= record.weight %>
+<%- end -%>
+<%- if record.set_identifier -%>
+    set_identifier = "<%= record.set_identifier %>"
+<%- end -%>
+
+    <%- if record.alias_target -%>
+    alias {
+        name    = "<%= name_of(record.alias_target.dns_name)
+ %>"
+        zone_id = "<%= record.alias_target.hosted_zone_id %>"
+        evaluate_target_length = <%= record.alias_target.evaluate_target_health %>
+    }
+    <%- end -%>
+}
+
+<% end -%>
