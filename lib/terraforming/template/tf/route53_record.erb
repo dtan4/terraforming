@@ -4,9 +4,11 @@ resource "aws_route53_record" "<%= module_name_of(record) %>" {
     zone_id = "<%= zone_id %>"
     name    = "<%= name_of(record.name) %>"
     type    = "<%= record.type %>"
-    ttl     = "<%= record.ttl %>"
 <%- unless record.resource_records.empty? -%>
     records = <%= record.resource_records.map(&:value).to_s %>
+<%- end -%>
+<%- if record.ttl -%>
+    ttl     = "<%= record.ttl %>"
 <%- end -%>
 <%- if record.weight -%>
     weight  = <%= record.weight %>

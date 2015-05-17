@@ -27,13 +27,13 @@ module Terraforming
           attributes = {
             "id"=> record_id,
             "name"=> name_of(record.name),
-            "ttl" => record.ttl.to_s,
             "type" => record.type,
             "zone_id" => zone_id,
           }
 
           # TODO(dtan4): alias
           attributes["records.#"] = record.resource_records.length.to_s unless record.resource_records.empty?
+          attributes["ttl"] = record.ttl.to_s if record.ttl
           attributes["weight"] = record.weight.to_s if record.weight
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 

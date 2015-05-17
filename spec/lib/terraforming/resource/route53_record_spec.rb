@@ -47,7 +47,7 @@ module Terraforming
           {
             name: "www.fuga.net.",
             type: "A",
-            ttl: 600,
+            ttl: nil,
             weight: 10,
             set_identifier: nil,
             alias_target: {
@@ -74,8 +74,8 @@ resource "aws_route53_record" "hoge-net" {
     zone_id = "ABCDEFGHIJKLMN"
     name    = "hoge.net"
     type    = "A"
-    ttl     = "3600"
     records = ["123.456.78.90", "hoge.awsdns-60.org"]
+    ttl     = "3600"
     set_identifier = "dev"
 
 }
@@ -84,7 +84,6 @@ resource "aws_route53_record" "www-fuga-net" {
     zone_id = "OPQRSTUVWXYZAB"
     name    = "www.fuga.net"
     type    = "A"
-    ttl     = "600"
     weight  = 10
 
     alias {
@@ -116,10 +115,10 @@ resource "aws_route53_record" "www-fuga-net" {
                     "attributes"=> {
                       "id" => "ABCDEFGHIJKLMN_hoge.net_A",
                       "name" => "hoge.net",
-                      "ttl" => "3600",
                       "type" => "A",
                       "zone_id" => "ABCDEFGHIJKLMN",
                       "records.#" => "2",
+                      "ttl" => "3600",
                       "set_identifier" => "dev",
                     },
                   }
@@ -131,7 +130,6 @@ resource "aws_route53_record" "www-fuga-net" {
                     "attributes" => {
                       "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
                       "name" => "www.fuga.net",
-                      "ttl" => "600",
                       "type" => "A",
                       "zone_id" => "OPQRSTUVWXYZAB",
                       "weight" => "10",
