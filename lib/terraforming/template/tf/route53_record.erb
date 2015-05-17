@@ -1,0 +1,29 @@
+<% hosted_zones.each do |hosted_zone| -%>
+<% record_sets_of(hosted_zone).each do |record| -%>
+resource "aws_route53_record" "<%= module_name_of(record) %>" {
+    zone_id = "<%= zone_id_of(hosted_zone) %>"
+    name    = "<%= name_of(record.name) %>"
+    type    = "<%= record.type %>"
+    ttl     = "<%= record.ttl %>"
+<%- unless record.resource_records.empty? -%>
+    records = <%= record.resource_records.map(&:value).to_s %>
+<%- end -%>
+<%- if record.weight -%>
+    weight  = <%= record.weight %>
+<%- end -%>
+<%- if record.set_identifier -%>
+    set_identifier = "<%= record.set_identifier %>"
+<%- end -%>
+
+    <%- if record.alias_target -%>
+    alias {
+        name    = "<%= name_of(record.alias_target.dns_name)
+ %>"
+        zone_id = "<%= record.alias_target.hosted_zone_id %>"
+        evaluate_target_length = <%= record.alias_target.evaluate_target_health %>
+    }
+    <%- end -%>
+}
+
+<% end -%>
+<% end -%>
