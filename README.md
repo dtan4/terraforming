@@ -116,6 +116,32 @@ $ terraforming s3 --tfstate
 
 (Probably you have to modify the output to add it to existing `terraforming.tfstate`)
 
+## Run as Docker container
+
+[![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
+
+Terraforming Docker Image is available at [quay.io/dtan4/terraforming](https://quay.io/repository/dtan4/terraforming) and developed at [dtan4/dockerfile-terraforming](https://github.com/dtan4/dockerfile-terraforming).
+
+Pull the Docker image:
+
+```bash
+$ docker pull quay.io/dtan4/terraforming:latest
+```
+
+And then run Terraforming as a Docker container:
+
+```bash
+$ docker run \
+    --rm \
+    --name terraforming \
+    -v /path/to/tf-files-dir:/app \
+    -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
+    -e AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+    -e AWS_DEFAULT_REGION=xx-yyyy-0 \
+    quay.io/dtan4/terraforming:latest \
+    terraforming s3
+```
+
 ## Development
 
 After checking out the repo, run `scripts/setup` to install dependencies. Then, run `scripts/console` for an interactive prompt that will allow you to experiment.
