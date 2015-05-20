@@ -132,6 +132,7 @@ resource "aws_route53_record" "www-fuga-net" {
                       "name" => "www.fuga.net",
                       "type" => "A",
                       "zone_id" => "OPQRSTUVWXYZAB",
+                      "alias.#" => "1",
                       "weight" => "10",
                     },
                   }
