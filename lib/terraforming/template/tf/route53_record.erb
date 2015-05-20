@@ -22,7 +22,7 @@ resource "aws_route53_record" "<%= module_name_of(record) %>" {
         name    = "<%= name_of(record.alias_target.dns_name)
  %>"
         zone_id = "<%= record.alias_target.hosted_zone_id %>"
-        evaluate_target_length = <%= record.alias_target.evaluate_target_health %>
+        evaluate_target_health = <%= record.alias_target.evaluate_target_health %>
     }
     <%- end -%>
 }

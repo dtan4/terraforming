@@ -89,7 +89,7 @@ resource "aws_route53_record" "www-fuga-net" {
     alias {
         name    = "fuga.net"
         zone_id = "ABCDEFGHIJ1234"
-        evaluate_target_length = false
+        evaluate_target_health = false
     }
 }
 
