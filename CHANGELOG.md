@@ -1,6 +1,6 @@
 # v0.1.0 [UNRELEASED]
 
-## Fixed
+### Fixed
 
 - Include AWS ELB additional attributes #39
 
