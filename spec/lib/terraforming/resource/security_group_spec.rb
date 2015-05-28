@@ -85,7 +85,6 @@ module Terraforming
 resource "aws_security_group" "sg-1234abcd-hoge" {
     name        = "hoge"
     description = "Group for hoge"
-    owner_id    = "012345678901"
     vpc_id      = ""
 
     ingress {
@@ -108,7 +107,6 @@ resource "aws_security_group" "sg-1234abcd-hoge" {
 resource "aws_security_group" "sg-5678efgh-fuga" {
     name        = "fuga"
     description = "Group for fuga"
-    owner_id    = "098765432109"
     vpc_id      = "vpc-1234abcd"
 
     ingress {
