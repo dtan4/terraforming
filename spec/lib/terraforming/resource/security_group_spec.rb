@@ -82,7 +82,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client)).to eq <<-EOS
-resource "aws_security_group" "hoge" {
+resource "aws_security_group" "sg-1234abcd-hoge" {
     name        = "hoge"
     description = "Group for hoge"
     owner_id    = "012345678901"
@@ -105,7 +105,7 @@ resource "aws_security_group" "hoge" {
 
 }
 
-resource "aws_security_group" "fuga" {
+resource "aws_security_group" "sg-5678efgh-fuga" {
     name        = "fuga"
     description = "Group for fuga"
     owner_id    = "098765432109"
@@ -146,7 +146,7 @@ resource "aws_security_group" "fuga" {
               ],
               "outputs" => {},
               "resources" => {
-                "aws_security_group.hoge" => {
+                "aws_security_group.sg-1234abcd-hoge" => {
                   "type" => "aws_security_group",
                   "primary" => {
                     "id" => "sg-1234abcd",
@@ -161,7 +161,7 @@ resource "aws_security_group" "fuga" {
                     }
                   }
                 },
-                "aws_security_group.fuga" => {
+                "aws_security_group.sg-5678efgh-fuga" => {
                   "type" => "aws_security_group",
                   "primary" => {
                     "id" => "sg-5678efgh",
