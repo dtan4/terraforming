@@ -47,7 +47,7 @@ module Terraforming
       private
 
       def module_name_of(security_group)
-        normalize_module_name(security_group.group_name)
+        normalize_module_name("#{security_group.group_id}-#{security_group.group_name}")
       end
 
       def security_groups
