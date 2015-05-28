@@ -1,3 +1,9 @@
+# v0.1.0 (UNRELEASED)
+
+### Fixed
+
+- Set unique module name to SecurityGroup
+
 # [v0.0.3](https://github.com/dtan4/terraforming/releases/tag/v0.0.3) (2015-05-26)
 
 ### Fixed
