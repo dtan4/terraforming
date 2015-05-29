@@ -21,13 +21,15 @@ module Terraforming
       tfstate = {
         "version" => 1,
         "serial" => 1,
-        "modules" => {
-          "path" => [
-            "root"
-          ],
-          "outputs" => {},
-          "resources" => resources
-        }
+        "modules" => [
+          {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => resources
+          }
+        ]
       }
 
       JSON.pretty_generate(tfstate)
