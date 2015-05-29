@@ -1,7 +1,10 @@
 # v0.1.0 (UNRELEASED)
 
+# [v0.0.4](https://github.com/dtan4/terraforming/releases/tag/v0.0.4) (2015-05-29)
+
 ### Fixed
 
+- Generate tfstate `modules` as Hash #56 (thanks @endemics)
 - Set unique module name to SecurityGroup #53
 - Remove `owner_id` argument from SecurityGroup #54
 
