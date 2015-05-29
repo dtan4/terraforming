@@ -88,42 +88,44 @@ resource "aws_vpc" "fuga" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_vpc.hoge" => {
-                  "type" => "aws_vpc",
-                  "primary" => {
-                    "id" => "vpc-1234abcd",
-                    "attributes" => {
-                      "cidr_block" => "10.0.0.0/16",
-                      "enable_dns_hostnames" => "true",
-                      "enable_dns_support" => "true",
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_vpc.hoge" => {
+                    "type" => "aws_vpc",
+                    "primary" => {
                       "id" => "vpc-1234abcd",
-                      "instance_tenancy" => "default",
-                      "tags.#" => "1",
+                      "attributes" => {
+                        "cidr_block" => "10.0.0.0/16",
+                        "enable_dns_hostnames" => "true",
+                        "enable_dns_support" => "true",
+                        "id" => "vpc-1234abcd",
+                        "instance_tenancy" => "default",
+                        "tags.#" => "1",
+                      }
                     }
-                  }
-                },
-                "aws_vpc.fuga" => {
-                  "type" => "aws_vpc",
-                  "primary" => {
-                    "id" => "vpc-5678efgh",
-                    "attributes" => {
-                      "cidr_block" => "10.0.0.0/16",
-                      "enable_dns_hostnames" => "true",
-                      "enable_dns_support" => "true",
+                  },
+                  "aws_vpc.fuga" => {
+                    "type" => "aws_vpc",
+                    "primary" => {
                       "id" => "vpc-5678efgh",
-                      "instance_tenancy" => "default",
-                      "tags.#" => "1",
+                      "attributes" => {
+                        "cidr_block" => "10.0.0.0/16",
+                        "enable_dns_hostnames" => "true",
+                        "enable_dns_support" => "true",
+                        "id" => "vpc-5678efgh",
+                        "instance_tenancy" => "default",
+                        "tags.#" => "1",
+                      }
                     }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end

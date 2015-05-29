@@ -52,40 +52,42 @@ resource "aws_iam_group" "fuga" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_iam_group.hoge" => {
-                  "type" => "aws_iam_group",
-                  "primary" => {
-                    "id" => "hoge",
-                    "attributes" => {
-                      "arn"=> "arn:aws:iam::123456789012:group/hoge",
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_iam_group.hoge" => {
+                    "type" => "aws_iam_group",
+                    "primary" => {
                       "id" => "hoge",
-                      "name" => "hoge",
-                      "path" => "/",
-                      "unique_id" => "ABCDEFGHIJKLMN1234567",
+                      "attributes" => {
+                        "arn"=> "arn:aws:iam::123456789012:group/hoge",
+                        "id" => "hoge",
+                        "name" => "hoge",
+                        "path" => "/",
+                        "unique_id" => "ABCDEFGHIJKLMN1234567",
+                      }
                     }
-                  }
-                },
-                "aws_iam_group.fuga" => {
-                  "type" => "aws_iam_group",
-                  "primary" => {
-                    "id" => "fuga",
-                    "attributes" => {
-                      "arn"=> "arn:aws:iam::345678901234:group/fuga",
+                  },
+                  "aws_iam_group.fuga" => {
+                    "type" => "aws_iam_group",
+                    "primary" => {
                       "id" => "fuga",
-                      "name" => "fuga",
-                      "path" => "/system/",
-                      "unique_id" => "OPQRSTUVWXYZA8901234",
+                      "attributes" => {
+                        "arn"=> "arn:aws:iam::345678901234:group/fuga",
+                        "id" => "fuga",
+                        "name" => "fuga",
+                        "path" => "/system/",
+                        "unique_id" => "OPQRSTUVWXYZA8901234",
+                      }
                     }
-                  }
-                },
+                  },
+                }
               }
-            }
+            ]
           })
         end
       end

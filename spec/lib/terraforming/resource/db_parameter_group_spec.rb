@@ -134,40 +134,42 @@ resource "aws_db_parameter_group" "default-postgres9-4" {
             expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 1,
-              "modules" => {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_db_parameter_group.default-mysql5-6" => {
-                    "type" => "aws_db_parameter_group",
-                    "primary" => {
-                      "id" => "default.mysql5.6",
-                      "attributes" => {
-                        "description" => "Default parameter group for mysql5.6",
-                        "family" => "mysql5.6",
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_db_parameter_group.default-mysql5-6" => {
+                      "type" => "aws_db_parameter_group",
+                      "primary" => {
                         "id" => "default.mysql5.6",
-                        "name" => "default.mysql5.6",
-                        "parameter.#" => "2",
+                        "attributes" => {
+                          "description" => "Default parameter group for mysql5.6",
+                          "family" => "mysql5.6",
+                          "id" => "default.mysql5.6",
+                          "name" => "default.mysql5.6",
+                          "parameter.#" => "2",
+                        }
                       }
-                    }
-                  },
-                  "aws_db_parameter_group.default-postgres9-4" => {
-                    "type" => "aws_db_parameter_group",
-                    "primary" => {
-                      "id" => "default.postgres9.4",
-                      "attributes" => {
-                        "description" => "Default parameter group for postgres9.4",
-                        "family" => "postgres9.4",
+                    },
+                    "aws_db_parameter_group.default-postgres9-4" => {
+                      "type" => "aws_db_parameter_group",
+                      "primary" => {
                         "id" => "default.postgres9.4",
-                        "name" => "default.postgres9.4",
-                        "parameter.#" => "2",
+                        "attributes" => {
+                          "description" => "Default parameter group for postgres9.4",
+                          "family" => "postgres9.4",
+                          "id" => "default.postgres9.4",
+                          "name" => "default.postgres9.4",
+                          "parameter.#" => "2",
+                        }
                       }
                     }
                   }
                 }
-              }
+              ]
             })
           end
         end

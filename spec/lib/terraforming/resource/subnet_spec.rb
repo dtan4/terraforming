@@ -76,42 +76,44 @@ resource "aws_subnet" "fuga" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_subnet.hoge" => {
-                  "type" => "aws_subnet",
-                  "primary" => {
-                    "id" => "subnet-1234abcd",
-                    "attributes" => {
-                      "availability_zone" => "ap-northeast-1c",
-                      "cidr_block" => "10.0.8.0/21",
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_subnet.hoge" => {
+                    "type" => "aws_subnet",
+                    "primary" => {
                       "id" => "subnet-1234abcd",
-                      "map_public_ip_on_launch" => "false",
-                      "tags.#" => "1",
-                      "vpc_id" => "vpc-1234abcd"
+                      "attributes" => {
+                        "availability_zone" => "ap-northeast-1c",
+                        "cidr_block" => "10.0.8.0/21",
+                        "id" => "subnet-1234abcd",
+                        "map_public_ip_on_launch" => "false",
+                        "tags.#" => "1",
+                        "vpc_id" => "vpc-1234abcd"
+                      }
                     }
-                  }
-                },
-                "aws_subnet.fuga" => {
-                  "type" => "aws_subnet",
-                  "primary" => {
-                    "id" => "subnet-5678efgh",
-                    "attributes" => {
-                      "availability_zone" => "ap-northeast-1c",
-                      "cidr_block" => "10.0.8.0/21",
+                  },
+                  "aws_subnet.fuga" => {
+                    "type" => "aws_subnet",
+                    "primary" => {
                       "id" => "subnet-5678efgh",
-                      "map_public_ip_on_launch" => "false",
-                      "tags.#" => "1",
-                      "vpc_id" => "vpc-5678efgh"
+                      "attributes" => {
+                        "availability_zone" => "ap-northeast-1c",
+                        "cidr_block" => "10.0.8.0/21",
+                        "id" => "subnet-5678efgh",
+                        "map_public_ip_on_launch" => "false",
+                        "tags.#" => "1",
+                        "vpc_id" => "vpc-5678efgh"
+                      }
                     }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end
