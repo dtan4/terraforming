@@ -98,38 +98,40 @@ POLICY
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_iam_group_policy.hoge_policy" => {
-                  "type" => "aws_iam_group_policy",
-                  "primary" => {
-                    "id" => "hoge:hoge_policy",
-                    "attributes" => {
-                      "group" => "hoge",
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_iam_group_policy.hoge_policy" => {
+                    "type" => "aws_iam_group_policy",
+                    "primary" => {
                       "id" => "hoge:hoge_policy",
-                      "name" => "hoge_policy",
-                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      "attributes" => {
+                        "group" => "hoge",
+                        "id" => "hoge:hoge_policy",
+                        "name" => "hoge_policy",
+                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      }
                     }
-                  }
-                },
-                "aws_iam_group_policy.fuga_policy" => {
-                  "type" => "aws_iam_group_policy",
-                  "primary" => {
-                    "id" => "fuga:fuga_policy",
-                    "attributes" => {
-                      "group" => "fuga",
+                  },
+                  "aws_iam_group_policy.fuga_policy" => {
+                    "type" => "aws_iam_group_policy",
+                    "primary" => {
                       "id" => "fuga:fuga_policy",
-                      "name" => "fuga_policy",
-                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      "attributes" => {
+                        "group" => "fuga",
+                        "id" => "fuga:fuga_policy",
+                        "name" => "fuga_policy",
+                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                      }
                     }
-                  }
-                },
+                  },
+                }
               }
-            }
+            ]
           })
         end
       end

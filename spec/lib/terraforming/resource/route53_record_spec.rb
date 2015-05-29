@@ -102,43 +102,45 @@ resource "aws_route53_record" "www-fuga-net" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_route53_record.hoge-net" => {
-                  "type" => "aws_route53_record",
-                  "primary" => {
-                    "id" => "ABCDEFGHIJKLMN_hoge.net_A",
-                    "attributes"=> {
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_route53_record.hoge-net" => {
+                    "type" => "aws_route53_record",
+                    "primary" => {
                       "id" => "ABCDEFGHIJKLMN_hoge.net_A",
-                      "name" => "hoge.net",
-                      "type" => "A",
-                      "zone_id" => "ABCDEFGHIJKLMN",
-                      "records.#" => "2",
-                      "ttl" => "3600",
-                      "set_identifier" => "dev",
-                    },
-                  }
-                },
-                "aws_route53_record.www-fuga-net" => {
-                  "type" => "aws_route53_record",
-                  "primary" => {
-                    "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
-                    "attributes" => {
+                      "attributes"=> {
+                        "id" => "ABCDEFGHIJKLMN_hoge.net_A",
+                        "name" => "hoge.net",
+                        "type" => "A",
+                        "zone_id" => "ABCDEFGHIJKLMN",
+                        "records.#" => "2",
+                        "ttl" => "3600",
+                        "set_identifier" => "dev",
+                      },
+                    }
+                  },
+                  "aws_route53_record.www-fuga-net" => {
+                    "type" => "aws_route53_record",
+                    "primary" => {
                       "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
-                      "name" => "www.fuga.net",
-                      "type" => "A",
-                      "zone_id" => "OPQRSTUVWXYZAB",
-                      "alias.#" => "1",
-                      "weight" => "10",
-                    },
+                      "attributes" => {
+                        "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
+                        "name" => "www.fuga.net",
+                        "type" => "A",
+                        "zone_id" => "OPQRSTUVWXYZAB",
+                        "alias.#" => "1",
+                        "weight" => "10",
+                      },
+                    }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end

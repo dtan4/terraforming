@@ -144,40 +144,42 @@ resource "aws_network_acl" "fuga" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_network_acl.hoge" => {
-                  "type" => "aws_network_acl",
-                  "primary" => {
-                    "id" => "acl-1234abcd",
-                    "attributes" => {
-                      "egress.#" => "0",
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_network_acl.hoge" => {
+                    "type" => "aws_network_acl",
+                    "primary" => {
                       "id" => "acl-1234abcd",
-                      "ingress.#" => "1",
-                      "tags.#" => "1",
-                      "vpc_id" => "vpc-1234abcd",
+                      "attributes" => {
+                        "egress.#" => "0",
+                        "id" => "acl-1234abcd",
+                        "ingress.#" => "1",
+                        "tags.#" => "1",
+                        "vpc_id" => "vpc-1234abcd",
+                      }
                     }
-                  }
-                },
-                "aws_network_acl.fuga" => {
-                  "type" => "aws_network_acl",
-                  "primary" => {
-                    "id" => "acl-5678efgh",
-                    "attributes" => {
-                      "egress.#" => "0",
+                  },
+                  "aws_network_acl.fuga" => {
+                    "type" => "aws_network_acl",
+                    "primary" => {
                       "id" => "acl-5678efgh",
-                      "ingress.#" => "1",
-                      "tags.#" => "1",
-                      "vpc_id" => "vpc-5678efgh",
+                      "attributes" => {
+                        "egress.#" => "0",
+                        "id" => "acl-5678efgh",
+                        "ingress.#" => "1",
+                        "tags.#" => "1",
+                        "vpc_id" => "vpc-5678efgh",
+                      }
                     }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end

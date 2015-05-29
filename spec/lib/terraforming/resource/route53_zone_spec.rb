@@ -98,40 +98,42 @@ resource "aws_route53_zone" "fuga-net" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_route53_zone.hoge-net"=> {
-                  "type"=> "aws_route53_zone",
-                  "primary"=> {
-                    "id"=> "ABCDEFGHIJKLMN",
-                    "attributes"=> {
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_route53_zone.hoge-net"=> {
+                    "type"=> "aws_route53_zone",
+                    "primary"=> {
                       "id"=> "ABCDEFGHIJKLMN",
-                      "name"=> "hoge.net",
-                      "name_servers.#" => "4",
-                      "tags.#" => "1",
-                      "zone_id" => "ABCDEFGHIJKLMN",
-                    },
-                  }
-                },
-                "aws_route53_zone.fuga-net"=> {
-                  "type"=> "aws_route53_zone",
-                  "primary"=> {
-                    "id"=>  "OPQRSTUVWXYZAB",
-                    "attributes"=> {
-                      "id"=> "OPQRSTUVWXYZAB",
-                      "name"=> "fuga.net",
-                      "name_servers.#" => "4",
-                      "tags.#" => "1",
-                      "zone_id" => "OPQRSTUVWXYZAB",
-                    },
+                      "attributes"=> {
+                        "id"=> "ABCDEFGHIJKLMN",
+                        "name"=> "hoge.net",
+                        "name_servers.#" => "4",
+                        "tags.#" => "1",
+                        "zone_id" => "ABCDEFGHIJKLMN",
+                      },
+                    }
+                  },
+                  "aws_route53_zone.fuga-net"=> {
+                    "type"=> "aws_route53_zone",
+                    "primary"=> {
+                      "id"=>  "OPQRSTUVWXYZAB",
+                      "attributes"=> {
+                        "id"=> "OPQRSTUVWXYZAB",
+                        "name"=> "fuga.net",
+                        "name_servers.#" => "4",
+                        "tags.#" => "1",
+                        "zone_id" => "OPQRSTUVWXYZAB",
+                      },
+                    }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end

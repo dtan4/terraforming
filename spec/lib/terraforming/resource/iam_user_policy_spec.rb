@@ -100,38 +100,40 @@ POLICY
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_iam_user_policy.hoge_policy" => {
-                  "type" => "aws_iam_user_policy",
-                  "primary" => {
-                    "id" => "hoge:hoge_policy",
-                    "attributes" => {
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_iam_user_policy.hoge_policy" => {
+                    "type" => "aws_iam_user_policy",
+                    "primary" => {
                       "id" => "hoge:hoge_policy",
-                      "name" => "hoge_policy",
-                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
-                      "user" => "hoge",
+                      "attributes" => {
+                        "id" => "hoge:hoge_policy",
+                        "name" => "hoge_policy",
+                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                        "user" => "hoge",
+                      }
                     }
-                  }
-                },
-                "aws_iam_user_policy.fuga_policy" => {
-                  "type" => "aws_iam_user_policy",
-                  "primary" => {
-                    "id" => "fuga:fuga_policy",
-                    "attributes" => {
+                  },
+                  "aws_iam_user_policy.fuga_policy" => {
+                    "type" => "aws_iam_user_policy",
+                    "primary" => {
                       "id" => "fuga:fuga_policy",
-                      "name" => "fuga_policy",
-                      "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
-                      "user" => "fuga",
+                      "attributes" => {
+                        "id" => "fuga:fuga_policy",
+                        "name" => "fuga_policy",
+                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                        "user" => "fuga",
+                      }
                     }
-                  }
-                },
+                  },
+                }
               }
-            }
+            ]
           })
         end
       end

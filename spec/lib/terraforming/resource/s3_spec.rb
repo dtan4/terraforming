@@ -53,36 +53,38 @@ resource "aws_s3_bucket" "fuga" {
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
-            "modules" => {
-              "path" => [
-                "root"
-              ],
-              "outputs" => {},
-              "resources" => {
-                "aws_s3_bucket.hoge" => {
-                  "type" => "aws_s3_bucket",
-                  "primary" => {
-                    "id" => "hoge",
-                    "attributes" => {
-                      "acl" => "private",
-                      "bucket" => "hoge",
-                      "id" => "hoge"
+            "modules" => [
+              {
+                "path" => [
+                  "root"
+                ],
+                "outputs" => {},
+                "resources" => {
+                  "aws_s3_bucket.hoge" => {
+                    "type" => "aws_s3_bucket",
+                    "primary" => {
+                      "id" => "hoge",
+                      "attributes" => {
+                        "acl" => "private",
+                        "bucket" => "hoge",
+                        "id" => "hoge"
+                      }
                     }
-                  }
-                },
-                "aws_s3_bucket.fuga" => {
-                  "type" => "aws_s3_bucket",
-                  "primary" => {
-                    "id" => "fuga",
-                    "attributes" => {
-                      "acl" => "private",
-                      "bucket" => "fuga",
-                      "id" => "fuga"
+                  },
+                  "aws_s3_bucket.fuga" => {
+                    "type" => "aws_s3_bucket",
+                    "primary" => {
+                      "id" => "fuga",
+                      "attributes" => {
+                        "acl" => "private",
+                        "bucket" => "fuga",
+                        "id" => "fuga"
+                      }
                     }
                   }
                 }
               }
-            }
+            ]
           })
         end
       end
