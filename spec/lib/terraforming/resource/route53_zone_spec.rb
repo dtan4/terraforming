@@ -77,7 +77,7 @@ resource "aws_route53_zone" "hoge-net" {
     name = "hoge.net"
 
     tags {
-        Environment = "dev"
+        "Environment" = "dev"
     }
 }
 
@@ -85,7 +85,7 @@ resource "aws_route53_zone" "fuga-net" {
     name = "fuga.net"
 
     tags {
-        Environment = "dev"
+        "Environment" = "dev"
     }
 }
 
