@@ -45,8 +45,14 @@ Commands:
   terraforming dbsn            # Database Subnet Group
   terraforming ec2             # EC2
   terraforming elb             # ELB
-  terraforming help [COMMAND]  # Describe available commands or one specific command
+  terraforming iamg            # IAM Group
+  terraforming iamgp           # IAM Group Policy
+  terraforming iamp            # IAM Policy
+  terraforming iamu            # IAM User
+  terraforming iamup           # IAM User Policy
   terraforming nacl            # Network ACL
+  terraforming r53r            # Route53 Record
+  terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
   terraforming s3              # S3
   terraforming sg              # SecurityGroup
