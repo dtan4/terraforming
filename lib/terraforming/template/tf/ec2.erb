@@ -19,7 +19,7 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
 <% end -%>
     tags {
 <% instance.tags.each do |tag| -%>
-        <%= tag.key %> = "<%= tag.value %>"
+        "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
     }
 }

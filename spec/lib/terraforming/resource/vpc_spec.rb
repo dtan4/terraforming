@@ -64,7 +64,7 @@ resource "aws_vpc" "hoge" {
     instance_tenancy     = "default"
 
     tags {
-        Name = "hoge"
+        "Name" = "hoge"
     }
 }
 
@@ -75,7 +75,7 @@ resource "aws_vpc" "fuga" {
     instance_tenancy     = "default"
 
     tags {
-        Name = "fuga"
+        "Name" = "fuga"
     }
 }
 

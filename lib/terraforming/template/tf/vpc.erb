@@ -7,7 +7,7 @@ resource "aws_vpc" "<%= module_name_of(vpc) %>" {
 
     tags {
 <% vpc.tags.each do |tag| -%>
-        <%= tag.key %> = "<%= tag.value %>"
+        "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
     }
 }

@@ -52,7 +52,7 @@ resource "aws_subnet" "hoge" {
     map_public_ip_on_launch = false
 
     tags {
-        Name = "hoge"
+        "Name" = "hoge"
     }
 }
 
@@ -63,7 +63,7 @@ resource "aws_subnet" "fuga" {
     map_public_ip_on_launch = false
 
     tags {
-        Name = "fuga"
+        "Name" = "fuga"
     }
 }
 

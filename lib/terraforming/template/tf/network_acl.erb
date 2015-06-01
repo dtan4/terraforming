@@ -26,7 +26,7 @@ resource "aws_network_acl" "<%= module_name_of(network_acl) %>" {
 <% end -%>
     tags {
 <% network_acl.tags.each do |tag| -%>
-        <%= tag.key %> = "<%= tag.value %>"
+        "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
     }
 }

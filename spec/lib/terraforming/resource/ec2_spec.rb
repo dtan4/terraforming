@@ -129,7 +129,7 @@ resource "aws_instance" "hoge" {
     }
 
     tags {
-        Name = "hoge"
+        "Name" = "hoge"
     }
 }
 

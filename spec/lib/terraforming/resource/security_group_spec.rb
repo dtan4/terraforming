@@ -125,7 +125,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
 
 
     tags {
-        Name = "fuga"
+        "Name" = "fuga"
     }
 }
 

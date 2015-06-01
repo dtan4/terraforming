@@ -114,7 +114,7 @@ resource "aws_network_acl" "hoge" {
     }
 
     tags {
-        Name = "hoge"
+        "Name" = "hoge"
     }
 }
 
@@ -131,7 +131,7 @@ resource "aws_network_acl" "fuga" {
     }
 
     tags {
-        Name = "fuga"
+        "Name" = "fuga"
     }
 }
 
