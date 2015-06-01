@@ -1,5 +1,11 @@
 # v0.1.0 (UNRELEASED)
 
+# [v0.0.5](https://github.com/dtan4/terraforming/releases/tag/v0.0.5) (2015-06-01)
+
+### Fixed
+
+- Quote tag name #59
+
 # [v0.0.4](https://github.com/dtan4/terraforming/releases/tag/v0.0.4) (2015-05-29)
 
 ### Fixed
