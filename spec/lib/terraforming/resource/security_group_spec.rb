@@ -51,7 +51,7 @@ module Terraforming
                   {
                     user_id: "001122334455",
                     group_name: "group1",
-                    group_id: "sg-9012ijkl"
+                    group_id: "sg-5678efgh"
                   }
                 ],
                 ip_ranges: []
@@ -113,7 +113,8 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
         from_port       = 0
         to_port         = 65535
         protocol        = "tcp"
-        security_groups = ["sg-9012ijkl"]
+        security_groups = ["sg-5678efgh"]
+        self            = true
     }
 
     ingress {

@@ -50,8 +50,16 @@ module Terraforming
         normalize_module_name("#{security_group.group_id}-#{security_group.group_name}")
       end
 
+      def self_referenced_permission?(security_group, permission)
+        security_groups_in(permission).include?(security_group.group_id)
+      end
+
       def security_groups
         @client.describe_security_groups.security_groups
+      end
+
+      def security_groups_in(permission)
+        permission.user_id_group_pairs.map { |range| range.group_id }
       end
     end
   end
