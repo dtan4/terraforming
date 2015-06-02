@@ -29,33 +29,8 @@ module Terraforming
             "vpc_id" => security_group.vpc_id || "",
           }
 
-          attributes["egress.#"] = security_group.ip_permissions_egress.length.to_s
-
-          security_group.ip_permissions_egress.each do |permission|
-            hashcode = permission_hashcode_of(security_group, permission)
-            attributes.merge!({
-              "egress.#{hashcode}.from_port" => (permission.from_port || 0).to_s,
-              "egress.#{hashcode}.to_port" => (permission.to_port || 0).to_s,
-              "egress.#{hashcode}.protocol" => permission.ip_protocol,
-              "egress.#{hashcode}.cidr_blocks.#" => permission.ip_ranges.length.to_s,
-              "egress.#{hashcode}.security_groups.#" => permission.user_id_group_pairs.length.to_s,
-              "egress.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
-            })
-          end
-
-          attributes["ingress.#"] = security_group.ip_permissions.length.to_s
-
-          security_group.ip_permissions.each do |permission|
-            hashcode = permission_hashcode_of(security_group, permission)
-            attributes.merge!({
-              "ingress.#{hashcode}.from_port" => (permission.from_port || 0).to_s,
-              "ingress.#{hashcode}.to_port" => (permission.to_port || 0).to_s,
-              "ingress.#{hashcode}.protocol" => permission.ip_protocol,
-              "ingress.#{hashcode}.cidr_blocks.#" => permission.ip_ranges.length.to_s,
-              "ingress.#{hashcode}.security_groups.#" => permission.user_id_group_pairs.length.to_s,
-              "ingress.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
-            })
-          end
+          attributes.merge!(egress_attributes_of(security_group))
+          attributes.merge!(ingress_attributes_of(security_group))
 
           result["aws_security_group.#{module_name_of(security_group)}"] = {
             "type" => "aws_security_group",
@@ -73,8 +48,41 @@ module Terraforming
 
       private
 
+      def ingress_attributes_of(security_group)
+        attributes = { "ingress.#" => security_group.ip_permissions.length.to_s }
+
+        security_group.ip_permissions.each do |permission|
+          attributes.merge!(permission_attributes_of(security_group, permission, "ingress"))
+        end
+
+        attributes
+      end
+
+      def egress_attributes_of(security_group)
+        attributes = { "egress.#" => security_group.ip_permissions_egress.length.to_s }
+
+        security_group.ip_permissions_egress.each do |permission|
+          attributes.merge!(permission_attributes_of(security_group, permission, "egress"))
+        end
+
+        attributes
+      end
+
       def module_name_of(security_group)
         normalize_module_name("#{security_group.group_id}-#{security_group.group_name}")
+      end
+
+      def permission_attributes_of(security_group, permission, type)
+        hashcode = permission_hashcode_of(security_group, permission)
+
+        {
+          "#{type}.#{hashcode}.from_port" => (permission.from_port || 0).to_s,
+          "#{type}.#{hashcode}.to_port" => (permission.to_port || 0).to_s,
+          "#{type}.#{hashcode}.protocol" => permission.ip_protocol,
+          "#{type}.#{hashcode}.cidr_blocks.#" => permission.ip_ranges.length.to_s,
+          "#{type}.#{hashcode}.security_groups.#" => permission.user_id_group_pairs.length.to_s,
+          "#{type}.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
+        }
       end
 
       def permission_hashcode_of(security_group, permission)
