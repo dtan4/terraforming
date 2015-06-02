@@ -27,6 +27,7 @@ module Terraforming
             "name" => security_group.group_name,
             "owner_id" => security_group.owner_id,
             "vpc_id" => security_group.vpc_id || "",
+            "tags.#" => security_group.tags.length.to_s,
           }
 
           attributes.merge!(egress_attributes_of(security_group))
