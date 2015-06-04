@@ -113,7 +113,6 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
         from_port       = 0
         to_port         = 65535
         protocol        = "tcp"
-        security_groups = ["sg-5678efgh"]
         self            = true
     }
 
@@ -164,6 +163,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                         "egress.482069346.cidr_blocks.#" => "1",
                         "egress.482069346.security_groups.#" => "0",
                         "egress.482069346.self" => "false",
+                        "egress.482069346.cidr_blocks.0" => "0.0.0.0/0",
                         "ingress.#" => "1",
                         "ingress.2541437006.from_port" => "22",
                         "ingress.2541437006.to_port" => "22",
@@ -171,6 +171,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                         "ingress.2541437006.cidr_blocks.#" => "1",
                         "ingress.2541437006.security_groups.#" => "0",
                         "ingress.2541437006.self" => "false",
+                        "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
                       }
                     }
                   },
@@ -185,13 +186,14 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                         "owner_id" => "098765432109",
                         "vpc_id" => "vpc-1234abcd",
                         "tags.#" => "1",
+                        "tags.Name" => "fuga",
                         "egress.#" => "0",
                         "ingress.#" => "2",
                         "ingress.1849628954.from_port" => "0",
                         "ingress.1849628954.to_port" => "65535",
                         "ingress.1849628954.protocol" => "tcp",
                         "ingress.1849628954.cidr_blocks.#" => "0",
-                        "ingress.1849628954.security_groups.#" => "1",
+                        "ingress.1849628954.security_groups.#" => "0",
                         "ingress.1849628954.self" => "true",
                         "ingress.2541437006.from_port" => "22",
                         "ingress.2541437006.to_port" => "22",
@@ -199,6 +201,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                         "ingress.2541437006.cidr_blocks.#" => "1",
                         "ingress.2541437006.security_groups.#" => "0",
                         "ingress.2541437006.self" => "false",
+                        "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
                       }
                     }
                   }
