@@ -5,6 +5,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
     vpc_id      = "<%= security_group.vpc_id || '' %>"
 
 <% security_group.ip_permissions.each do |permission| -%>
+  <%- security_groups = security_groups_in(permission).reject { |group_id| group_id == security_group.group_id } -%>
     ingress {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
@@ -13,7 +14,11 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
-        security_groups = <%= permission.user_id_group_pairs.map { |range| range.group_id }.inspect %>
+  <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
+  <%- unless self_referenced -%>
+        security_groups = <%= security_groups.inspect %>
+  <%- end -%>
+        self            = <%= self_referenced %>
 <%- end -%>
     }
 
@@ -28,7 +33,11 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
-        security_groups = <%= permission.user_id_group_pairs.map { |range| range.group_id }.inspect %>
+  <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
+  <%- unless self_referenced -%>
+        security_groups = <%= security_groups_in(permission).inspect %>
+  <%- end -%>
+        self            = <%= self_referenced %>
 <%- end -%>
     }
 

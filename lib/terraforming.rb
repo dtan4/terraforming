@@ -5,6 +5,7 @@ require "aws-sdk-core"
 require "erb"
 require "json"
 require "thor"
+require "zlib"
 
 require "terraforming/util"
 require "terraforming/version"
