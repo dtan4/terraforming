@@ -90,7 +90,7 @@ module Terraforming
       execute(Terraforming::Resource::S3, options)
     end
 
-    desc "sg", "SecurityGroup"
+    desc "sg", "Security Group"
     option :tfstate, type: :boolean
     def sg
       execute(Terraforming::Resource::SecurityGroup, options)
