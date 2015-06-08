@@ -55,7 +55,7 @@ Commands:
   terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
   terraforming s3              # S3
-  terraforming sg              # SecurityGroup
+  terraforming sg              # Security Group
   terraforming sn              # Subnet
   terraforming vpc             # VPC
 ```
