@@ -84,14 +84,14 @@ module Terraforming
 
     describe "iamg" do
       context "without --tfstate" do
-        it "should export IAM group tf" do
+        it "should export IAMGroup tf" do
           expect(Terraforming::Resource::IAMGroup).to receive(:tf)
           described_class.new.invoke(:iamg, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export IAM group tfstate" do
+        it "should export IAMGroup tfstate" do
           expect(Terraforming::Resource::IAMGroup).to receive(:tfstate)
           described_class.new.invoke(:iamg, [], { tfstate: true })
         end
@@ -100,14 +100,14 @@ module Terraforming
 
     describe "iamgp" do
       context "without --tfstate" do
-        it "should export IAM group policy tf" do
+        it "should export IAMGroupPolicy tf" do
           expect(Terraforming::Resource::IAMGroupPolicy).to receive(:tf)
           described_class.new.invoke(:iamgp, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export IAM group policy tfstate" do
+        it "should export IAMGroupPolicy tfstate" do
           expect(Terraforming::Resource::IAMGroupPolicy).to receive(:tfstate)
           described_class.new.invoke(:iamgp, [], { tfstate: true })
         end
@@ -116,14 +116,14 @@ module Terraforming
 
     describe "iamp" do
       context "without --tfstate" do
-        it "should export IAM policy tf" do
+        it "should export IAMPolicy tf" do
           expect(Terraforming::Resource::IAMPolicy).to receive(:tf)
           described_class.new.invoke(:iamp, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export IAM policy tfstate" do
+        it "should export IAMPolicy tfstate" do
           expect(Terraforming::Resource::IAMPolicy).to receive(:tfstate)
           described_class.new.invoke(:iamp, [], { tfstate: true })
         end
@@ -132,14 +132,14 @@ module Terraforming
 
     describe "iamu" do
       context "without --tfstate" do
-        it "should export IAM user tf" do
+        it "should export IAMUser tf" do
           expect(Terraforming::Resource::IAMUser).to receive(:tf)
           described_class.new.invoke(:iamu, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export IAM user tfstate" do
+        it "should export IAMUser tfstate" do
           expect(Terraforming::Resource::IAMUser).to receive(:tfstate)
           described_class.new.invoke(:iamu, [], { tfstate: true })
         end
@@ -148,14 +148,14 @@ module Terraforming
 
     describe "iamup" do
       context "without --tfstate" do
-        it "should export IAM user policy tf" do
+        it "should export IAMUserPolicy tf" do
           expect(Terraforming::Resource::IAMUserPolicy).to receive(:tf)
           described_class.new.invoke(:iamup, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export IAM user policy tfstate" do
+        it "should export IAMUserPolicy tfstate" do
           expect(Terraforming::Resource::IAMUserPolicy).to receive(:tfstate)
           described_class.new.invoke(:iamup, [], { tfstate: true })
         end
@@ -260,14 +260,14 @@ module Terraforming
 
     describe "sn" do
       context "without --tfstate" do
-        it "should export SecurityGroup tf" do
+        it "should export Subnet tf" do
           expect(Terraforming::Resource::Subnet).to receive(:tf)
           described_class.new.invoke(:sn, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export SecurityGroup tfstate" do
+        it "should export Subnet tfstate" do
           expect(Terraforming::Resource::Subnet).to receive(:tfstate)
           described_class.new.invoke(:sn, [], { tfstate: true })
         end
