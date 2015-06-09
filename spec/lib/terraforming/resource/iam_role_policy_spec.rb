@@ -113,7 +113,7 @@ POLICY
                   "aws_iam_role_policy.hoge_role_policy" => {
                     "type" => "aws_iam_role_policy",
                     "primary" => {
-                      "id" => "hoge_role_policy",
+                      "id" => "hoge_role:hoge_role_policy",
                       "attributes" => {
                         "id" => "hoge_role:hoge_role_policy",
                         "name" => "hoge_role_policy",
@@ -125,7 +125,7 @@ POLICY
                   "aws_iam_role_policy.fuga_role_policy" => {
                     "type" => "aws_iam_role_policy",
                     "primary" => {
-                      "id" => "fuga_role_policy",
+                      "id" => "fuga_role:fuga_role_policy",
                       "attributes" => {
                         "id" => "fuga_role:fuga_role_policy",
                         "name" => "fuga_role_policy",
