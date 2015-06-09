@@ -30,7 +30,7 @@ module Terraforming
           result["aws_iam_role_policy.#{policy.policy_name}"] = {
             "type" => "aws_iam_role_policy",
             "primary" => {
-              "id" => policy.policy_name,
+              "id" => iam_role_policy_id_of(policy),
               "attributes" => attributes
             }
           }
