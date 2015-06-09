@@ -42,6 +42,12 @@ module Terraforming
       execute(Terraforming::Resource::IAMGroupPolicy, options)
     end
 
+    desc "iamip", "IAM Instance Profile"
+    option :tfstate, type: :boolean
+    def iamip
+      execute(Terraforming::Resource::IAMInstanceProfile, options)
+    end
+
     desc "iamp", "IAM Policy"
     option :tfstate, type: :boolean
     def iamp

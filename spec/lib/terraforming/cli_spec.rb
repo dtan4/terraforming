@@ -114,6 +114,22 @@ module Terraforming
       end
     end
 
+    describe "iamip" do
+      context "without --tfstate" do
+        it "should export IAMInstanceProfile tf" do
+          expect(Terraforming::Resource::IAMInstanceProfile).to receive(:tf)
+          described_class.new.invoke(:iamip, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export IAMInstanceProfile tfstate" do
+          expect(Terraforming::Resource::IAMInstanceProfile).to receive(:tfstate)
+          described_class.new.invoke(:iamip, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "iamp" do
       context "without --tfstate" do
         it "should export IAMPolicy tf" do
