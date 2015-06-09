@@ -146,6 +146,22 @@ module Terraforming
       end
     end
 
+    describe "iamrp" do
+      context "without --tfstate" do
+        it "should export IAMRolePolicy tf" do
+          expect(Terraforming::Resource::IAMRolePolicy).to receive(:tf)
+          described_class.new.invoke(:iamrp, [], {})
+        end
+      end
+
+      context "with --tfstate" do
+        it "should export IAMRolePolicy tfstate" do
+          expect(Terraforming::Resource::IAMRolePolicy).to receive(:tfstate)
+          described_class.new.invoke(:iamrp, [], { tfstate: true })
+        end
+      end
+    end
+
     describe "iamu" do
       context "without --tfstate" do
         it "should export IAMUser tf" do
