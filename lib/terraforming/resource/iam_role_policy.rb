@@ -64,16 +64,6 @@ module Terraforming
           iam_role_policy_names_in(role).map { |policy_name| iam_role_policy_of(role, policy_name) }
         end.flatten
       end
-
-      def prettify_policy(policy_document, breakline = false)
-        json = JSON.pretty_generate(JSON.parse(CGI.unescape(policy_document)))
-
-        if breakline
-          json[-1] != "\n" ? json << "\n" : json
-        else
-          json.strip
-        end
-      end
     end
   end
 end
