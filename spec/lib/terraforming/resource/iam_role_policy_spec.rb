@@ -99,7 +99,7 @@ POLICY
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -110,31 +110,27 @@ POLICY
                 ],
                 "outputs" => {},
                 "resources" => {
-                  "aws_iam_role.hoge_role" => {
-                    "type" => "aws_iam_role",
+                  "aws_iam_role_policy.hoge_role_policy" => {
+                    "type" => "aws_iam_role_policy",
                     "primary" => {
-                      "id" => "hoge_role",
+                      "id" => "hoge_role_policy",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
-                        "id" => "hoge_role",
-                        "name" => "hoge_role",
-                        "path" => "/",
-                        "unique_id" => "ABCDEFGHIJKLMN1234567",
+                        "id" => "hoge_role:hoge_role_policy",
+                        "name" => "hoge_role_policy",
+                        "policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:ListBucket\",\n        \"s3:Put*\",\n        \"s3:Get*\",\n        \"s3:*MultipartUpload*\"\n      ],\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                        "role" => "hoge_role",
                       }
                     }
                   },
-                  "aws_iam_role.fuga_role" => {
-                    "type" => "aws_iam_role",
+                  "aws_iam_role_policy.fuga_role_policy" => {
+                    "type" => "aws_iam_role_policy",
                     "primary" => {
-                      "id" => "fuga_role",
+                      "id" => "fuga_role_policy",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
-                        "id" => "fuga_role",
-                        "name" => "fuga_role",
-                        "path" => "/system/",
-                        "unique_id" => "OPQRSTUVWXYZA8901234",
+                        "id" => "fuga_role:fuga_role_policy",
+                        "name" => "fuga_role_policy",
+                        "policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"2\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"sns:Publish\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                        "role" => "fuga_role",
                       }
                     }
                   },

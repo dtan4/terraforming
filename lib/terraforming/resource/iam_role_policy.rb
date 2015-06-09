@@ -20,19 +20,17 @@ module Terraforming
       end
 
       def tfstate
-        resources = iam_roles.inject({}) do |result, role|
+        resources = iam_role_policies.inject({}) do |result, policy|
           attributes = {
-            "arn" => role.arn,
-            "assume_role_policy" => prettify_policy(role.assume_role_policy_document, true),
-            "id" => role.role_name,
-            "name" => role.role_name,
-            "path" => role.path,
-            "unique_id" => role.role_id,
+            "id" => iam_role_policy_id_of(policy),
+            "name" => policy.policy_name,
+            "policy" => prettify_policy(policy.policy_document, true),
+            "role" => policy.role_name,
           }
-          result["aws_iam_role.#{role.role_name}"] = {
-            "type" => "aws_iam_role",
+          result["aws_iam_role_policy.#{policy.policy_name}"] = {
+            "type" => "aws_iam_role_policy",
             "primary" => {
-              "id" => role.role_name,
+              "id" => policy.policy_name,
               "attributes" => attributes
             }
           }
@@ -47,6 +45,10 @@ module Terraforming
 
       def iam_roles
         @client.list_roles.roles
+      end
+
+      def iam_role_policy_id_of(policy)
+        "#{policy.role_name}:#{policy.policy_name}"
       end
 
       def iam_role_policy_names_in(role)
