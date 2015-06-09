@@ -48,6 +48,12 @@ module Terraforming
       execute(Terraforming::Resource::IAMPolicy, options)
     end
 
+    desc "iamr", "IAM Role"
+    option :tfstate, type: :boolean
+    def iamr
+      execute(Terraforming::Resource::IAMRole, options)
+    end
+
     desc "iamu", "IAM User"
     option :tfstate, type: :boolean
     def iamu
