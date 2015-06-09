@@ -24,7 +24,7 @@ module Terraforming
           attributes = {
             "id" => iam_user_policy_id_of(policy),
             "name" => policy.policy_name,
-            "policy" => CGI.unescape(policy.policy_document),
+            "policy" => prettify_policy(policy.policy_document, true),
             "user" => policy.user_name,
           }
           result["aws_iam_user_policy.#{policy.policy_name}"] = {

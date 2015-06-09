@@ -34,5 +34,15 @@ module Terraforming
 
       JSON.pretty_generate(tfstate)
     end
+
+    def prettify_policy(policy_document, breakline = false)
+      json = JSON.pretty_generate(JSON.parse(CGI.unescape(policy_document)))
+
+      if breakline
+        json[-1] != "\n" ? json << "\n" : json
+      else
+        json.strip
+      end
+    end
   end
 end
