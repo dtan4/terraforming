@@ -47,6 +47,7 @@ Commands:
   terraforming elb             # ELB
   terraforming iamg            # IAM Group
   terraforming iamgp           # IAM Group Policy
+  terraforming iamip           # IAM Instance Profile
   terraforming iamp            # IAM Policy
   terraforming iamr            # IAM Role
   terraforming iamrp           # IAM Role Policy
