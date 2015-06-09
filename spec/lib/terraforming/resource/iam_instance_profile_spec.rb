@@ -30,7 +30,7 @@ module Terraforming
             path: "/system/",
             instance_profile_name: "fuga_profile",
             instance_profile_id: "OPQRSTUVWXYZA8901234",
-            arn: "arn:aws:iam::345678901234:instance_profile/fuga_role",
+            arn: "arn:aws:iam::345678901234:instance-profile/fuga_profile",
             create_date: Time.parse("2015-05-01 12:34:56 UTC"),
             roles: [],
           },
@@ -61,7 +61,7 @@ resource "aws_iam_instance_profile" "fuga_profile" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -72,31 +72,29 @@ resource "aws_iam_instance_profile" "fuga_profile" {
                 ],
                 "outputs" => {},
                 "resources" => {
-                  "aws_iam_instance_profile.hoge_role" => {
-                    "type" => "aws_iam_role",
+                  "aws_iam_instance_profile.hoge_profile" => {
+                    "type" => "aws_iam_instance_profile",
                     "primary" => {
-                      "id" => "hoge_role",
+                      "id" => "hoge_profile",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::123456789012:instance_profile/hoge_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
-                        "id" => "hoge_role",
-                        "name" => "hoge_role",
+                        "arn"=> "arn:aws:iam::123456789012:instance-profile/hoge_profile",
+                        "id" => "hoge_profile",
+                        "name" => "hoge_profile",
                         "path" => "/",
-                        "unique_id" => "ABCDEFGHIJKLMN1234567",
+                        "roles.#" => "1",
                       }
                     }
                   },
-                  "aws_iam_instance_profile.fuga_role" => {
+                  "aws_iam_instance_profile.fuga_profile" => {
                     "type" => "aws_iam_instance_profile",
                     "primary" => {
-                      "id" => "fuga_role",
+                      "id" => "fuga_profile",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::345678901234:instance_profile/fuga_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
-                        "id" => "fuga_role",
-                        "name" => "fuga_role",
+                        "arn"=> "arn:aws:iam::345678901234:instance-profile/fuga_profile",
+                        "id" => "fuga_profile",
+                        "name" => "fuga_profile",
                         "path" => "/system/",
-                        "unique_id" => "OPQRSTUVWXYZA8901234",
+                        "roles.#" => "0",
                       }
                     }
                   },
