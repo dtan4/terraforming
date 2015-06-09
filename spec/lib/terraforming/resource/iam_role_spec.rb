@@ -80,7 +80,7 @@ POLICY
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
@@ -91,27 +91,29 @@ POLICY
                 ],
                 "outputs" => {},
                 "resources" => {
-                  "aws_iam_user.hoge" => {
-                    "type" => "aws_iam_user",
+                  "aws_iam_role.hoge_role" => {
+                    "type" => "aws_iam_role",
                     "primary" => {
-                      "id" => "hoge",
+                      "id" => "hoge_role",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                        "id" => "hoge",
-                        "name" => "hoge",
+                        "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
+                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                        "id" => "hoge_role",
+                        "name" => "hoge_role",
                         "path" => "/",
                         "unique_id" => "ABCDEFGHIJKLMN1234567",
                       }
                     }
                   },
-                  "aws_iam_user.fuga" => {
-                    "type" => "aws_iam_user",
+                  "aws_iam_role.fuga_role" => {
+                    "type" => "aws_iam_role",
                     "primary" => {
-                      "id" => "fuga",
+                      "id" => "fuga_role",
                       "attributes" => {
-                        "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                        "id" => "fuga",
-                        "name" => "fuga",
+                        "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
+                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                        "id" => "fuga_role",
+                        "name" => "fuga_role",
                         "path" => "/system/",
                         "unique_id" => "OPQRSTUVWXYZA8901234",
                       }

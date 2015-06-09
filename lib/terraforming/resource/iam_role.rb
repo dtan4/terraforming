@@ -20,18 +20,19 @@ module Terraforming
       end
 
       def tfstate
-        resources = iam_users.inject({}) do |result, user|
+        resources = iam_roles.inject({}) do |result, role|
           attributes = {
-            "arn"=> user.arn,
-            "id" => user.user_name,
-            "name" => user.user_name,
-            "path" => user.path,
-            "unique_id" => user.user_id,
+            "arn" => role.arn,
+            "assume_role_policy" => prettify_policy(role.assume_role_policy_document, true),
+            "id" => role.role_name,
+            "name" => role.role_name,
+            "path" => role.path,
+            "unique_id" => role.role_id,
           }
-          result["aws_iam_user.#{user.user_name}"] = {
-            "type" => "aws_iam_user",
+          result["aws_iam_role.#{role.role_name}"] = {
+            "type" => "aws_iam_role",
             "primary" => {
-              "id" => user.user_name,
+              "id" => role.role_name,
               "attributes" => attributes
             }
           }
@@ -48,8 +49,14 @@ module Terraforming
         @client.list_roles.roles
       end
 
-      def prettify_policy(policy_document)
-        JSON.pretty_generate(JSON.parse(CGI.unescape(policy_document))).strip
+      def prettify_policy(policy_document, breakline = false)
+        json = JSON.pretty_generate(JSON.parse(CGI.unescape(policy_document)))
+
+        if breakline
+          json[-1] != "\n" ? json << "\n" : json
+        else
+          json.strip
+        end
       end
     end
   end
