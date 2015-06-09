@@ -2,6 +2,7 @@
 
 ### Resource
 
+- AWS IAM instance profile
 - AWS IAM role
 - AWS IAM role policy
 
