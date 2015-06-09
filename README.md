@@ -49,6 +49,7 @@ Commands:
   terraforming iamgp           # IAM Group Policy
   terraforming iamp            # IAM Policy
   terraforming iamr            # IAM Role
+  terraforming iamrp           # IAM Role Policy
   terraforming iamu            # IAM User
   terraforming iamup           # IAM User Policy
   terraforming nacl            # Network ACL
