@@ -1,5 +1,9 @@
 # v0.1.0 (UNRELEASED)
 
+### Resource
+
+- AWS IAM role
+
 # [v0.0.5](https://github.com/dtan4/terraforming/releases/tag/v0.0.5) (2015-06-01)
 
 ### Fixed
