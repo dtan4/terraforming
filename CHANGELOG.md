@@ -1,5 +1,9 @@
 # v0.1.0 (UNRELEASED)
 
+### Fixed
+
+- Include AWS Network ACL subnet ids
+
 ### Resource
 
 - AWS IAM instance profile

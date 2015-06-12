@@ -25,6 +25,7 @@ module Terraforming
             "egress.#" => egresses_of(network_acl).length.to_s,
             "id" => network_acl.network_acl_id,
             "ingress.#" => ingresses_of(network_acl).length.to_s,
+            "subnet_ids.#" => subnet_ids_of(network_acl).length.to_s,
             "tags.#" => network_acl.tags.length.to_s,
             "vpc_id" => network_acl.vpc_id,
           }
@@ -70,6 +71,10 @@ module Terraforming
 
       def network_acls
         @client.describe_network_acls.network_acls
+      end
+
+      def subnet_ids_of(network_acl)
+        network_acl.associations.map { |association| association.subnet_id }
       end
 
       def to_port_of(entry)
