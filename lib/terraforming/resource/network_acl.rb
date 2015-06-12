@@ -25,6 +25,7 @@ module Terraforming
             "egress.#" => egresses_of(network_acl).length.to_s,
             "id" => network_acl.network_acl_id,
             "ingress.#" => ingresses_of(network_acl).length.to_s,
+            "subnet_ids.#" => subnet_ids_of(network_acl).length.to_s,
             "tags.#" => network_acl.tags.length.to_s,
             "vpc_id" => network_acl.vpc_id,
           }

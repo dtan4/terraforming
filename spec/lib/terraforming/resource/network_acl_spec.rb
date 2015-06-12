@@ -161,6 +161,7 @@ resource "aws_network_acl" "fuga" {
                         "egress.#" => "0",
                         "id" => "acl-1234abcd",
                         "ingress.#" => "1",
+                        "subnet_ids.#" => "2",
                         "tags.#" => "1",
                         "vpc_id" => "vpc-1234abcd",
                       }
@@ -174,6 +175,7 @@ resource "aws_network_acl" "fuga" {
                         "egress.#" => "0",
                         "id" => "acl-5678efgh",
                         "ingress.#" => "1",
+                        "subnet_ids.#" => "2",
                         "tags.#" => "1",
                         "vpc_id" => "vpc-5678efgh",
                       }
