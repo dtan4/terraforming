@@ -102,7 +102,8 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_network_acl" "hoge" {
-    vpc_id = "vpc-1234abcd"
+    vpc_id     = "vpc-1234abcd"
+    subnet_ids = ["subnet-1234abcd", "subnet-5678efgh"]
 
     ingress {
         from_port  = 0
@@ -119,7 +120,8 @@ resource "aws_network_acl" "hoge" {
 }
 
 resource "aws_network_acl" "fuga" {
-    vpc_id = "vpc-5678efgh"
+    vpc_id     = "vpc-5678efgh"
+    subnet_ids = ["subnet-9012ijkl", "subnet-3456mnop"]
 
     ingress {
         from_port  = 0

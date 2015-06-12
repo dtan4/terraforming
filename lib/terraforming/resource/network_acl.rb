@@ -72,6 +72,10 @@ module Terraforming
         @client.describe_network_acls.network_acls
       end
 
+      def subnet_ids_of(network_acl)
+        network_acl.associations.map { |association| association.subnet_id }
+      end
+
       def to_port_of(entry)
         entry.port_range ? entry.port_range.to : 0
       end

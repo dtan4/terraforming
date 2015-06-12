@@ -1,6 +1,7 @@
 <% network_acls.each do |network_acl| -%>
 resource "aws_network_acl" "<%= module_name_of(network_acl) %>" {
-    vpc_id = "<%= network_acl.vpc_id %>"
+    vpc_id     = "<%= network_acl.vpc_id %>"
+    subnet_ids = <%= subnet_ids_of(network_acl).inspect %>
 
 <% ingresses_of(network_acl).each do |ingress| -%>
     ingress {
