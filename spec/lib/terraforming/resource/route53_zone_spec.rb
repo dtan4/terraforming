@@ -7,23 +7,28 @@ module Terraforming
         Aws::Route53::Client.new(stub_responses: true)
       end
 
-      let(:hosted_zones) do
-        [
+      let(:hoge_hosted_zone) do
           {
             id: "/hostedzone/ABCDEFGHIJKLMN",
             name: "hoge.net.",
             caller_reference: "ABCDEFGH-1234-IJKL-5678-MNOPQRSTUVWX",
             config: { private_zone: false },
-            resource_record_set_count: 4
-          },
-          {
-            id: "/hostedzone/OPQRSTUVWXYZAB",
-            name: "fuga.net.",
-            caller_reference: "ABCDEFGH-5678-IJKL-9012-MNOPQRSTUVWX",
-            config: { private_zone: false },
-            resource_record_set_count: 4
-          },
-        ]
+            resource_record_set_count: 4,
+          }
+      end
+
+      let(:fuga_hosted_zone) do
+        {
+          id: "/hostedzone/OPQRSTUVWXYZAB",
+          name: "fuga.net.",
+          caller_reference: "ABCDEFGH-5678-IJKL-9012-MNOPQRSTUVWX",
+          config: { private_zone: false },
+          resource_record_set_count: 4
+        }
+      end
+
+      let(:hosted_zones) do
+        [hoge_hosted_zone, fuga_hosted_zone]
       end
 
       let(:hoge_resource_tag_set) do
@@ -59,14 +64,15 @@ module Terraforming
       end
 
       before do
-        client.stub_responses(:list_hosted_zones, hosted_zones: hosted_zones)
+        client.stub_responses(:list_hosted_zones,
+          hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
         client.stub_responses(:list_tags_for_resource, [
           { resource_tag_set: hoge_resource_tag_set },
           { resource_tag_set: fuga_resource_tag_set },
         ])
         client.stub_responses(:get_hosted_zone, [
-          { delegation_set: hoge_delegation_set },
-          { delegation_set: fuga_delegation_set },
+          { hosted_zone: hoge_hosted_zone, delegation_set: hoge_delegation_set },
+          { hosted_zone: fuga_hosted_zone, delegation_set: fuga_delegation_set },
         ])
       end
 
