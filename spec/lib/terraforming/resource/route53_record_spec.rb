@@ -60,10 +60,11 @@ module Terraforming
       end
 
       before do
-        client.stub_responses(:list_hosted_zones, hosted_zones: hosted_zones)
+        client.stub_responses(:list_hosted_zones,
+          hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
         client.stub_responses(:list_resource_record_sets, [
-          { resource_record_sets: hoge_resource_record_sets },
-          { resource_record_sets: fuga_resource_record_sets },
+          { resource_record_sets: hoge_resource_record_sets, is_truncated: false, max_items: 1 },
+          { resource_record_sets: fuga_resource_record_sets, is_truncated: false, max_items: 1 },
         ])
       end
 
