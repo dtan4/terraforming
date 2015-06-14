@@ -63,6 +63,10 @@ module Terraforming
       def module_name_of(load_balancer)
         normalize_module_name(load_balancer.load_balancer_name)
       end
+
+      def vpc_elb?(load_balancer)
+        load_balancer.vpc_id != ""
+      end
     end
   end
 end
