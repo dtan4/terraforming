@@ -97,7 +97,7 @@ module Terraforming
               timeout: 5,
               unhealthy_threshold: 2
             },
-            vpc_id: "vpc-5678efgh",
+            vpc_id: "",
             backend_server_descriptions: [],
             instances: [
               {
@@ -165,7 +165,6 @@ module Terraforming
           expect(described_class.tf(client)).to eq <<-EOS
 resource "aws_elb" "hoge" {
     name                        = "hoge"
-    availability_zones          = ["ap-northeast-1b", "ap-northeast-1c"]
     subnets                     = ["subnet-1234abcd", "subnet-5678efgh"]
     security_groups             = ["sg-1234abcd", "sg-5678efgh"]
     instances                   = ["i-1234abcd"]
@@ -194,7 +193,6 @@ resource "aws_elb" "hoge" {
 resource "aws_elb" "fuga" {
     name                        = "fuga"
     availability_zones          = ["ap-northeast-1b", "ap-northeast-1c"]
-    subnets                     = ["subnet-9012ijkl", "subnet-3456mnop"]
     security_groups             = ["sg-9012ijkl", "sg-3456mnop"]
     instances                   = ["i-5678efgh"]
     cross_zone_load_balancing   = true

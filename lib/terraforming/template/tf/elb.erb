@@ -2,8 +2,11 @@
   <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
 resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
     name                        = "<%= load_balancer.load_balancer_name %>"
-    availability_zones          = <%= load_balancer.availability_zones.inspect %>
+  <%- if vpc_elb?(load_balancer) -%>
     subnets                     = <%= load_balancer.subnets.inspect %>
+  <%- else -%>
+    availability_zones          = <%= load_balancer.availability_zones.inspect %>
+  <%- end -%>
     security_groups             = <%= load_balancer.security_groups.inspect %>
     instances                   = <%= load_balancer.instances.map { |instance| instance.instance_id }.inspect %>
     cross_zone_load_balancing   = <%= load_balancer_attributes.cross_zone_load_balancing.enabled %>
