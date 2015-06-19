@@ -80,49 +80,122 @@ POLICY
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_iam_role.hoge_role" => {
-                    "type" => "aws_iam_role",
-                    "primary" => {
-                      "id" => "hoge_role",
-                      "attributes" => {
-                        "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_iam_role.hoge_role" => {
+                      "type" => "aws_iam_role",
+                      "primary" => {
                         "id" => "hoge_role",
-                        "name" => "hoge_role",
-                        "path" => "/",
-                        "unique_id" => "ABCDEFGHIJKLMN1234567",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
+                          "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                          "id" => "hoge_role",
+                          "name" => "hoge_role",
+                          "path" => "/",
+                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                        }
                       }
-                    }
-                  },
-                  "aws_iam_role.fuga_role" => {
-                    "type" => "aws_iam_role",
-                    "primary" => {
-                      "id" => "fuga_role",
-                      "attributes" => {
-                        "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
-                        "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                    },
+                    "aws_iam_role.fuga_role" => {
+                      "type" => "aws_iam_role",
+                      "primary" => {
                         "id" => "fuga_role",
-                        "name" => "fuga_role",
-                        "path" => "/system/",
-                        "unique_id" => "OPQRSTUVWXYZA8901234",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
+                          "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                          "id" => "fuga_role",
+                          "name" => "fuga_role",
+                          "path" => "/system/",
+                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                        }
                       }
-                    }
-                  },
+                    },
+                  }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 88,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_iam_role.hoge_role" => {
+                      "type" => "aws_iam_role",
+                      "primary" => {
+                        "id" => "hoge_role",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
+                          "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                          "id" => "hoge_role",
+                          "name" => "hoge_role",
+                          "path" => "/",
+                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                        }
+                      }
+                    },
+                    "aws_iam_role.fuga_role" => {
+                      "type" => "aws_iam_role",
+                      "primary" => {
+                        "id" => "fuga_role",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
+                          "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
+                          "id" => "fuga_role",
+                          "name" => "fuga_role",
+                          "path" => "/system/",
+                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end
