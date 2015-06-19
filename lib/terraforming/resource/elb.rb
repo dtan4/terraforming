@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::ElasticLoadBalancing::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::ElasticLoadBalancing::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/elb")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = load_balancers.inject({}) do |result, load_balancer|
           load_balancer_attributes = load_balancer_attributes_of(load_balancer)
           attributes = {
@@ -49,7 +49,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       def load_balancers
