@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Daisuke Fujita"]
   spec.email         = ["dtanshi45@gmail.com"]
 
-  spec.summary       = %q{Export existing AWS resources into Terraform style (tf, tfstate)}
-  spec.description   = %q{Export existing AWS resources into Terraform style (tf, tfstate)}
+  spec.summary       = %q{Export existing AWS resources to Terraform style (tf, tfstate)}
+  spec.description   = %q{Export existing AWS resources to Terraform style (tf, tfstate)}
   spec.homepage      = "https://github.com/dtan4/terraforming"
   spec.license       = "MIT"
 
