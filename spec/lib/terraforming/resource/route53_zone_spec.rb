@@ -78,7 +78,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_route53_zone" "hoge-net" {
     name = "hoge.net"
 
@@ -101,7 +101,7 @@ resource "aws_route53_zone" "fuga-net" {
 
       describe ".tfstate" do
         it "should generate tfstate" do
-          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
             "modules" => [

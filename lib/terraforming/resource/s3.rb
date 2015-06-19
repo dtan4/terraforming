@@ -3,11 +3,11 @@ module Terraforming
     class S3
       include Terraforming::Util
 
-      def self.tf(client = Aws::S3::Client.new)
+      def self.tf(client: Aws::S3::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::S3::Client.new)
+      def self.tfstate(client: Aws::S3::Client.new)
         self.new(client).tfstate
       end
 

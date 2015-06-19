@@ -3,11 +3,11 @@ module Terraforming
     class ELB
       include Terraforming::Util
 
-      def self.tf(client = Aws::ElasticLoadBalancing::Client.new)
+      def self.tf(client: Aws::ElasticLoadBalancing::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::ElasticLoadBalancing::Client.new)
+      def self.tfstate(client: Aws::ElasticLoadBalancing::Client.new)
         self.new(client).tfstate
       end
 

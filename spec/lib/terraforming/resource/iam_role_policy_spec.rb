@@ -52,7 +52,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_iam_role_policy" "hoge_role_policy" {
     name   = "hoge_role_policy"
     role   = "hoge_role"
@@ -100,7 +100,7 @@ POLICY
 
       describe ".tfstate" do
         it "should generate tfstate" do
-          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
             "version" => 1,
             "serial" => 1,
             "modules" => [

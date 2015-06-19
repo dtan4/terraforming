@@ -87,7 +87,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_db_parameter_group" "default-mysql5-6" {
     name        = "default.mysql5.6"
     family      = "mysql5.6"
@@ -131,7 +131,7 @@ resource "aws_db_parameter_group" "default-postgres9-4" {
 
         describe ".tfstate" do
           it "should generate tfstate" do
-            expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 1,
               "modules" => [
