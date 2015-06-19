@@ -61,47 +61,118 @@ resource "aws_iam_instance_profile" "fuga_profile" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_iam_instance_profile.hoge_profile" => {
-                    "type" => "aws_iam_instance_profile",
-                    "primary" => {
-                      "id" => "hoge_profile",
-                      "attributes" => {
-                        "arn"=> "arn:aws:iam::123456789012:instance-profile/hoge_profile",
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_iam_instance_profile.hoge_profile" => {
+                      "type" => "aws_iam_instance_profile",
+                      "primary" => {
                         "id" => "hoge_profile",
-                        "name" => "hoge_profile",
-                        "path" => "/",
-                        "roles.#" => "1",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::123456789012:instance-profile/hoge_profile",
+                          "id" => "hoge_profile",
+                          "name" => "hoge_profile",
+                          "path" => "/",
+                          "roles.#" => "1",
+                        }
                       }
-                    }
-                  },
-                  "aws_iam_instance_profile.fuga_profile" => {
-                    "type" => "aws_iam_instance_profile",
-                    "primary" => {
-                      "id" => "fuga_profile",
-                      "attributes" => {
-                        "arn"=> "arn:aws:iam::345678901234:instance-profile/fuga_profile",
+                    },
+                    "aws_iam_instance_profile.fuga_profile" => {
+                      "type" => "aws_iam_instance_profile",
+                      "primary" => {
                         "id" => "fuga_profile",
-                        "name" => "fuga_profile",
-                        "path" => "/system/",
-                        "roles.#" => "0",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::345678901234:instance-profile/fuga_profile",
+                          "id" => "fuga_profile",
+                          "name" => "fuga_profile",
+                          "path" => "/system/",
+                          "roles.#" => "0",
+                        }
                       }
-                    }
-                  },
+                    },
+                  }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 88,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_iam_instance_profile.hoge_profile" => {
+                      "type" => "aws_iam_instance_profile",
+                      "primary" => {
+                        "id" => "hoge_profile",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::123456789012:instance-profile/hoge_profile",
+                          "id" => "hoge_profile",
+                          "name" => "hoge_profile",
+                          "path" => "/",
+                          "roles.#" => "1",
+                        }
+                      }
+                    },
+                    "aws_iam_instance_profile.fuga_profile" => {
+                      "type" => "aws_iam_instance_profile",
+                      "primary" => {
+                        "id" => "fuga_profile",
+                        "attributes" => {
+                          "arn"=> "arn:aws:iam::345678901234:instance-profile/fuga_profile",
+                          "id" => "fuga_profile",
+                          "name" => "fuga_profile",
+                          "path" => "/system/",
+                          "roles.#" => "0",
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end
