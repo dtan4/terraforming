@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::IAM::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::IAM::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/iam_role_policy")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = iam_role_policies.inject({}) do |result, policy|
           attributes = {
             "id" => iam_role_policy_id_of(policy),
@@ -38,7 +38,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private
