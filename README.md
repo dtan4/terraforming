@@ -130,7 +130,7 @@ $ terraforming s3 --tfstate
 }
 ```
 
-If you want to merge exported tfstate to existing `terraform.tfstate`, specify `--tfstate --merge=/path/to/terraform.tfstate` (e.g. S3 buckets):
+If you want to merge exported tfstate to existing `terraform.tfstate`, specify `--tfstate --merge=/path/to/terraform.tfstate` option (e.g. S3 buckets):
 
 Existing `terraform.tfstate`:
 
@@ -252,6 +252,17 @@ $ terraforming s3 --tfstate --merge=/path/to/tfstate
     }
   }
 }
+```
+
+After writing exported tf and tfstate to files, execute `terraform plan` and check the result.
+There should be no diff.
+
+```bash
+$ terraform plan
+No changes. Infrastructure is up-to-date. This means that Terraform
+could not detect any differences between your configuration and
+the real physical resources that exist. As a result, Terraform
+doesn't need to do anything.
 ```
 
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
