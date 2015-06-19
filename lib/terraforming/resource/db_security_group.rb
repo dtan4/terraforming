@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::RDS::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/db_security_group")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = db_security_groups.inject({}) do |result, security_group|
           attributes = {
             "db_subnet_group_name" => security_group.db_security_group_name,
@@ -38,7 +38,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private
