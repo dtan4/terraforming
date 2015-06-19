@@ -2,340 +2,167 @@ require "spec_helper"
 
 module Terraforming
   describe CLI do
-    describe "dbpg" do
+    shared_examples "CLI examples" do
       context "without --tfstate" do
         it "should export DBParameterGroup tf" do
-          expect(Terraforming::Resource::DBParameterGroup).to receive(:tf)
-          described_class.new.invoke(:dbpg, [], {})
+          expect(klass).to receive(:tf)
+          described_class.new.invoke(command, [], {})
         end
       end
 
       context "with --tfstate" do
         it "should export DBParameterGroup tfstate" do
-          expect(Terraforming::Resource::DBParameterGroup).to receive(:tfstate)
-          described_class.new.invoke(:dbpg, [], { tfstate: true })
+          expect(klass).to receive(:tfstate)
+          described_class.new.invoke(command, [], { tfstate: true })
         end
       end
+    end
+
+    describe "dbpg" do
+      let(:klass)   { Terraforming::Resource::DBParameterGroup }
+      let(:command) { :dbpg }
+
+      it_behaves_like "CLI examples"
     end
 
     describe "dbsg" do
-      context "without --tfstate" do
-        it "should export DBSecurityGroup tf" do
-          expect(Terraforming::Resource::DBSecurityGroup).to receive(:tf)
-          described_class.new.invoke(:dbsg, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::DBSecurityGroup }
+      let(:command) { :dbsg }
 
-      context "with --tfstate" do
-        it "should export DBSecurityGroup tfstate" do
-          expect(Terraforming::Resource::DBSecurityGroup).to receive(:tfstate)
-          described_class.new.invoke(:dbsg, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "dbsn" do
-      context "without --tfstate" do
-        it "should export DBSubnetGroup tf" do
-          expect(Terraforming::Resource::DBSubnetGroup).to receive(:tf)
-          described_class.new.invoke(:dbsn, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::DBSubnetGroup }
+      let(:command) { :dbsn }
 
-      context "with --tfstate" do
-        it "should export DBSubnetGroup tfstate" do
-          expect(Terraforming::Resource::DBSubnetGroup).to receive(:tfstate)
-          described_class.new.invoke(:dbsn, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "ec2" do
-      context "without --tfstate" do
-        it "should export EC2 tf" do
-          expect(Terraforming::Resource::EC2).to receive(:tf)
-          described_class.new.invoke(:ec2, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::EC2 }
+      let(:command) { :ec2 }
 
-      context "with --tfstate" do
-        it "should export EC2 tfstate" do
-          expect(Terraforming::Resource::EC2).to receive(:tfstate)
-          described_class.new.invoke(:ec2, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "elb" do
-      context "without --tfstate" do
-        it "should export ELB tf" do
-          expect(Terraforming::Resource::ELB).to receive(:tf)
-          described_class.new.invoke(:elb, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::ELB }
+      let(:command) { :elb }
 
-      context "with --tfstate" do
-        it "should export ELB tfstate" do
-          expect(Terraforming::Resource::ELB).to receive(:tfstate)
-          described_class.new.invoke(:elb, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamg" do
-      context "without --tfstate" do
-        it "should export IAMGroup tf" do
-          expect(Terraforming::Resource::IAMGroup).to receive(:tf)
-          described_class.new.invoke(:iamg, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMGroup }
+      let(:command) { :iamg }
 
-      context "with --tfstate" do
-        it "should export IAMGroup tfstate" do
-          expect(Terraforming::Resource::IAMGroup).to receive(:tfstate)
-          described_class.new.invoke(:iamg, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamgp" do
-      context "without --tfstate" do
-        it "should export IAMGroupPolicy tf" do
-          expect(Terraforming::Resource::IAMGroupPolicy).to receive(:tf)
-          described_class.new.invoke(:iamgp, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMGroupPolicy }
+      let(:command) { :iamgp }
 
-      context "with --tfstate" do
-        it "should export IAMGroupPolicy tfstate" do
-          expect(Terraforming::Resource::IAMGroupPolicy).to receive(:tfstate)
-          described_class.new.invoke(:iamgp, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamip" do
-      context "without --tfstate" do
-        it "should export IAMInstanceProfile tf" do
-          expect(Terraforming::Resource::IAMInstanceProfile).to receive(:tf)
-          described_class.new.invoke(:iamip, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMInstanceProfile }
+      let(:command) { :iamip }
 
-      context "with --tfstate" do
-        it "should export IAMInstanceProfile tfstate" do
-          expect(Terraforming::Resource::IAMInstanceProfile).to receive(:tfstate)
-          described_class.new.invoke(:iamip, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamp" do
-      context "without --tfstate" do
-        it "should export IAMPolicy tf" do
-          expect(Terraforming::Resource::IAMPolicy).to receive(:tf)
-          described_class.new.invoke(:iamp, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMPolicy }
+      let(:command) { :iamp }
 
-      context "with --tfstate" do
-        it "should export IAMPolicy tfstate" do
-          expect(Terraforming::Resource::IAMPolicy).to receive(:tfstate)
-          described_class.new.invoke(:iamp, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamr" do
-      context "without --tfstate" do
-        it "should export IAMRole tf" do
-          expect(Terraforming::Resource::IAMRole).to receive(:tf)
-          described_class.new.invoke(:iamr, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMRole }
+      let(:command) { :iamr }
 
-      context "with --tfstate" do
-        it "should export IAMRole tfstate" do
-          expect(Terraforming::Resource::IAMRole).to receive(:tfstate)
-          described_class.new.invoke(:iamr, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamrp" do
-      context "without --tfstate" do
-        it "should export IAMRolePolicy tf" do
-          expect(Terraforming::Resource::IAMRolePolicy).to receive(:tf)
-          described_class.new.invoke(:iamrp, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMRolePolicy }
+      let(:command) { :iamrp }
 
-      context "with --tfstate" do
-        it "should export IAMRolePolicy tfstate" do
-          expect(Terraforming::Resource::IAMRolePolicy).to receive(:tfstate)
-          described_class.new.invoke(:iamrp, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamu" do
-      context "without --tfstate" do
-        it "should export IAMUser tf" do
-          expect(Terraforming::Resource::IAMUser).to receive(:tf)
-          described_class.new.invoke(:iamu, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMUser }
+      let(:command) { :iamu }
 
-      context "with --tfstate" do
-        it "should export IAMUser tfstate" do
-          expect(Terraforming::Resource::IAMUser).to receive(:tfstate)
-          described_class.new.invoke(:iamu, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "iamup" do
-      context "without --tfstate" do
-        it "should export IAMUserPolicy tf" do
-          expect(Terraforming::Resource::IAMUserPolicy).to receive(:tf)
-          described_class.new.invoke(:iamup, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::IAMUserPolicy }
+      let(:command) { :iamup }
 
-      context "with --tfstate" do
-        it "should export IAMUserPolicy tfstate" do
-          expect(Terraforming::Resource::IAMUserPolicy).to receive(:tfstate)
-          described_class.new.invoke(:iamup, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "nacl" do
-      context "without --tfstate" do
-        it "should export NetworkACL tf" do
-          expect(Terraforming::Resource::NetworkACL).to receive(:tf)
-          described_class.new.invoke(:nacl, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::NetworkACL }
+      let(:command) { :nacl }
 
-      context "with --tfstate" do
-        it "should export NetworkACL tfstate" do
-          expect(Terraforming::Resource::NetworkACL).to receive(:tfstate)
-          described_class.new.invoke(:nacl, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "r53r" do
-      context "without --tfstate" do
-        it "should export Route53Record tf" do
-          expect(Terraforming::Resource::Route53Record).to receive(:tf)
-          described_class.new.invoke(:r53r, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::Route53Record }
+      let(:command) { :r53r }
 
-      context "with --tfstate" do
-        it "should export Route53Record tfstate" do
-          expect(Terraforming::Resource::Route53Record).to receive(:tfstate)
-          described_class.new.invoke(:r53r, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "r53z" do
-      context "without --tfstate" do
-        it "should export Route53Zone tf" do
-          expect(Terraforming::Resource::Route53Zone).to receive(:tf)
-          described_class.new.invoke(:r53z, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::Route53Zone }
+      let(:command) { :r53z }
 
-      context "with --tfstate" do
-        it "should export Route53Zone tfstate" do
-          expect(Terraforming::Resource::Route53Zone).to receive(:tfstate)
-          described_class.new.invoke(:r53z, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "RDS" do
-      context "without --tfstate" do
-        it "should export RDS tf" do
-          expect(Terraforming::Resource::RDS).to receive(:tf)
-          described_class.new.invoke(:rds, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::RDS }
+      let(:command) { :rds }
 
-      context "with --tfstate" do
-        it "should export RDS tfstate" do
-          expect(Terraforming::Resource::RDS).to receive(:tfstate)
-          described_class.new.invoke(:rds, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "s3" do
-      context "without --tfstate" do
-        it "should export S3 tf" do
-          expect(Terraforming::Resource::S3).to receive(:tf)
-          described_class.new.invoke(:s3, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::S3 }
+      let(:command) { :s3 }
 
-      context "with --tfstate" do
-        it "should export S3 tfstate" do
-          expect(Terraforming::Resource::S3).to receive(:tfstate)
-          described_class.new.invoke(:s3, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "sg" do
-      context "without --tfstate" do
-        it "should export SecurityGroup tf" do
-          expect(Terraforming::Resource::SecurityGroup).to receive(:tf)
-          described_class.new.invoke(:sg, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::SecurityGroup }
+      let(:command) { :sg }
 
-      context "with --tfstate" do
-        it "should export SecurityGroup tfstate" do
-          expect(Terraforming::Resource::SecurityGroup).to receive(:tfstate)
-          described_class.new.invoke(:sg, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "sn" do
-      context "without --tfstate" do
-        it "should export Subnet tf" do
-          expect(Terraforming::Resource::Subnet).to receive(:tf)
-          described_class.new.invoke(:sn, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::Subnet }
+      let(:command) { :sn }
 
-      context "with --tfstate" do
-        it "should export Subnet tfstate" do
-          expect(Terraforming::Resource::Subnet).to receive(:tfstate)
-          described_class.new.invoke(:sn, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
 
     describe "vpc" do
-      context "without --tfstate" do
-        it "should export VPC tf" do
-          expect(Terraforming::Resource::VPC).to receive(:tf)
-          described_class.new.invoke(:vpc, [], {})
-        end
-      end
+      let(:klass)   { Terraforming::Resource::VPC }
+      let(:command) { :vpc }
 
-      context "with --tfstate" do
-        it "should export VPC tfstate" do
-          expect(Terraforming::Resource::VPC).to receive(:tfstate)
-          described_class.new.invoke(:vpc, [], { tfstate: true })
-        end
-      end
+      it_behaves_like "CLI examples"
     end
   end
 end
