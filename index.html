@@ -25,9 +25,12 @@
 <p><a href="https://travis-ci.org/dtan4/terraforming"><img src="https://travis-ci.org/dtan4/terraforming.svg?branch=master" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/dtan4/terraforming"><img src="https://codeclimate.com/github/dtan4/terraforming/badges/gpa.svg" alt="Code Climate"></a>
 <a href="https://codeclimate.com/github/dtan4/terraforming"><img src="https://codeclimate.com/github/dtan4/terraforming/badges/coverage.svg" alt="Test Coverage"></a>
-<a href="http://badge.fury.io/rb/terraforming"><img src="https://badge.fury.io/rb/terraforming.svg" alt="Gem Version"></a></p>
+<a href="https://gemnasium.com/dtan4/terraforming"><img src="https://gemnasium.com/dtan4/terraforming.svg" alt="Dependency Status"></a>
+<a href="http://badge.fury.io/rb/terraforming"><img src="https://badge.fury.io/rb/terraforming.svg" alt="Gem Version"></a>
+<a href="LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a>
+<a href="https://quay.io/repository/dtan4/terraforming"><img src="https://quay.io/repository/dtan4/terraforming/status" alt="Docker Repository on Quay.io" title="Docker Repository on Quay.io"></a></p>
 
-<p>Import existing AWS resources into <a href="https://terraform.io/">Terraform</a> style (tf, tfstate)</p>
+<p>Export existing AWS resources to <a href="https://terraform.io/">Terraform</a> style (tf, tfstate)</p>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -51,9 +54,9 @@
 
 <p>You need to set AWS credentials.</p>
 
-<div class="highlight highlight-bash"><pre>AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_REGION=</pre></div>
+<div class="highlight highlight-bash"><pre><span class="pl-k">export</span> AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
+<span class="pl-k">export</span> AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+<span class="pl-k">export</span> AWS_DEFAULT_REGION=xx-yyyy-0 \</pre></div>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -65,15 +68,27 @@ Commands:
   terraforming dbsn            <span class="pl-c"># Database Subnet Group</span>
   terraforming ec2             <span class="pl-c"># EC2</span>
   terraforming elb             <span class="pl-c"># ELB</span>
-  terraforming <span class="pl-c1">help</span> [COMMAND]  <span class="pl-c"># Describe available commands or one specific command</span>
+  terraforming iamg            <span class="pl-c"># IAM Group</span>
+  terraforming iamgp           <span class="pl-c"># IAM Group Policy</span>
+  terraforming iamip           <span class="pl-c"># IAM Instance Profile</span>
+  terraforming iamp            <span class="pl-c"># IAM Policy</span>
+  terraforming iamr            <span class="pl-c"># IAM Role</span>
+  terraforming iamrp           <span class="pl-c"># IAM Role Policy</span>
+  terraforming iamu            <span class="pl-c"># IAM User</span>
+  terraforming iamup           <span class="pl-c"># IAM User Policy</span>
   terraforming nacl            <span class="pl-c"># Network ACL</span>
+  terraforming r53r            <span class="pl-c"># Route53 Record</span>
+  terraforming r53z            <span class="pl-c"># Route53 Hosted Zone</span>
   terraforming rds             <span class="pl-c"># RDS</span>
   terraforming s3              <span class="pl-c"># S3</span>
-  terraforming sg              <span class="pl-c"># SecurityGroup</span>
+  terraforming sg              <span class="pl-c"># Security Group</span>
   terraforming sn              <span class="pl-c"># Subnet</span>
   terraforming vpc             <span class="pl-c"># VPC</span></pre></div>
 
-<p>Output <code>.tf</code> style (e.g. S3 buckets):</p>
+<h3>
+<a id="export-tf" class="anchor" href="#export-tf" aria-hidden="true"><span class="octicon octicon-link"></span></a>Export tf</h3>
+
+<p>(e.g. S3 buckets):</p>
 
 <div class="highlight highlight-bash"><pre>$ terraforming s3</pre></div>
 
@@ -87,7 +102,10 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
     acl    = <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>
 }</pre></div>
 
-<p>To output <code>.tfstate</code> style, specify <code>--tfstate</code> option (e.g. S3 buckets):</p>
+<h3>
+<a id="export-tfstate" class="anchor" href="#export-tfstate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Export tfstate</h3>
+
+<p>Specify <code>--tfstate</code> option (e.g. S3 buckets):</p>
 
 <div class="highlight highlight-bash"><pre>$ terraforming s3 --tfstate</pre></div>
 
@@ -127,12 +145,158 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
   }
 }</pre></div>
 
-<p>(Probably you have to modify the output to add it to existing <code>terraforming.tfstate</code>)</p>
+<p>If you want to merge exported tfstate to existing <code>terraform.tfstate</code>, specify <code>--tfstate --merge=/path/to/terraform.tfstate</code> option (e.g. S3 buckets):</p>
+
+<p>Existing <code>terraform.tfstate</code>:</p>
+
+<div class="highlight highlight-bash"><pre><span class="pl-c"># /path/to/terraform.tfstate</span>
+
+{
+  <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: 1,
+  <span class="pl-s"><span class="pl-pds">"</span>serial<span class="pl-pds">"</span></span>: 88,
+  <span class="pl-s"><span class="pl-pds">"</span>remote<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>s3<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>config<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>terraforming-tfstate<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>key<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>tf<span class="pl-pds">"</span></span>
+    }
+  },
+  <span class="pl-s"><span class="pl-pds">"</span>modules<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>: [
+      <span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span>
+    ],
+    <span class="pl-s"><span class="pl-pds">"</span>outputs<span class="pl-pds">"</span></span>: {
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>resources<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>aws_elb.hogehoge<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_elb<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hogehoge<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>availability_zones.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>connection_draining<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>connection_draining_timeout<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>300<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>cross_zone_load_balancing<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>dns_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge-12345678.ap-northeast-1.elb.amazonaws.com<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>health_check.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hogehoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>idle_timeout<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>60<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>instances.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>listener.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>security_groups.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>source_security_group<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>subnets.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>
+          }
+        }
+      }
+    }
+  }
+}</pre></div>
+
+<p>To generate merged tfstate:</p>
+
+<div class="highlight highlight-bash"><pre>$ terraforming s3 --tfstate --merge=/path/to/tfstate</pre></div>
+
+<div class="highlight highlight-json"><pre>{
+  <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
+  <span class="pl-s"><span class="pl-pds">"</span>serial<span class="pl-pds">"</span></span>: <span class="pl-c1">89</span>,
+  <span class="pl-s"><span class="pl-pds">"</span>remote<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>s3<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>config<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>terraforming-tfstate<span class="pl-pds">"</span></span>,
+      <span class="pl-s"><span class="pl-pds">"</span>key<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>tf<span class="pl-pds">"</span></span>
+    }
+  },
+  <span class="pl-s"><span class="pl-pds">"</span>modules<span class="pl-pds">"</span></span>: {
+    <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>: [
+      <span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span>
+    ],
+    <span class="pl-s"><span class="pl-pds">"</span>outputs<span class="pl-pds">"</span></span>: {
+    },
+    <span class="pl-s"><span class="pl-pds">"</span>resources<span class="pl-pds">"</span></span>: {
+      <span class="pl-s"><span class="pl-pds">"</span>aws_elb.hogehoge<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_elb<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hogehoge<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>availability_zones.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>connection_draining<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>connection_draining_timeout<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>300<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>cross_zone_load_balancing<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>dns_name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge-12345678.ap-northeast-1.elb.amazonaws.com<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>health_check.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hogehoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>idle_timeout<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>60<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>instances.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>listener.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>security_groups.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>source_security_group<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>subnets.#<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>
+          }
+        }
+      },
+      <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket.hoge<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>acl<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>
+          }
+        }
+      },
+      <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket.fuga<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">"</span>primary<span class="pl-pds">"</span></span>: {
+          <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>,
+          <span class="pl-s"><span class="pl-pds">"</span>attributes<span class="pl-pds">"</span></span>: {
+            <span class="pl-s"><span class="pl-pds">"</span>acl<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>bucket<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>fuga<span class="pl-pds">"</span></span>
+          }
+        }
+      }
+    }
+  }
+}</pre></div>
+
+<p>After writing exported tf and tfstate to files, execute <code>terraform plan</code> and check the result.
+There should be no diff.</p>
+
+<div class="highlight highlight-bash"><pre>$ terraform plan
+No changes. Infrastructure is up-to-date. This means that Terraform
+could not detect any differences between your configuration and
+the real physical resources that exist. As a result, Terraform
+doesn<span class="pl-s"><span class="pl-pds">'</span>t need to do anything.</span></pre></div>
+
+<h2>
+<a id="run-as-docker-container-" class="anchor" href="#run-as-docker-container-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run as Docker container <a href="https://quay.io/repository/dtan4/terraforming"><img src="https://quay.io/repository/dtan4/terraforming/status" alt="Docker Repository on Quay.io" title="Docker Repository on Quay.io"></a>
+</h2>
+
+<p>Terraforming Docker Image is available at <a href="https://quay.io/repository/dtan4/terraforming">quay.io/dtan4/terraforming</a> and developed at <a href="https://github.com/dtan4/dockerfile-terraforming">dtan4/dockerfile-terraforming</a>.</p>
+
+<p>Pull the Docker image:</p>
+
+<div class="highlight highlight-bash"><pre>$ docker pull quay.io/dtan4/terraforming:latest</pre></div>
+
+<p>And then run Terraforming as a Docker container:</p>
+
+<div class="highlight highlight-bash"><pre>$ docker run \
+    --rm \
+    --name terraforming \
+    -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
+    -e AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+    -e AWS_DEFAULT_REGION=xx-yyyy-0 \
+    quay.io/dtan4/terraforming:latest \
+    terraforming s3</pre></div>
 
 <h2>
 <a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
 
-<p>After checking out the repo, run <code>scripts/setup</code> to install dependencies. Then, run <code>scripts/console</code> for an interactive prompt that will allow you to experiment.</p>
+<p>After checking out the repo, run <code>script/setup</code> to install dependencies. Then, run <code>script/console</code> for an interactive prompt that will allow you to experiment.</p>
 
 <p>To install this gem onto your local machine, run <code>bundle exec rake install</code>. To release a new version, update the version number in <code>version.rb</code>, and then run <code>bundle exec rake release</code> to create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
 
