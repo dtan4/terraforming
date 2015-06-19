@@ -12,8 +12,15 @@ module Terraforming
 
       context "with --tfstate" do
         it "should export DBParameterGroup tfstate" do
-          expect(klass).to receive(:tfstate)
+          expect(klass).to receive(:tfstate).with(no_args)
           described_class.new.invoke(command, [], { tfstate: true })
+        end
+      end
+
+      context "with --tfstate --merge TFSTATE" do
+        it "should export merged DBParameterGroup tfstate" do
+          expect(klass).to receive(:tfstate).with(tfstate_base: tfstate_fixture)
+          described_class.new.invoke(command, [], { tfstate: true, merge: tfstate_fixture_path })
         end
       end
     end

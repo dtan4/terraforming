@@ -10,10 +10,10 @@ def fixture_path(fixture_name)
   File.join(File.dirname(__FILE__), "fixtures", fixture_name)
 end
 
-def tfstate_fixture_file
+def tfstate_fixture_path
   fixture_path("terraform.tfstate")
 end
 
 def tfstate_fixture
-  JSON.parse(open(tfstate_fixture_file).read)
+  JSON.parse(open(tfstate_fixture_path).read)
 end

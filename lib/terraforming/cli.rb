@@ -111,7 +111,20 @@ module Terraforming
     private
 
     def execute(klass, options)
-      puts options[:tfstate] ? klass.tfstate : klass.tf
+      result = if options[:tfstate]
+                 tfstate(klass, options[:merge])
+               else
+                 klass.tf
+               end
+
+      puts result
+    end
+
+    def tfstate(klass, tfstate_path)
+      return klass.tfstate unless tfstate_path
+
+      base_tfstate = JSON.parse(open(tfstate_path).read)
+      klass.tfstate(tfstate_base: base_tfstate)
     end
   end
 end
