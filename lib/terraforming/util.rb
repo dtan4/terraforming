@@ -19,6 +19,7 @@ module Terraforming
 
     def generate_tfstate(resources, tfstate_base = nil)
       tfstate = tfstate_base || tfstate_skeleton
+      tfstate["serial"] = tfstate["serial"] + 1
       tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(resources)
       JSON.pretty_generate(tfstate)
     end
@@ -36,7 +37,7 @@ module Terraforming
     def tfstate_skeleton
       {
         "version" => 1,
-        "serial" => 1,
+        "serial" => 0,
         "modules" => [
           {
             "path" => [

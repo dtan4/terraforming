@@ -150,7 +150,7 @@ POLICY
           it "should generate tfstate and merge it to existing tfstate" do
             expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
               "version" => 1,
-              "serial" => 88,
+              "serial" => 89,
               "remote" => {
                 "type" => "s3",
                 "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
