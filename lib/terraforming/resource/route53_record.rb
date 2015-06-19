@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::Route53::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::Route53::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/route53_record")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = records.inject({}) do |result, r|
           record, zone_id = r[:record], r[:zone_id]
           record_id = record_id_of(record, zone_id)
@@ -48,7 +48,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private
