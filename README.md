@@ -8,7 +8,7 @@
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
 
-Import existing AWS resources into [Terraform](https://terraform.io/) style (tf, tfstate)
+Export existing AWS resources into [Terraform](https://terraform.io/) style (tf, tfstate)
 
 ## Installation
 
