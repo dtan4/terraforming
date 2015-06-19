@@ -3,12 +3,12 @@ module Terraforming
     class RDS
       include Terraforming::Util
 
-      def self.tf(client = Aws::RDS::Client.new)
+      def self.tf(client: Aws::RDS::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::RDS::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/rds")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = db_instances.inject({}) do |result, instance|
           attributes = {
             "address" => instance.endpoint.address,
@@ -59,7 +59,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private

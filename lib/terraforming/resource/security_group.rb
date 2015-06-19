@@ -3,12 +3,12 @@ module Terraforming
     class SecurityGroup
       include Terraforming::Util
 
-      def self.tf(client = Aws::EC2::Client.new)
+      def self.tf(client: Aws::EC2::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/security_group")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = security_groups.inject({}) do |result, security_group|
           attributes = {
             "description" => security_group.description,
@@ -44,7 +44,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private

@@ -3,12 +3,12 @@ module Terraforming
     class S3
       include Terraforming::Util
 
-      def self.tf(client = Aws::S3::Client.new)
+      def self.tf(client: Aws::S3::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::S3::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::S3::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/s3")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = buckets.inject({}) do |result, bucket|
           result["aws_s3_bucket.#{module_name_of(bucket)}"] = {
             "type" => "aws_s3_bucket",
@@ -36,7 +36,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private

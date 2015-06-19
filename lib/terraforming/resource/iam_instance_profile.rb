@@ -3,12 +3,12 @@ module Terraforming
     class IAMInstanceProfile
       include Terraforming::Util
 
-      def self.tf(client = Aws::IAM::Client.new)
+      def self.tf(client: Aws::IAM::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::IAM::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::IAM::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/iam_instance_profile")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = iam_instance_profiles.inject({}) do |result, profile|
           attributes = {
             "arn" => profile.arn,
@@ -39,7 +39,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private

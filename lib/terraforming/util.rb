@@ -17,21 +17,10 @@ module Terraforming
       File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
     end
 
-    def generate_tfstate(resources)
-      tfstate = {
-        "version" => 1,
-        "serial" => 1,
-        "modules" => [
-          {
-            "path" => [
-              "root"
-            ],
-            "outputs" => {},
-            "resources" => resources
-          }
-        ]
-      }
-
+    def generate_tfstate(resources, tfstate_base = nil)
+      tfstate = tfstate_base || tfstate_skeleton
+      tfstate["serial"] = tfstate["serial"] + 1
+      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(resources)
       JSON.pretty_generate(tfstate)
     end
 
@@ -43,6 +32,22 @@ module Terraforming
       else
         json.strip
       end
+    end
+
+    def tfstate_skeleton
+      {
+        "version" => 1,
+        "serial" => 0,
+        "modules" => [
+          {
+            "path" => [
+              "root"
+            ],
+            "outputs" => {},
+            "resources" => {},
+          }
+        ]
+      }
     end
   end
 end

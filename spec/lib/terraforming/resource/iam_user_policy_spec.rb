@@ -52,7 +52,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_iam_user_policy" "hoge_policy" {
     name   = "hoge_policy"
     user   = "hoge"
@@ -96,45 +96,114 @@ POLICY
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_iam_user_policy.hoge_policy" => {
-                    "type" => "aws_iam_user_policy",
-                    "primary" => {
-                      "id" => "hoge:hoge_policy",
-                      "attributes" => {
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_iam_user_policy.hoge_policy" => {
+                      "type" => "aws_iam_user_policy",
+                      "primary" => {
                         "id" => "hoge:hoge_policy",
-                        "name" => "hoge_policy",
-                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
-                        "user" => "hoge",
+                        "attributes" => {
+                          "id" => "hoge:hoge_policy",
+                          "name" => "hoge_policy",
+                          "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                          "user" => "hoge",
+                        }
                       }
-                    }
-                  },
-                  "aws_iam_user_policy.fuga_policy" => {
-                    "type" => "aws_iam_user_policy",
-                    "primary" => {
-                      "id" => "fuga:fuga_policy",
-                      "attributes" => {
+                    },
+                    "aws_iam_user_policy.fuga_policy" => {
+                      "type" => "aws_iam_user_policy",
+                      "primary" => {
                         "id" => "fuga:fuga_policy",
-                        "name" => "fuga_policy",
-                        "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
-                        "user" => "fuga",
+                        "attributes" => {
+                          "id" => "fuga:fuga_policy",
+                          "name" => "fuga_policy",
+                          "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                          "user" => "fuga",
+                        }
                       }
-                    }
-                  },
+                    },
+                  }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 89,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_iam_user_policy.hoge_policy" => {
+                      "type" => "aws_iam_user_policy",
+                      "primary" => {
+                        "id" => "hoge:hoge_policy",
+                        "attributes" => {
+                          "id" => "hoge:hoge_policy",
+                          "name" => "hoge_policy",
+                          "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                          "user" => "hoge",
+                        }
+                      }
+                    },
+                    "aws_iam_user_policy.fuga_policy" => {
+                      "type" => "aws_iam_user_policy",
+                      "primary" => {
+                        "id" => "fuga:fuga_policy",
+                        "attributes" => {
+                          "id" => "fuga:fuga_policy",
+                          "name" => "fuga_policy",
+                          "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                          "user" => "fuga",
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end

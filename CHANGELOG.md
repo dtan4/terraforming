@@ -1,5 +1,9 @@
 # v0.1.0 (UNRELEASED)
 
+### New feature
+
+- `--merge TFSTATE_PATH` option: Merge generated tfstate to specified `terraform.tfstate`
+
 ### Fixed
 
 - Include AWS Network ACL subnet ids

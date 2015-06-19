@@ -3,12 +3,12 @@ module Terraforming
     class NetworkACL
       include Terraforming::Util
 
-      def self.tf(client = Aws::EC2::Client.new)
+      def self.tf(client: Aws::EC2::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/network_acl")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = network_acls.inject({}) do |result, network_acl|
           attributes = {
             "egress.#" => egresses_of(network_acl).length.to_s,
@@ -40,7 +40,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private

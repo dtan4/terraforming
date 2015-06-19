@@ -81,7 +81,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_security_group" "sg-1234abcd-hoge" {
     name        = "hoge"
     description = "Group for hoge"
@@ -134,81 +134,186 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_security_group.sg-1234abcd-hoge" => {
-                    "type" => "aws_security_group",
-                    "primary" => {
-                      "id" => "sg-1234abcd",
-                      "attributes" => {
-                        "description" => "Group for hoge",
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_security_group.sg-1234abcd-hoge" => {
+                      "type" => "aws_security_group",
+                      "primary" => {
                         "id" => "sg-1234abcd",
-                        "name" => "hoge",
-                        "owner_id" => "012345678901",
-                        "vpc_id" => "",
-                        "tags.#" => "0",
-                        "egress.#" => "1",
-                        "egress.482069346.from_port" => "0",
-                        "egress.482069346.to_port" => "0",
-                        "egress.482069346.protocol" => "-1",
-                        "egress.482069346.cidr_blocks.#" => "1",
-                        "egress.482069346.security_groups.#" => "0",
-                        "egress.482069346.self" => "false",
-                        "egress.482069346.cidr_blocks.0" => "0.0.0.0/0",
-                        "ingress.#" => "1",
-                        "ingress.2541437006.from_port" => "22",
-                        "ingress.2541437006.to_port" => "22",
-                        "ingress.2541437006.protocol" => "tcp",
-                        "ingress.2541437006.cidr_blocks.#" => "1",
-                        "ingress.2541437006.security_groups.#" => "0",
-                        "ingress.2541437006.self" => "false",
-                        "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        "attributes" => {
+                          "description" => "Group for hoge",
+                          "id" => "sg-1234abcd",
+                          "name" => "hoge",
+                          "owner_id" => "012345678901",
+                          "vpc_id" => "",
+                          "tags.#" => "0",
+                          "egress.#" => "1",
+                          "egress.482069346.from_port" => "0",
+                          "egress.482069346.to_port" => "0",
+                          "egress.482069346.protocol" => "-1",
+                          "egress.482069346.cidr_blocks.#" => "1",
+                          "egress.482069346.security_groups.#" => "0",
+                          "egress.482069346.self" => "false",
+                          "egress.482069346.cidr_blocks.0" => "0.0.0.0/0",
+                          "ingress.#" => "1",
+                          "ingress.2541437006.from_port" => "22",
+                          "ingress.2541437006.to_port" => "22",
+                          "ingress.2541437006.protocol" => "tcp",
+                          "ingress.2541437006.cidr_blocks.#" => "1",
+                          "ingress.2541437006.security_groups.#" => "0",
+                          "ingress.2541437006.self" => "false",
+                          "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        }
                       }
-                    }
-                  },
-                  "aws_security_group.sg-5678efgh-fuga" => {
-                    "type" => "aws_security_group",
-                    "primary" => {
-                      "id" => "sg-5678efgh",
-                      "attributes" => {
-                        "description" => "Group for fuga",
+                    },
+                    "aws_security_group.sg-5678efgh-fuga" => {
+                      "type" => "aws_security_group",
+                      "primary" => {
                         "id" => "sg-5678efgh",
-                        "name" => "fuga",
-                        "owner_id" => "098765432109",
-                        "vpc_id" => "vpc-1234abcd",
-                        "tags.#" => "1",
-                        "tags.Name" => "fuga",
-                        "egress.#" => "0",
-                        "ingress.#" => "2",
-                        "ingress.1849628954.from_port" => "0",
-                        "ingress.1849628954.to_port" => "65535",
-                        "ingress.1849628954.protocol" => "tcp",
-                        "ingress.1849628954.cidr_blocks.#" => "0",
-                        "ingress.1849628954.security_groups.#" => "0",
-                        "ingress.1849628954.self" => "true",
-                        "ingress.2541437006.from_port" => "22",
-                        "ingress.2541437006.to_port" => "22",
-                        "ingress.2541437006.protocol" => "tcp",
-                        "ingress.2541437006.cidr_blocks.#" => "1",
-                        "ingress.2541437006.security_groups.#" => "0",
-                        "ingress.2541437006.self" => "false",
-                        "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        "attributes" => {
+                          "description" => "Group for fuga",
+                          "id" => "sg-5678efgh",
+                          "name" => "fuga",
+                          "owner_id" => "098765432109",
+                          "vpc_id" => "vpc-1234abcd",
+                          "tags.#" => "1",
+                          "tags.Name" => "fuga",
+                          "egress.#" => "0",
+                          "ingress.#" => "2",
+                          "ingress.1849628954.from_port" => "0",
+                          "ingress.1849628954.to_port" => "65535",
+                          "ingress.1849628954.protocol" => "tcp",
+                          "ingress.1849628954.cidr_blocks.#" => "0",
+                          "ingress.1849628954.security_groups.#" => "0",
+                          "ingress.1849628954.self" => "true",
+                          "ingress.2541437006.from_port" => "22",
+                          "ingress.2541437006.to_port" => "22",
+                          "ingress.2541437006.protocol" => "tcp",
+                          "ingress.2541437006.cidr_blocks.#" => "1",
+                          "ingress.2541437006.security_groups.#" => "0",
+                          "ingress.2541437006.self" => "false",
+                          "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        }
                       }
                     }
                   }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 89,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_security_group.sg-1234abcd-hoge" => {
+                      "type" => "aws_security_group",
+                      "primary" => {
+                        "id" => "sg-1234abcd",
+                        "attributes" => {
+                          "description" => "Group for hoge",
+                          "id" => "sg-1234abcd",
+                          "name" => "hoge",
+                          "owner_id" => "012345678901",
+                          "vpc_id" => "",
+                          "tags.#" => "0",
+                          "egress.#" => "1",
+                          "egress.482069346.from_port" => "0",
+                          "egress.482069346.to_port" => "0",
+                          "egress.482069346.protocol" => "-1",
+                          "egress.482069346.cidr_blocks.#" => "1",
+                          "egress.482069346.security_groups.#" => "0",
+                          "egress.482069346.self" => "false",
+                          "egress.482069346.cidr_blocks.0" => "0.0.0.0/0",
+                          "ingress.#" => "1",
+                          "ingress.2541437006.from_port" => "22",
+                          "ingress.2541437006.to_port" => "22",
+                          "ingress.2541437006.protocol" => "tcp",
+                          "ingress.2541437006.cidr_blocks.#" => "1",
+                          "ingress.2541437006.security_groups.#" => "0",
+                          "ingress.2541437006.self" => "false",
+                          "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        }
+                      }
+                    },
+                    "aws_security_group.sg-5678efgh-fuga" => {
+                      "type" => "aws_security_group",
+                      "primary" => {
+                        "id" => "sg-5678efgh",
+                        "attributes" => {
+                          "description" => "Group for fuga",
+                          "id" => "sg-5678efgh",
+                          "name" => "fuga",
+                          "owner_id" => "098765432109",
+                          "vpc_id" => "vpc-1234abcd",
+                          "tags.#" => "1",
+                          "tags.Name" => "fuga",
+                          "egress.#" => "0",
+                          "ingress.#" => "2",
+                          "ingress.1849628954.from_port" => "0",
+                          "ingress.1849628954.to_port" => "65535",
+                          "ingress.1849628954.protocol" => "tcp",
+                          "ingress.1849628954.cidr_blocks.#" => "0",
+                          "ingress.1849628954.security_groups.#" => "0",
+                          "ingress.1849628954.self" => "true",
+                          "ingress.2541437006.from_port" => "22",
+                          "ingress.2541437006.to_port" => "22",
+                          "ingress.2541437006.protocol" => "tcp",
+                          "ingress.2541437006.cidr_blocks.#" => "1",
+                          "ingress.2541437006.security_groups.#" => "0",
+                          "ingress.2541437006.self" => "false",
+                          "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end

@@ -3,12 +3,12 @@ module Terraforming
     class DBParameterGroup
       include Terraforming::Util
 
-      def self.tf(client = Aws::RDS::Client.new)
+      def self.tf(client: Aws::RDS::Client.new)
         self.new(client).tf
       end
 
-      def self.tfstate(client = Aws::RDS::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
+        self.new(client).tfstate(tfstate_base)
       end
 
       def initialize(client)
@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/db_parameter_group")
       end
 
-      def tfstate
+      def tfstate(tfstate_base)
         resources = db_parameter_groups.inject({}) do |result, parameter_group|
           attributes = {
             "description" => parameter_group.description,
@@ -39,7 +39,7 @@ module Terraforming
           result
         end
 
-        generate_tfstate(resources)
+        generate_tfstate(resources, tfstate_base)
       end
 
       private
