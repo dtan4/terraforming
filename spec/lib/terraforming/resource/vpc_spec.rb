@@ -84,49 +84,122 @@ resource "aws_vpc" "fuga" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_vpc.hoge" => {
-                    "type" => "aws_vpc",
-                    "primary" => {
-                      "id" => "vpc-1234abcd",
-                      "attributes" => {
-                        "cidr_block" => "10.0.0.0/16",
-                        "enable_dns_hostnames" => "true",
-                        "enable_dns_support" => "true",
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_vpc.hoge" => {
+                      "type" => "aws_vpc",
+                      "primary" => {
                         "id" => "vpc-1234abcd",
-                        "instance_tenancy" => "default",
-                        "tags.#" => "1",
+                        "attributes" => {
+                          "cidr_block" => "10.0.0.0/16",
+                          "enable_dns_hostnames" => "true",
+                          "enable_dns_support" => "true",
+                          "id" => "vpc-1234abcd",
+                          "instance_tenancy" => "default",
+                          "tags.#" => "1",
+                        }
                       }
-                    }
-                  },
-                  "aws_vpc.fuga" => {
-                    "type" => "aws_vpc",
-                    "primary" => {
-                      "id" => "vpc-5678efgh",
-                      "attributes" => {
-                        "cidr_block" => "10.0.0.0/16",
-                        "enable_dns_hostnames" => "true",
-                        "enable_dns_support" => "true",
+                    },
+                    "aws_vpc.fuga" => {
+                      "type" => "aws_vpc",
+                      "primary" => {
                         "id" => "vpc-5678efgh",
-                        "instance_tenancy" => "default",
-                        "tags.#" => "1",
+                        "attributes" => {
+                          "cidr_block" => "10.0.0.0/16",
+                          "enable_dns_hostnames" => "true",
+                          "enable_dns_support" => "true",
+                          "id" => "vpc-5678efgh",
+                          "instance_tenancy" => "default",
+                          "tags.#" => "1",
+                        }
                       }
                     }
                   }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 88,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_vpc.hoge" => {
+                      "type" => "aws_vpc",
+                      "primary" => {
+                        "id" => "vpc-1234abcd",
+                        "attributes" => {
+                          "cidr_block" => "10.0.0.0/16",
+                          "enable_dns_hostnames" => "true",
+                          "enable_dns_support" => "true",
+                          "id" => "vpc-1234abcd",
+                          "instance_tenancy" => "default",
+                          "tags.#" => "1",
+                        }
+                      }
+                    },
+                    "aws_vpc.fuga" => {
+                      "type" => "aws_vpc",
+                      "primary" => {
+                        "id" => "vpc-5678efgh",
+                        "attributes" => {
+                          "cidr_block" => "10.0.0.0/16",
+                          "enable_dns_hostnames" => "true",
+                          "enable_dns_support" => "true",
+                          "id" => "vpc-5678efgh",
+                          "instance_tenancy" => "default",
+                          "tags.#" => "1",
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end
