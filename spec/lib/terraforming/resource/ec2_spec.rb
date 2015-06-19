@@ -138,49 +138,122 @@ resource "aws_instance" "hoge" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
-          expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-            "version" => 1,
-            "serial" => 1,
-            "modules" => [
-              {
-                "path" => [
-                  "root"
-                ],
-                "outputs" => {},
-                "resources" => {
-                  "aws_instance.hoge"=> {
-                    "type"=> "aws_instance",
-                    "primary"=> {
-                      "id"=> "i-1234abcd",
-                      "attributes"=> {
-                        "ami"=> "ami-1234abcd",
-                        "associate_public_ip_address"=> "true",
-                        "availability_zone"=> "ap-northeast-1b",
-                        "ebs_block_device.#"=> "1",
-                        "ebs_optimized"=> "false",
-                        "ephemeral_block_device.#"=> "0",
+        context "without existing tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_instance.hoge"=> {
+                      "type"=> "aws_instance",
+                      "primary"=> {
                         "id"=> "i-1234abcd",
-                        "instance_type"=> "t2.micro",
-                        "private_dns"=> "ip-10-0-0-100.ap-northeast-1.compute.internal",
-                        "private_ip"=> "10.0.0.100",
-                        "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
-                        "public_ip"=> "54.12.0.0",
-                        "root_block_device.#"=> "1",
-                        "security_groups.#"=> "1",
-                        "source_dest_check"=> "true",
-                        "subnet_id"=> "subnet-1234abcd",
-                        "tenancy"=> "default"
-                      },
-                      "meta"=> {
-                        "schema_version"=> "1"
+                        "attributes"=> {
+                          "ami"=> "ami-1234abcd",
+                          "associate_public_ip_address"=> "true",
+                          "availability_zone"=> "ap-northeast-1b",
+                          "ebs_block_device.#"=> "1",
+                          "ebs_optimized"=> "false",
+                          "ephemeral_block_device.#"=> "0",
+                          "id"=> "i-1234abcd",
+                          "instance_type"=> "t2.micro",
+                          "private_dns"=> "ip-10-0-0-100.ap-northeast-1.compute.internal",
+                          "private_ip"=> "10.0.0.100",
+                          "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
+                          "public_ip"=> "54.12.0.0",
+                          "root_block_device.#"=> "1",
+                          "security_groups.#"=> "1",
+                          "source_dest_check"=> "true",
+                          "subnet_id"=> "subnet-1234abcd",
+                          "tenancy"=> "default"
+                        },
+                        "meta"=> {
+                          "schema_version"=> "1"
+                        }
                       }
                     }
                   }
                 }
-              }
-            ]
-          })
+              ]
+            })
+          end
+        end
+
+        context "with existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
+            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 88,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_instance.hoge"=> {
+                      "type"=> "aws_instance",
+                      "primary"=> {
+                        "id"=> "i-1234abcd",
+                        "attributes"=> {
+                          "ami"=> "ami-1234abcd",
+                          "associate_public_ip_address"=> "true",
+                          "availability_zone"=> "ap-northeast-1b",
+                          "ebs_block_device.#"=> "1",
+                          "ebs_optimized"=> "false",
+                          "ephemeral_block_device.#"=> "0",
+                          "id"=> "i-1234abcd",
+                          "instance_type"=> "t2.micro",
+                          "private_dns"=> "ip-10-0-0-100.ap-northeast-1.compute.internal",
+                          "private_ip"=> "10.0.0.100",
+                          "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
+                          "public_ip"=> "54.12.0.0",
+                          "root_block_device.#"=> "1",
+                          "security_groups.#"=> "1",
+                          "source_dest_check"=> "true",
+                          "subnet_id"=> "subnet-1234abcd",
+                          "tenancy"=> "default"
+                        },
+                        "meta"=> {
+                          "schema_version"=> "1"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            })
+          end
         end
       end
     end
