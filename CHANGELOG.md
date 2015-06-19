@@ -6,6 +6,7 @@
 
 ### Fixed
 
+- ELB must include either AZs or Subnets
 - Include AWS Network ACL subnet ids
 
 ### Resource
