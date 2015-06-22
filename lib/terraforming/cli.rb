@@ -123,8 +123,8 @@ module Terraforming
     def tfstate(klass, tfstate_path)
       return klass.tfstate unless tfstate_path
 
-      base_tfstate = JSON.parse(open(tfstate_path).read)
-      klass.tfstate(tfstate_base: base_tfstate)
+      tfstate_base = JSON.parse(open(tfstate_path).read)
+      klass.tfstate(tfstate_base: tfstate_base)
     end
   end
 end
