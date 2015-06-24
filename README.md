@@ -33,7 +33,7 @@ You need to set AWS credentials.
 ```bash
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-export AWS_DEFAULT_REGION=xx-yyyy-0 \
+export AWS_DEFAULT_REGION=xx-yyyy-0
 ```
 
 ## Usage
