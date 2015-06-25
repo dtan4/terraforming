@@ -60,6 +60,13 @@ module Terraforming
       it_behaves_like "CLI examples"
     end
 
+    describe "ecsn" do
+      let(:klass)   { Terraforming::Resource::ElastiCacheSubnetGroup }
+      let(:command) { :ecsn }
+
+      it_behaves_like "CLI examples"
+    end
+
     describe "elb" do
       let(:klass)   { Terraforming::Resource::ELB }
       let(:command) { :elb }
