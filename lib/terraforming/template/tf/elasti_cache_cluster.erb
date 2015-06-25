@@ -1,0 +1,18 @@
+<% cache_clusters.each do |cache_cluster| -%>
+resource "aws_elasticache_cluster" "<%= cache_cluster.cache_cluster_id %>" {
+    cluster_id           = "<%= cache_cluster.cache_cluster_id %>"
+    engine               = "<%= cache_cluster.engine %>"
+    engine_version       = "<%= cache_cluster.engine_version %>"
+    node_type            = "<%= cache_cluster.cache_node_type %>"
+    num_cache_nodes      = <%= cache_cluster.num_cache_nodes %>
+    parameter_group_name = "<%= cache_cluster.cache_parameter_group.cache_parameter_group_name %>"
+    port                 = <%= cache_cluster.configuration_endpoint.port %>
+  <%- if cluster_in_vpc?(cache_cluster) -%>
+    subnet_group_name    = "<%= cache_cluster.cache_subnet_group_name %>"
+    security_group_ids   = <%= security_group_ids_of(cache_cluster).inspect %>
+  <%- else -%>
+    security_group_names = <%= subnet_group_names_of(cache_cluster).inspect %>
+  <%- end -%>
+}
+
+<% end -%>
