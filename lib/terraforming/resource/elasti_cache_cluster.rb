@@ -32,7 +32,7 @@ module Terraforming
             "parameter_group_name" => cache_cluster.cache_parameter_group.cache_parameter_group_name,
             "port" => "11211",
             "security_group_ids.#" => security_group_ids_of(cache_cluster).length.to_s,
-            "security_group_names.#" => subnet_group_names_of(cache_cluster).length.to_s,
+            "security_group_names.#" => security_group_names_of(cache_cluster).length.to_s,
             "subnet_group_name" => cache_cluster.cache_subnet_group_name,
             "tags.#" => "0",
           }
@@ -60,12 +60,12 @@ module Terraforming
         cache_cluster.cache_security_groups.length == 0
       end
 
-      def subnet_group_names_of(cache_cluster)
-        cache_cluster.cache_security_groups.map { |sg| sg.cache_security_group_name }
-      end
-
       def security_group_ids_of(cache_cluster)
         cache_cluster.security_groups.map { |sg| sg.security_group_id }
+      end
+
+      def security_group_names_of(cache_cluster)
+        cache_cluster.cache_security_groups.map { |sg| sg.cache_security_group_name }
       end
     end
   end

@@ -11,7 +11,7 @@ resource "aws_elasticache_cluster" "<%= cache_cluster.cache_cluster_id %>" {
     subnet_group_name    = "<%= cache_cluster.cache_subnet_group_name %>"
     security_group_ids   = <%= security_group_ids_of(cache_cluster).inspect %>
   <%- else -%>
-    security_group_names = <%= subnet_group_names_of(cache_cluster).inspect %>
+    security_group_names = <%= security_group_names_of(cache_cluster).inspect %>
   <%- end -%>
 }
 
