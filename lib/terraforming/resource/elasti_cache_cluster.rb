@@ -22,7 +22,7 @@ module Terraforming
       def tfstate(tfstate_base)
         resources = cache_clusters.inject({}) do |result, cache_cluster|
           attributes = {
-            "cache_nodes.#" => cache_cluster.num_cache_nodes.to_s,
+            "cache_nodes.#" => cache_cluster.cache_nodes.length.to_s,
             "cluster_id" => cache_cluster.cache_cluster_id,
             "engine" => cache_cluster.engine,
             "engine_version" => cache_cluster.engine_version,
@@ -53,7 +53,7 @@ module Terraforming
       private
 
       def cache_clusters
-        @client.describe_cache_clusters.cache_clusters
+        @client.describe_cache_clusters(show_cache_node_info: true).cache_clusters
       end
 
       def cluster_in_vpc?(cache_cluster)

@@ -32,6 +32,19 @@ module Terraforming
               cache_node_ids_to_reboot: []
             },
             cache_subnet_group_name: "subnet-hoge",
+            cache_nodes: [
+              {
+                cache_node_id: "0001",
+                cache_node_status: "available",
+                cache_node_create_time: Time.parse("2014-08-28 12:51:55 UTC"),
+                endpoint: {
+                  address: "hoge.abc123.0001.apne1.cache.amazonaws.com",
+                  port: 11211
+                },
+                parameter_group_status: "in-sync",
+                customer_availability_zone: "ap-northeast-1b"
+              }
+            ],
             auto_minor_version_upgrade: false,
             security_groups: [
               { security_group_id: "sg-abcd1234", status: "active" }
@@ -62,6 +75,19 @@ module Terraforming
               cache_node_ids_to_reboot: []
             },
             cache_subnet_group_name: "subnet-fuga",
+            cache_nodes: [
+              {
+                cache_node_id: "0001",
+                cache_node_status: "available",
+                cache_node_create_time: Time.parse("2014-08-28 12:51:55 UTC"),
+                endpoint: {
+                  address: "fuga.def456.0001.apne1.cache.amazonaws.com",
+                  port: 11211
+                },
+                parameter_group_status: "in-sync",
+                customer_availability_zone: "ap-northeast-1b"
+              }
+            ],
             auto_minor_version_upgrade: false,
             security_groups: [],
           },
