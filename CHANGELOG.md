@@ -3,6 +3,7 @@
 ### Resource
 
 - AWS ElastiCache Cluster
+- AWS ElastiCache Subnet Group
 
 # [v0.1.0](https://github.com/dtan4/terraforming/releases/tag/v0.1.0) (2015-06-20)
 
