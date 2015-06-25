@@ -28,6 +28,11 @@ module Terraforming
       execute(Terraforming::Resource::ElastiCacheCluster, options)
     end
 
+    desc "ecsn", "ElastiCache Subnet Group"
+    def ecsn
+      execute(Terraforming::Resource::ElastiCacheSubnetGroup, options)
+    end
+
     desc "elb", "ELB"
     def elb
       execute(Terraforming::Resource::ELB, options)
