@@ -104,7 +104,7 @@ resource "aws_elasticache_cluster" "fuga" {
 
       describe ".tfstate" do
         context "without existing tfstate" do
-          xit "should generate tfstate" do
+          it "should generate tfstate" do
             expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 1,
@@ -115,29 +115,45 @@ resource "aws_elasticache_cluster" "fuga" {
                   ],
                   "outputs" => {},
                   "resources" => {
-                    "aws_iam_group.hoge" => {
-                      "type" => "aws_iam_group",
+                    "aws_elasticache_cluster.hoge" => {
+                      "type" => "aws_elasticache_cluster",
                       "primary" => {
                         "id" => "hoge",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:group/hoge",
+                          "cache_nodes.#" => "1",
+                          "cluster_id" => "hoge",
+                          "engine" => "memcached",
+                          "engine_version" => "1.4.5",
                           "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                          "node_type" => "cache.m1.small",
+                          "num_cache_nodes" => "1",
+                          "parameter_group_name" => "default.memcached1.4",
+                          "port" => "11211",
+                          "security_group_ids.#" => "1",
+                          "security_group_names.#" => "0",
+                          "subnet_group_name" => "subnet-hoge",
+                          "tags.#" => "0",
                         }
                       }
                     },
-                    "aws_iam_group.fuga" => {
-                      "type" => "aws_iam_group",
+                    "aws_elasticache_cluster.fuga" => {
+                      "type" => "aws_elasticache_cluster",
                       "primary" => {
                         "id" => "fuga",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:group/fuga",
+                          "cache_nodes.#" => "1",
+                          "cluster_id" => "fuga",
+                          "engine" => "redis",
+                          "engine_version" => "2.8.6",
                           "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                          "node_type" => "cache.t2.micro",
+                          "num_cache_nodes" => "1",
+                          "parameter_group_name" => "default.redis2.8",
+                          "port" => "11211",
+                          "security_group_ids.#" => "0",
+                          "security_group_names.#" => "1",
+                          "subnet_group_name" => "subnet-fuga",
+                          "tags.#" => "0",
                         }
                       }
                     },
@@ -149,7 +165,7 @@ resource "aws_elasticache_cluster" "fuga" {
         end
 
         context "with existing tfstate" do
-          xit "should generate tfstate and merge it to existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
             expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 89,
@@ -184,29 +200,45 @@ resource "aws_elasticache_cluster" "fuga" {
                         }
                       }
                     },
-                    "aws_iam_group.hoge" => {
-                      "type" => "aws_iam_group",
+                    "aws_elasticache_cluster.hoge" => {
+                      "type" => "aws_elasticache_cluster",
                       "primary" => {
                         "id" => "hoge",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:group/hoge",
+                          "cache_nodes.#" => "1",
+                          "cluster_id" => "hoge",
+                          "engine" => "memcached",
+                          "engine_version" => "1.4.5",
                           "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                          "node_type" => "cache.m1.small",
+                          "num_cache_nodes" => "1",
+                          "parameter_group_name" => "default.memcached1.4",
+                          "port" => "11211",
+                          "security_group_ids.#" => "1",
+                          "security_group_names.#" => "0",
+                          "subnet_group_name" => "subnet-hoge",
+                          "tags.#" => "0",
                         }
                       }
                     },
-                    "aws_iam_group.fuga" => {
-                      "type" => "aws_iam_group",
+                    "aws_elasticache_cluster.fuga" => {
+                      "type" => "aws_elasticache_cluster",
                       "primary" => {
                         "id" => "fuga",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:group/fuga",
+                          "cache_nodes.#" => "1",
+                          "cluster_id" => "fuga",
+                          "engine" => "redis",
+                          "engine_version" => "2.8.6",
                           "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                          "node_type" => "cache.t2.micro",
+                          "num_cache_nodes" => "1",
+                          "parameter_group_name" => "default.redis2.8",
+                          "port" => "11211",
+                          "security_group_ids.#" => "0",
+                          "security_group_names.#" => "1",
+                          "subnet_group_name" => "subnet-fuga",
+                          "tags.#" => "0",
                         }
                       }
                     },

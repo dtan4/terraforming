@@ -20,18 +20,26 @@ module Terraforming
       end
 
       def tfstate(tfstate_base)
-        resources = iam_groups.inject({}) do |result, group|
+        resources = cache_clusters.inject({}) do |result, cache_cluster|
           attributes = {
-            "arn"=> group.arn,
-            "id" => group.group_name,
-            "name" => group.group_name,
-            "path" => group.path,
-            "unique_id" => group.group_id,
+            "cache_nodes.#" => cache_cluster.num_cache_nodes.to_s,
+            "cluster_id" => cache_cluster.cache_cluster_id,
+            "engine" => cache_cluster.engine,
+            "engine_version" => cache_cluster.engine_version,
+            "id" => cache_cluster.cache_cluster_id,
+            "node_type" => cache_cluster.cache_node_type,
+            "num_cache_nodes" => "1",
+            "parameter_group_name" => cache_cluster.cache_parameter_group.cache_parameter_group_name,
+            "port" => "11211",
+            "security_group_ids.#" => security_group_ids_of(cache_cluster).length.to_s,
+            "security_group_names.#" => subnet_group_names_of(cache_cluster).length.to_s,
+            "subnet_group_name" => cache_cluster.cache_subnet_group_name,
+            "tags.#" => "0",
           }
-          result["aws_iam_group.#{group.group_name}"] = {
-            "type" => "aws_iam_group",
+          result["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
+            "type" => "aws_elasticache_cluster",
             "primary" => {
-              "id" => group.group_name,
+              "id" => cache_cluster.cache_cluster_id,
               "attributes" => attributes
             }
           }
