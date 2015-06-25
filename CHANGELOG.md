@@ -1,3 +1,9 @@
+# [v0.1.1] (UNRELEASED)
+
+### Resource
+
+- AWS ElastiCache Cluster
+
 # [v0.1.0](https://github.com/dtan4/terraforming/releases/tag/v0.1.0) (2015-06-20)
 
 ### New feature
