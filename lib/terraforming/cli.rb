@@ -23,6 +23,11 @@ module Terraforming
       execute(Terraforming::Resource::EC2, options)
     end
 
+    desc "ecc", "ElastiCache Cluster"
+    def ecc
+      execute(Terraforming::Resource::ElastiCacheCluster, options)
+    end
+
     desc "elb", "ELB"
     def elb
       execute(Terraforming::Resource::ELB, options)

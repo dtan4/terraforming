@@ -53,6 +53,13 @@ module Terraforming
       it_behaves_like "CLI examples"
     end
 
+    describe "ecc" do
+      let(:klass)   { Terraforming::Resource::ElastiCacheCluster }
+      let(:command) { :ecc }
+
+      it_behaves_like "CLI examples"
+    end
+
     describe "elb" do
       let(:klass)   { Terraforming::Resource::ELB }
       let(:command) { :elb }
