@@ -10,6 +10,16 @@
 
 Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
 
+- [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+  -  [Export tf](#export-tf)
+  -  [Export tfstate](#export-tfstate)
+- [Run as Docker container](#run-as-docker-container-)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -302,6 +312,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-## LICENSE
+## License
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
