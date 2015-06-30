@@ -140,7 +140,9 @@ $ terraforming s3 --tfstate
 }
 ```
 
-If you want to merge exported tfstate to existing `terraform.tfstate`, specify `--tfstate --merge=/path/to/terraform.tfstate` option (e.g. S3 buckets):
+If you want to merge exported tfstate to existing `terraform.tfstate`, specify `--tfstate --merge=/path/to/terraform.tfstate` option.
+This option does NOT overwrite existing `terraform.tfstate`, but flush output to stdout like others.
+You should copy output in stdout by hand or `pbcopy` command, and paste it to existing `terraform.tfstate`.
 
 Existing `terraform.tfstate`:
 
