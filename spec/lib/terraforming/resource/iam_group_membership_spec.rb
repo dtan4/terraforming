@@ -98,7 +98,7 @@ resource "aws_iam_group_membership" "fuga" {
 
       describe ".tfstate" do
         context "without existing tfstate" do
-          xit "should generate tfstate" do
+          it "should generate tfstate" do
             expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 1,
@@ -109,29 +109,27 @@ resource "aws_iam_group_membership" "fuga" {
                   ],
                   "outputs" => {},
                   "resources" => {
-                    "aws_iam_user.hoge" => {
-                      "type" => "aws_iam_user",
+                    "aws_iam_group_membership.hoge" => {
+                      "type" => "aws_iam_group_membership",
                       "primary" => {
-                        "id" => "hoge",
+                        "id" => "hoge-group-membership",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                          "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                          "group"=> "hoge",
+                          "id" => "hoge-group-membership",
+                          "name" => "hoge-group-membership",
+                          "users.#" => "1",
                         }
                       }
                     },
-                    "aws_iam_user.fuga" => {
-                      "type" => "aws_iam_user",
+                    "aws_iam_group_membership.fuga" => {
+                      "type" => "aws_iam_group_membership",
                       "primary" => {
-                        "id" => "fuga",
+                        "id" => "fuga-group-membership",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                          "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                          "group"=> "fuga",
+                          "id" => "fuga-group-membership",
+                          "name" => "fuga-group-membership",
+                          "users.#" => "1",
                         }
                       }
                     },
@@ -143,7 +141,7 @@ resource "aws_iam_group_membership" "fuga" {
         end
 
         context "with existing tfstate" do
-          xit "should generate tfstate and merge it to existing tfstate" do
+          it "should generate tfstate and merge it to existing tfstate" do
             expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
               "version" => 1,
               "serial" => 89,
@@ -178,29 +176,27 @@ resource "aws_iam_group_membership" "fuga" {
                         }
                       }
                     },
-                    "aws_iam_user.hoge" => {
-                      "type" => "aws_iam_user",
+                    "aws_iam_group_membership.hoge" => {
+                      "type" => "aws_iam_group_membership",
                       "primary" => {
-                        "id" => "hoge",
+                        "id" => "hoge-group-membership",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                          "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
+                          "group"=> "hoge",
+                          "id" => "hoge-group-membership",
+                          "name" => "hoge-group-membership",
+                          "users.#" => "1",
                         }
                       }
                     },
-                    "aws_iam_user.fuga" => {
-                      "type" => "aws_iam_user",
+                    "aws_iam_group_membership.fuga" => {
+                      "type" => "aws_iam_group_membership",
                       "primary" => {
-                        "id" => "fuga",
+                        "id" => "fuga-group-membership",
                         "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                          "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
+                          "group"=> "fuga",
+                          "id" => "fuga-group-membership",
+                          "name" => "fuga-group-membership",
+                          "users.#" => "1",
                         }
                       }
                     },

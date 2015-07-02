@@ -20,18 +20,19 @@ module Terraforming
       end
 
       def tfstate(tfstate_base)
-        resources = iam_users.inject({}) do |result, user|
+        resources = iam_groups.inject({}) do |result, group|
+          membership_name = membership_name_of(group)
+
           attributes = {
-            "arn"=> user.arn,
-            "id" => user.user_name,
-            "name" => user.user_name,
-            "path" => user.path,
-            "unique_id" => user.user_id,
+            "group"=> group.group_name,
+            "id" => membership_name,
+            "name" => membership_name,
+            "users.#" => group_members_of(group).length.to_s,
           }
-          result["aws_iam_user.#{user.user_name}"] = {
-            "type" => "aws_iam_user",
+          result["aws_iam_group_membership.#{group.group_name}"] = {
+            "type" => "aws_iam_group_membership",
             "primary" => {
-              "id" => user.user_name,
+              "id" => membership_name,
               "attributes" => attributes
             }
           }
