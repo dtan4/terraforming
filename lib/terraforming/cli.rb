@@ -43,6 +43,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMGroup, options)
     end
 
+    desc "iamgm", "IAM Group Membership"
+    def iamgm
+      execute(Terraforming::Resource::IAMGroupMembership, options)
+    end
+
     desc "iamgp", "IAM Group Policy"
     def iamgp
       execute(Terraforming::Resource::IAMGroupPolicy, options)

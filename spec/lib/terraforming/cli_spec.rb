@@ -81,6 +81,13 @@ module Terraforming
       it_behaves_like "CLI examples"
     end
 
+    describe "iamgm" do
+      let(:klass)   { Terraforming::Resource::IAMGroupMembership }
+      let(:command) { :iamgm }
+
+      it_behaves_like "CLI examples"
+    end
+
     describe "iamgp" do
       let(:klass)   { Terraforming::Resource::IAMGroupPolicy }
       let(:command) { :iamgp }
