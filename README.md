@@ -10,6 +10,7 @@
 
 Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
 
+- [Supported version](#supported-version)
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
