@@ -20,6 +20,10 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 - [Contributing](#contributing)
 - [License](#license)
 
+## Supported version
+
+Ruby 2.x
+
 ## Installation
 
 Add this line to your application's Gemfile:
