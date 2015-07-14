@@ -28,16 +28,21 @@ module Terraforming
             "connection_draining_timeout" => load_balancer_attributes.connection_draining.timeout.to_s,
             "cross_zone_load_balancing" => load_balancer_attributes.cross_zone_load_balancing.enabled.to_s,
             "dns_name" => load_balancer.dns_name,
-            "health_check.#" => "1",
             "id" => load_balancer.load_balancer_name,
             "idle_timeout" => load_balancer_attributes.connection_settings.idle_timeout.to_s,
             "instances.#" => load_balancer.instances.length.to_s,
-            "listener.#" => load_balancer.listener_descriptions.length.to_s,
             "name" => load_balancer.load_balancer_name,
-            "security_groups.#" => load_balancer.security_groups.length.to_s,
             "source_security_group" => load_balancer.source_security_group.group_name,
-            "subnets.#" => load_balancer.subnets.length.to_s,
           }
+
+          attributes.merge!(healthcheck_attributes_of(load_balancer))
+          attributes.merge!(listeners_attributes_of(load_balancer))
+          attributes.merge!(sg_attributes_of(load_balancer))
+          attributes.merge!(subnets_attributes_of(load_balancer))
+          attributes.merge!(instances_attributes_of(load_balancer))
+          attributes.merge!(tags_attributes_of(load_balancer))
+
+
           result["aws_elb.#{module_name_of(load_balancer)}"] = {
             "type" => "aws_elb",
             "primary" => {
@@ -50,6 +55,107 @@ module Terraforming
         end
 
         generate_tfstate(resources, tfstate_base)
+      end
+
+      def healthcheck_attributes_of(elb)
+        hashcode = healthcheck_hashcode_of(elb.health_check)
+        attributes = {
+          "health_check.#" => "1",
+          "health_check.#{hashcode}.healthy_threshold" => elb.health_check.healthy_threshold.to_s,
+          "health_check.#{hashcode}.interval" => elb.health_check.interval.to_s,
+          "health_check.#{hashcode}.target" => elb.health_check.target,
+          "health_check.#{hashcode}.timeout" => elb.health_check.timeout.to_s,
+          "health_check.#{hashcode}.unhealthy_threshold" => elb.health_check.unhealthy_threshold.to_s
+        }
+
+        attributes
+      end
+
+      def healthcheck_hashcode_of(health_check)
+        string =
+          "#{health_check.healthy_threshold}-" <<
+          "#{health_check.unhealthy_threshold}-" <<
+          "#{health_check.target}-" <<
+          "#{health_check.interval}-" <<
+          "#{health_check.timeout}-"
+
+        Zlib.crc32(string)
+      end
+
+      def tags_attributes_of(elb)
+        tags = @client.describe_tags(load_balancer_names: [elb.load_balancer_name]).tag_descriptions[0].tags
+        attributes = {"tags.#" => tags.length.to_s}
+
+        tags.each do |tag|
+          attributes["tags.#{tag.key}"] = tag.value
+        end
+
+        attributes
+      end
+
+      def instances_attributes_of(elb)
+        attributes = {"instances.#" => elb.instances.length.to_s}
+
+        elb.instances.each do |instance|
+          attributes["instances.#{Zlib.crc32(instance.instance_id)}"] = instance.instance_id
+        end
+
+        attributes
+      end
+
+      def subnets_attributes_of(elb)
+        attributes = {"subnets.#" => elb.subnets.length.to_s}
+
+        elb.subnets.each do |subnet_id|
+          attributes["subnets.#{Zlib.crc32(subnet_id)}"] = subnet_id
+        end
+
+        attributes
+      end
+
+      def sg_attributes_of(elb)
+        attributes = {"security_groups.#" => elb.security_groups.length.to_s}
+
+        elb.security_groups.each do |sg_id|
+          attributes["security_groups.#{Zlib.crc32(sg_id)}"] = sg_id
+        end
+
+        attributes
+      end
+
+      def listeners_attributes_of(elb)
+        attributes = {"listener.#" => elb.listener_descriptions.length.to_s}
+
+        elb.listener_descriptions.each do |listener_description|
+          attributes.merge!(listener_attributes_of(listener_description.listener))
+        end
+
+        attributes
+      end
+
+      def listener_attributes_of(listener)
+        hashcode = listener_hashcode_of(listener)
+
+        attributes = {
+          "listener.#{hashcode}.instance_port" => listener.instance_port.to_s,
+          "listener.#{hashcode}.instance_protocol" => listener.instance_protocol.downcase,
+          "listener.#{hashcode}.lb_port" => listener.load_balancer_port.to_s,
+          "listener.#{hashcode}.lb_protocol" => listener.protocol.downcase,
+          "listener.#{hashcode}.ssl_certificate_id" => listener.ssl_certificate_id
+        }
+
+        attributes
+      end
+
+      def listener_hashcode_of(listener)
+        string =
+          "#{listener.instance_port}-" <<
+          "#{listener.instance_protocol.downcase}-" <<
+          "#{listener.load_balancer_port}-" <<
+          "#{listener.protocol.downcase}-" <<
+          "#{listener.ssl_certificate_id}-"
+
+        Zlib.crc32(string)
       end
 
       def load_balancers
