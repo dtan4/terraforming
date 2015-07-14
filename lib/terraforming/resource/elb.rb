@@ -83,7 +83,7 @@ module Terraforming
       end
 
       def tags_attributes_of(elb)
-        tags = @client.describe_tags(load_balancer_names: [elb.load_balancer_name]).tag_descriptions[0].tags
+        tags = @client.describe_tags(load_balancer_names: [elb.load_balancer_name]).tag_descriptions.first.tags
         attributes = {"tags.#" => tags.length.to_s}
 
         tags.each do |tag|
