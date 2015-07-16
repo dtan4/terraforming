@@ -1,3 +1,9 @@
+# [v0.1.2] (UNRELEASED)
+
+## Fixed
+
+- Generate correct tfstate of ELB #91 (thanks @grosendorf)
+
 # [v0.1.1](https://github.com/dtan4/terraforming/releases/tag/v0.1.1) (2015-07-14)
 
 ### Resource
