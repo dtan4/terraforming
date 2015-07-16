@@ -60,8 +60,11 @@ Commands:
   terraforming dbsg            # Database Security Group
   terraforming dbsn            # Database Subnet Group
   terraforming ec2             # EC2
+  terraforming ecc             # ElastiCache Cluster
+  terraforming ecsn            # ElastiCache Subnet Group
   terraforming elb             # ELB
   terraforming iamg            # IAM Group
+  terraforming iamgm           # IAM Group Membership
   terraforming iamgp           # IAM Group Policy
   terraforming iamip           # IAM Instance Profile
   terraforming iamp            # IAM Policy
