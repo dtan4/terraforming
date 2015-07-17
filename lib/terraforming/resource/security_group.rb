@@ -101,6 +101,54 @@ module Terraforming
         attributes
       end
 
+      def dedup_permissions(security_group)
+        grouped_ingress = security_group.ip_permissions.group_by {|perm| [perm.to_port, perm.from_port]}
+        grouped_egress = security_group.ip_permissions_egress.group_by {|perm| [perm.to_port, perm.from_port]}
+
+        security_group.ip_permissions = []
+        security_group.ip_permissions_egress = []
+
+        grouped_ingress.each do |range, perms|
+          if perms.length == 1
+            security_group.ip_permissions << perms.first
+            grouped_ingress.delete(range)
+          else
+            g_ids = perms.map {|perm| perm.user_id_group_pairs}.flatten.map {|gp| gp.group_id}
+            if g_ids.length == 1 && g_ids.first == security_group.group_id
+              security_group.ip_permissions << merge_perms(perms)
+            else
+              security_group.ip_permissions.concat(perms)
+            end
+            grouped_ingress.delete(range)
+          end
+        end
+
+        grouped_egress.each do |range, perms|
+          if perms.length == 1
+            security_group.ip_permissions << perms.first
+            grouped_egress.delete(range)
+          else
+            g_ids = perms.map {|perm| perm.user_id_group_pairs}.flatten.map {|gp| gp.group_id}
+            if g_ids.length == 1 && g_ids.first == security_group.group_id
+              security_group.ip_permissions << merge_perms(perms)
+            else
+              security_group.ip_permissions.concat(perms)
+            end
+            grouped_egress.delete(range)
+          end
+        end
+        security_group
+      end
+
+      def merge_perms(permissions)
+        master_perm = permissions.pop
+        permissions.each do |perm|
+          master_perm.user_id_group_pairs.concat(perm.user_id_group_pairs)
+          master_perm.ip_ranges.concat(perm.ip_ranges)
+        end
+        master_perm
+      end
+
       def permission_hashcode_of(security_group, permission)
         string =
           "#{permission.from_port || 0}-" <<
