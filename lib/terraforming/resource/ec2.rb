@@ -59,12 +59,21 @@ module Terraforming
 
       private
 
+      def in_vpc?(instance)
+        vpc_security_groups_of(instance).length > 0 ||
+          (instance.subnet_id && instance.subnet_id != "" && instance.security_groups.length == 0)
+      end
+
       def instances
         @client.describe_instances.reservations.map(&:instances).flatten
       end
 
       def module_name_of(instance)
         normalize_module_name(name_from_tag(instance, instance.instance_id))
+      end
+
+      def vpc_security_groups_of(instance)
+        instance.security_groups.select { |security_group| /\Asg-/ =~ security_group.group_id }
       end
     end
   end
