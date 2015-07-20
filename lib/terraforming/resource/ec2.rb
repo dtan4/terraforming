@@ -21,6 +21,8 @@ module Terraforming
 
       def tfstate(tfstate_base)
         resources = instances.inject({}) do |result, instance|
+          in_vpc = in_vpc?(instance)
+
           attributes = {
             "ami"=> instance.image_id,
             "associate_public_ip_address"=> "true",
@@ -35,16 +37,13 @@ module Terraforming
             "public_dns"=> instance.public_dns_name,
             "public_ip"=> instance.public_ip_address,
             "root_block_device.#"=> instance.root_device_name ? "1" : "0",
+            "security_groups.#"=> in_vpc ? "0" : instance.security_groups.length.to_s,
             "source_dest_check"=> instance.source_dest_check.to_s,
-            "tenancy"=> instance.placement.tenancy
+            "tenancy"=> instance.placement.tenancy,
+            "vpc_security_group_ids.#"=> in_vpc ? instance.security_groups.length.to_s : "0",
           }
 
-          if in_vpc?(instance)
-            attributes["subnet_id"] = instance.subnet_id
-            attributes["vpc_security_group_ids.#"] = instance.security_groups.length.to_s
-          else
-            attributes["security_groups.#"] = instance.security_groups.length.to_s
-          end
+          attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
 
           result["aws_instance.#{module_name_of(instance)}"] = {
             "type" => "aws_instance",

@@ -268,10 +268,11 @@ resource "aws_instance" "i-5678efgh" {
                           "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
                           "public_ip"=> "54.12.0.0",
                           "root_block_device.#"=> "1",
+                          "security_groups.#"=> "0",
                           "source_dest_check"=> "true",
                           "tenancy"=> "default",
-                          "subnet_id"=> "subnet-1234abcd",
                           "vpc_security_group_ids.#"=> "1",
+                          "subnet_id"=> "subnet-1234abcd",
                         },
                         "meta"=> {
                           "schema_version"=> "1"
@@ -296,9 +297,10 @@ resource "aws_instance" "i-5678efgh" {
                           "public_dns"=> "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",
                           "public_ip"=> "54.12.0.1",
                           "root_block_device.#"=> "1",
+                          "security_groups.#"=> "1",
                           "source_dest_check"=> "true",
                           "tenancy"=> "default",
-                          "security_groups.#"=> "1",
+                          "vpc_security_group_ids.#"=> "0",
                         },
                         "meta"=> {
                           "schema_version"=> "1"
@@ -366,10 +368,11 @@ resource "aws_instance" "i-5678efgh" {
                           "public_dns"=> "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
                           "public_ip"=> "54.12.0.0",
                           "root_block_device.#"=> "1",
+                          "security_groups.#"=> "0",
                           "source_dest_check"=> "true",
                           "tenancy"=> "default",
-                          "subnet_id"=> "subnet-1234abcd",
                           "vpc_security_group_ids.#"=> "1",
+                          "subnet_id"=> "subnet-1234abcd",
                         },
                         "meta"=> {
                           "schema_version"=> "1"
@@ -394,9 +397,10 @@ resource "aws_instance" "i-5678efgh" {
                           "public_dns"=> "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",
                           "public_ip"=> "54.12.0.1",
                           "root_block_device.#"=> "1",
+                          "security_groups.#"=> "1",
                           "source_dest_check"=> "true",
                           "tenancy"=> "default",
-                          "security_groups.#"=> "1",
+                          "vpc_security_group_ids.#"=> "0",
                         },
                         "meta"=> {
                           "schema_version"=> "1"
