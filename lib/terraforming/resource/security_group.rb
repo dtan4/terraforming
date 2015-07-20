@@ -125,14 +125,14 @@ module Terraforming
 
         grouped_egress.each do |range, perms|
           if perms.length == 1
-            security_group.ip_permissions << perms.first
+            security_group.ip_permissions_egress << perms.first
             grouped_egress.delete(range)
           else
             g_ids = perms.map {|perm| perm.user_id_group_pairs}.flatten.map {|gp| gp.group_id}
             if g_ids.length == 1 && g_ids.first == security_group.group_id
-              security_group.ip_permissions << merge_perms(perms)
+              security_group.ip_permissions_egress << merge_perms(perms)
             else
-              security_group.ip_permissions.concat(perms)
+              security_group.ip_permissions_egress.concat(perms)
             end
             grouped_egress.delete(range)
           end
