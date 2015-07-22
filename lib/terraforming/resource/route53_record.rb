@@ -37,7 +37,7 @@ module Terraforming
           attributes["weight"] = record.weight.to_s if record.weight
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 
-          result["aws_route53_record.#{module_name_of(record)}"] = {
+          result["aws_route53_record.#{module_name_of(record) + '-' + record.type}"] = {
             "type" => "aws_route53_record",
             "primary" => {
               "id" => record_id,

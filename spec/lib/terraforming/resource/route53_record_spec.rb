@@ -71,7 +71,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_route53_record" "hoge-net" {
+resource "aws_route53_record" "hoge-net-A" {
     zone_id = "ABCDEFGHIJKLMN"
     name    = "hoge.net"
     type    = "A"
@@ -81,7 +81,7 @@ resource "aws_route53_record" "hoge-net" {
 
 }
 
-resource "aws_route53_record" "www-fuga-net" {
+resource "aws_route53_record" "www-fuga-net-A" {
     zone_id = "OPQRSTUVWXYZAB"
     name    = "www.fuga.net"
     type    = "A"
@@ -111,7 +111,7 @@ resource "aws_route53_record" "www-fuga-net" {
                   ],
                   "outputs" => {},
                   "resources" => {
-                    "aws_route53_record.hoge-net" => {
+                    "aws_route53_record.hoge-net-A" => {
                       "type" => "aws_route53_record",
                       "primary" => {
                         "id" => "ABCDEFGHIJKLMN_hoge.net_A",
@@ -126,7 +126,7 @@ resource "aws_route53_record" "www-fuga-net" {
                         },
                       }
                     },
-                    "aws_route53_record.www-fuga-net" => {
+                    "aws_route53_record.www-fuga-net-A" => {
                       "type" => "aws_route53_record",
                       "primary" => {
                         "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
@@ -183,7 +183,7 @@ resource "aws_route53_record" "www-fuga-net" {
                         }
                       }
                     },
-                    "aws_route53_record.hoge-net" => {
+                    "aws_route53_record.hoge-net-A" => {
                       "type" => "aws_route53_record",
                       "primary" => {
                         "id" => "ABCDEFGHIJKLMN_hoge.net_A",
@@ -198,7 +198,7 @@ resource "aws_route53_record" "www-fuga-net" {
                         },
                       }
                     },
-                    "aws_route53_record.www-fuga-net" => {
+                    "aws_route53_record.www-fuga-net-A" => {
                       "type" => "aws_route53_record",
                       "primary" => {
                         "id" => "OPQRSTUVWXYZAB_www.fuga.net_A",
