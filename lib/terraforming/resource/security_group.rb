@@ -52,7 +52,7 @@ module Terraforming
       def ingress_attributes_of(security_group)
         attributes = { "ingress.#" => security_group.ip_permissions.length.to_s }
 
-        security_group.ip_permissions.each do |permission|
+        dedup_permissions(security_group).ip_permissions.each do |permission|
           attributes.merge!(permission_attributes_of(security_group, permission, "ingress"))
         end
 
@@ -62,7 +62,7 @@ module Terraforming
       def egress_attributes_of(security_group)
         attributes = { "egress.#" => security_group.ip_permissions_egress.length.to_s }
 
-        security_group.ip_permissions_egress.each do |permission|
+        dedup_permissions(security_group).ip_permissions_egress.each do |permission|
           attributes.merge!(permission_attributes_of(security_group, permission, "egress"))
         end
 
