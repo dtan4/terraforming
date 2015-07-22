@@ -102,8 +102,8 @@ module Terraforming
       end
 
       def dedup_permissions(security_group)
-        grouped_ingress = security_group.ip_permissions.group_by {|perm| [perm.to_port, perm.from_port]}
-        grouped_egress = security_group.ip_permissions_egress.group_by {|perm| [perm.to_port, perm.from_port]}
+        grouped_ingress = security_group.ip_permissions.group_by {|perm| [perm.ip_protocol, perm.to_port, perm.from_port]}
+        grouped_egress = security_group.ip_permissions_egress.group_by {|perm| [perm.ip_protocol, perm.to_port, perm.from_port]}
 
         security_group.ip_permissions = []
         security_group.ip_permissions_egress = []
