@@ -60,6 +60,7 @@ module Terraforming
       def healthcheck_attributes_of(elb)
         hashcode = healthcheck_hashcode_of(elb.health_check)
         attributes = {
+          # Now each ELB supports one heatlhcheck
           "health_check.#" => "1",
           "health_check.#{hashcode}.healthy_threshold" => elb.health_check.healthy_threshold.to_s,
           "health_check.#{hashcode}.interval" => elb.health_check.interval.to_s,
