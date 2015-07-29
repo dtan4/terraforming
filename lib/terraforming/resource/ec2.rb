@@ -64,6 +64,18 @@ module Terraforming
 
       private
 
+      def block_device_ids_of(instance)
+        instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }
+      end
+
+      def block_devices_of(instance)
+        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).volumes
+      end
+
+      def block_device_mapping_of(instance, volume_id)
+        instance.block_device_mappings.select { |bdm| bdm.ebs.volume_id == volume_id }[0]
+      end
+
       #
       # NOTE(dtan4):
       #   Original logic is here:
@@ -80,6 +92,10 @@ module Terraforming
 
       def module_name_of(instance)
         normalize_module_name(name_from_tag(instance, instance.instance_id))
+      end
+
+      def root_block_device?(block_device_mapping, instance)
+        block_device_mapping.device_name == instance.root_device_name
       end
 
       def vpc_security_groups_of(instance)

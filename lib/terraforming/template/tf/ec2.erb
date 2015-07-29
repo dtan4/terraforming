@@ -15,10 +15,25 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
     private_ip                  = "<%= instance.private_ip_address %>"
     source_dest_check           = <%= instance.source_dest_check %>
 
-<% instance.block_device_mappings.each do |block_device| -%>
-    ebs_block_device {
-        device_name = "<%= block_device.device_name %>"
+<% block_devices_of(instance).each do |block_device| -%>
+<%- mapping = block_device_mapping_of(instance, block_device.volume_id) -%>
+<%- if root_block_device?(mapping, instance) -%>
+    root_block_device {
+        volume_type           = "<%= block_device.volume_type %>"
+        volume_size           = <%= block_device.size %>
+        iops                  = <%= block_device.iops %>
+        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
     }
+<%- else -%>
+    ebs_block_device {
+        device_name           = "<%= mapping.device_name %>"
+        snapshot_id           = "<%= block_device.snapshot_id %>"
+        volume_type           = "<%= block_device.volume_type %>"
+        volume_size           = <%= block_device.size %>
+        iops                  = <%= block_device.iops %>
+        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
+    }
+<% end -%>
 
 <% end -%>
     tags {
