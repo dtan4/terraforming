@@ -2,6 +2,8 @@
 
 ## Fixed
 
+- Generate correct tf and tfstate of EC2 #94, #102
+- Handle multiple Route53 record types #99 (thanks @nicgrayson)
 - Generate correct tfstate of ELB #91 (thanks @grosendorf)
 
 # [v0.1.1](https://github.com/dtan4/terraforming/releases/tag/v0.1.1) (2015-07-14)
