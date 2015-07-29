@@ -30,6 +30,7 @@ module Terraforming
             "availability_zone"=> instance.placement.availability_zone,
             "ebs_block_device.#"=> ebs_block_devices_in(block_devices, instance).length.to_s,
             "ebs_optimized"=> instance.ebs_optimized.to_s,
+            "ephemeral_block_device.#" => "0", # Terraform 0.6.1 cannot fetch this field from AWS
             "id"=> instance.instance_id,
             "instance_type"=> instance.instance_type,
             "private_dns"=> instance.private_dns_name,
