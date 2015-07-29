@@ -22,21 +22,21 @@ module Terraforming
       def tfstate(tfstate_base)
         resources = instances.inject({}) do |result, instance|
           in_vpc = in_vpc?(instance)
+          block_devices = block_devices_of(instance)
 
           attributes = {
             "ami"=> instance.image_id,
             "associate_public_ip_address"=> "true",
             "availability_zone"=> instance.placement.availability_zone,
-            "ebs_block_device.#"=> instance.block_device_mappings.length.to_s,
+            "ebs_block_device.#"=> ebs_block_devices_in(block_devices, instance).length.to_s,
             "ebs_optimized"=> instance.ebs_optimized.to_s,
-            "ephemeral_block_device.#"=> "0",
             "id"=> instance.instance_id,
             "instance_type"=> instance.instance_type,
             "private_dns"=> instance.private_dns_name,
             "private_ip"=> instance.private_ip_address,
             "public_dns"=> instance.public_dns_name,
             "public_ip"=> instance.public_ip_address,
-            "root_block_device.#"=> instance.root_device_name ? "1" : "0",
+            "root_block_device.#"=> root_block_devices_in(block_devices, instance).length.to_s,
             "security_groups.#"=> in_vpc ? "0" : instance.security_groups.length.to_s,
             "source_dest_check"=> instance.source_dest_check.to_s,
             "tenancy"=> instance.placement.tenancy,
@@ -76,6 +76,12 @@ module Terraforming
         instance.block_device_mappings.select { |bdm| bdm.ebs.volume_id == volume_id }[0]
       end
 
+      def ebs_block_devices_in(block_devices, instance)
+        block_devices.reject do |bd|
+          root_block_device?(block_device_mapping_of(instance, bd.volume_id), instance)
+        end
+      end
+
       #
       # NOTE(dtan4):
       #   Original logic is here:
@@ -96,6 +102,12 @@ module Terraforming
 
       def root_block_device?(block_device_mapping, instance)
         block_device_mapping.device_name == instance.root_device_name
+      end
+
+      def root_block_devices_in(block_devices, instance)
+        block_devices.select do |bd|
+          root_block_device?(block_device_mapping_of(instance, bd.volume_id), instance)
+        end
       end
 
       def vpc_security_groups_of(instance)
