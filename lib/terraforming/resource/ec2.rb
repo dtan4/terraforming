@@ -105,9 +105,7 @@ module Terraforming
       end
 
       def root_block_devices_in(block_devices, instance)
-        block_devices.select do |bd|
-          root_block_device?(block_device_mapping_of(instance, bd.volume_id), instance)
-        end
+        block_devices.select { |bd| root_block_device?(block_device_mapping_of(instance, bd.volume_id), instance) }
       end
 
       def vpc_security_groups_of(instance)
