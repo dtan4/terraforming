@@ -1,4 +1,4 @@
-# [v0.1.2] (UNRELEASED)
+# [v0.1.2](https://github.com/dtan4/terraforming/releases/tag/v0.1.2) (2015-07-30)
 
 ## Fixed
 
