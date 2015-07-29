@@ -1,6 +1,6 @@
 # [v0.1.2](https://github.com/dtan4/terraforming/releases/tag/v0.1.2) (2015-07-30)
 
-## Fixed
+### Fixed
 
 - Generate correct tf and tfstate of EC2 #94, #102
 - Handle multiple Route53 record types #99 (thanks @nicgrayson)
