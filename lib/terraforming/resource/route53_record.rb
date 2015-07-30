@@ -77,7 +77,7 @@ module Terraforming
       end
 
       def module_name_of(record)
-        normalize_module_name(name_of(record.name))
+        normalize_module_name(name_of(record.name) + "-" + record.type)
       end
 
       def zone_id_of(hosted_zone)
