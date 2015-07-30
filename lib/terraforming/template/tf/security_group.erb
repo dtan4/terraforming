@@ -4,7 +4,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
     description = "<%= security_group.description %>"
     vpc_id      = "<%= security_group.vpc_id || '' %>"
 
-<% security_group.ip_permissions.each do |permission| -%>
+<% dedup_permissions(security_group).ip_permissions.each do |permission| -%>
   <%- security_groups = security_groups_in(permission).reject { |group_id| group_id == security_group.group_id } -%>
     ingress {
         from_port       = <%= permission.from_port || 0 %>
@@ -24,7 +24,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 
 <% end -%>
 
-<% security_group.ip_permissions_egress.each do |permission| -%>
+<% dedup_permissions(security_group).ip_permissions_egress.each do |permission| -%>
     egress {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
