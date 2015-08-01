@@ -1,3 +1,10 @@
+# [v0.1.3](https://github.com/dtan4/terraforming/releases/tag/v0.1.3) (2015-08-01)
+
+### Fixed
+
+- Generate correct tf and tfstate if EC2 instance has no attached EBS #104
+- Generate correct tfstate of Security Group #101 (thanks @grosendorf)
+
 # [v0.1.2](https://github.com/dtan4/terraforming/releases/tag/v0.1.2) (2015-07-30)
 
 ### Fixed
