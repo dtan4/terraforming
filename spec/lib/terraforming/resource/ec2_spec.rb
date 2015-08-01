@@ -172,6 +172,79 @@ module Terraforming
               }
             ],
             ebs_optimized: false
+          },
+          {
+            instance_id: "i-9012ijkl",
+            image_id: "ami-9012ijkl",
+            state: { code: 16, name: "running" },
+            private_dns_name: "ip-10-0-0-102.ap-northeast-1.compute.internal",
+            public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+            state_transition_reason: "",
+            key_name: "hoge-key",
+            ami_launch_index: 0,
+            product_codes: [],
+            instance_type: "t2.micro",
+            launch_time: Time.parse("2015-03-12 01:23:45 UTC"),
+            placement: { availability_zone: "ap-northeast-1b", group_name: "", tenancy: "default" },
+            monitoring: { state: "disabled" },
+            subnet_id: "",
+            vpc_id: "vpc-9012ijkl",
+            private_ip_address: "10.0.0.102",
+            public_ip_address: "54.12.0.2",
+            architecture: "x86_64",
+            root_device_type: "ebs",
+            root_device_name: "/dev/sda1",
+            block_device_mappings: [],
+            virtualization_type: "hvm",
+            client_token: "abcde1234567890123",
+            tags: [],
+            security_groups: [
+              { group_name: "default", group_id: "9012ijkl" }
+            ],
+            source_dest_check: true,
+            hypervisor: "xen",
+            network_interfaces: [
+              {
+                network_interface_id: "eni-9012ijkl",
+                subnet_id: "subnet-9012ijkl",
+                vpc_id: "vpc-9012ijkl",
+                description: "Primary network interface",
+                owner_id: "012345678901",
+                status: "in-use",
+                mac_address: "01:23:45:67:89:0a",
+                private_ip_address: "10.0.0.102",
+                private_dns_name: "ip-10-0-0-102.ap-northeast-1.compute.internal",
+                source_dest_check: true,
+                groups: [
+                  { group_name: "default", group_id: "sg-9012ijkl" }
+                ],
+                attachment: {
+                  attachment_id: "eni-attach-9012ijkl",
+                  device_index: 0,
+                  status: "attached",
+                  attach_time: Time.parse("2015-03-12 01:23:45 UTC"),
+                  delete_on_termination: true
+                },
+                association: {
+                  public_ip: "54.12.0.2",
+                  public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+                  ip_owner_id: "amazon"
+                },
+                private_ip_addresses: [
+                  {
+                    private_ip_address: "10.0.0.102",
+                    private_dns_name: "ip-10-0-6-102.ap-northeast-1.compute.internal",
+                    primary: true,
+                    association: {
+                      public_ip: "54.12.0.2",
+                      public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+                      ip_owner_id: "amazon"
+                    }
+                  }
+                ]
+              }
+            ],
+            ebs_optimized: false
           }
         ]
       end
@@ -294,6 +367,21 @@ resource "aws_instance" "i-5678efgh" {
     }
 }
 
+resource "aws_instance" "i-9012ijkl" {
+    ami                         = "ami-9012ijkl"
+    availability_zone           = "ap-northeast-1b"
+    ebs_optimized               = false
+    instance_type               = "t2.micro"
+    key_name                    = "hoge-key"
+    security_groups             = ["default"]
+    associate_public_ip_address = true
+    private_ip                  = "10.0.0.102"
+    source_dest_check           = true
+
+    tags {
+    }
+}
+
         EOS
         end
       end
@@ -366,7 +454,35 @@ resource "aws_instance" "i-5678efgh" {
                         "meta" => {
                           "schema_version" => "1"
                         }
-                      }
+                      },
+                    },
+                    "aws_instance.i-9012ijkl" => {
+                      "type" => "aws_instance",
+                      "primary" => {
+                        "id" => "i-9012ijkl",
+                        "attributes" => {
+                          "ami" => "ami-9012ijkl",
+                          "associate_public_ip_address" => "true",
+                          "availability_zone" => "ap-northeast-1b",
+                          "ebs_block_device.#" => "0",
+                          "ebs_optimized" => "false",
+                          "ephemeral_block_device.#" => "0",
+                          "id" => "i-9012ijkl",
+                          "instance_type" => "t2.micro",
+                          "private_dns" => "ip-10-0-0-102.ap-northeast-1.compute.internal",
+                          "private_ip" => "10.0.0.102",
+                          "public_dns" => "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+                          "public_ip" => "54.12.0.2",
+                          "root_block_device.#" => "0",
+                          "security_groups.#" => "1",
+                          "source_dest_check" => "true",
+                          "tenancy" => "default",
+                          "vpc_security_group_ids.#" => "0",
+                        },
+                        "meta" => {
+                          "schema_version" => "1"
+                        }
+                      },
                     }
                   }
                 }
@@ -467,6 +583,34 @@ resource "aws_instance" "i-5678efgh" {
                           "schema_version" => "1"
                         }
                       }
+                    },
+                    "aws_instance.i-9012ijkl" => {
+                      "type" => "aws_instance",
+                      "primary" => {
+                        "id" => "i-9012ijkl",
+                        "attributes" => {
+                          "ami" => "ami-9012ijkl",
+                          "associate_public_ip_address" => "true",
+                          "availability_zone" => "ap-northeast-1b",
+                          "ebs_block_device.#" => "0",
+                          "ebs_optimized" => "false",
+                          "ephemeral_block_device.#" => "0",
+                          "id" => "i-9012ijkl",
+                          "instance_type" => "t2.micro",
+                          "private_dns" => "ip-10-0-0-102.ap-northeast-1.compute.internal",
+                          "private_ip" => "10.0.0.102",
+                          "public_dns" => "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+                          "public_ip" => "54.12.0.2",
+                          "root_block_device.#" => "0",
+                          "security_groups.#" => "1",
+                          "source_dest_check" => "true",
+                          "tenancy" => "default",
+                          "vpc_security_group_ids.#" => "0",
+                        },
+                        "meta" => {
+                          "schema_version" => "1"
+                        }
+                      },
                     }
                   }
                 }
