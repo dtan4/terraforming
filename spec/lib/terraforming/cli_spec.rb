@@ -198,5 +198,78 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
     end
+
+    context "flush to stdout" do
+      describe "s3" do
+        let(:klass)   { Terraforming::Resource::S3 }
+        let(:command) { :s3 }
+
+        let(:tf) do
+          <<-EOS
+resource "aws_s3_bucket" "hoge" {
+    bucket = "hoge"
+    acl    = "private"
+}
+
+resource "aws_s3_bucket" "fuga" {
+    bucket = "fuga"
+    acl    = "private"
+}
+
+          EOS
+        end
+
+        let(:tfstate) do
+          {
+            "aws_s3_bucket.hoge" => {
+              "type" => "aws_s3_bucket",
+              "primary" => {
+                "id" => "hoge",
+                "attributes" => {
+                  "acl" => "private",
+                  "bucket" => "hoge",
+                  "id" => "hoge"
+                }
+              }
+            },
+            "aws_s3_bucket.fuga" => {
+              "type" => "aws_s3_bucket",
+              "primary" => {
+                "id" => "fuga",
+                "attributes" => {
+                  "acl" => "private",
+                  "bucket" => "fuga",
+                  "id" => "fuga"
+                }
+              }
+            }
+          }
+        end
+
+        before do
+          allow(klass).to receive(:tf).and_return(tf)
+          allow(klass).to receive(:tfstate).and_return(tfstate)
+        end
+
+        context "without --tfstate" do
+          it "should flush tf to stdout" do
+            expect(STDOUT).to receive(:puts).with(tf)
+            described_class.new.invoke(command, [], {})
+          end
+        end
+
+        context "with --tfstate" do
+          xit "should flush state to stdout" do
+
+          end
+        end
+
+        context "with --tfstate --merge TFSTATE" do
+          xit "should flush merged tfstate to stdout" do
+
+          end
+        end
+      end
+    end
   end
 end
