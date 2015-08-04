@@ -126,13 +126,12 @@ module Terraforming
     private
 
     def execute(klass, options)
-      result = if options[:tfstate]
-                 tfstate(klass, options[:merge])
-               else
-                 klass.tf
-               end
-
+      result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
       puts result
+    end
+
+    def tf(klass)
+      klass.tf
     end
 
     def tfstate(klass, tfstate_path)
