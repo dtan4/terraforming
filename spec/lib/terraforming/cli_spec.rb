@@ -4,21 +4,21 @@ module Terraforming
   describe CLI do
     shared_examples "CLI examples" do
       context "without --tfstate" do
-        it "should export DBParameterGroup tf" do
+        it "should export tf" do
           expect(klass).to receive(:tf)
           described_class.new.invoke(command, [], {})
         end
       end
 
       context "with --tfstate" do
-        it "should export DBParameterGroup tfstate" do
+        it "should export tfstate" do
           expect(klass).to receive(:tfstate).with(no_args)
           described_class.new.invoke(command, [], { tfstate: true })
         end
       end
 
       context "with --tfstate --merge TFSTATE" do
-        it "should export merged DBParameterGroup tfstate" do
+        it "should export merged tfstate" do
           expect(klass).to receive(:tfstate).with(tfstate_base: tfstate_fixture)
           described_class.new.invoke(command, [], { tfstate: true, merge: tfstate_fixture_path })
         end
