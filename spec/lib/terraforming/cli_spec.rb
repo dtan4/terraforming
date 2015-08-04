@@ -3,6 +3,10 @@ require "spec_helper"
 module Terraforming
   describe CLI do
     shared_examples "CLI examples" do
+      before do
+        allow(STDOUT).to receive(:puts).and_return(nil)
+      end
+
       context "without --tfstate" do
         it "should export DBParameterGroup tf" do
           expect(klass).to receive(:tf)
