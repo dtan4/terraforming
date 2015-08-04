@@ -20,7 +20,7 @@ module Terraforming
       end
 
       def tfstate(tfstate_base)
-        resources = security_groups.inject({}) do |result, security_group|
+        resources = security_groups.map { |sg| dedup_permissions(sg) }.inject({}) do |result, security_group|
           attributes = {
             "description" => security_group.description,
             "id" => security_group.group_id,
@@ -52,7 +52,7 @@ module Terraforming
       def ingress_attributes_of(security_group)
         attributes = { "ingress.#" => security_group.ip_permissions.length.to_s }
 
-        dedup_permissions(security_group).ip_permissions.each do |permission|
+        security_group.ip_permissions.each do |permission|
           attributes.merge!(permission_attributes_of(security_group, permission, "ingress"))
         end
 
@@ -62,7 +62,7 @@ module Terraforming
       def egress_attributes_of(security_group)
         attributes = { "egress.#" => security_group.ip_permissions_egress.length.to_s }
 
-        dedup_permissions(security_group).ip_permissions_egress.each do |permission|
+        security_group.ip_permissions_egress.each do |permission|
           attributes.merge!(permission_attributes_of(security_group, permission, "egress"))
         end
 
