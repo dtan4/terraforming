@@ -157,7 +157,7 @@ module Terraforming
           tags: [
             {key: 'name', value: 'elb-1'}
           ]
-        }]
+         }]
       end
 
       before do
@@ -239,220 +239,85 @@ resource "aws_elb" "fuga" {
       end
 
       describe ".tfstate" do
-        context "without existing tfstate" do
-          it "should generate tfstate" do
-            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 1,
-              "modules" => [
-                {
-                  "path" => [
-                    "root"
-                  ],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_elb.hoge" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "hoge",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "300",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                          "id" => "hoge",
-                          "idle_timeout" => "60",
-                          "instances.#" => "1",
-                          "name" => "hoge",
-                          "source_security_group" => "default",
-                          "health_check.#" =>"1",
-                          "health_check.362345074.healthy_threshold" =>"10",
-                          "health_check.362345074.interval" =>"30",
-                          "health_check.362345074.target" =>"HTTP:8080/status",
-                          "health_check.362345074.timeout" =>"5",
-                          "health_check.362345074.unhealthy_threshold" =>"2",
-                          "listener.#" =>"1",
-                          "listener.3051874140.instance_port" => "80",
-                          "listener.3051874140.instance_protocol" => "http",
-                          "listener.3051874140.lb_port" => "443",
-                          "listener.3051874140.lb_protocol" => "https",
-                          "listener.3051874140.ssl_certificate_id" => "arn:aws:iam::123456789012:server-certificate/foobar",                          "security_groups.#" =>"2",
-                          "security_groups.550527283" => "sg-1234abcd",
-                          "security_groups.3942994537" => "sg-5678efgh",
-                          "subnets.#" =>"2",
-                          "subnets.3229571749" => "subnet-1234abcd",
-                          "subnets.195717631" => "subnet-5678efgh",
-                          "instances.3520380136" => "i-1234abcd",
-                          "tags.#" =>"1",
-                          "tags.name" =>"elb-1"
-                        }
-                      }
-                    },
-                    "aws_elb.fuga" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "fuga",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "900",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
-                          "id" => "fuga",
-                          "idle_timeout" => "90",
-                          "instances.#" => "1",
-                          "name" => "fuga",
-                          "source_security_group" => "elb",
-                          "health_check.#" =>"1",
-                          "health_check.362345074.healthy_threshold" =>"10",
-                          "health_check.362345074.interval" =>"30",
-                          "health_check.362345074.target" =>"HTTP:8080/status",
-                          "health_check.362345074.timeout" =>"5",
-                          "health_check.362345074.unhealthy_threshold" =>"2",
-                          "listener.#" =>"1",
-                          "listener.1674021574.instance_port" =>"80",
-                          "listener.1674021574.instance_protocol" =>"http",
-                          "listener.1674021574.lb_port" =>"443",
-                          "listener.1674021574.lb_protocol" =>"https",
-                          "listener.1674021574.ssl_certificate_id" =>"arn:aws:iam::345678901234:server-certificate/foobar",
-                          "security_groups.#" =>"2",
-                          "security_groups.2877768809" =>"sg-9012ijkl",
-                          "security_groups.1478442660" =>"sg-3456mnop",
-                          "subnets.#" =>"2",
-                          "subnets.1260945407" =>"subnet-9012ijkl",
-                          "subnets.3098543410" =>"subnet-3456mnop",
-                          "instances.436309938" =>"i-5678efgh",
-                          "tags.#" =>"1",
-                          "tags.name" =>"elb-1"                        }
-                      }
-                    }
-                  }
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client: client)).to eq({
+            "aws_elb.hoge" => {
+              "type" => "aws_elb",
+              "primary" => {
+                "id" => "hoge",
+                "attributes" => {
+                  "availability_zones.#" => "2",
+                  "connection_draining" => "true",
+                  "connection_draining_timeout" => "300",
+                  "cross_zone_load_balancing" => "true",
+                  "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                  "id" => "hoge",
+                  "idle_timeout" => "60",
+                  "instances.#" => "1",
+                  "name" => "hoge",
+                  "source_security_group" => "default",
+                  "health_check.#" =>"1",
+                  "health_check.362345074.healthy_threshold" =>"10",
+                  "health_check.362345074.interval" =>"30",
+                  "health_check.362345074.target" =>"HTTP:8080/status",
+                  "health_check.362345074.timeout" =>"5",
+                  "health_check.362345074.unhealthy_threshold" =>"2",
+                  "listener.#" =>"1",
+                  "listener.3051874140.instance_port" => "80",
+                  "listener.3051874140.instance_protocol" => "http",
+                  "listener.3051874140.lb_port" => "443",
+                  "listener.3051874140.lb_protocol" => "https",
+                  "listener.3051874140.ssl_certificate_id" => "arn:aws:iam::123456789012:server-certificate/foobar",                          "security_groups.#" =>"2",
+                  "security_groups.550527283" => "sg-1234abcd",
+                  "security_groups.3942994537" => "sg-5678efgh",
+                  "subnets.#" =>"2",
+                  "subnets.3229571749" => "subnet-1234abcd",
+                  "subnets.195717631" => "subnet-5678efgh",
+                  "instances.3520380136" => "i-1234abcd",
+                  "tags.#" =>"1",
+                  "tags.name" =>"elb-1"
                 }
-              ]
-            })
-          end
-        end
-
-        context "with existing tfstate" do
-          it "should generate tfstate and merge it to existing tfstate" do
-            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 89,
-              "remote" => {
-                "type" => "s3",
-                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
-              },
-              "modules" => [
-                {
-                  "path" => ["root"],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_elb.hogehoge" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "hogehoge",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "300",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                          "health_check.#" => "1",
-                          "id" => "hogehoge",
-                          "idle_timeout" => "60",
-                          "instances.#" => "1",
-                          "listener.#" => "1",
-                          "name" => "hoge",
-                          "security_groups.#" => "2",
-                          "source_security_group" => "default",
-                          "subnets.#" => "2"
-                        }
-                      }
-                    },
-                    "aws_elb.hoge" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "hoge",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "300",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                          "id" => "hoge",
-                          "idle_timeout" => "60",
-                          "instances.#" => "1",
-                          "name" => "hoge",
-                          "source_security_group" => "default",
-                          "health_check.#" => "1",
-                          "health_check.362345074.healthy_threshold" => "10",
-                          "health_check.362345074.interval" => "30",
-                          "health_check.362345074.target" => "HTTP:8080/status",
-                          "health_check.362345074.timeout" => "5",
-                          "health_check.362345074.unhealthy_threshold" => "2",
-                          "listener.#" => "1",
-                          "listener.3051874140.instance_port" => "80",
-                          "listener.3051874140.instance_protocol" => "http",
-                          "listener.3051874140.lb_port" => "443",
-                          "listener.3051874140.lb_protocol" => "https",
-                          "listener.3051874140.ssl_certificate_id" => "arn:aws:iam::123456789012:server-certificate/foobar",
-                          "security_groups.#" => "2",
-                          "security_groups.550527283" => "sg-1234abcd",
-                          "security_groups.3942994537" => "sg-5678efgh",
-                          "subnets.#" => "2",
-                          "subnets.3229571749" => "subnet-1234abcd",
-                          "subnets.195717631" => "subnet-5678efgh",
-                          "instances.3520380136" => "i-1234abcd",
-                          "tags.#" => "1",
-                          "tags.name" => "elb-1"
-                        }
-                      }
-                    },
-                    "aws_elb.fuga" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "fuga",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "900",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
-                          "id" => "fuga",
-                          "idle_timeout" => "90",
-                          "instances.#" => "1",
-                          "name" => "fuga",
-                          "source_security_group" => "elb",
-                          "health_check.#" => "1",
-                          "health_check.362345074.healthy_threshold" => "10",
-                          "health_check.362345074.interval" => "30",
-                          "health_check.362345074.target" => "HTTP:8080/status",
-                          "health_check.362345074.timeout" => "5",
-                          "health_check.362345074.unhealthy_threshold" => "2",
-                          "listener.#" => "1",
-                          "listener.1674021574.instance_port" => "80",
-                          "listener.1674021574.instance_protocol" => "http",
-                          "listener.1674021574.lb_port" => "443",
-                          "listener.1674021574.lb_protocol" => "https",
-                          "listener.1674021574.ssl_certificate_id" => "arn:aws:iam::345678901234:server-certificate/foobar",
-                          "security_groups.#" => "2",
-                          "security_groups.2877768809" => "sg-9012ijkl",
-                          "security_groups.1478442660" => "sg-3456mnop",
-                          "subnets.#" => "2",
-                          "subnets.1260945407" => "subnet-9012ijkl",
-                          "subnets.3098543410" => "subnet-3456mnop",
-                          "instances.436309938" => "i-5678efgh",
-                          "tags.#" => "1",
-                          "tags.name" => "elb-1"
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
-            })
-          end
+              }
+            },
+            "aws_elb.fuga" => {
+              "type" => "aws_elb",
+              "primary" => {
+                "id" => "fuga",
+                "attributes" => {
+                  "availability_zones.#" => "2",
+                  "connection_draining" => "true",
+                  "connection_draining_timeout" => "900",
+                  "cross_zone_load_balancing" => "true",
+                  "dns_name" => "fuga-90123456.ap-northeast-1.elb.amazonaws.com",
+                  "id" => "fuga",
+                  "idle_timeout" => "90",
+                  "instances.#" => "1",
+                  "name" => "fuga",
+                  "source_security_group" => "elb",
+                  "health_check.#" =>"1",
+                  "health_check.362345074.healthy_threshold" =>"10",
+                  "health_check.362345074.interval" =>"30",
+                  "health_check.362345074.target" =>"HTTP:8080/status",
+                  "health_check.362345074.timeout" =>"5",
+                  "health_check.362345074.unhealthy_threshold" =>"2",
+                  "listener.#" =>"1",
+                  "listener.1674021574.instance_port" =>"80",
+                  "listener.1674021574.instance_protocol" =>"http",
+                  "listener.1674021574.lb_port" =>"443",
+                  "listener.1674021574.lb_protocol" =>"https",
+                  "listener.1674021574.ssl_certificate_id" =>"arn:aws:iam::345678901234:server-certificate/foobar",
+                  "security_groups.#" =>"2",
+                  "security_groups.2877768809" =>"sg-9012ijkl",
+                  "security_groups.1478442660" =>"sg-3456mnop",
+                  "subnets.#" =>"2",
+                  "subnets.1260945407" =>"subnet-9012ijkl",
+                  "subnets.3098543410" =>"subnet-3456mnop",
+                  "instances.436309938" =>"i-5678efgh",
+                  "tags.#" =>"1",
+                  "tags.name" =>"elb-1"                        }
+              }
+            }
+          })
         end
       end
     end

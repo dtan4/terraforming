@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::RDS::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/db_parameter_group")
       end
 
-      def tfstate(tfstate_base)
-        resources = db_parameter_groups.inject({}) do |result, parameter_group|
+      def tfstate
+        db_parameter_groups.inject({}) do |resources, parameter_group|
           attributes = {
             "description" => parameter_group.description,
             "family" => parameter_group.db_parameter_group_family,
@@ -28,7 +28,7 @@ module Terraforming
             "name" => parameter_group.db_parameter_group_name,
             "parameter.#" => db_parameters_in(parameter_group).length.to_s
           }
-          result["aws_db_parameter_group.#{module_name_of(parameter_group)}"] = {
+          resources["aws_db_parameter_group.#{module_name_of(parameter_group)}"] = {
             "type" => "aws_db_parameter_group",
             "primary" => {
               "id" => parameter_group.db_parameter_group_name,
@@ -36,10 +36,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::EC2::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/subnet")
       end
 
-      def tfstate(tfstate_base)
-        resources = subnets.inject({}) do |result, subnet|
+      def tfstate
+        subnets.inject({}) do |resources, subnet|
           attributes = {
             "availability_zone" => subnet.availability_zone,
             "cidr_block" => subnet.cidr_block,
@@ -29,7 +29,7 @@ module Terraforming
             "tags.#" => subnet.tags.length.to_s,
             "vpc_id" => subnet.vpc_id,
           }
-          result["aws_subnet.#{module_name_of(subnet)}"] = {
+          resources["aws_subnet.#{module_name_of(subnet)}"] = {
             "type" => "aws_subnet",
             "primary" => {
               "id" => subnet.subnet_id,
@@ -37,10 +37,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

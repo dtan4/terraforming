@@ -50,118 +50,35 @@ resource "aws_iam_user" "fuga" {
       end
 
       describe ".tfstate" do
-        context "without existing tfstate" do
-          it "should generate tfstate" do
-            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 1,
-              "modules" => [
-                {
-                  "path" => [
-                    "root"
-                  ],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_iam_user.hoge" => {
-                      "type" => "aws_iam_user",
-                      "primary" => {
-                        "id" => "hoge",
-                        "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                          "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
-                        }
-                      }
-                    },
-                    "aws_iam_user.fuga" => {
-                      "type" => "aws_iam_user",
-                      "primary" => {
-                        "id" => "fuga",
-                        "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                          "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
-                        }
-                      }
-                    },
-                  }
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client: client)).to eq({
+            "aws_iam_user.hoge" => {
+              "type" => "aws_iam_user",
+              "primary" => {
+                "id" => "hoge",
+                "attributes" => {
+                  "arn"=> "arn:aws:iam::123456789012:user/hoge",
+                  "id" => "hoge",
+                  "name" => "hoge",
+                  "path" => "/",
+                  "unique_id" => "ABCDEFGHIJKLMN1234567",
                 }
-              ]
-            })
-          end
-        end
-
-        context "with existing tfstate" do
-          it "should generate tfstate and merge it to existing tfstate" do
-            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 89,
-              "remote" => {
-                "type" => "s3",
-                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
-              },
-              "modules" => [
-                {
-                  "path" => ["root"],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_elb.hogehoge" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "hogehoge",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "300",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                          "health_check.#" => "1",
-                          "id" => "hogehoge",
-                          "idle_timeout" => "60",
-                          "instances.#" => "1",
-                          "listener.#" => "1",
-                          "name" => "hoge",
-                          "security_groups.#" => "2",
-                          "source_security_group" => "default",
-                          "subnets.#" => "2"
-                        }
-                      }
-                    },
-                    "aws_iam_user.hoge" => {
-                      "type" => "aws_iam_user",
-                      "primary" => {
-                        "id" => "hoge",
-                        "attributes" => {
-                          "arn"=> "arn:aws:iam::123456789012:user/hoge",
-                          "id" => "hoge",
-                          "name" => "hoge",
-                          "path" => "/",
-                          "unique_id" => "ABCDEFGHIJKLMN1234567",
-                        }
-                      }
-                    },
-                    "aws_iam_user.fuga" => {
-                      "type" => "aws_iam_user",
-                      "primary" => {
-                        "id" => "fuga",
-                        "attributes" => {
-                          "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                          "id" => "fuga",
-                          "name" => "fuga",
-                          "path" => "/system/",
-                          "unique_id" => "OPQRSTUVWXYZA8901234",
-                        }
-                      }
-                    },
-                  }
+              }
+            },
+            "aws_iam_user.fuga" => {
+              "type" => "aws_iam_user",
+              "primary" => {
+                "id" => "fuga",
+                "attributes" => {
+                  "arn"=> "arn:aws:iam::345678901234:user/fuga",
+                  "id" => "fuga",
+                  "name" => "fuga",
+                  "path" => "/system/",
+                  "unique_id" => "OPQRSTUVWXYZA8901234",
                 }
-              ]
-            })
-          end
+              }
+            },
+          })
         end
       end
     end

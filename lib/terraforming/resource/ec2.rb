@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::EC2::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/ec2")
       end
 
-      def tfstate(tfstate_base)
-        resources = instances.inject({}) do |result, instance|
+      def tfstate
+        instances.inject({}) do |resources, instance|
           in_vpc = in_vpc?(instance)
           block_devices = block_devices_of(instance)
 
@@ -46,7 +46,7 @@ module Terraforming
 
           attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
 
-          result["aws_instance.#{module_name_of(instance)}"] = {
+          resources["aws_instance.#{module_name_of(instance)}"] = {
             "type" => "aws_instance",
             "primary" => {
               "id" => instance.instance_id,
@@ -57,10 +57,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

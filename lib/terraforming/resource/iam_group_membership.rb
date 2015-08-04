@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::IAM::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::IAM::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/iam_group_membership")
       end
 
-      def tfstate(tfstate_base)
-        resources = iam_groups.inject({}) do |result, group|
+      def tfstate
+        iam_groups.inject({}) do |resources, group|
           membership_name = membership_name_of(group)
 
           attributes = {
@@ -29,7 +29,7 @@ module Terraforming
             "name" => membership_name,
             "users.#" => group_members_of(group).length.to_s,
           }
-          result["aws_iam_group_membership.#{group.group_name}"] = {
+          resources["aws_iam_group_membership.#{group.group_name}"] = {
             "type" => "aws_iam_group_membership",
             "primary" => {
               "id" => membership_name,
@@ -37,10 +37,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

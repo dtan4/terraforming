@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::EC2::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/network_acl")
       end
 
-      def tfstate(tfstate_base)
-        resources = network_acls.inject({}) do |result, network_acl|
+      def tfstate
+        network_acls.inject({}) do |resources, network_acl|
           attributes = {
             "egress.#" => egresses_of(network_acl).length.to_s,
             "id" => network_acl.network_acl_id,
@@ -29,7 +29,7 @@ module Terraforming
             "tags.#" => network_acl.tags.length.to_s,
             "vpc_id" => network_acl.vpc_id,
           }
-          result["aws_network_acl.#{module_name_of(network_acl)}"] = {
+          resources["aws_network_acl.#{module_name_of(network_acl)}"] = {
             "type" => "aws_network_acl",
             "primary" => {
               "id" => network_acl.network_acl_id,
@@ -37,10 +37,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::Route53::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::Route53::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/route53_record")
       end
 
-      def tfstate(tfstate_base)
-        resources = records.inject({}) do |result, r|
+      def tfstate
+        records.inject({}) do |resources, r|
           record, zone_id = r[:record], r[:zone_id]
           record_id = record_id_of(record, zone_id)
 
@@ -37,7 +37,7 @@ module Terraforming
           attributes["weight"] = record.weight.to_s if record.weight
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 
-          result["aws_route53_record.#{module_name_of(record)}"] = {
+          resources["aws_route53_record.#{module_name_of(record)}"] = {
             "type" => "aws_route53_record",
             "primary" => {
               "id" => record_id,
@@ -45,10 +45,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

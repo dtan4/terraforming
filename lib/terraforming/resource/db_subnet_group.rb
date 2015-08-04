@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::RDS::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,14 +19,14 @@ module Terraforming
         apply_template(@client, "tf/db_subnet_group")
       end
 
-      def tfstate(tfstate_base)
-        resources = db_subnet_groups.inject({}) do |result, subnet_group|
+      def tfstate
+        db_subnet_groups.inject({}) do |resources, subnet_group|
           attributes = {
             "description" => subnet_group.db_subnet_group_description,
             "name" => subnet_group.db_subnet_group_name,
             "subnet_ids.#" => subnet_group.subnets.length.to_s
           }
-          result["aws_db_subnet_group.#{module_name_of(subnet_group)}"] = {
+          resources["aws_db_subnet_group.#{module_name_of(subnet_group)}"] = {
             "type" => "aws_db_subnet_group",
             "primary" => {
               "id" => subnet_group.db_subnet_group_name,
@@ -34,10 +34,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::RDS::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::RDS::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/rds")
       end
 
-      def tfstate(tfstate_base)
-        resources = db_instances.inject({}) do |result, instance|
+      def tfstate
+        db_instances.inject({}) do |resources, instance|
           attributes = {
             "address" => instance.endpoint.address,
             "allocated_storage" => instance.allocated_storage.to_s,
@@ -48,7 +48,7 @@ module Terraforming
             "username" => instance.master_username,
             "vpc_security_group_ids.#" => instance.vpc_security_groups.length.to_s,
           }
-          result["aws_db_instance.#{module_name_of(instance)}"] = {
+          resources["aws_db_instance.#{module_name_of(instance)}"] = {
             "type" => "aws_db_instance",
             "primary" => {
               "id" => instance.db_instance_identifier,
@@ -56,10 +56,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

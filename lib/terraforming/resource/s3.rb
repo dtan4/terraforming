@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::S3::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::S3::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,9 +19,9 @@ module Terraforming
         apply_template(@client, "tf/s3")
       end
 
-      def tfstate(tfstate_base)
-        resources = buckets.inject({}) do |result, bucket|
-          result["aws_s3_bucket.#{module_name_of(bucket)}"] = {
+      def tfstate
+        buckets.inject({}) do |resources, bucket|
+          resources["aws_s3_bucket.#{module_name_of(bucket)}"] = {
             "type" => "aws_s3_bucket",
             "primary" => {
               "id" => bucket.name,
@@ -33,10 +33,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private
