@@ -23,7 +23,16 @@ module Terraforming
                 ip_ranges: [
                   { cidr_ip: "0.0.0.0/0" }
                 ]
-              }
+              },
+              {
+                ip_protocol: "tcp",
+                from_port: 80,
+                to_port: 80,
+                user_id_group_pairs: [],
+                ip_ranges: [
+                  { cidr_ip: "0.0.0.0/0" }
+                ]
+              },
             ],
             ip_permissions_egress: [
               {
@@ -135,6 +144,13 @@ resource "aws_security_group" "sg-1234abcd-hoge" {
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
+    ingress {
+        from_port       = 80
+        to_port         = 80
+        protocol        = "tcp"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
 
     egress {
         from_port       = 0
@@ -218,7 +234,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                           "egress.2927967887.self" => "false",
                           "egress.2927967887.cidr_blocks.0" => "0.0.0.0/0",
                           "egress.2927967887.security_groups.855381352" => "sg-9876uxyz",
-                          "ingress.#" => "1",
+                          "ingress.#" => "2",
                           "ingress.2541437006.from_port" => "22",
                           "ingress.2541437006.to_port" => "22",
                           "ingress.2541437006.protocol" => "tcp",
@@ -226,6 +242,13 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                           "ingress.2541437006.security_groups.#" => "0",
                           "ingress.2541437006.self" => "false",
                           "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                          "ingress.2214680975.from_port" => "80",
+                          "ingress.2214680975.to_port" => "80",
+                          "ingress.2214680975.protocol" => "tcp",
+                          "ingress.2214680975.cidr_blocks.#" => "1",
+                          "ingress.2214680975.security_groups.#" => "0",
+                          "ingress.2214680975.self" => "false",
+                          "ingress.2214680975.cidr_blocks.0" => "0.0.0.0/0",
                         }
                       }
                     },
@@ -329,7 +352,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                           "egress.2927967887.self" => "false",
                           "egress.2927967887.cidr_blocks.0" => "0.0.0.0/0",
                           "egress.2927967887.security_groups.855381352" => "sg-9876uxyz",
-                          "ingress.#" => "1",
+                          "ingress.#" => "2",
                           "ingress.2541437006.from_port" => "22",
                           "ingress.2541437006.to_port" => "22",
                           "ingress.2541437006.protocol" => "tcp",
@@ -337,6 +360,13 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                           "ingress.2541437006.security_groups.#" => "0",
                           "ingress.2541437006.self" => "false",
                           "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                          "ingress.2214680975.from_port" => "80",
+                          "ingress.2214680975.to_port" => "80",
+                          "ingress.2214680975.protocol" => "tcp",
+                          "ingress.2214680975.cidr_blocks.#" => "1",
+                          "ingress.2214680975.security_groups.#" => "0",
+                          "ingress.2214680975.self" => "false",
+                          "ingress.2214680975.cidr_blocks.0" => "0.0.0.0/0",
                         }
                       }
                     },
