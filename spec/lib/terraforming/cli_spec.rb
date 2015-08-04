@@ -6,7 +6,7 @@ module Terraforming
       shared_examples "CLI examples" do
         context "without --tfstate" do
           it "should export tf" do
-            expect(klass).to receive(:tf)
+            expect(klass).to receive(:tf).with(no_args)
             described_class.new.invoke(command, [], {})
           end
         end
@@ -20,7 +20,7 @@ module Terraforming
 
         context "with --tfstate --merge TFSTATE" do
           it "should export merged tfstate" do
-            expect(klass).to receive(:tfstate).with(tfstate_base: tfstate_fixture)
+            expect(klass).to receive(:tfstate).with(no_args)
             described_class.new.invoke(command, [], { tfstate: true, merge: tfstate_fixture_path })
           end
         end
@@ -28,6 +28,8 @@ module Terraforming
 
       before do
         allow(STDOUT).to receive(:puts).and_return(nil)
+        allow(klass).to receive(:tf).and_return("")
+        allow(klass).to receive(:tfstate).and_return({})
       end
 
       describe "dbpg" do
@@ -259,14 +261,110 @@ resource "aws_s3_bucket" "fuga" {
         end
 
         context "with --tfstate" do
-          xit "should flush state to stdout" do
-
+          it "should flush state to stdout" do
+            expect(STDOUT).to receive(:puts).with(JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 1,
+              "modules" => [
+                {
+                  "path" => [
+                    "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_s3_bucket.hoge" => {
+                      "type" => "aws_s3_bucket",
+                      "primary" => {
+                        "id" => "hoge",
+                        "attributes" => {
+                          "acl" => "private",
+                          "bucket" => "hoge",
+                          "id" => "hoge"
+                        }
+                      }
+                    },
+                    "aws_s3_bucket.fuga" => {
+                      "type" => "aws_s3_bucket",
+                      "primary" => {
+                        "id" => "fuga",
+                        "attributes" => {
+                          "acl" => "private",
+                          "bucket" => "fuga",
+                          "id" => "fuga"
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            }))
+            described_class.new.invoke(command, [], { tfstate: true })
           end
         end
 
         context "with --tfstate --merge TFSTATE" do
-          xit "should flush merged tfstate to stdout" do
-
+          it "should flush merged tfstate to stdout" do
+            expect(STDOUT).to receive(:puts).with(JSON.pretty_generate({
+              "version" => 1,
+              "serial" => 89,
+              "remote" => {
+                "type" => "s3",
+                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
+              },
+              "modules" => [
+                {
+                  "path" => ["root"],
+                  "outputs" => {},
+                  "resources" => {
+                    "aws_elb.hogehoge" => {
+                      "type" => "aws_elb",
+                      "primary" => {
+                        "id" => "hogehoge",
+                        "attributes" => {
+                          "availability_zones.#" => "2",
+                          "connection_draining" => "true",
+                          "connection_draining_timeout" => "300",
+                          "cross_zone_load_balancing" => "true",
+                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
+                          "health_check.#" => "1",
+                          "id" => "hogehoge",
+                          "idle_timeout" => "60",
+                          "instances.#" => "1",
+                          "listener.#" => "1",
+                          "name" => "hoge",
+                          "security_groups.#" => "2",
+                          "source_security_group" => "default",
+                          "subnets.#" => "2"
+                        }
+                      }
+                    },
+                    "aws_s3_bucket.hoge" => {
+                      "type" => "aws_s3_bucket",
+                      "primary" => {
+                        "id" => "hoge",
+                        "attributes" => {
+                          "acl" => "private",
+                          "bucket" => "hoge",
+                          "id" => "hoge"
+                        }
+                      }
+                    },
+                    "aws_s3_bucket.fuga" => {
+                      "type" => "aws_s3_bucket",
+                      "primary" => {
+                        "id" => "fuga",
+                        "attributes" => {
+                          "acl" => "private",
+                          "bucket" => "fuga",
+                          "id" => "fuga"
+                        }
+                      }
+                    },
+                  }
+                }
+              ]
+            }))
+            described_class.new.invoke(command, [], { tfstate: true, merge: tfstate_fixture_path })
           end
         end
       end
