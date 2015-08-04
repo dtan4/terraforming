@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::EC2::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/vpc")
       end
 
-      def tfstate(tfstate_base)
-        resources = vpcs.inject({}) do |result, vpc|
+      def tfstate
+        vpcs.inject({}) do |resources, vpc|
           attributes = {
             "cidr_block" => vpc.cidr_block,
             "enable_dns_hostnames" => enable_dns_hostnames?(vpc).to_s,
@@ -29,7 +29,7 @@ module Terraforming
             "instance_tenancy" => vpc.instance_tenancy,
             "tags.#" => vpc.tags.length.to_s,
           }
-          result["aws_vpc.#{module_name_of(vpc)}"] = {
+          resources["aws_vpc.#{module_name_of(vpc)}"] = {
             "type" => "aws_vpc",
             "primary" => {
               "id" => vpc.vpc_id,
@@ -37,10 +37,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

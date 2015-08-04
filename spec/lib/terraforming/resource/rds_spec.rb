@@ -122,132 +122,42 @@ resource "aws_db_instance" "hogedb" {
       end
 
       describe ".tfstate" do
-        context "without existing tfstate" do
-          it "should generate tfstate" do
-            expect(described_class.tfstate(client: client)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 1,
-              "modules" => [
-                {
-                  "path" => [
-                    "root"
-                  ],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_db_instance.hogedb" => {
-                      "type" => "aws_db_instance",
-                      "primary" => {
-                        "id" => "hogedb",
-                        "attributes" => {
-                          "address" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
-                          "allocated_storage" => "10",
-                          "availability_zone" => "ap-northeast-1b",
-                          "backup_retention_period" => "1",
-                          "backup_window" => "23:00-23:30",
-                          "db_subnet_group_name" => "hogedb-subnet",
-                          "endpoint" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
-                          "engine" => "postgres",
-                          "engine_version" => "9.4.1",
-                          "final_snapshot_identifier" => "hogedb-final",
-                          "id" => "hogedb",
-                          "identifier" => "hogedb",
-                          "instance_class" => "db.m3.large",
-                          "maintenance_window" => "mon:00:00-mon:00:30",
-                          "multi_az" => "false",
-                          "name" => "hogedb",
-                          "parameter_group_name" => "default.postgres9.4",
-                          "password" => "xxxxxxxx",
-                          "port" => "5432",
-                          "publicly_accessible" => "false",
-                          "security_group_names.#" => "0",
-                          "status" => "available",
-                          "storage_type" => "standard",
-                          "username" => "user",
-                          "vpc_security_group_ids.#" => "1",
-                        }
-                      }
-                    }
-                  }
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client: client)).to eq({
+            "aws_db_instance.hogedb" => {
+              "type" => "aws_db_instance",
+              "primary" => {
+                "id" => "hogedb",
+                "attributes" => {
+                  "address" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
+                  "allocated_storage" => "10",
+                  "availability_zone" => "ap-northeast-1b",
+                  "backup_retention_period" => "1",
+                  "backup_window" => "23:00-23:30",
+                  "db_subnet_group_name" => "hogedb-subnet",
+                  "endpoint" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
+                  "engine" => "postgres",
+                  "engine_version" => "9.4.1",
+                  "final_snapshot_identifier" => "hogedb-final",
+                  "id" => "hogedb",
+                  "identifier" => "hogedb",
+                  "instance_class" => "db.m3.large",
+                  "maintenance_window" => "mon:00:00-mon:00:30",
+                  "multi_az" => "false",
+                  "name" => "hogedb",
+                  "parameter_group_name" => "default.postgres9.4",
+                  "password" => "xxxxxxxx",
+                  "port" => "5432",
+                  "publicly_accessible" => "false",
+                  "security_group_names.#" => "0",
+                  "status" => "available",
+                  "storage_type" => "standard",
+                  "username" => "user",
+                  "vpc_security_group_ids.#" => "1",
                 }
-              ]
-            })
-          end
-        end
-
-        context "with existing tfstate" do
-          it "should generate tfstate and merge it to existing tfstate" do
-            expect(described_class.tfstate(client: client, tfstate_base: tfstate_fixture)).to eq JSON.pretty_generate({
-              "version" => 1,
-              "serial" => 89,
-              "remote" => {
-                "type" => "s3",
-                "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
-              },
-              "modules" => [
-                {
-                  "path" => ["root"],
-                  "outputs" => {},
-                  "resources" => {
-                    "aws_elb.hogehoge" => {
-                      "type" => "aws_elb",
-                      "primary" => {
-                        "id" => "hogehoge",
-                        "attributes" => {
-                          "availability_zones.#" => "2",
-                          "connection_draining" => "true",
-                          "connection_draining_timeout" => "300",
-                          "cross_zone_load_balancing" => "true",
-                          "dns_name" => "hoge-12345678.ap-northeast-1.elb.amazonaws.com",
-                          "health_check.#" => "1",
-                          "id" => "hogehoge",
-                          "idle_timeout" => "60",
-                          "instances.#" => "1",
-                          "listener.#" => "1",
-                          "name" => "hoge",
-                          "security_groups.#" => "2",
-                          "source_security_group" => "default",
-                          "subnets.#" => "2"
-                        }
-                      }
-                    },
-                    "aws_db_instance.hogedb" => {
-                      "type" => "aws_db_instance",
-                      "primary" => {
-                        "id" => "hogedb",
-                        "attributes" => {
-                          "address" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
-                          "allocated_storage" => "10",
-                          "availability_zone" => "ap-northeast-1b",
-                          "backup_retention_period" => "1",
-                          "backup_window" => "23:00-23:30",
-                          "db_subnet_group_name" => "hogedb-subnet",
-                          "endpoint" => "hogefuga.ap-northeast-1.rds.amazonaws.com",
-                          "engine" => "postgres",
-                          "engine_version" => "9.4.1",
-                          "final_snapshot_identifier" => "hogedb-final",
-                          "id" => "hogedb",
-                          "identifier" => "hogedb",
-                          "instance_class" => "db.m3.large",
-                          "maintenance_window" => "mon:00:00-mon:00:30",
-                          "multi_az" => "false",
-                          "name" => "hogedb",
-                          "parameter_group_name" => "default.postgres9.4",
-                          "password" => "xxxxxxxx",
-                          "port" => "5432",
-                          "publicly_accessible" => "false",
-                          "security_group_names.#" => "0",
-                          "status" => "available",
-                          "storage_type" => "standard",
-                          "username" => "user",
-                          "vpc_security_group_ids.#" => "1",
-                        }
-                      },
-                    },
-                  }
-                }
-              ]
-            })
-          end
+              }
+            },
+          })
         end
       end
     end

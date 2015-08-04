@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::ElastiCache::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::ElastiCache::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/elasti_cache_cluster")
       end
 
-      def tfstate(tfstate_base)
-        resources = cache_clusters.inject({}) do |result, cache_cluster|
+      def tfstate
+        cache_clusters.inject({}) do |resources, cache_cluster|
           attributes = {
             "cache_nodes.#" => cache_cluster.cache_nodes.length.to_s,
             "cluster_id" => cache_cluster.cache_cluster_id,
@@ -36,7 +36,7 @@ module Terraforming
             "subnet_group_name" => cache_cluster.cache_subnet_group_name,
             "tags.#" => "0",
           }
-          result["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
+          resources["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
             "type" => "aws_elasticache_cluster",
             "primary" => {
               "id" => cache_cluster.cache_cluster_id,
@@ -44,10 +44,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private

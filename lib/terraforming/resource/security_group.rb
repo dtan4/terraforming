@@ -7,8 +7,8 @@ module Terraforming
         self.new(client).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new, tfstate_base: nil)
-        self.new(client).tfstate(tfstate_base)
+      def self.tfstate(client: Aws::EC2::Client.new)
+        self.new(client).tfstate
       end
 
       def initialize(client)
@@ -19,8 +19,8 @@ module Terraforming
         apply_template(@client, "tf/security_group")
       end
 
-      def tfstate(tfstate_base)
-        resources = security_groups.inject({}) do |result, security_group|
+      def tfstate
+        security_groups.inject({}) do |resources, security_group|
           attributes = {
             "description" => security_group.description,
             "id" => security_group.group_id,
@@ -33,7 +33,7 @@ module Terraforming
           attributes.merge!(egress_attributes_of(security_group))
           attributes.merge!(ingress_attributes_of(security_group))
 
-          result["aws_security_group.#{module_name_of(security_group)}"] = {
+          resources["aws_security_group.#{module_name_of(security_group)}"] = {
             "type" => "aws_security_group",
             "primary" => {
               "id" => security_group.group_id,
@@ -41,10 +41,8 @@ module Terraforming
             }
           }
 
-          result
+          resources
         end
-
-        generate_tfstate(resources, tfstate_base)
       end
 
       private
