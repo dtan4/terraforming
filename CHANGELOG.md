@@ -1,3 +1,10 @@
+# [v0.1.4](https://github.com/dtan4/terraforming/releases/tag/v0.1.4) (2015-08-07)
+
+### Fixed
+
+- Refactor internal implements to reduce code #106
+- Add tests and improvement for Security Group #105
+
 # [v0.1.3](https://github.com/dtan4/terraforming/releases/tag/v0.1.3) (2015-08-01)
 
 ### Fixed
