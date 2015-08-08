@@ -24,6 +24,7 @@ module Terraforming
           version = iam_policy_version_of(policy)
           attributes = {
             "id" => policy.arn,
+            "description" => get_policy(policy).description,
             "name" => policy.policy_name,
             "path" => policy.path,
             "policy" => prettify_policy(version.document, true),
@@ -44,6 +45,11 @@ module Terraforming
 
       def iam_policies
         @client.list_policies(scope: "Local").policies
+      end
+
+      ## hack to workaround aws-sdk bug with missing description in list_policies
+      def get_policy(policy)
+        @client.get_policy(policy_arn: policy.arn).policy
       end
 
       def iam_policy_version_of(policy)
