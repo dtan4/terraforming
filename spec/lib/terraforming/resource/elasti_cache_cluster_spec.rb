@@ -52,10 +52,6 @@ module Terraforming
           },
           {
             cache_cluster_id: "fuga",
-            configuration_endpoint: {
-              address: "fuga.def456.cfg.apne1.cache.amazonaws.com",
-              port: 11211
-            },
             client_download_landing_page: "https://console.aws.amazon.com/elasticache/home#client-download:",
             cache_node_type: "cache.t2.micro",
             engine: "redis",
@@ -120,7 +116,6 @@ resource "aws_elasticache_cluster" "fuga" {
     node_type            = "cache.t2.micro"
     num_cache_nodes      = 1
     parameter_group_name = "default.redis2.8"
-    port                 = 11211
     security_group_names = ["sg-hoge"]
 }
 
@@ -165,7 +160,6 @@ resource "aws_elasticache_cluster" "fuga" {
                   "node_type" => "cache.t2.micro",
                   "num_cache_nodes" => "1",
                   "parameter_group_name" => "default.redis2.8",
-                  "port" => "11211",
                   "security_group_ids.#" => "0",
                   "security_group_names.#" => "1",
                   "subnet_group_name" => "subnet-fuga",

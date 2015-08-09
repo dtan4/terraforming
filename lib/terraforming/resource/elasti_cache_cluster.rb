@@ -30,12 +30,15 @@ module Terraforming
             "node_type" => cache_cluster.cache_node_type,
             "num_cache_nodes" => "1",
             "parameter_group_name" => cache_cluster.cache_parameter_group.cache_parameter_group_name,
-            "port" => "11211",
             "security_group_ids.#" => security_group_ids_of(cache_cluster).length.to_s,
             "security_group_names.#" => security_group_names_of(cache_cluster).length.to_s,
             "subnet_group_name" => cache_cluster.cache_subnet_group_name,
             "tags.#" => "0",
           }
+
+          attributes["port"] =
+            cache_cluster.configuration_endpoint.port.to_s if cache_cluster.configuration_endpoint
+
           resources["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
             "type" => "aws_elasticache_cluster",
             "primary" => {

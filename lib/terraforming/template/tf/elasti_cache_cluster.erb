@@ -6,7 +6,9 @@ resource "aws_elasticache_cluster" "<%= cache_cluster.cache_cluster_id %>" {
     node_type            = "<%= cache_cluster.cache_node_type %>"
     num_cache_nodes      = <%= cache_cluster.num_cache_nodes %>
     parameter_group_name = "<%= cache_cluster.cache_parameter_group.cache_parameter_group_name %>"
+  <%- if cache_cluster.configuration_endpoint -%>
     port                 = <%= cache_cluster.configuration_endpoint.port %>
+  <%- end -%>
   <%- if cluster_in_vpc?(cache_cluster) -%>
     subnet_group_name    = "<%= cache_cluster.cache_subnet_group_name %>"
     security_group_ids   = <%= security_group_ids_of(cache_cluster).inspect %>
