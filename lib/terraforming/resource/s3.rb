@@ -29,6 +29,7 @@ module Terraforming
               "attributes" => {
                 "acl" => "private",
                 "bucket" => bucket.name,
+                "force_destroy" => "false",
                 "id" => bucket.name,
                 "policy" => bucket_policy ? bucket_policy.policy.read : "",
               }

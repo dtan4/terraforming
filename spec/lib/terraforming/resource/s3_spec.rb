@@ -83,6 +83,7 @@ resource "aws_s3_bucket" "fuga" {
                 "attributes" => {
                   "acl" => "private",
                   "bucket" => "hoge",
+                  "force_destroy" => "false",
                   "id" => "hoge",
                   "policy" => "{\"Version\":\"2012-10-17\",\"Id\":\"Policy123456789012\",\"Statement\":[{\"Sid\":\"Stmt123456789012\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/hoge\"},\"Action\":\"s3:*\",\"Resource\":\"arn:aws:s3:::hoge/*\"}]}",
                 }
@@ -95,6 +96,7 @@ resource "aws_s3_bucket" "fuga" {
                 "attributes" => {
                   "acl" => "private",
                   "bucket" => "fuga",
+                  "force_destroy" => "false",
                   "id" => "fuga",
                   "policy" => "",
                 }
