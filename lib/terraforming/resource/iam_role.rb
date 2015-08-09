@@ -23,7 +23,8 @@ module Terraforming
         iam_roles.inject({}) do |resources, role|
           attributes = {
             "arn" => role.arn,
-            "assume_role_policy" => prettify_policy(role.assume_role_policy_document, true),
+            "assume_role_policy" =>
+              prettify_policy(document: role.assume_role_policy_document, breakline: true, unescape: true),
             "id" => role.role_name,
             "name" => role.role_name,
             "path" => role.path,

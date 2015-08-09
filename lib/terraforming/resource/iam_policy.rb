@@ -26,7 +26,7 @@ module Terraforming
             "id" => policy.arn,
             "name" => policy.policy_name,
             "path" => policy.path,
-            "policy" => prettify_policy(version.document, true),
+            "policy" => prettify_policy(document: version.document, breakline: true, unescape: true),
           }
           resources["aws_iam_policy.#{policy.policy_name}"] = {
             "type" => "aws_iam_policy",
