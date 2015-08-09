@@ -1,3 +1,9 @@
+# [v0.1.5](https://github.com/dtan4/terraforming/releases/tag/v0.1.5) (2015-08-10)
+
+### Updated
+
+- Support S3 bucket policy #110
+
 # [v0.1.4](https://github.com/dtan4/terraforming/releases/tag/v0.1.4) (2015-08-07)
 
 ### Fixed
