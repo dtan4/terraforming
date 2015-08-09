@@ -21,6 +21,7 @@ module Terraforming
 
       def tfstate
         buckets.inject({}) do |resources, bucket|
+          bucket_policy = bucket_policy_of(bucket)
           resources["aws_s3_bucket.#{module_name_of(bucket)}"] = {
             "type" => "aws_s3_bucket",
             "primary" => {
@@ -28,7 +29,9 @@ module Terraforming
               "attributes" => {
                 "acl" => "private",
                 "bucket" => bucket.name,
-                "id" => bucket.name
+                "force_destroy" => "false",
+                "id" => bucket.name,
+                "policy" => bucket_policy ? bucket_policy.policy.read : "",
               }
             }
           }
@@ -38,6 +41,12 @@ module Terraforming
       end
 
       private
+
+      def bucket_policy_of(bucket)
+        @client.get_bucket_policy(bucket: bucket.name)
+      rescue Aws::S3::Errors::NoSuchBucketPolicy
+        nil
+      end
 
       def buckets
         @client.list_buckets.buckets

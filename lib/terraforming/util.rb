@@ -17,8 +17,8 @@ module Terraforming
       File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
     end
 
-    def prettify_policy(policy_document, breakline = false)
-      json = JSON.pretty_generate(JSON.parse(CGI.unescape(policy_document)))
+    def prettify_policy(document, breakline: false, unescape: false)
+      json = JSON.pretty_generate(JSON.parse(CGI.unescape(document)))
 
       if breakline
         json[-1] != "\n" ? json << "\n" : json

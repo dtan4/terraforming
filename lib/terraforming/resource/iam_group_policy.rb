@@ -25,7 +25,7 @@ module Terraforming
             "group" => policy.group_name,
             "id" => iam_group_policy_id_of(policy),
             "name" => policy.policy_name,
-            "policy" => prettify_policy(policy.policy_document, true)
+            "policy" => prettify_policy(policy.policy_document, breakline: true, unescape: true)
           }
           resources["aws_iam_group_policy.#{policy.policy_name}"] = {
             "type" => "aws_iam_group_policy",
