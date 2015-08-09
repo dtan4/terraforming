@@ -24,7 +24,7 @@ module Terraforming
           attributes = {
             "id" => iam_role_policy_id_of(policy),
             "name" => policy.policy_name,
-            "policy" => prettify_policy(document: policy.policy_document, breakline: true, unescape: true),
+            "policy" => prettify_policy(policy.policy_document, breakline: true, unescape: true),
             "role" => policy.role_name,
           }
           resources["aws_iam_role_policy.#{policy.policy_name}"] = {

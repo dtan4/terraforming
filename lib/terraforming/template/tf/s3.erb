@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "<%= module_name_of(bucket) %>" {
     acl    = "private"
 <%- unless (policy = bucket_policy_of(bucket)).nil? -%>
     policy = <<POLICY
-<%= prettify_policy(document: policy.policy.read) %>
+<%= prettify_policy(policy.policy.read) %>
 POLICY
 <%- end -%>
 }
