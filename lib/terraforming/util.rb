@@ -18,7 +18,7 @@ module Terraforming
     end
 
     def prettify_policy(document, breakline: false, unescape: false)
-      json = JSON.pretty_generate(JSON.parse(CGI.unescape(document)))
+      json = JSON.pretty_generate(JSON.parse(unescape ? CGI.unescape(document) : document))
 
       if breakline
         json[-1] != "\n" ? json << "\n" : json
