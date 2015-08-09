@@ -1,3 +1,9 @@
+# [v0.1.6](https://github.com/dtan4/terraforming/releases/tag/v0.1.6) (2015-08-10)
+
+### Fixed
+
+- Stop including ElastiCache port at any time #112
+
 # [v0.1.5](https://github.com/dtan4/terraforming/releases/tag/v0.1.5) (2015-08-10)
 
 ### Updated
