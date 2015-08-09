@@ -39,6 +39,12 @@ module Terraforming
 
       private
 
+      def bucket_policy_of(bucket)
+        @client.get_bucket_policy(bucket: bucket.name)
+      rescue Aws::S3::Errors::NoSuchBucketPolicy
+        nil
+      end
+
       def buckets
         @client.list_buckets.buckets
       end

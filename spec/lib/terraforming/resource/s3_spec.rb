@@ -27,8 +27,32 @@ module Terraforming
         }
       end
 
+      let(:hoge_policy) do
+        <<-POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "Policy123456789012",
+  "Statement": [
+    {
+      "Sid": "Stmt123456789012",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/hoge"
+      },
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::hoge/*"
+    }
+  ]
+}
+        POLICY
+      end
+
       before do
         client.stub_responses(:list_buckets, buckets: buckets, owner: owner)
+        client.stub_responses(:get_bucket_policy, [
+          { policy: hoge_policy },
+          "NoSuchBucketPolicy",
+        ])
       end
 
       describe ".tf" do
@@ -37,6 +61,23 @@ module Terraforming
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
+    policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "Policy123456789012",
+  "Statement": [
+    {
+      "Sid": "Stmt123456789012",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/hoge"
+      },
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::hoge/*"
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "fuga" {
