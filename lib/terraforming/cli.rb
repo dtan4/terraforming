@@ -1,6 +1,7 @@
 module Terraforming
   class CLI < Thor
     class_option :merge, type: :string, desc: "tfstate file to merge"
+    class_option :overwrite, type: :boolean, desc: "Overwrite existng tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
 
     desc "dbpg", "Database Parameter Group"
@@ -127,7 +128,15 @@ module Terraforming
 
     def execute(klass, options)
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
-      puts result
+
+      if options[:tfstate] && options[:merge] && options[:overwrite]
+        open(options[:merge], "w+") do |f|
+          f.write(result)
+          f.flush
+        end
+      else
+        puts result
+      end
     end
 
     def tf(klass)
