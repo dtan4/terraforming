@@ -84,6 +84,10 @@ Commands:
 
 ### Export tf
 
+```bash
+$ terraforming <resource>
+```
+
 (e.g. S3 buckets):
 
 ```bash
@@ -104,7 +108,11 @@ resource "aws_s3_bucket" "fuga" {
 
 ### Export tfstate
 
-Specify `--tfstate` option (e.g. S3 buckets):
+```bash
+$ terraforming <resource> --tfstate [--merge TFSTATE_PATH] [--overwrite]
+```
+
+(e.g. S3 buckets):
 
 ```bash
 $ terraforming s3 --tfstate
