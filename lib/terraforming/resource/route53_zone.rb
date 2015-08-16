@@ -57,7 +57,8 @@ module Terraforming
       end
 
       def name_servers_of(hosted_zone)
-        @client.get_hosted_zone(id: hosted_zone.id).delegation_set.name_servers
+        delegation_set = @client.get_hosted_zone(id: hosted_zone.id).delegation_set
+        delegation_set ? delegation_set.name_servers : []
       end
 
       def module_name_of(hosted_zone)
