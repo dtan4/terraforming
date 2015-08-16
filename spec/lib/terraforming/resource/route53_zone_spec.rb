@@ -22,7 +22,7 @@ module Terraforming
           id: "/hostedzone/OPQRSTUVWXYZAB",
           name: "fuga.net.",
           caller_reference: "ABCDEFGH-5678-IJKL-9012-MNOPQRSTUVWX",
-          config: { private_zone: false },
+          config: { private_zone: true },
           resource_record_set_count: 4
         }
       end
@@ -57,12 +57,6 @@ module Terraforming
         }
       end
 
-      let(:fuga_delegation_set) do
-        {
-          name_servers: %w(ns-5678.awsdns-12.co.uk ns-901.awsdns-34.net ns-2.awsdns-56.com ns-3456.awsdns-78.org)
-        }
-      end
-
       before do
         client.stub_responses(:list_hosted_zones,
           hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
@@ -72,7 +66,7 @@ module Terraforming
         ])
         client.stub_responses(:get_hosted_zone, [
           { hosted_zone: hoge_hosted_zone, delegation_set: hoge_delegation_set },
-          { hosted_zone: fuga_hosted_zone, delegation_set: fuga_delegation_set },
+          { hosted_zone: fuga_hosted_zone, delegation_set: nil },
         ])
       end
 
@@ -122,7 +116,7 @@ resource "aws_route53_zone" "fuga-net" {
                 "attributes"=> {
                   "id"=> "OPQRSTUVWXYZAB",
                   "name"=> "fuga.net",
-                  "name_servers.#" => "4",
+                  "name_servers.#" => "0",
                   "tags.#" => "1",
                   "zone_id" => "OPQRSTUVWXYZAB",
                 },
