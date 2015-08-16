@@ -41,7 +41,14 @@ module Terraforming
               }
             ],
             db_security_group_name: "sgfoobar"
-          }
+          },
+          {
+            ip_ranges: [],
+            owner_id: "123456789012",
+            db_security_group_description: "empty",
+            ec2_security_groups: [],
+            db_security_group_name: "empty"
+          },
         ]
       end
 
