@@ -79,7 +79,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_route53_zone" "hoge-net" {
+resource "aws_route53_zone" "hoge-net-public" {
     name       = "hoge.net"
 
     tags {
@@ -87,7 +87,7 @@ resource "aws_route53_zone" "hoge-net" {
     }
 }
 
-resource "aws_route53_zone" "fuga-net" {
+resource "aws_route53_zone" "fuga-net-private" {
     name       = "fuga.net"
     vpc_id     = "vpc-1234abcd"
     vpc_region = "ap-northeast-1"
@@ -104,7 +104,7 @@ resource "aws_route53_zone" "fuga-net" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_route53_zone.hoge-net"=> {
+            "aws_route53_zone.hoge-net-public"=> {
               "type"=> "aws_route53_zone",
               "primary"=> {
                 "id"=> "ABCDEFGHIJKLMN",
@@ -119,7 +119,7 @@ resource "aws_route53_zone" "fuga-net" {
                 },
               }
             },
-            "aws_route53_zone.fuga-net"=> {
+            "aws_route53_zone.fuga-net-private"=> {
               "type"=> "aws_route53_zone",
               "primary"=> {
                 "id"=>  "OPQRSTUVWXYZAB",
