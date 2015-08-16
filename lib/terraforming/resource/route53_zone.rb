@@ -22,12 +22,15 @@ module Terraforming
       def tfstate
         hosted_zones.inject({}) do |resources, hosted_zone|
           zone_id = zone_id_of(hosted_zone)
+          vpc = vpc_of(hosted_zone)
 
           attributes = {
             "id"=> zone_id,
             "name"=> name_of(hosted_zone),
             "name_servers.#" => name_servers_of(hosted_zone).length.to_s,
             "tags.#" => tags_of(hosted_zone).length.to_s,
+            "vpc_id" => vpc ? vpc.vpc_id : "",
+            "vpc_region" => vpc ? vpc.vpc_region : "",
             "zone_id" => zone_id,
           }
           resources["aws_route53_zone.#{module_name_of(hosted_zone)}"] = {
@@ -45,7 +48,7 @@ module Terraforming
       private
 
       def hosted_zones
-        @client.list_hosted_zones.hosted_zones
+        @client.list_hosted_zones.hosted_zones.map { |hosted_zone| @client.get_hosted_zone(id: hosted_zone.id) }
       end
 
       def tags_of(hosted_zone)
@@ -57,7 +60,7 @@ module Terraforming
       end
 
       def name_servers_of(hosted_zone)
-        delegation_set = @client.get_hosted_zone(id: hosted_zone.id).delegation_set
+        delegation_set = hosted_zone.delegation_set
         delegation_set ? delegation_set.name_servers : []
       end
 
@@ -65,8 +68,16 @@ module Terraforming
         normalize_module_name(name_of(hosted_zone))
       end
 
+      def private_hosted_zone?(hosted_zone)
+        hosted_zone.hosted_zone.config.private_zone
+      end
+
+      def vpc_of(hosted_zone)
+        hosted_zone.vp_cs[0]
+      end
+
       def zone_id_of(hosted_zone)
-        hosted_zone.id.gsub(/\A\/hostedzone\//, "")
+        hosted_zone.hosted_zone.id.gsub(/\A\/hostedzone\//, "")
       end
     end
   end

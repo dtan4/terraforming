@@ -57,6 +57,12 @@ module Terraforming
         }
       end
 
+      let(:fuga_vp_cs) do
+        [
+          { vpc_region: "ap-northeast-1", vpc_id: "vpc-1234abcd" }
+        ]
+      end
+
       before do
         client.stub_responses(:list_hosted_zones,
           hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
@@ -65,8 +71,8 @@ module Terraforming
           { resource_tag_set: fuga_resource_tag_set },
         ])
         client.stub_responses(:get_hosted_zone, [
-          { hosted_zone: hoge_hosted_zone, delegation_set: hoge_delegation_set },
-          { hosted_zone: fuga_hosted_zone, delegation_set: nil },
+          { hosted_zone: hoge_hosted_zone, delegation_set: hoge_delegation_set, vp_cs: [] },
+          { hosted_zone: fuga_hosted_zone, delegation_set: nil, vp_cs: fuga_vp_cs },
         ])
       end
 
@@ -74,7 +80,7 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_route53_zone" "hoge-net" {
-    name = "hoge.net"
+    name       = "hoge.net"
 
     tags {
         "Environment" = "dev"
@@ -82,7 +88,9 @@ resource "aws_route53_zone" "hoge-net" {
 }
 
 resource "aws_route53_zone" "fuga-net" {
-    name = "fuga.net"
+    name       = "fuga.net"
+    vpc_id     = "vpc-1234abcd"
+    vpc_region = "ap-northeast-1"
 
     tags {
         "Environment" = "dev"
@@ -105,6 +113,8 @@ resource "aws_route53_zone" "fuga-net" {
                   "name"=> "hoge.net",
                   "name_servers.#" => "4",
                   "tags.#" => "1",
+                  "vpc_id" => "",
+                  "vpc_region" => "",
                   "zone_id" => "ABCDEFGHIJKLMN",
                 },
               }
@@ -118,6 +128,8 @@ resource "aws_route53_zone" "fuga-net" {
                   "name"=> "fuga.net",
                   "name_servers.#" => "0",
                   "tags.#" => "1",
+                  "vpc_id" => "vpc-1234abcd",
+                  "vpc_region" => "ap-northeast-1",
                   "zone_id" => "OPQRSTUVWXYZAB",
                 },
               }
