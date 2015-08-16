@@ -24,7 +24,7 @@ module Terraforming
           attributes = {
             "db_subnet_group_name" => security_group.db_security_group_name,
             "id" => security_group.db_security_group_name,
-            "ingress.#" => (security_group.ec2_security_groups.length + security_group.ip_ranges.length).to_s,
+            "ingress.#" => ingresses_of(security_group).length.to_s,
             "name" => security_group.db_security_group_name,
           }
           resources["aws_db_security_group.#{module_name_of(security_group)}"] = {
@@ -41,8 +41,12 @@ module Terraforming
 
       private
 
+      def ingresses_of(security_group)
+        security_group.ec2_security_groups + security_group.ip_ranges
+      end
+
       def db_security_groups
-        @client.describe_db_security_groups.db_security_groups
+        @client.describe_db_security_groups.db_security_groups.select { |sg| ingresses_of(sg).length > 0 }
       end
 
       def module_name_of(security_group)
