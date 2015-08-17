@@ -3,7 +3,7 @@ module Terraforming
     class S3
       include Terraforming::Util
 
-      def self.tf(client: Aws::S3::Client.new(endpoint: "https://s3-ap-northeast-1.amazonaws.com"))
+      def self.tf(client: Aws::S3::Client.new)
         self.new(client).tf
       end
 
