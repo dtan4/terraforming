@@ -1,0 +1,7 @@
+<% eips.each do |addr| -%>
+resource "aws_eip" "<%= addr.allocation_id %>" {
+    instance = "<%= addr.instance_id %>"
+    vpc = <%= addr.domain.eql?("vpc") %>
+}
+
+<% end -%>
