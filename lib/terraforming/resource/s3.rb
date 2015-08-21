@@ -42,6 +42,10 @@ module Terraforming
 
       private
 
+      def bucket_location_of(bucket)
+        @client.get_bucket_location(bucket: bucket.name).location_constraint
+      end
+
       def bucket_policy_of(bucket)
         @client.get_bucket_policy(bucket: bucket.name)
       rescue Aws::S3::Errors::NoSuchBucketPolicy
@@ -49,11 +53,16 @@ module Terraforming
       end
 
       def buckets
-        @client.list_buckets.buckets
+        @client.list_buckets.buckets.select { |bucket| same_region?(bucket) }
       end
 
       def module_name_of(bucket)
         normalize_module_name(bucket.name)
+      end
+
+      def same_region?(bucket)
+        bucket_location = bucket_location_of(bucket)
+        (bucket_location == @client.config.region) || (bucket_location == "" && @client.config.region == "us-east-1")
       end
     end
   end
