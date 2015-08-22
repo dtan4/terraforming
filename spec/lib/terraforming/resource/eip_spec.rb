@@ -44,13 +44,13 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_eip" "eipalloc-87654321" {
-    instance = "i-12345678"
-    vpc = true
+    instance             = "i-12345678"
+    vpc                  = true
 }
 
 resource "aws_eip" "eipalloc-76543210" {
     network_interface_id = "eni-23456789"
-    vpc = true
+    vpc                  = true
 }
 
 resource "aws_eip" "eipalloc-33333333" {
