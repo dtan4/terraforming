@@ -24,6 +24,11 @@ module Terraforming
       execute(Terraforming::Resource::EC2, options)
     end
 
+    desc "eip", "EIP"
+    def eip
+      execute(Terraforming::Resource::EIP, options)
+    end
+
     desc "ecc", "ElastiCache Cluster"
     def ecc
       execute(Terraforming::Resource::ElastiCacheCluster, options)

@@ -29,8 +29,9 @@ module Terraforming
             "network_interface" => addr.network_interface_id,
             "private_ip" => addr.private_ip_address,
             "public_ip" => addr.public_ip,
-            "vpc" => addr.domain.eql?("vpc"),
+            "vpc" => is_vpc?(addr),
           }
+          attributes.delete_if{|k, v| v.nil?}
           resources["aws_eip.#{addr.allocation_id}"] = {
             "type" => "aws_eip",
             "primary" => {
@@ -47,6 +48,10 @@ module Terraforming
 
       def eips
         @client.describe_addresses.addresses
+      end
+
+      def is_vpc?(addr)
+        addr.domain.eql?("vpc")
       end
     end
   end
