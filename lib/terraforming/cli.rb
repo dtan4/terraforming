@@ -94,6 +94,11 @@ module Terraforming
       execute(Terraforming::Resource::NetworkACL, options)
     end
 
+    desc "nif", "Network Interface"
+    def nif
+      execute(Terraforming::Resource::NetworkInterface, options)
+    end
+
     desc "r53r", "Route53 Record"
     def r53r
       execute(Terraforming::Resource::Route53Record, options)
