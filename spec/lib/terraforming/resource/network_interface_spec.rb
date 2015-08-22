@@ -107,19 +107,19 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_network_interface" "eni-1234abcd" {
-    subnet_id = "subnet-1234abcd"
-    private_ips = ["1.1.1.1"]
-    security_groups = []
+    subnet_id         = "subnet-1234abcd"
+    private_ips       = ["1.1.1.1"]
+    security_groups   = []
     source_dest_check = true
 }
 
 resource "aws_network_interface" "eni-2345efgh" {
-    subnet_id = "subnet-1234abcd"
-    private_ips = ["2.2.2.2", "3.3.3.3"]
-    security_groups = ["sg-12345678", "sg-23456789"]
+    subnet_id         = "subnet-1234abcd"
+    private_ips       = ["2.2.2.2", "3.3.3.3"]
+    security_groups   = ["sg-12345678", "sg-23456789"]
     source_dest_check = false
     attachment {
-        instance = "i-12345678"
+        instance     = "i-12345678"
         device_index = 0
     }
     tags {
