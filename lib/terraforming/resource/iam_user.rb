@@ -28,7 +28,7 @@ module Terraforming
             "path" => user.path,
             "unique_id" => user.user_id,
           }
-          resources["aws_iam_user.#{user.user_name}"] = {
+          resources["aws_iam_user.#{module_name_of(user)}"] = {
             "type" => "aws_iam_user",
             "primary" => {
               "id" => user.user_name,
@@ -44,6 +44,10 @@ module Terraforming
 
       def iam_users
         @client.list_users.users
+      end
+
+      def module_name_of(user)
+        normalize_module_name(user.user_name)
       end
     end
   end
