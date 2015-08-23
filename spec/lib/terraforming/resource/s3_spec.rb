@@ -20,10 +20,6 @@ module Terraforming
         ]
       end
 
-      let(:client) do
-        Aws::S3::Client.new(region: "ap-northeast-1", stub_responses: true)
-      end
-
       let(:owner)  do
         {
           display_name: "owner",
