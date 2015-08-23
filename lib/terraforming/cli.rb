@@ -34,6 +34,11 @@ module Terraforming
       execute(Terraforming::Resource::ElastiCacheSubnetGroup, options)
     end
 
+    desc "eip", "EIP"
+    def eip
+      execute(Terraforming::Resource::EIP, options)
+    end
+
     desc "elb", "ELB"
     def elb
       execute(Terraforming::Resource::ELB, options)
