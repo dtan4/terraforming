@@ -24,6 +24,11 @@ module Terraforming
       execute(Terraforming::Resource::EC2, options)
     end
 
+    desc "eip", "EIP"
+    def eip
+      execute(Terraforming::Resource::EIP, options)
+    end
+
     desc "ecc", "ElastiCache Cluster"
     def ecc
       execute(Terraforming::Resource::ElastiCacheCluster, options)
@@ -87,6 +92,11 @@ module Terraforming
     desc "nacl", "Network ACL"
     def nacl
       execute(Terraforming::Resource::NetworkACL, options)
+    end
+
+    desc "nif", "Network Interface"
+    def nif
+      execute(Terraforming::Resource::NetworkInterface, options)
     end
 
     desc "r53r", "Route53 Record"
