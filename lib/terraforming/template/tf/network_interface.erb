@@ -1,0 +1,22 @@
+<% network_interfaces.each do |network_interface| -%>
+resource "aws_network_interface" "<%= module_name_of(network_interface) %>" {
+    subnet_id         = "<%= network_interface.subnet_id %>"
+    private_ips       = <%= private_ips_of(network_interface).inspect %>
+    security_groups   = <%= security_groups_of(network_interface).inspect %>
+    source_dest_check = <%= network_interface.source_dest_check %>
+<% if network_interface.attachment && network_interface.attachment.instance_id -%>
+    attachment {
+        instance     = "<%= network_interface.attachment.instance_id %>"
+        device_index = <%= network_interface.attachment.device_index %>
+    }
+<% end -%>
+<% if network_interface.tag_set.length > 0 -%>
+    tags {
+<% network_interface.tag_set.each do |tag| -%>
+        "<%= tag.key %>" = "<%= tag.value %>"
+<% end -%>
+    }
+<% end -%>
+}
+
+<% end -%>
