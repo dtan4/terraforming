@@ -1,3 +1,14 @@
+# [v0.3.0](https://github.com/dtan4/terraforming/releases/tag/v0.3.0) (2015-08-23)
+
+## Resource
+
+- AWS Network Interface #127 (thanks @sakazuki)
+- AWS Elastic IP #124 (thanks @sakazuki)
+
+## Fixed
+
+- Normalize module name of IAM user #129
+
 # [v0.2.0](https://github.com/dtan4/terraforming/releases/tag/v0.2.0) (2015-08-22)
 
 ## New feature
