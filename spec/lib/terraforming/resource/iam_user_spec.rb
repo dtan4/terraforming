@@ -19,7 +19,7 @@ module Terraforming
           },
           {
             path: "/system/",
-            user_name: "fuga",
+            user_name: "fuga.piyo",
             user_id: "OPQRSTUVWXYZA8901234",
             arn: "arn:aws:iam::345678901234:user/fuga",
             create_date: Time.parse("2015-05-01 12:34:56 UTC"),
@@ -40,8 +40,8 @@ resource "aws_iam_user" "hoge" {
     path = "/"
 }
 
-resource "aws_iam_user" "fuga" {
-    name = "fuga"
+resource "aws_iam_user" "fuga-piyo" {
+    name = "fuga.piyo"
     path = "/system/"
 }
 
@@ -65,14 +65,14 @@ resource "aws_iam_user" "fuga" {
                 }
               }
             },
-            "aws_iam_user.fuga" => {
+            "aws_iam_user.fuga-piyo" => {
               "type" => "aws_iam_user",
               "primary" => {
-                "id" => "fuga",
+                "id" => "fuga.piyo",
                 "attributes" => {
                   "arn"=> "arn:aws:iam::345678901234:user/fuga",
-                  "id" => "fuga",
-                  "name" => "fuga",
+                  "id" => "fuga.piyo",
+                  "name" => "fuga.piyo",
                   "path" => "/system/",
                   "unique_id" => "OPQRSTUVWXYZA8901234",
                 }
