@@ -11,10 +11,6 @@
 - Include associated VPC parameters in Route53 hosted zone #119
 - Support Route53 hosted zone with empty delegation set #118
 
-### Fixed
-
-- Stop including ElastiCache port at any time #112
-
 # [v0.1.6](https://github.com/dtan4/terraforming/releases/tag/v0.1.6) (2015-08-10)
 
 ### Fixed
