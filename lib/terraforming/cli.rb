@@ -24,11 +24,6 @@ module Terraforming
       execute(Terraforming::Resource::EC2, options)
     end
 
-    desc "eip", "EIP"
-    def eip
-      execute(Terraforming::Resource::EIP, options)
-    end
-
     desc "ecc", "ElastiCache Cluster"
     def ecc
       execute(Terraforming::Resource::ElastiCacheCluster, options)
@@ -37,6 +32,11 @@ module Terraforming
     desc "ecsn", "ElastiCache Subnet Group"
     def ecsn
       execute(Terraforming::Resource::ElastiCacheSubnetGroup, options)
+    end
+
+    desc "eip", "EIP"
+    def eip
+      execute(Terraforming::Resource::EIP, options)
     end
 
     desc "elb", "ELB"
