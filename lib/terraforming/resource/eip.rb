@@ -29,7 +29,7 @@ module Terraforming
             "network_interface" => addr.network_interface_id,
             "private_ip" => addr.private_ip_address,
             "public_ip" => addr.public_ip,
-            "vpc" => is_vpc?(addr),
+            "vpc" => is_vpc?(addr).to_s,
           }
           attributes.delete_if{|k, v| v.nil?}
           resources["aws_eip.#{addr.allocation_id}"] = {

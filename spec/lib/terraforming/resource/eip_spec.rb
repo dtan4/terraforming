@@ -54,6 +54,7 @@ resource "aws_eip" "eipalloc-76543210" {
 }
 
 resource "aws_eip" "eipalloc-33333333" {
+    vpc                  = true
 }
 
           EOS
@@ -75,8 +76,7 @@ resource "aws_eip" "eipalloc-33333333" {
                     "network_interface" => "eni-12345678",
                     "private_ip" => "1.1.1.1",
                     "public_ip" => "12.34.56.78",
-                    "vpc" => true
-
+                    "vpc" => "true"
                 }
               }
             },
@@ -91,7 +91,7 @@ resource "aws_eip" "eipalloc-33333333" {
                     "network_interface" => "eni-23456789",
                     "private_ip" => "9.9.9.9",
                     "public_ip" => "2.2.2.2",
-                    "vpc" => true
+                    "vpc" => "true"
                 }
               }
             },
@@ -103,7 +103,7 @@ resource "aws_eip" "eipalloc-33333333" {
                     "domain" => "vpc",
                     "id" => "eipalloc-33333333",
                     "public_ip" => "3.3.3.3",
-                    "vpc" => true,
+                    "vpc" => "true"
                 }
               }
             },
