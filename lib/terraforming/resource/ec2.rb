@@ -33,6 +33,7 @@ module Terraforming
             "ephemeral_block_device.#" => "0", # Terraform 0.6.1 cannot fetch this field from AWS
             "id"=> instance.instance_id,
             "instance_type"=> instance.instance_type,
+            "monitoring" => monitoring_state(instance).to_s,
             "private_dns"=> instance.private_dns_name,
             "private_ip"=> instance.private_ip_address,
             "public_dns"=> instance.public_dns_name,
@@ -90,6 +91,10 @@ module Terraforming
       def in_vpc?(instance)
         vpc_security_groups_of(instance).length > 0 ||
           (instance.subnet_id && instance.subnet_id != "" && instance.security_groups.length == 0)
+      end
+
+      def monitoring_state(instance)
+        %w(enabled pending).include?(instance.monitoring.state)
       end
 
       def instances
