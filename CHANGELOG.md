@@ -1,3 +1,9 @@
+# [v0.3.1](https://github.com/dtan4/terraforming/releases/tag/v0.3.1) (2015-09-24)
+
+## Fixed
+
+- Export EC2 instance monitoring state #130 (thanks @ngs)
+
 # [v0.3.0](https://github.com/dtan4/terraforming/releases/tag/v0.3.0) (2015-08-23)
 
 ## Resource
