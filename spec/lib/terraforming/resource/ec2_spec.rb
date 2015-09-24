@@ -374,7 +374,7 @@ resource "aws_instance" "i-9012ijkl" {
     availability_zone           = "ap-northeast-1b"
     ebs_optimized               = false
     instance_type               = "t2.micro"
-    monitoring                  = false
+    monitoring                  = true
     key_name                    = "hoge-key"
     security_groups             = ["default"]
     associate_public_ip_address = true
@@ -405,7 +405,7 @@ resource "aws_instance" "i-9012ijkl" {
                   "ephemeral_block_device.#" => "0",
                   "id" => "i-1234abcd",
                   "instance_type" => "t2.micro",
-                  "monitoring" => "0",
+                  "monitoring" => "false",
                   "private_dns" => "ip-10-0-0-100.ap-northeast-1.compute.internal",
                   "private_ip" => "10.0.0.100",
                   "public_dns" => "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
@@ -435,7 +435,7 @@ resource "aws_instance" "i-9012ijkl" {
                   "ephemeral_block_device.#" => "0",
                   "id" => "i-5678efgh",
                   "instance_type" => "t2.micro",
-                  "monitoring" => "1",
+                  "monitoring" => "true",
                   "private_dns" => "ip-10-0-0-101.ap-northeast-1.compute.internal",
                   "private_ip" => "10.0.0.101",
                   "public_dns" => "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",
@@ -464,7 +464,7 @@ resource "aws_instance" "i-9012ijkl" {
                   "ephemeral_block_device.#" => "0",
                   "id" => "i-9012ijkl",
                   "instance_type" => "t2.micro",
-                  "monitoring" => "0",
+                  "monitoring" => "true",
                   "private_dns" => "ip-10-0-0-102.ap-northeast-1.compute.internal",
                   "private_ip" => "10.0.0.102",
                   "public_dns" => "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",

@@ -94,7 +94,7 @@ module Terraforming
       end
 
       def monitoring_state(instance)
-        instance.monitoring.state == "enabled" ? 1 : 0
+        %w(enabled pending).include?(instance.monitoring.state)
       end
 
       def instances

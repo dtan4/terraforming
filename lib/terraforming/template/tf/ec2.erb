@@ -4,7 +4,7 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
     availability_zone           = "<%= instance.placement.availability_zone %>"
     ebs_optimized               = <%= instance.ebs_optimized %>
     instance_type               = "<%= instance.instance_type %>"
-    monitoring                  = <%= monitoring_state(instance) == 1 %>
+    monitoring                  = <%= monitoring_state(instance) %>
     key_name                    = "<%= instance.key_name %>"
 <%- if in_vpc?(instance) -%>
     subnet_id                   = "<%= instance.subnet_id %>"
