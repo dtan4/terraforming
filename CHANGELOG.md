@@ -1,3 +1,9 @@
+# [v0.3.2](https://github.com/dtan4/terraforming/releases/tag/v0.3.2) (2015-10-06)
+
+## Fixed
+
+- Exclude iops field from EC2 instance tf with standard block device #132
+
 # [v0.3.1](https://github.com/dtan4/terraforming/releases/tag/v0.3.1) (2015-09-24)
 
 ## Fixed
