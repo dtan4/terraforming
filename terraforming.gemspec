@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "oj"
   spec.add_dependency "ox"
   spec.add_dependency "thor"
+  spec.add_dependency "inifile"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "codeclimate-test-reporter"
