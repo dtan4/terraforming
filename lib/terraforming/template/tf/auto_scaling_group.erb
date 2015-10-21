@@ -1,6 +1,7 @@
 <% auto_scaling_groups.each do |group| -%>
+<%- vpc_zone_specified = vpc_zone_specified?(group) -%>
 resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
-<%- if group.availability_zones && group.availability_zones.length > 0 -%>
+<%- unless vpc_zone_specified -%>
     availability_zones        = <%= group.availability_zones.inspect %>
 <%- end -%>
     desired_capacity          = <%= group.desired_capacity %>
@@ -10,7 +11,7 @@ resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
     max_size                  = <%= group.max_size %>
     min_size                  = <%= group.min_size %>
     name                      = "<%= group.auto_scaling_group_name %>"
-<%- if group.vpc_zone_identifier && vpc_zone_identifier_of(group).length > 0 -%>
+<%- if vpc_zone_specified -%>
     vpc_zone_identifier       = <%= vpc_zone_identifier_of(group).inspect %>
 <%- end -%>
 

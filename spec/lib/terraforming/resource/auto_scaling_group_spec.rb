@@ -63,7 +63,7 @@ module Terraforming
             max_size: 4,
             desired_capacity: 2,
             default_cooldown: 300,
-            availability_zones: [],
+            availability_zones: ["ap-northeast-1b", "ap-northeast-1c"],
             load_balancer_names: [],
             health_check_type: "EC2",
             health_check_grace_period: 300,

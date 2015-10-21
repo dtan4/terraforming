@@ -21,8 +21,10 @@ module Terraforming
 
       def tfstate
         auto_scaling_groups.inject({}) do |resources, group|
+          vpc_zone_specified = vpc_zone_specified?(group)
+
           attributes = {
-            "availability_zones.#" => group.availability_zones.length.to_s,
+            "availability_zones.#" => vpc_zone_specified ? "0" : group.availability_zones.length.to_s,
             "default_cooldown" => "300",
             "desired_capacity" => group.desired_capacity.to_s,
             "health_check_grace_period" => group.health_check_grace_period.to_s,
@@ -35,7 +37,7 @@ module Terraforming
             "name" => group.auto_scaling_group_name,
             "tag.#" => group.tags.length.to_s,
             "termination_policies.#" => "0",
-            "vpc_zone_identifier.#" => vpc_zone_identifier_of(group).length.to_s,
+            "vpc_zone_identifier.#" => vpc_zone_specified ? vpc_zone_identifier_of(group).length.to_s : "0",
           }
 
           resources["aws_autoscaling_group.#{module_name_of(group)}"] = {
@@ -65,6 +67,10 @@ module Terraforming
 
       def vpc_zone_identifier_of(group)
         group.vpc_zone_identifier.split(",")
+      end
+
+      def vpc_zone_specified?(group)
+        group.vpc_zone_identifier && vpc_zone_identifier_of(group).length > 0
       end
     end
   end
