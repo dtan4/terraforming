@@ -44,7 +44,13 @@ module Terraforming
             vpc_zone_identifier: "",
             enabled_metrics: [],
             tags: [
-              { key: "Name", value: "hoge" }
+              {
+                resource_id: "hoge",
+                resource_type: "auto-scaling-group",
+                key: "foo",
+                value: "bar",
+                propagate_at_launch: true,
+              }
             ],
             termination_policies: ["Default"],
           },
@@ -104,8 +110,10 @@ resource "aws_autoscaling_group" "hoge" {
     min_size                  = 1
     name                      = "hoge"
 
-    tags {
-        "Name" = "hoge"
+    tag {
+        key   = "foo"
+        value = "bar"
+        propagate_at_launch = true
     }
 }
 
@@ -119,7 +127,7 @@ resource "aws_autoscaling_group" "fuga" {
     name                      = "fuga"
     vpc_zone_identifier       = ["subnet-1234abcd", "subnet-5678efgh"]
 
-    tags {
+    tag {
     }
 }
 

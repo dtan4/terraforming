@@ -14,9 +14,11 @@ resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
     vpc_zone_identifier       = <%= vpc_zone_identifier_of(group).inspect %>
 <%- end -%>
 
-    tags {
+    tag {
 <% group.tags.each do |tag| -%>
-        "<%= tag.key %>" = "<%= tag.value %>"
+        key   = "<%= tag.key %>"
+        value = "<%= tag.value %>"
+        propagate_at_launch = <%= tag.propagate_at_launch.to_s %>
 <% end -%>
     }
 }
