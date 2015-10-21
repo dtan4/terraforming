@@ -51,7 +51,7 @@ module Terraforming
           {
             auto_scaling_group_name: "fuga",
             auto_scaling_group_arn:
-            "arn:aws:autoscaling:ap-northeast-1:123456789012:autoScalingGroup:1234abcd-1dd4-4089-b8c9-12345abcdefg:autoScalingGroupName/hoge",
+            "arn:aws:autoscaling:ap-northeast-1:123456789012:autoScalingGroup:1234abcd-1dd4-4089-b8c9-12345abcdefg:autoScalingGroupName/fuga",
             launch_configuration_name: "fuga-lc",
             min_size: 1,
             max_size: 4,
