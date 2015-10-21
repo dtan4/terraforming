@@ -4,6 +4,11 @@ module Terraforming
     class_option :overwrite, type: :boolean, desc: "Overwrite existng tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
 
+    desc "asg", "AutoScaling Group"
+    def asg
+      execute(Terraforming::Resource::AutoScalingGroup, options)
+    end
+
     desc "dbpg", "Database Parameter Group"
     def dbpg
       execute(Terraforming::Resource::DBParameterGroup, options)
