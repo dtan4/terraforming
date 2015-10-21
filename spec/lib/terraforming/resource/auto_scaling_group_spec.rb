@@ -128,96 +128,58 @@ resource "aws_autoscaling_group" "fuga" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_instance.hoge" => {
-              "type" => "aws_instance",
+            "aws_autoscaling_group.hoge" => {
+              "type" => "aws_autoscaling_group",
               "primary" => {
-                "id" => "i-1234abcd",
+                "id" => "hoge",
                 "attributes" => {
-                  "ami" => "ami-1234abcd",
-                  "associate_public_ip_address" => "true",
-                  "availability_zone" => "ap-northeast-1b",
-                  "ebs_block_device.#" => "0",
-                  "ebs_optimized" => "false",
-                  "ephemeral_block_device.#" => "0",
-                  "id" => "i-1234abcd",
-                  "instance_type" => "t2.micro",
-                  "monitoring" => "false",
-                  "private_dns" => "ip-10-0-0-100.ap-northeast-1.compute.internal",
-                  "private_ip" => "10.0.0.100",
-                  "public_dns" => "ec2-54-12-0-0.ap-northeast-1.compute.amazonaws.com",
-                  "public_ip" => "54.12.0.0",
-                  "root_block_device.#" => "1",
-                  "security_groups.#" => "0",
-                  "source_dest_check" => "true",
-                  "tenancy" => "default",
-                  "vpc_security_group_ids.#" => "1",
-                  "subnet_id" => "subnet-1234abcd",
+                  "availability_zones.#" => "1",
+                  "default_cooldown" => "300",
+                  "desired_capacity" => "2",
+                  "health_check_grace_period" => "300",
+                  "health_check_type" => "EC2",
+                  "id" => "hoge",
+                  "launch_configuration" => "hoge-lc",
+                  "load_balancers.#" => "0",
+                  "max_size" => "4",
+                  "min_size" => "1",
+                  "name" => "hoge",
+                  "tag.#" => "1",
+                  "termination_policies.#" => "0",
+                  "vpc_zone_identifier.#" => "0",
                 },
                 "meta" => {
                   "schema_version" => "1"
                 }
               }
             },
-            "aws_instance.i-5678efgh" => {
-              "type" => "aws_instance",
+            "aws_autoscaling_group.fuga" => {
+              "type" => "aws_autoscaling_group",
               "primary" => {
-                "id" => "i-5678efgh",
+                "id" => "fuga",
                 "attributes" => {
-                  "ami" => "ami-5678efgh",
-                  "associate_public_ip_address" => "true",
-                  "availability_zone" => "ap-northeast-1b",
-                  "ebs_block_device.#" => "1",
-                  "ebs_optimized" => "false",
-                  "ephemeral_block_device.#" => "0",
-                  "id" => "i-5678efgh",
-                  "instance_type" => "t2.micro",
-                  "monitoring" => "true",
-                  "private_dns" => "ip-10-0-0-101.ap-northeast-1.compute.internal",
-                  "private_ip" => "10.0.0.101",
-                  "public_dns" => "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",
-                  "public_ip" => "54.12.0.1",
-                  "root_block_device.#" => "0",
-                  "security_groups.#" => "1",
-                  "source_dest_check" => "true",
-                  "tenancy" => "default",
-                  "vpc_security_group_ids.#" => "0",
+                  "availability_zones.#" => "0",
+                  "default_cooldown" => "300",
+                  "desired_capacity" => "2",
+                  "health_check_grace_period" => "300",
+                  "health_check_type" => "EC2",
+                  "id" => "fuga",
+                  "launch_configuration" => "fuga-lc",
+                  "load_balancers.#" => "0",
+                  "max_size" => "4",
+                  "min_size" => "1",
+                  "name" => "fuga",
+                  "tag.#" => "0",
+                  "termination_policies.#" => "0",
+                  "vpc_zone_identifier.#" => "2",
                 },
                 "meta" => {
                   "schema_version" => "1"
                 }
-              },
+              }
             },
-            "aws_instance.i-9012ijkl" => {
-              "type" => "aws_instance",
-              "primary" => {
-                "id" => "i-9012ijkl",
-                "attributes" => {
-                  "ami" => "ami-9012ijkl",
-                  "associate_public_ip_address" => "true",
-                  "availability_zone" => "ap-northeast-1b",
-                  "ebs_block_device.#" => "0",
-                  "ebs_optimized" => "false",
-                  "ephemeral_block_device.#" => "0",
-                  "id" => "i-9012ijkl",
-                  "instance_type" => "t2.micro",
-                  "monitoring" => "true",
-                  "private_dns" => "ip-10-0-0-102.ap-northeast-1.compute.internal",
-                  "private_ip" => "10.0.0.102",
-                  "public_dns" => "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
-                  "public_ip" => "54.12.0.2",
-                  "root_block_device.#" => "0",
-                  "security_groups.#" => "1",
-                  "source_dest_check" => "true",
-                  "tenancy" => "default",
-                  "vpc_security_group_ids.#" => "0",
-                },
-                "meta" => {
-                  "schema_version" => "1"
-                }
-              },
-            }
           })
         end
       end

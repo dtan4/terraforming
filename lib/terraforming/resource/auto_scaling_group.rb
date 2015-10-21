@@ -20,37 +20,28 @@ module Terraforming
       end
 
       def tfstate
-        instances.inject({}) do |resources, instance|
-          in_vpc = in_vpc?(instance)
-          block_devices = block_devices_of(instance)
-
+        auto_scaling_groups.inject({}) do |resources, group|
           attributes = {
-            "ami"=> instance.image_id,
-            "associate_public_ip_address"=> "true",
-            "availability_zone"=> instance.placement.availability_zone,
-            "ebs_block_device.#"=> ebs_block_devices_in(block_devices, instance).length.to_s,
-            "ebs_optimized"=> instance.ebs_optimized.to_s,
-            "ephemeral_block_device.#" => "0", # Terraform 0.6.1 cannot fetch this field from AWS
-            "id"=> instance.instance_id,
-            "instance_type"=> instance.instance_type,
-            "monitoring" => monitoring_state(instance).to_s,
-            "private_dns"=> instance.private_dns_name,
-            "private_ip"=> instance.private_ip_address,
-            "public_dns"=> instance.public_dns_name,
-            "public_ip"=> instance.public_ip_address,
-            "root_block_device.#"=> root_block_devices_in(block_devices, instance).length.to_s,
-            "security_groups.#"=> in_vpc ? "0" : instance.security_groups.length.to_s,
-            "source_dest_check"=> instance.source_dest_check.to_s,
-            "tenancy"=> instance.placement.tenancy,
-            "vpc_security_group_ids.#"=> in_vpc ? instance.security_groups.length.to_s : "0",
+            "availability_zones.#" => group.availability_zones.length.to_s,
+            "default_cooldown" => "300",
+            "desired_capacity" => group.desired_capacity.to_s,
+            "health_check_grace_period" => group.health_check_grace_period.to_s,
+            "health_check_type" => group.health_check_type,
+            "id" => group.auto_scaling_group_name,
+            "launch_configuration" => group.launch_configuration_name,
+            "load_balancers.#" => "0",
+            "max_size" => group.max_size.to_s,
+            "min_size" => group.min_size.to_s,
+            "name" => group.auto_scaling_group_name,
+            "tag.#" => group.tags.length.to_s,
+            "termination_policies.#" => "0",
+            "vpc_zone_identifier.#" => vpc_zone_identifier_of(group).length.to_s,
           }
 
-          attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
-
-          resources["aws_instance.#{module_name_of(instance)}"] = {
-            "type" => "aws_instance",
+          resources["aws_autoscaling_group.#{module_name_of(group)}"] = {
+            "type" => "aws_autoscaling_group",
             "primary" => {
-              "id" => instance.instance_id,
+              "id" => group.auto_scaling_group_name,
               "attributes" => attributes,
               "meta" => {
                 "schema_version" => "1"
