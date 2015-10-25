@@ -32,6 +32,13 @@ module Terraforming
         allow(klass).to receive(:tfstate).and_return({})
       end
 
+      describe "asg" do
+        let(:klass)   { Terraforming::Resource::AutoScalingGroup }
+        let(:command) { :asg }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "dbpg" do
         let(:klass)   { Terraforming::Resource::DBParameterGroup }
         let(:command) { :dbpg }

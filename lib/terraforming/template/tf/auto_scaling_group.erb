@@ -1,0 +1,27 @@
+<% auto_scaling_groups.each do |group| -%>
+<%- vpc_zone_specified = vpc_zone_specified?(group) -%>
+resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
+<%- unless vpc_zone_specified -%>
+    availability_zones        = <%= group.availability_zones.inspect %>
+<%- end -%>
+    desired_capacity          = <%= group.desired_capacity %>
+    health_check_grace_period = <%= group.health_check_grace_period %>
+    health_check_type         = "<%= group.health_check_type %>"
+    launch_configuration      = "<%= group.launch_configuration_name %>"
+    max_size                  = <%= group.max_size %>
+    min_size                  = <%= group.min_size %>
+    name                      = "<%= group.auto_scaling_group_name %>"
+<%- if vpc_zone_specified -%>
+    vpc_zone_identifier       = <%= vpc_zone_identifier_of(group).inspect %>
+<%- end -%>
+
+    tag {
+<% group.tags.each do |tag| -%>
+        key   = "<%= tag.key %>"
+        value = "<%= tag.value %>"
+        propagate_at_launch = <%= tag.propagate_at_launch.to_s %>
+<% end -%>
+    }
+}
+
+<% end -%>

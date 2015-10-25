@@ -11,6 +11,7 @@ require "terraforming/util"
 require "terraforming/version"
 
 require "terraforming/cli"
+require "terraforming/resource/auto_scaling_group"
 require "terraforming/resource/db_parameter_group"
 require "terraforming/resource/db_security_group"
 require "terraforming/resource/db_subnet_group"
