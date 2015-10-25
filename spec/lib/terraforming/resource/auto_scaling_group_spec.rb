@@ -47,7 +47,7 @@ module Terraforming
               {
                 resource_id: "hoge",
                 resource_type: "auto-scaling-group",
-                key: "foo",
+                key: "foo1",
                 value: "bar",
                 propagate_at_launch: true,
               }
@@ -111,7 +111,7 @@ resource "aws_autoscaling_group" "hoge" {
     name                      = "hoge"
 
     tag {
-        key   = "foo"
+        key   = "foo1"
         value = "bar"
         propagate_at_launch = true
     }
@@ -155,6 +155,9 @@ resource "aws_autoscaling_group" "fuga" {
                   "min_size" => "1",
                   "name" => "hoge",
                   "tag.#" => "1",
+                  "tag.3921462319.key" => "foo1",
+                  "tag.3921462319.propagate_at_launch" => "true",
+                  "tag.3921462319.value" => "bar",
                   "termination_policies.#" => "0",
                   "vpc_zone_identifier.#" => "0",
                 },

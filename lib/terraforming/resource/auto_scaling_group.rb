@@ -40,6 +40,15 @@ module Terraforming
             "vpc_zone_identifier.#" => vpc_zone_specified ? vpc_zone_identifier_of(group).length.to_s : "0",
           }
 
+          group.tags.each do |tag|
+            hashcode = tag_hashcode_of(tag)
+            attributes.merge!({
+              "tag.#{hashcode}.key" => tag.key,
+              "tag.#{hashcode}.propagate_at_launch" => tag.propagate_at_launch.to_s,
+              "tag.#{hashcode}.value" => tag.value,
+            })
+          end
+
           resources["aws_autoscaling_group.#{module_name_of(group)}"] = {
             "type" => "aws_autoscaling_group",
             "primary" => {
@@ -63,6 +72,10 @@ module Terraforming
 
       def module_name_of(group)
         normalize_module_name(group.auto_scaling_group_name)
+      end
+
+      def tag_hashcode_of(tag)
+        Zlib.crc32("#{tag.key}-#{tag.value}-#{tag.propagate_at_launch}-")
       end
 
       def vpc_zone_identifier_of(group)
