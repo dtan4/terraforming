@@ -3,6 +3,7 @@ module Terraforming
     class_option :merge, type: :string, desc: "tfstate file to merge"
     class_option :overwrite, type: :boolean, desc: "Overwrite existng tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
+    class_option :profile, type: :string, desc: "Aws profile name from ~/.aws/credentials"
 
     desc "asg", "AutoScaling Group"
     def asg
@@ -142,6 +143,14 @@ module Terraforming
     private
 
     def execute(klass, options)
+
+      if options[:profile]
+        profile_map = IniFile.load(File.expand_path("~/.aws/credentials")).to_h[options[:profile].to_s]
+        profile_map.each do |k, v|
+          ENV[k.upcase] = v
+        end
+      end
+
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]

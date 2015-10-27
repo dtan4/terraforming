@@ -6,6 +6,8 @@ require "erb"
 require "json"
 require "thor"
 require "zlib"
+require 'inifile'
+
 
 require "terraforming/util"
 require "terraforming/version"
