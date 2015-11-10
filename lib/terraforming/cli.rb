@@ -143,7 +143,7 @@ module Terraforming
     private
 
     def execute(klass, options)
-      Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile])
+      Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]
