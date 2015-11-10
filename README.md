@@ -51,6 +51,18 @@ export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 export AWS_DEFAULT_REGION=xx-yyyy-0
 ```
 
+You can also specify credential profile in `~/.aws/credentials` by `--profile` option.
+
+```bash
+$ cat ~/.aws/credentials
+[hoge]
+aws_access_key_id = Hoge
+aws_secret_access_key = FugaFuga
+
+# Pass profile name by --profile option
+$ terraforming s3 --profile hoge
+```
+
 ## Usage
 
 ```bash
@@ -86,7 +98,7 @@ Commands:
 ### Export tf
 
 ```bash
-$ terraforming <resource>
+$ terraforming <resource> [--profile PROFILE]
 ```
 
 (e.g. S3 buckets):
@@ -110,7 +122,7 @@ resource "aws_s3_bucket" "fuga" {
 ### Export tfstate
 
 ```bash
-$ terraforming <resource> --tfstate [--merge TFSTATE_PATH] [--overwrite]
+$ terraforming <resource> --tfstate [--merge TFSTATE_PATH] [--overwrite] [--profile PROFILE]
 ```
 
 (e.g. S3 buckets):
