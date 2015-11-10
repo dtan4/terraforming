@@ -5,7 +5,7 @@
     <title>Terraforming by dtan4</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -32,12 +32,37 @@
 
 <p>Export existing AWS resources to <a href="https://terraform.io/">Terraform</a> style (tf, tfstate)</p>
 
+<ul>
+<li><a href="#supported-version">Supported version</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li> <a href="#export-tf">Export tf</a>
+</li>
+<li> <a href="#export-tfstate">Export tfstate</a>
+</li>
+</ul>
+</li>
+<li><a href="#run-as-docker-container-">Run as Docker container</a></li>
+<li><a href="#development">Development</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+<h2>
+<a id="supported-version" class="anchor" href="#supported-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported version</h2>
+
+<p>Ruby 2.x</p>
+
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Add this line to your application's Gemfile:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>terraforming<span class="pl-pds">'</span></span></pre></div>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>terraforming<span class="pl-pds">'</span></span></pre></div>
 
 <p>And then execute:</p>
 
@@ -54,21 +79,35 @@
 
 <p>You need to set AWS credentials.</p>
 
-<div class="highlight highlight-bash"><pre><span class="pl-k">export</span> AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
+<div class="highlight highlight-source-shell"><pre><span class="pl-k">export</span> AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
 <span class="pl-k">export</span> AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-<span class="pl-k">export</span> AWS_DEFAULT_REGION=xx-yyyy-0 \</pre></div>
+<span class="pl-k">export</span> AWS_DEFAULT_REGION=xx-yyyy-0</pre></div>
+
+<p>You can also specify credential profile in <code>~/.aws/credentials</code> by <code>--profile</code> option.</p>
+
+<div class="highlight highlight-source-shell"><pre>$ cat <span class="pl-k">~</span>/.aws/credentials
+[hoge]
+aws_access_key_id = Hoge
+aws_secret_access_key = FugaFuga
+
+<span class="pl-c"># Pass profile name by --profile option</span>
+$ terraforming s3 --profile hoge</pre></div>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<div class="highlight highlight-bash"><pre>$ terraforming
+<div class="highlight highlight-source-shell"><pre>$ terraforming
 Commands:
+  terraforming asg             <span class="pl-c"># AutoScaling Group</span>
   terraforming dbpg            <span class="pl-c"># Database Parameter Group</span>
   terraforming dbsg            <span class="pl-c"># Database Security Group</span>
   terraforming dbsn            <span class="pl-c"># Database Subnet Group</span>
   terraforming ec2             <span class="pl-c"># EC2</span>
+  terraforming ecc             <span class="pl-c"># ElastiCache Cluster</span>
+  terraforming ecsn            <span class="pl-c"># ElastiCache Subnet Group</span>
   terraforming elb             <span class="pl-c"># ELB</span>
   terraforming iamg            <span class="pl-c"># IAM Group</span>
+  terraforming iamgm           <span class="pl-c"># IAM Group Membership</span>
   terraforming iamgp           <span class="pl-c"># IAM Group Policy</span>
   terraforming iamip           <span class="pl-c"># IAM Instance Profile</span>
   terraforming iamp            <span class="pl-c"># IAM Policy</span>
@@ -88,11 +127,13 @@ Commands:
 <h3>
 <a id="export-tf" class="anchor" href="#export-tf" aria-hidden="true"><span class="octicon octicon-link"></span></a>Export tf</h3>
 
+<div class="highlight highlight-source-shell"><pre>$ terraforming <span class="pl-k">&lt;</span>resource<span class="pl-k">&gt;</span> [--profile PROFILE]</pre></div>
+
 <p>(e.g. S3 buckets):</p>
 
-<div class="highlight highlight-bash"><pre>$ terraforming s3</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ terraforming s3</pre></div>
 
-<div class="highlight highlight-go"><pre>resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span> {
+<div class="highlight highlight-source-go"><pre>resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span> {
     bucket = <span class="pl-s"><span class="pl-pds">"</span>hoge<span class="pl-pds">"</span></span>
     acl    = <span class="pl-s"><span class="pl-pds">"</span>private<span class="pl-pds">"</span></span>
 }
@@ -105,11 +146,13 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
 <h3>
 <a id="export-tfstate" class="anchor" href="#export-tfstate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Export tfstate</h3>
 
-<p>Specify <code>--tfstate</code> option (e.g. S3 buckets):</p>
+<div class="highlight highlight-source-shell"><pre>$ terraforming <span class="pl-k">&lt;</span>resource<span class="pl-k">&gt;</span> --tfstate [--merge TFSTATE_PATH] [--overwrite] [--profile PROFILE]</pre></div>
 
-<div class="highlight highlight-bash"><pre>$ terraforming s3 --tfstate</pre></div>
+<p>(e.g. S3 buckets):</p>
 
-<div class="highlight highlight-json"><pre>{
+<div class="highlight highlight-source-shell"><pre>$ terraforming s3 --tfstate</pre></div>
+
+<div class="highlight highlight-source-json"><pre>{
   <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
   <span class="pl-s"><span class="pl-pds">"</span>serial<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
   <span class="pl-s"><span class="pl-pds">"</span>modules<span class="pl-pds">"</span></span>: {
@@ -145,11 +188,12 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
   }
 }</pre></div>
 
-<p>If you want to merge exported tfstate to existing <code>terraform.tfstate</code>, specify <code>--tfstate --merge=/path/to/terraform.tfstate</code> option (e.g. S3 buckets):</p>
+<p>If you want to merge exported tfstate to existing <code>terraform.tfstate</code>, specify <code>--tfstate --merge=/path/to/terraform.tfstate</code> option.
+You can overwrite existing <code>terraform.tfstate</code> by specifying <code>--overwrite</code> option together.</p>
 
 <p>Existing <code>terraform.tfstate</code>:</p>
 
-<div class="highlight highlight-bash"><pre><span class="pl-c"># /path/to/terraform.tfstate</span>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># /path/to/terraform.tfstate</span>
 
 {
   <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: 1,
@@ -196,9 +240,9 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
 
 <p>To generate merged tfstate:</p>
 
-<div class="highlight highlight-bash"><pre>$ terraforming s3 --tfstate --merge=/path/to/tfstate</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ terraforming s3 --tfstate --merge=/path/to/tfstate</pre></div>
 
-<div class="highlight highlight-json"><pre>{
+<div class="highlight highlight-source-json"><pre>{
   <span class="pl-s"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>: <span class="pl-c1">1</span>,
   <span class="pl-s"><span class="pl-pds">"</span>serial<span class="pl-pds">"</span></span>: <span class="pl-c1">89</span>,
   <span class="pl-s"><span class="pl-pds">"</span>remote<span class="pl-pds">"</span></span>: {
@@ -266,7 +310,7 @@ resource <span class="pl-s"><span class="pl-pds">"</span>aws_s3_bucket<span clas
 <p>After writing exported tf and tfstate to files, execute <code>terraform plan</code> and check the result.
 There should be no diff.</p>
 
-<div class="highlight highlight-bash"><pre>$ terraform plan
+<div class="highlight highlight-source-shell"><pre>$ terraform plan
 No changes. Infrastructure is up-to-date. This means that Terraform
 could not detect any differences between your configuration and
 the real physical resources that exist. As a result, Terraform
@@ -280,11 +324,11 @@ doesn<span class="pl-s"><span class="pl-pds">'</span>t need to do anything.</spa
 
 <p>Pull the Docker image:</p>
 
-<div class="highlight highlight-bash"><pre>$ docker pull quay.io/dtan4/terraforming:latest</pre></div>
+<div class="highlight highlight-source-shell"><pre>$ docker pull quay.io/dtan4/terraforming:latest</pre></div>
 
 <p>And then run Terraforming as a Docker container:</p>
 
-<div class="highlight highlight-bash"><pre>$ docker run \
+<div class="highlight highlight-source-shell"><pre>$ docker run \
     --rm \
     --name terraforming \
     -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
@@ -312,7 +356,7 @@ doesn<span class="pl-s"><span class="pl-pds">'</span>t need to do anything.</spa
 </ol>
 
 <h2>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>LICENSE</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p><a href="LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="MIT License"></a></p>
 
@@ -327,4 +371,3 @@ doesn<span class="pl-s"><span class="pl-pds">'</span>t need to do anything.</spa
   
   </body>
 </html>
-
