@@ -56,6 +56,7 @@ export AWS_DEFAULT_REGION=xx-yyyy-0
 ```bash
 $ terraforming
 Commands:
+  terraforming asg             # AutoScaling Group
   terraforming dbpg            # Database Parameter Group
   terraforming dbsg            # Database Security Group
   terraforming dbsn            # Database Subnet Group
