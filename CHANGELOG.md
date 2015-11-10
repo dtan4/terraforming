@@ -1,3 +1,13 @@
+# [v0.4.0](https://github.com/dtan4/terraforming/releases/tag/v0.4.0) (2015-10-06)
+
+## New feature
+
+- Add `--profile` option to read credential profile #135 (thanks @k1LoW)
+
+## Resource
+
+- AWS AutoScaling Group #134
+
 # [v0.3.2](https://github.com/dtan4/terraforming/releases/tag/v0.3.2) (2015-10-06)
 
 ## Fixed
