@@ -76,6 +76,7 @@ Commands:
   terraforming r53r            # Route53 Record
   terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
+  terraforming rt              # Route Table
   terraforming s3              # S3
   terraforming sg              # Security Group
   terraforming sn              # Subnet
