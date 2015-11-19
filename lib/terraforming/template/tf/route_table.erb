@@ -1,0 +1,30 @@
+<% route_tables.each do |route_table| -%>
+resource "aws_route_table" "<%= module_name_of(route_table) %>" {
+    vpc_id     = "<%= route_table.vpc_id %>"
+
+<% routes_of(route_table).each do |route| -%>
+    route {
+        cidr_block = "<%= route.destination_cidr_block %>"
+<% if route.gateway_id -%>
+        gateway_id = "<%= route.gateway_id %>"
+<% end -%>
+<% if route.instance_id -%>
+        instance_id = "<%= route.instance_id %>"
+<% end -%>
+<% if route.vpc_peering_connection_id -%>
+        vpc_peering_connection_id = "<%= route.vpc_peering_connection_id %>"
+<% end -%>
+<% if route.network_interface_id -%>
+        network_interface_id = "<%= route.network_interface_id %>"
+<% end -%>
+    }
+
+<% end -%>
+    tags {
+<% route_table.tags.each do |tag| -%>
+        "<%= tag.key %>" = "<%= tag.value %>"
+<% end -%>
+    }
+}
+
+<% end -%>
