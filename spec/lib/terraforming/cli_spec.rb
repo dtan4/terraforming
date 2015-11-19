@@ -193,6 +193,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "rt" do
+        let(:klass)   { Terraforming::Resource::RouteTable }
+        let(:command) { :rt }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "s3" do
         let(:klass)   { Terraforming::Resource::S3 }
         let(:command) { :s3 }

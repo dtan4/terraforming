@@ -119,6 +119,11 @@ module Terraforming
       execute(Terraforming::Resource::RDS, options)
     end
 
+    desc "rt", "Route Table"
+    def rt
+      execute(Terraforming::Resource::RouteTable, options)
+    end
+
     desc "s3", "S3"
     def s3
       execute(Terraforming::Resource::S3, options)
