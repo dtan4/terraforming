@@ -157,31 +157,31 @@ resource "aws_route_table" "my-route-table-2" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-                                                                  "aws_route_table.my-route-table" => {
-                                                                    "type" => "aws_route_table",
-                                                                    "primary" => {
-                                                                      "id" => "rtb-a12bcd34",
-                                                                      "attributes" => {
-                                                                        "id" => "rtb-a12bcd34",
-                                                                        "route.#" => "4",
-                                                                        "tags.#" => "1",
-                                                                        "vpc_id" => "vpc-ab123cde",
-                                                                      }
-                                                                    }
-                                                                  },
-                                                                  "aws_route_table.my-route-table-2" => {
-                                                                    "type" => "aws_route_table",
-                                                                    "primary" => {
-                                                                      "id"=>"rtb-efgh5678",
-                                                                      "attributes" => {
-                                                                        "id" => "rtb-efgh5678",
-                                                                        "route.#" => "1",
-                                                                        "tags.#" => "1",
-                                                                        "vpc_id" => "vpc-ab123cde"
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                })
+            "aws_route_table.my-route-table" => {
+              "type" => "aws_route_table",
+              "primary" => {
+                "id" => "rtb-a12bcd34",
+                "attributes" => {
+                  "id" => "rtb-a12bcd34",
+                  "route.#" => "4",
+                  "tags.#" => "1",
+                  "vpc_id" => "vpc-ab123cde",
+                }
+              }
+            },
+            "aws_route_table.my-route-table-2" => {
+              "type" => "aws_route_table",
+              "primary" => {
+                "id"=>"rtb-efgh5678",
+                "attributes" => {
+                  "id" => "rtb-efgh5678",
+                  "route.#" => "1",
+                  "tags.#" => "1",
+                  "vpc_id" => "vpc-ab123cde"
+                }
+              }
+            }
+          })
         end
       end
     end
