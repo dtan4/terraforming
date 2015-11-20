@@ -1,4 +1,10 @@
-# [v0.4.0](https://github.com/dtan4/terraforming/releases/tag/v0.4.0) (2015-10-06)
+# [v0.5.0](https://github.com/dtan4/terraforming/releases/tag/v0.5.0) (2015-11-20)
+
+## Resource
+
+- AWS Route Table #137 (thanks @k1LoW)
+
+# [v0.4.0](https://github.com/dtan4/terraforming/releases/tag/v0.4.0) (2015-11-10)
 
 ## New feature
 
