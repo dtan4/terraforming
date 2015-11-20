@@ -1,0 +1,11 @@
+<% route_tables.each do |route_table| -%>
+<% associations_of(route_table).each do |assoc| -%>
+<% if assoc.subnet_id -%>
+resource "aws_route_table_association" "<%= module_name_of(route_table, assoc) %>" {
+    route_table_id = "<%= assoc.route_table_id %>"
+    subnet_id = "<%= assoc.subnet_id %>"
+}
+
+<% end -%>
+<% end -%>
+<% end -%>
