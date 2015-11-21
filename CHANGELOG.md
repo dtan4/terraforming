@@ -1,3 +1,9 @@
+# [v0.6.0](https://github.com/dtan4/terraforming/releases/tag/v0.5.0) (2015-11-21)
+
+## Resource
+
+- AWS Route Table Association #138 (thanks @k1LoW)
+
 # [v0.5.0](https://github.com/dtan4/terraforming/releases/tag/v0.5.0) (2015-11-20)
 
 ## Resource
