@@ -125,6 +125,11 @@ module Terraforming
       execute(Terraforming::Resource::RouteTable, options)
     end
 
+    desc "rta", "Route Table Association"
+    def rta
+      execute(Terraforming::Resource::RouteTableAssociation, options)
+    end
+
     desc "s3", "S3"
     def s3
       execute(Terraforming::Resource::S3, options)
