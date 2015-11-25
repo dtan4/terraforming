@@ -2,7 +2,7 @@
   <%- record, zone_id = r[:record], r[:zone_id] -%>
 resource "aws_route53_record" "<%= module_name_of(record) %>" {
     zone_id = "<%= zone_id %>"
-    name    = "<%= name_of(record.name) %>"
+    name    = "<%= name_of(record.name.sub(/\\052/, '*')) %>"
     type    = "<%= record.type %>"
 <%- unless record.resource_records.empty? -%>
     records = <%= record.resource_records.map(&:value).to_s %>
