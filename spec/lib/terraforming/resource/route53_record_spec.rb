@@ -23,6 +23,13 @@ module Terraforming
             config: { private_zone: false },
             resource_record_set_count: 4
           },
+          {
+            id: "/hostedzone/CDEFGHIJKLMNOP",
+            name: "example.net.",
+            caller_reference: "ABCDEFGH-9012-IJKL-9012-MNOPQRSTUVWX",
+            config: { private_zone: false },
+            resource_record_set_count: 4
+          },
         ]
       end
 
@@ -59,12 +66,28 @@ module Terraforming
         ]
       end
 
+      let(:wildcard_resource_record_sets) do
+        [
+          {
+            name: '\052.example.net.',
+            type: "CNAME",
+            ttl: 3600,
+            weight: nil,
+            set_identifier: nil,
+            resource_records: [
+              { value: "example.com" }
+            ]
+          }
+        ]
+      end
+
       before do
         client.stub_responses(:list_hosted_zones,
           hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
         client.stub_responses(:list_resource_record_sets, [
           { resource_record_sets: hoge_resource_record_sets, is_truncated: false, max_items: 1 },
           { resource_record_sets: fuga_resource_record_sets, is_truncated: false, max_items: 1 },
+          { resource_record_sets: wildcard_resource_record_sets, is_truncated: false, max_items: 1 },
         ])
       end
 
@@ -92,6 +115,15 @@ resource "aws_route53_record" "www-fuga-net-A" {
         zone_id = "ABCDEFGHIJ1234"
         evaluate_target_health = false
     }
+}
+
+resource "aws_route53_record" "-052-example-net-CNAME" {
+    zone_id = "CDEFGHIJKLMNOP"
+    name    = "*.example.net"
+    type    = "CNAME"
+    records = ["example.com"]
+    ttl     = "3600"
+
 }
 
         EOS
@@ -127,6 +159,20 @@ resource "aws_route53_record" "www-fuga-net-A" {
                   "zone_id" => "OPQRSTUVWXYZAB",
                   "alias.#" => "1",
                   "weight" => "10",
+                },
+              }
+            },
+            "aws_route53_record.-052-example-net-CNAME" => {
+              "type" => "aws_route53_record",
+              "primary" => {
+                "id" => "CDEFGHIJKLMNOP_*.example.net_CNAME",
+                "attributes"=> {
+                  "id" => "CDEFGHIJKLMNOP_*.example.net_CNAME",
+                  "name" => "*.example.net",
+                  "type" => "CNAME",
+                  "zone_id" => "CDEFGHIJKLMNOP",
+                  "records.#" => "1",
+                  "ttl" => "3600",
                 },
               }
             },
