@@ -25,6 +25,7 @@ module Terraforming
           vpc = vpc_of(hosted_zone)
 
           attributes = {
+            "comment"=> comment_of(hosted_zone),
             "id"=> zone_id,
             "name"=> name_of(hosted_zone),
             "name_servers.#" => name_servers_of(hosted_zone).length.to_s,
@@ -53,6 +54,10 @@ module Terraforming
 
       def tags_of(hosted_zone)
         @client.list_tags_for_resource(resource_type: "hostedzone", resource_id: zone_id_of(hosted_zone)).resource_tag_set.tags
+      end
+
+      def comment_of(hosted_zone)
+        hosted_zone.hosted_zone.config.comment
       end
 
       def name_of(hosted_zone)
