@@ -66,6 +66,12 @@ module Terraforming
                 route_table_id: 'rtb-a12bcd34',
                 subnet_id: 'subnet-8901b123',
                 main: false
+              },
+              {
+                route_table_association_id: 'rtbassoc-e71201aaa',
+                route_table_id: 'rtb-a12bcd34',
+                subnet_id: nil,
+                main: true
               }
             ],
             tags: [

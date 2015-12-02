@@ -23,11 +23,15 @@ module Terraforming
         resources = {}
         route_tables.each do |route_table|
           associations_of(route_table).each do |assoc|
+            # Skip implicit associations
+            next unless assoc.subnet_id
+
             attributes = {
               "id" => assoc.route_table_association_id,
               "route_table_id" => assoc.route_table_id,
               "subnet_id" => assoc.subnet_id,
             }
+
             resources["aws_route_table_association.#{module_name_of(route_table, assoc)}"] = {
               "type" => "aws_route_table_association",
               "primary" => {
