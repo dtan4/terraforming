@@ -68,6 +68,9 @@ module Terraforming
                 main: false
               }
             ],
+            propagating_vgws: [
+              { gateway_id: 'vgw-1a4j20b' }
+            ],
             tags: [
               {
                 key: 'Name',
@@ -148,6 +151,8 @@ resource "aws_route_table" "my-route-table" {
         vpc_peering_connection_id = "pcx-c56789de"
     }
 
+    propagating_vgws = ["vgw-1a4j20b"]
+
     tags {
         "Name" = "my-route-table"
     }
@@ -203,7 +208,8 @@ resource "aws_route_table" "my-route-table-2" {
                   "route.2351420441.network_interface_id" => "",
                   "route.2351420441.vpc_peering_connection_id" => "pcx-c56789de",
 
-                  "propagating_vgws.#" => "0"
+                  "propagating_vgws.#" => "1",
+                  "propagating_vgws.772379535" => "vgw-1a4j20b"
                 }
               }
             },
