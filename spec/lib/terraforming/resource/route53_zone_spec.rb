@@ -12,7 +12,10 @@ module Terraforming
           id: "/hostedzone/ABCDEFGHIJKLMN",
           name: "hoge.net.",
           caller_reference: "ABCDEFGH-1234-IJKL-5678-MNOPQRSTUVWX",
-          config: { private_zone: false },
+          config: {
+            comment: "",
+            private_zone: false
+          },
           resource_record_set_count: 4,
         }
       end
@@ -22,7 +25,10 @@ module Terraforming
           id: "/hostedzone/OPQRSTUVWXYZAB",
           name: "fuga.net.",
           caller_reference: "ABCDEFGH-5678-IJKL-9012-MNOPQRSTUVWX",
-          config: { private_zone: true },
+          config: {
+            comment: "fuga.net zone comment",
+            private_zone: true
+          },
           resource_record_set_count: 4
         }
       end
@@ -81,6 +87,7 @@ module Terraforming
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_route53_zone" "hoge-net-public" {
     name       = "hoge.net"
+    comment    = ""
 
     tags {
         "Environment" = "dev"
@@ -89,6 +96,7 @@ resource "aws_route53_zone" "hoge-net-public" {
 
 resource "aws_route53_zone" "fuga-net-private" {
     name       = "fuga.net"
+    comment    = "fuga.net zone comment"
     vpc_id     = "vpc-1234abcd"
     vpc_region = "ap-northeast-1"
 
@@ -109,6 +117,7 @@ resource "aws_route53_zone" "fuga-net-private" {
               "primary"=> {
                 "id"=> "ABCDEFGHIJKLMN",
                 "attributes"=> {
+                  "comment"=> "",
                   "id"=> "ABCDEFGHIJKLMN",
                   "name"=> "hoge.net",
                   "name_servers.#" => "4",
@@ -124,6 +133,7 @@ resource "aws_route53_zone" "fuga-net-private" {
               "primary"=> {
                 "id"=>  "OPQRSTUVWXYZAB",
                 "attributes"=> {
+                  "comment"=> "fuga.net zone comment",
                   "id"=> "OPQRSTUVWXYZAB",
                   "name"=> "fuga.net",
                   "name_servers.#" => "0",
