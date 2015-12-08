@@ -1,5 +1,7 @@
 # Terraforming
 
+[![Join the chat at https://gitter.im/dtan4/terraforming](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dtan4/terraforming?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/dtan4/terraforming.svg?branch=master)](https://travis-ci.org/dtan4/terraforming)
 [![Code Climate](https://codeclimate.com/github/dtan4/terraforming/badges/gpa.svg)](https://codeclimate.com/github/dtan4/terraforming)
 [![Test Coverage](https://codeclimate.com/github/dtan4/terraforming/badges/coverage.svg)](https://codeclimate.com/github/dtan4/terraforming)
