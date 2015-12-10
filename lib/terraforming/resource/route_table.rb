@@ -90,14 +90,14 @@ module Terraforming
 
         instance_set = false
         if route.instance_id != ''
-          string += route.instance_id.to_s
+          string << route.instance_id.to_s
           instance_set = true
         end
 
-        string += route.vpc_peering_connection_id.to_s
+        string << route.vpc_peering_connection_id.to_s
 
         unless instance_set
-          string += route.network_interface_id.to_s
+          string << route.network_interface_id.to_s
         end
 
         Zlib.crc32(string)
@@ -125,7 +125,6 @@ module Terraforming
         tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
         attributes
       end
-
     end
   end
 end
