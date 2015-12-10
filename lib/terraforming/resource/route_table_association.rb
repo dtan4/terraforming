@@ -23,9 +23,6 @@ module Terraforming
         resources = {}
         route_tables.each do |route_table|
           associations_of(route_table).each do |assoc|
-            # Skip implicit associations
-            next unless assoc.subnet_id
-
             attributes = {
               "id" => assoc.route_table_association_id,
               "route_table_id" => assoc.route_table_id,
@@ -47,7 +44,7 @@ module Terraforming
       private
 
       def associations_of(route_table)
-        route_table.associations
+        route_table.associations.reject { |association| association.subnet_id.nil? }
       end
 
       def module_name_of(route_table, assoc)
