@@ -29,14 +29,16 @@ module Terraforming
                 availability_zone: "ap-northeast-1b",
                 lifecycle_state: "InService",
                 health_status: "Healthy",
-                launch_configuration_name: "hoge-lc"
+                launch_configuration_name: "hoge-lc",
+                protected_from_scale_in: true,
               },
               {
                 instance_id: "i-5678efgh",
                 availability_zone: "ap-northeast-1b",
                 lifecycle_state: "InService",
                 health_status: "Healthy",
-                launch_configuration_name: "hoge-lc"
+                launch_configuration_name: "hoge-lc",
+                protected_from_scale_in: true,
               },
             ],
             created_time: Time.parse("2015-10-21 04:08:39 UTC"),
@@ -73,14 +75,16 @@ module Terraforming
                 availability_zone: "ap-northeast-1c",
                 lifecycle_state: "InService",
                 health_status: "Healthy",
-                launch_configuration_name: "fuga-lc"
+                launch_configuration_name: "fuga-lc",
+                protected_from_scale_in: true,
               },
               {
                 instance_id: "i-3456mnop",
                 availability_zone: "ap-northeast-1c",
                 lifecycle_state: "InService",
                 health_status: "Healthy",
-                launch_configuration_name: "fuga-lc"
+                launch_configuration_name: "fuga-lc",
+                protected_from_scale_in: true,
               },
             ],
             created_time: Time.parse("2015-10-20 04:08:39 UTC"),
