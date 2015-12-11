@@ -1,3 +1,12 @@
+# [v0.6.2](https://github.com/dtan4/terraforming/releases/tag/v0.6.2) (2015-12-11)
+
+## Fixed
+
+- Get zone comment of Route53 Zone #149 (thanks @tjend)
+- Skip implicit Route Table Association when generating tfstate #148 (thanks @kovyrin)
+- Improve Route Table support #146 (thanks @kovyrin)
+- Ignore EC2 source_dest_check if nil #143 (thanks @cmcarthur)
+
 # [v0.6.1](https://github.com/dtan4/terraforming/releases/tag/v0.6.1) (2015-11-27)
 
 ## Fixed
