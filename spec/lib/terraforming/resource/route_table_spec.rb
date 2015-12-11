@@ -68,6 +68,9 @@ module Terraforming
                 main: false
               }
             ],
+            propagating_vgws: [
+              { gateway_id: 'vgw-1a4j20b' }
+            ],
             tags: [
               {
                 key: 'Name',
@@ -88,7 +91,28 @@ module Terraforming
                 network_interface_id: nil,
                 vpc_peering_connection_id: nil,
                 state: 'active'
-              }
+              },
+              {
+                destination_cidr_block: '172.18.0.0/16',
+                destination_prefix_list_id: nil,
+                gateway_id: 'vgw-2345dddf',
+                instance_id: nil,
+                instance_owner_id: nil,
+                network_interface_id: nil,
+                vpc_peering_connection_id: nil,
+                state: 'active',
+                origin: 'EnableVgwRoutePropagation'
+              },
+              {
+                destination_cidr_block: '10.18.0.0/16',
+                destination_prefix_list_id: '1234567',
+                gateway_id: 'vgw-2115dddf',
+                instance_id: nil,
+                instance_owner_id: nil,
+                network_interface_id: nil,
+                vpc_peering_connection_id: nil,
+                state: 'active'
+              },
             ],
             associations: [
             ],
@@ -113,11 +137,6 @@ resource "aws_route_table" "my-route-table" {
     vpc_id     = "vpc-ab123cde"
 
     route {
-        cidr_block = "10.0.0.0/16"
-        gateway_id = "local"
-    }
-
-    route {
         cidr_block = "0.0.0.0/0"
         gateway_id = "igw-1ab2345c"
     }
@@ -131,6 +150,8 @@ resource "aws_route_table" "my-route-table" {
         cidr_block = "192.168.2.0/24"
         vpc_peering_connection_id = "pcx-c56789de"
     }
+
+    propagating_vgws = ["vgw-1a4j20b"]
 
     tags {
         "Name" = "my-route-table"
@@ -163,9 +184,32 @@ resource "aws_route_table" "my-route-table-2" {
                 "id" => "rtb-a12bcd34",
                 "attributes" => {
                   "id" => "rtb-a12bcd34",
-                  "route.#" => "4",
-                  "tags.#" => "1",
                   "vpc_id" => "vpc-ab123cde",
+
+                  "tags.#" => "1",
+                  "tags.Name"=>"my-route-table",
+
+                  "route.#" => "3",
+                  "route.4066406027.cidr_block" => "0.0.0.0/0",
+                  "route.4066406027.gateway_id" => "igw-1ab2345c",
+                  "route.4066406027.instance_id" => "",
+                  "route.4066406027.network_interface_id" => "",
+                  "route.4066406027.vpc_peering_connection_id" => "",
+
+                  "route.3686469914.cidr_block" => "192.168.1.0/24",
+                  "route.3686469914.gateway_id" => "",
+                  "route.3686469914.instance_id" => "i-ec12345a",
+                  "route.3686469914.network_interface_id" => "",
+                  "route.3686469914.vpc_peering_connection_id" => "",
+
+                  "route.2351420441.cidr_block" => "192.168.2.0/24",
+                  "route.2351420441.gateway_id" => "",
+                  "route.2351420441.instance_id" => "",
+                  "route.2351420441.network_interface_id" => "",
+                  "route.2351420441.vpc_peering_connection_id" => "pcx-c56789de",
+
+                  "propagating_vgws.#" => "1",
+                  "propagating_vgws.772379535" => "vgw-1a4j20b"
                 }
               }
             },
@@ -175,9 +219,19 @@ resource "aws_route_table" "my-route-table-2" {
                 "id"=>"rtb-efgh5678",
                 "attributes" => {
                   "id" => "rtb-efgh5678",
-                  "route.#" => "1",
+                  "vpc_id" => "vpc-ab123cde",
+
                   "tags.#" => "1",
-                  "vpc_id" => "vpc-ab123cde"
+                  "tags.Name"=>"my-route-table-2",
+
+                  "route.#" => "1",
+                  "route.4031521715.cidr_block" => "0.0.0.0/0",
+                  "route.4031521715.gateway_id" => "vgw-2345cdef",
+                  "route.4031521715.instance_id" => "",
+                  "route.4031521715.network_interface_id" => "",
+                  "route.4031521715.vpc_peering_connection_id" => "",
+
+                  "propagating_vgws.#" => "0",
                 }
               }
             }
