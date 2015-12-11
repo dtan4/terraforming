@@ -28,6 +28,7 @@ module Terraforming
               "route_table_id" => assoc.route_table_id,
               "subnet_id" => assoc.subnet_id,
             }
+
             resources["aws_route_table_association.#{module_name_of(route_table, assoc)}"] = {
               "type" => "aws_route_table_association",
               "primary" => {
@@ -43,7 +44,7 @@ module Terraforming
       private
 
       def associations_of(route_table)
-        route_table.associations
+        route_table.associations.reject { |association| association.subnet_id.nil? }
       end
 
       def module_name_of(route_table, assoc)
