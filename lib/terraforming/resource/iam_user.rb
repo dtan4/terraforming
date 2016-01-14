@@ -43,7 +43,7 @@ module Terraforming
       private
 
       def iam_users
-        @client.list_users.users
+        @client.list_users.collect {|r| r.users}.flatten
       end
 
       def module_name_of(user)
