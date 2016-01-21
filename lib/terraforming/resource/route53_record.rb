@@ -60,7 +60,11 @@ module Terraforming
       end
 
       def record_sets_of(hosted_zone)
-        @client.list_resource_record_sets(hosted_zone_id: zone_id_of(hosted_zone)).resource_record_sets
+        results = []
+        @client.list_resource_record_sets(hosted_zone_id: zone_id_of(hosted_zone)).each do |records_response|
+          results << records_response.data.resource_record_sets
+        end
+        results.flatten
       end
 
       def records
