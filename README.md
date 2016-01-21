@@ -49,7 +49,7 @@ You need to set AWS credentials.
 ```bash
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-export AWS_DEFAULT_REGION=xx-yyyy-0
+export AWS_REGION=xx-yyyy-0
 ```
 
 You can also specify credential profile in `~/.aws/credentials` by `--profile` option.
@@ -326,7 +326,7 @@ $ docker run \
     --name terraforming \
     -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
     -e AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
-    -e AWS_DEFAULT_REGION=xx-yyyy-0 \
+    -e AWS_REGION=xx-yyyy-0 \
     quay.io/dtan4/terraforming:latest \
     terraforming s3
 ```
