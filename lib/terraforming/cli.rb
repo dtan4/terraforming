@@ -120,6 +120,11 @@ module Terraforming
       execute(Terraforming::Resource::RDS, options)
     end
 
+    desc "redshift", "Redshift"
+    def redshift
+      execute(Terraforming::Resource::Redshift, options)
+    end
+
     desc "rt", "Route Table"
     def rt
       execute(Terraforming::Resource::RouteTable, options)

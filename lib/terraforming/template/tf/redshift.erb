@@ -1,0 +1,20 @@
+<% clusters.each do |cluster| -%>
+resource "aws_redshift_cluster" "<%= cluster.cluster_identifier %>" {
+    cluster_identifier                  = "<%= module_name_of(cluster) %>"
+    database_name                       = "<%= cluster.db_name %>"
+    cluster_type                        = "<%= cluster.number_of_nodes == 1 ? "single-node" : "multi-node" %>"
+    node_type                           = "<%= cluster.node_type %>"
+    master_password                     = "xxxxxxxx"
+    master_username                     = "<%= cluster.master_username %>"
+    availability_zone                   = "<%= cluster.availability_zone %>"
+    preferred_maintenance_window        = "<%= cluster.preferred_maintenance_window %>"
+    cluster_parameter_group_name        = "<%= cluster.cluster_parameter_groups[0].parameter_group_name %>"
+    automated_snapshot_retention_period = "<%= cluster.automated_snapshot_retention_period %>"
+    port                                = "<%= cluster.endpoint.port %>"
+    cluster_version                     = "<%= cluster.cluster_version %>"
+    allow_version_upgrade               = "<%= cluster.allow_version_upgrade %>"
+    number_of_nodes                     = "<%= cluster.number_of_nodes %>"
+    publicly_accessible                 = "<%= cluster.publicly_accessible %>"
+    encrypted                           = "<%= cluster.encrypted %>"
+}
+<% end -%>
