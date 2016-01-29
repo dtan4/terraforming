@@ -120,8 +120,8 @@ module Terraforming
       execute(Terraforming::Resource::RDS, options)
     end
 
-    desc "redshift", "Redshift"
-    def redshift
+    desc "rs", "Redshift"
+    def rs
       execute(Terraforming::Resource::Redshift, options)
     end
 
