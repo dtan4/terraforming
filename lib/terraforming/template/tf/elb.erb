@@ -32,6 +32,14 @@ resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
         timeout             = <%= load_balancer.health_check.timeout %>
     }
 
+<%- if access_logs?(load_balancer) -%>
+    access_logs {
+        bucket        = "<%= load_balancer_attributes.access_log.s3_bucket_name %>"
+        bucket_prefix = "<%= load_balancer_attributes.access_log.s3_bucket_prefix %>"
+        interval      = <%= load_balancer_attributes.access_log.emit_interval %>
+    }
+
+<% end -%>
     tags {
 <% @client.describe_tags(load_balancer_names: [load_balancer.load_balancer_name]).tag_descriptions.first.tags.each do |tag| -%>
         <%= tag.key %> = "<%= tag.value %>"

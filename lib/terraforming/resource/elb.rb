@@ -27,6 +27,10 @@ module Terraforming
             "connection_draining" => load_balancer_attributes.connection_draining.enabled.to_s,
             "connection_draining_timeout" => load_balancer_attributes.connection_draining.timeout.to_s,
             "cross_zone_load_balancing" => load_balancer_attributes.cross_zone_load_balancing.enabled.to_s,
+            "access_log" => load_balancer_attributes.access_log.enabled.to_s,
+            "access_log_bucket" => load_balancer_attributes.access_log.s3_bucket_name,
+            "access_log_bucket_prefix" => load_balancer_attributes.access_log.s3_bucket_prefix,
+            "access_log_interval" => load_balancer_attributes.access_log.emit_interval.to_s,
             "dns_name" => load_balancer.dns_name,
             "id" => load_balancer.load_balancer_name,
             "idle_timeout" => load_balancer_attributes.connection_settings.idle_timeout.to_s,
@@ -171,6 +175,10 @@ module Terraforming
 
       def vpc_elb?(load_balancer)
         load_balancer.vpc_id != ""
+      end
+ 
+      def access_logs?(load_balancer)
+        load_balancer_attributes_of(load_balancer).access_log.enabled
       end
     end
   end
