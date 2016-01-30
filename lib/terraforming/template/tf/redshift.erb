@@ -1,7 +1,9 @@
 <% clusters.each do |cluster| -%>
 resource "aws_redshift_cluster" "<%= cluster.cluster_identifier %>" {
     cluster_identifier                  = "<%= cluster.cluster_identifier %>"
+<%- if cluster.db_name -%>
     database_name                       = "<%= cluster.db_name %>"
+<%- end -%>
     cluster_type                        = "<%= cluster.number_of_nodes == 1 ? "single-node" : "multi-node" %>"
     node_type                           = "<%= cluster.node_type %>"
     master_password                     = "xxxxxxxx"

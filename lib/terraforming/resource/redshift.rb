@@ -23,7 +23,6 @@ module Terraforming
         clusters.inject({}) do |resources, cluster|
           attributes = {
             "cluster_identifier"                  => cluster.cluster_identifier,
-            "database_name"                       => cluster.db_name,
             "cluster_type"                        => cluster.number_of_nodes == 1 ? "single-node" : "multi-node",
             "node_type"                           => cluster.node_type,
             "master_password"                     => "xxxxxxxx",
@@ -39,6 +38,8 @@ module Terraforming
             "publicly_accessible"                 => cluster.publicly_accessible.to_s,
             "encrypted"                           => cluster.encrypted.to_s,
           }
+          attributes["database_name"] = cluster.db_name if cluster.db_name
+
           resources["aws_redshift_cluster.#{module_name_of(cluster)}"] = {
             "type" => "aws_redshift_cluster",
             "primary" => {
