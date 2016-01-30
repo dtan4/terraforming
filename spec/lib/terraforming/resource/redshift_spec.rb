@@ -122,6 +122,7 @@ resource "aws_redshift_cluster" "test" {
               "primary" => {
                 "id" => "test",
                 "attributes" => {
+                  "cluster_identifier"                  => "test",
                   "database_name"                       => "testdb",
                   "cluster_type"                        => "multi-node",
                   "node_type"                           => "dc1.large",

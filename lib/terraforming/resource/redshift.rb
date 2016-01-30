@@ -22,6 +22,7 @@ module Terraforming
       def tfstate
         clusters.inject({}) do |resources, cluster|
           attributes = {
+            "cluster_identifier"                  => cluster.cluster_identifier,
             "database_name"                       => cluster.db_name,
             "cluster_type"                        => cluster.number_of_nodes == 1 ? "single-node" : "multi-node",
             "node_type"                           => cluster.node_type,
