@@ -95,6 +95,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
+    desc "igw", "Internet Gateway"
+    def igw
+      execute(Terraforming::Resource::InternetGateway, options)
+    end
+
     desc "nacl", "Network ACL"
     def nacl
       execute(Terraforming::Resource::NetworkACL, options)
