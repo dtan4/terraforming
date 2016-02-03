@@ -86,6 +86,7 @@ Commands:
   terraforming iamrp           # IAM Role Policy
   terraforming iamu            # IAM User
   terraforming iamup           # IAM User Policy
+  terraforming igw             # Internet Gateway
   terraforming nacl            # Network ACL
   terraforming r53r            # Route53 Record
   terraforming r53z            # Route53 Hosted Zone

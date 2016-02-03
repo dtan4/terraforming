@@ -158,6 +158,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "igw" do
+        let(:klass)   { Terraforming::Resource::InternetGateway }
+        let(:command) { :igw }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "nacl" do
         let(:klass)   { Terraforming::Resource::NetworkACL }
         let(:command) { :nacl }
