@@ -208,7 +208,7 @@ resource "aws_autoscaling_group" "piyo" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
             "aws_autoscaling_group.hoge" => {
               "type" => "aws_autoscaling_group",
@@ -255,6 +255,37 @@ resource "aws_autoscaling_group" "piyo" {
                   "min_size" => "1",
                   "name" => "fuga",
                   "tag.#" => "0",
+                  "termination_policies.#" => "0",
+                  "vpc_zone_identifier.#" => "2",
+                },
+                "meta" => {
+                  "schema_version" => "1"
+                }
+              }
+            },
+            "aws_autoscaling_group.piyo" => {
+              "type" => "aws_autoscaling_group",
+              "primary" => {
+                "id" => "piyo",
+                "attributes" => {
+                  "availability_zones.#" => "0",
+                  "default_cooldown" => "300",
+                  "desired_capacity" => "1",
+                  "health_check_grace_period" => "300",
+                  "health_check_type" => "EC2",
+                  "id" => "piyo",
+                  "launch_configuration" => "piyo-lc",
+                  "load_balancers.#" => "0",
+                  "max_size" => "2",
+                  "min_size" => "1",
+                  "name" => "piyo",
+                  "tag.#" => "2",
+                  "tag.3921462319.key" => "foo1",
+                  "tag.3921462319.propagate_at_launch" => "true",
+                  "tag.3921462319.value" => "bar",
+                  "tag.1379189922.key" => "app",
+                  "tag.1379189922.propagate_at_launch" => "true",
+                  "tag.1379189922.value" => "sample",
                   "termination_policies.#" => "0",
                   "vpc_zone_identifier.#" => "2",
                 },
