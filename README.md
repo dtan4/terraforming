@@ -76,6 +76,7 @@ Commands:
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
   terraforming ecsn            # ElastiCache Subnet Group
+  terraforming eip             # EIP
   terraforming elb             # ELB
   terraforming iamg            # IAM Group
   terraforming iamgm           # IAM Group Membership
@@ -88,6 +89,7 @@ Commands:
   terraforming iamup           # IAM User Policy
   terraforming igw             # Internet Gateway
   terraforming nacl            # Network ACL
+  terraforming nif             # Network Interface
   terraforming r53r            # Route53 Record
   terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
