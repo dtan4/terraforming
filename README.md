@@ -93,6 +93,7 @@ Commands:
   terraforming r53r            # Route53 Record
   terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
+  terraforming rs              # Redshift
   terraforming rt              # Route Table
   terraforming rta             # Route Table Association
   terraforming s3              # S3

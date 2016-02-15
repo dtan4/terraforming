@@ -200,6 +200,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "rs" do
+        let(:klass)   { Terraforming::Resource::Redshift }
+        let(:command) { :rs }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "rt" do
         let(:klass)   { Terraforming::Resource::RouteTable }
         let(:command) { :rt }
