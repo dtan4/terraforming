@@ -109,6 +109,7 @@ resource "aws_redshift_cluster" "test" {
     number_of_nodes                     = "2"
     publicly_accessible                 = "true"
     encrypted                           = "true"
+    skip_final_snapshot                 = "true"
 }
         EOS
         end
@@ -138,6 +139,7 @@ resource "aws_redshift_cluster" "test" {
                   "number_of_nodes"                     => "2",
                   "publicly_accessible"                 => "true",
                   "encrypted"                           => "true",
+                  "skip_final_snapshot"                 => "true",
                 }
               }
             },

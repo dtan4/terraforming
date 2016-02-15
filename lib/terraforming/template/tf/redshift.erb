@@ -18,5 +18,6 @@ resource "aws_redshift_cluster" "<%= cluster.cluster_identifier %>" {
     number_of_nodes                     = "<%= cluster.number_of_nodes %>"
     publicly_accessible                 = "<%= cluster.publicly_accessible %>"
     encrypted                           = "<%= cluster.encrypted %>"
+    skip_final_snapshot                 = "true"
 }
 <% end -%>

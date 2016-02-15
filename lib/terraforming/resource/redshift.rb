@@ -37,6 +37,7 @@ module Terraforming
             "number_of_nodes"                     => cluster.number_of_nodes.to_s,
             "publicly_accessible"                 => cluster.publicly_accessible.to_s,
             "encrypted"                           => cluster.encrypted.to_s,
+            "skip_final_snapshot"                 => "true",
           }
           attributes["database_name"] = cluster.db_name if cluster.db_name
 
