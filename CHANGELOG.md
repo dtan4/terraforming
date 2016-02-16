@@ -1,3 +1,16 @@
+# [v0.7.0](https://github.com/dtan4/terraforming/releases/tag/v0.6.2) (2016-02-16)
+
+## Resource
+
+- AWS Internet Gateway #164 (thanks @manabusakai)
+- AWS Redshift #161 (thanks @manabusakai)
+
+## Fixed
+
+- Modify AutoScaling Group tags format #167
+- Support paging for Route53 records #160 (thanks @seanodonnell)
+- Support paging for IAM user call #157 (thanks @crazed)
+
 # [v0.6.2](https://github.com/dtan4/terraforming/releases/tag/v0.6.2) (2015-12-11)
 
 ## Fixed
