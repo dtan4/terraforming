@@ -155,6 +155,11 @@ module Terraforming
       execute(Terraforming::Resource::Subnet, options)
     end
 
+    desc "sqs", "SQS"
+    def sqs
+      execute(Terraforming::Resource::SQS, options)
+    end
+
     desc "vpc", "VPC"
     def vpc
       execute(Terraforming::Resource::VPC, options)

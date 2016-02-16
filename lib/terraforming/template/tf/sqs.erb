@@ -1,0 +1,11 @@
+<% queues.each do |queue| -%>
+resource "aws_sqs_queue" "<%= module_name_of(queue) %>" {
+    name                       = "<%= module_name_of(queue) %>"
+    visibility_timeout_seconds = <%= queue["VisibilityTimeout"] %>
+    message_retention_seconds  = <%= queue["MessageRetentionPeriod"] %>
+    max_message_size           = <%= queue["MaximumMessageSize"] %>
+    delay_seconds              = <%= queue["DelaySeconds"] %>
+    receive_wait_time_seconds  = <%= queue["ReceiveMessageWaitTimeSeconds"] %>
+}
+
+<% end -%>
