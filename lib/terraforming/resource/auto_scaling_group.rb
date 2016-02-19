@@ -67,7 +67,7 @@ module Terraforming
       private
 
       def auto_scaling_groups
-        @client.describe_auto_scaling_groups.auto_scaling_groups
+        @client.describe_auto_scaling_groups.map(&:auto_scaling_groups).flatten
       end
 
       def module_name_of(group)
