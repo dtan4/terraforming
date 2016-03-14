@@ -26,6 +26,8 @@ module Terraforming
           "MessageRetentionPeriod"                => "345600",
           "DelaySeconds"                          => "10",
           "ReceiveMessageWaitTimeSeconds"         => "10",
+          "Policy"                                => "{\"Version\":\"2012-10-17\",\"Id\":\"arn:aws:sqs:ap-northeast-1:123456789012:test/SQSDefaultPolicy\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::987654321098:root\"},\"Action\":\"SQS:*\",\"Resource\":\"arn:aws:sqs:ap-northeast-1:123456789012:test\"}]}",
+          "RedrivePolicy"                         => "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-northeast-1:123456789012:dead\",\"maxReceiveCount\":3}",
         }
       end
 
@@ -44,6 +46,28 @@ resource "aws_sqs_queue" "test" {
     max_message_size           = 262144
     delay_seconds              = 10
     receive_wait_time_seconds  = 10
+    policy                     = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "arn:aws:sqs:ap-northeast-1:123456789012:test/SQSDefaultPolicy",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::987654321098:root"
+      },
+      "Action": "SQS:*",
+      "Resource": "arn:aws:sqs:ap-northeast-1:123456789012:test"
+    }
+  ]
+}
+POLICY
+    redrive_policy             = <<POLICY
+{
+  "deadLetterTargetArn": "arn:aws:sqs:ap-northeast-1:123456789012:dead",
+  "maxReceiveCount": 3
+}
+POLICY
 }
 
         EOS
@@ -66,6 +90,8 @@ resource "aws_sqs_queue" "test" {
                   "max_message_size"           => "262144",
                   "delay_seconds"              => "10",
                   "receive_wait_time_seconds"  => "10",
+                  "policy"                     => "{\"Version\":\"2012-10-17\",\"Id\":\"arn:aws:sqs:ap-northeast-1:123456789012:test/SQSDefaultPolicy\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::987654321098:root\"},\"Action\":\"SQS:*\",\"Resource\":\"arn:aws:sqs:ap-northeast-1:123456789012:test\"}]}",
+                  "redrive_policy"             => "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-northeast-1:123456789012:dead\",\"maxReceiveCount\":3}",
                 }
               }
             }

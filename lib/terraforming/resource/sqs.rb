@@ -30,6 +30,8 @@ module Terraforming
             "max_message_size"           => queue["MaximumMessageSize"],
             "delay_seconds"              => queue["DelaySeconds"],
             "receive_wait_time_seconds"  => queue["ReceiveMessageWaitTimeSeconds"],
+            "policy"                     => queue.key?("Policy") ? queue["Policy"] : "",
+            "redrive_policy"             => queue.key?("RedrivePolicy") ? queue["RedrivePolicy"] : "",
           }
           resources["aws_sqs_queue.#{module_name_of(queue)}"] = {
             "type" => "aws_sqs_queue",
