@@ -230,7 +230,7 @@ resource "aws_elb" "fuga" {
     }
 
     tags {
-        name = "elb-1"
+        "name" = "elb-1"
     }
 }
 
