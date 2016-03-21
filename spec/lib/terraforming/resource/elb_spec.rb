@@ -199,7 +199,7 @@ resource "aws_elb" "hoge" {
     }
 
     tags {
-        name = "elb-1"
+        "name" = "elb-1"
     }
 }
 
