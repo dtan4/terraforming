@@ -105,7 +105,7 @@ module Terraforming
             instance_type: "t2.micro",
             monitoring: { state: "enabled" },
             launch_time: Time.parse("2015-03-12 01:23:45 UTC"),
-            placement: { availability_zone: "ap-northeast-1b", group_name: "", tenancy: "default" },
+            placement: { availability_zone: "ap-northeast-1b", group_name: "pg-1", tenancy: "default" },
             subnet_id: "",
             vpc_id: "vpc-5678efgh",
             private_ip_address: "10.0.0.101",
@@ -347,6 +347,7 @@ resource "aws_instance" "i-5678efgh" {
     availability_zone           = "ap-northeast-1b"
     ebs_optimized               = false
     instance_type               = "t2.micro"
+    placement_group             = "pg-1"
     monitoring                  = true
     key_name                    = "hoge-key"
     security_groups             = ["default"]
@@ -434,6 +435,7 @@ resource "aws_instance" "i-9012ijkl" {
                   "id" => "i-5678efgh",
                   "instance_type" => "t2.micro",
                   "monitoring" => "true",
+                  "placement_group" => "pg-1",
                   "private_dns" => "ip-10-0-0-101.ap-northeast-1.compute.internal",
                   "private_ip" => "10.0.0.101",
                   "public_dns" => "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",

@@ -45,6 +45,9 @@ module Terraforming
             "vpc_security_group_ids.#"=> in_vpc ? instance.security_groups.length.to_s : "0",
           }
 
+          placement_group = instance.placement.group_name
+          attributes["placement_group"] = placement_group unless placement_group.empty?
+
           attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
 
           resources["aws_instance.#{module_name_of(instance)}"] = {
