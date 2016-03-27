@@ -10,6 +10,11 @@ module Terraforming
       execute(Terraforming::Resource::AutoScalingGroup, options)
     end
 
+    desc "cwa", "CloudWatch Alarm"
+    def cwa
+      execute(Terraforming::Resource::CloudWatchAlarm, options)
+    end
+
     desc "dbpg", "Database Parameter Group"
     def dbpg
       execute(Terraforming::Resource::DBParameterGroup, options)
