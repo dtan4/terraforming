@@ -235,6 +235,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "sqs" do
+        let(:klass)   { Terraforming::Resource::SQS }
+        let(:command) { :sqs }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "sn" do
         let(:klass)   { Terraforming::Resource::Subnet }
         let(:command) { :sn }

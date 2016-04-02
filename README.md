@@ -99,6 +99,7 @@ Commands:
   terraforming s3              # S3
   terraforming sg              # Security Group
   terraforming sn              # Subnet
+  terraforming sqs             # SQS
   terraforming vpc             # VPC
 ```
 
