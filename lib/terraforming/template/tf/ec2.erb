@@ -4,7 +4,7 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
     availability_zone           = "<%= instance.placement.availability_zone %>"
     ebs_optimized               = <%= instance.ebs_optimized %>
     instance_type               = "<%= instance.instance_type %>"
-<%- if !instance.placement.group_name.empty? -%>
+<%- unless instance.placement.group_name.empty? -%>
     placement_group             = "<%= instance.placement.group_name %>"
 <%- end -%>
     monitoring                  = <%= monitoring_state(instance) %>
