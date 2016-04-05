@@ -95,6 +95,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
+    desc "lc", "Launch Configuration"
+    def lc
+      execute(Terraforming::Resource::LaunchConfiguration, options)
+    end
+
     desc "igw", "Internet Gateway"
     def igw
       execute(Terraforming::Resource::InternetGateway, options)
