@@ -45,7 +45,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_subnet" "hoge" {
+resource "aws_subnet" "subnet-1234abcd-hoge" {
     vpc_id                  = "vpc-1234abcd"
     cidr_block              = "10.0.8.0/21"
     availability_zone       = "ap-northeast-1c"
@@ -56,7 +56,7 @@ resource "aws_subnet" "hoge" {
     }
 }
 
-resource "aws_subnet" "fuga" {
+resource "aws_subnet" "subnet-5678efgh-fuga" {
     vpc_id                  = "vpc-5678efgh"
     cidr_block              = "10.0.8.0/21"
     availability_zone       = "ap-northeast-1c"
@@ -74,7 +74,7 @@ resource "aws_subnet" "fuga" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_subnet.hoge" => {
+            "aws_subnet.subnet-1234abcd-hoge" => {
               "type" => "aws_subnet",
               "primary" => {
                 "id" => "subnet-1234abcd",
@@ -88,7 +88,7 @@ resource "aws_subnet" "fuga" {
                 }
               }
             },
-            "aws_subnet.fuga" => {
+            "aws_subnet.subnet-5678efgh-fuga" => {
               "type" => "aws_subnet",
               "primary" => {
                 "id" => "subnet-5678efgh",
