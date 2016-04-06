@@ -4,6 +4,7 @@ module Terraforming
     class_option :overwrite, type: :boolean, desc: "Overwrite existng tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
+    class_option :region, type: :string, desc: "AWS region"
 
     desc "asg", "AutoScaling Group"
     def asg
@@ -169,6 +170,7 @@ module Terraforming
 
     def execute(klass, options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
+      Aws.config[:region] = options[:region] if options[:region]
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]
