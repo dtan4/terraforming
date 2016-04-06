@@ -36,8 +36,11 @@ module Terraforming
             "tags.#" => "0",
           }
 
-          attributes["port"] =
-            cache_cluster.configuration_endpoint.port.to_s if cache_cluster.configuration_endpoint
+          attributes["port"] = if cache_cluster.configuration_endpoint
+            cache_cluster.configuration_endpoint.port.to_s
+          else
+            cache_cluster.cache_nodes[0].endpoint.port.to_s
+          end
 
           resources["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
             "type" => "aws_elasticache_cluster",
