@@ -176,7 +176,7 @@ resource "aws_launch_configuration" "launch-234567891" {
                   "root_block_device.#" => "1",
                   "ebs_block_device.#" => "0",
                   "ephemeral_block_device.#" => "0",
-                  "security_groups.1234567890" => "sg-1234abcd"
+                  "security_groups.550527283" => "sg-1234abcd"
                 }
               }
             },
@@ -197,7 +197,7 @@ resource "aws_launch_configuration" "launch-234567891" {
                   "root_block_device.#" => "1",
                   "ebs_block_device.#" => "1",
                   "ephemeral_block_device.#" => "0",
-                  "security_groups.1234567890" => "sg-1234abcd"
+                  "security_groups.550527283" => "sg-1234abcd"
                 }
               }
             }

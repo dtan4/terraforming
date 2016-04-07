@@ -37,13 +37,9 @@ module Terraforming
             "ephemeral_block_device.#" => ephemeral_block_device_count(lc).to_s
           }
 
-          # Terraform seems to force recreate resource because security groups
-          # were not defined.  The temporary hashes are updated on the
-          # next plan phase.
-          hash = 1234567890
           lc.security_groups.each do |sg|
+            hash = hash_security_group(sg)
             attributes["security_groups.#{hash}"] = sg
-            hash += 1
           end
 
           attributes["iam_instance_profile"] = lc.iam_instance_profile if lc.iam_instance_profile
@@ -93,6 +89,10 @@ module Terraforming
         launch_configuration.block_device_mappings.select do |volume|
           ephemeral_block_device?(volume)
         end.length
+      end
+
+      def hash_security_group(name)
+        Zlib.crc32(name)
       end
 
       def launch_configurations
