@@ -78,7 +78,7 @@ module Terraforming
                 cache_node_create_time: Time.parse("2014-08-28 12:51:55 UTC"),
                 endpoint: {
                   address: "fuga.def456.0001.apne1.cache.amazonaws.com",
-                  port: 11211
+                  port: 6379
                 },
                 parameter_group_status: "in-sync",
                 customer_availability_zone: "ap-northeast-1b"
@@ -116,6 +116,7 @@ resource "aws_elasticache_cluster" "fuga" {
     node_type            = "cache.t2.micro"
     num_cache_nodes      = 1
     parameter_group_name = "default.redis2.8"
+    port                 = 6379
     security_group_names = ["sg-hoge"]
 }
 
@@ -139,11 +140,11 @@ resource "aws_elasticache_cluster" "fuga" {
                   "node_type" => "cache.m1.small",
                   "num_cache_nodes" => "1",
                   "parameter_group_name" => "default.memcached1.4",
-                  "port" => "11211",
                   "security_group_ids.#" => "1",
                   "security_group_names.#" => "0",
                   "subnet_group_name" => "subnet-hoge",
                   "tags.#" => "0",
+                  "port" => "11211"
                 }
               }
             },
@@ -164,6 +165,7 @@ resource "aws_elasticache_cluster" "fuga" {
                   "security_group_names.#" => "1",
                   "subnet_group_name" => "subnet-fuga",
                   "tags.#" => "0",
+                  "port" => "6379"
                 }
               }
             }
