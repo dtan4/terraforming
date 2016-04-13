@@ -158,6 +158,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "lc" do
+        let(:klass)   { Terraforming::Resource::LaunchConfiguration }
+        let(:command) { :lc }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "igw" do
         let(:klass)   { Terraforming::Resource::InternetGateway }
         let(:command) { :igw }
