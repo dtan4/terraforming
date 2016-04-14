@@ -108,7 +108,7 @@ Commands:
 example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
 ```
 export AWS_REGION=us-west-2
-terraforming | grep terraforming | awk '{print "terraforming", $2, "--profile", "default", ">", "$2.tf";}' | bash
+terraforming | grep terraforming | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
 ```
 
 ### Export tf
