@@ -104,6 +104,15 @@ Commands:
   terraforming vpc             # VPC
 ```
 
+### Export all (example)
+example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
+```
+export AWS_REGION=us-west-2
+terraforming | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
+# remove files that only have 1 empty line (nothing in AWS)
+find . -type f | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
+```
+
 ### Export tf
 
 ```bash
