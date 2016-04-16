@@ -39,7 +39,7 @@ module Terraforming
             name: "hoge.net.",
             type: "A",
             ttl: 3600,
-            weight: nil,
+            weight: "-1",
             set_identifier: "dev",
             resource_records: [
               { value: "123.456.78.90" },
@@ -72,7 +72,7 @@ module Terraforming
             name: '\052.example.net.',
             type: "CNAME",
             ttl: 3600,
-            weight: nil,
+            weight: "-1",
             set_identifier: nil,
             resource_records: [
               { value: "example.com" }
