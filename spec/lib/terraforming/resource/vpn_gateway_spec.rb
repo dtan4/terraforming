@@ -15,6 +15,7 @@ module Terraforming
               vpc_id: "vpc-1234abcd",
               state: "available"
             ],
+            availability_zone: "us-east-1c"
             tags: [],
           },
           {
@@ -23,6 +24,7 @@ module Terraforming
               vpc_id: "vpc-5678efgh",
               state: "available"
             ],
+            availability_zone: "us-east-1d"
             tags: [
               {
                 key: "Name",
@@ -42,14 +44,14 @@ module Terraforming
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_vpn_gateway" "vgw-1234abcd" {
     vpc_id = "vpc-1234abcd"
-
+    availability_zone: "us-east-1c"
     tags {
     }
 }
 
 resource "aws_vpn_gateway" "test" {
     vpc_id = "vpc-5678efgh"
-
+    availability_zone: "us-east-1d"
     tags {
         "Name" = "test"
     }
@@ -69,6 +71,7 @@ resource "aws_vpn_gateway" "test" {
                 "attributes" => {
                   "id"     => "vgw-1234abcd",
                   "vpc_id" => "vpc-1234abcd",
+                  "availability_zone" => "us-east-1c",
                   "tags.#" => "0",
                 }
               }
@@ -80,6 +83,7 @@ resource "aws_vpn_gateway" "test" {
                 "attributes" => {
                   "id"     => "vgw-5678efgh",
                   "vpc_id" => "vpc-5678efgh",
+                  "availability_zone" => "us-east-1d",
                   "tags.#" => "1",
                 }
               }
