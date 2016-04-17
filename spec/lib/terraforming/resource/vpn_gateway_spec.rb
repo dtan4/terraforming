@@ -15,7 +15,7 @@ module Terraforming
               vpc_id: "vpc-1234abcd",
               state: "available"
             ],
-            availability_zone: "us-east-1c"
+            availability_zone: "us-east-1c",
             tags: [],
           },
           {
@@ -24,7 +24,7 @@ module Terraforming
               vpc_id: "vpc-5678efgh",
               state: "available"
             ],
-            availability_zone: "us-east-1d"
+            availability_zone: "us-east-1d",
             tags: [
               {
                 key: "Name",
