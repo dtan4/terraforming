@@ -34,7 +34,7 @@ module Terraforming
           attributes["alias.#"] = "1" if record.alias_target
           attributes["records.#"] = record.resource_records.length.to_s unless record.resource_records.empty?
           attributes["ttl"] = record.ttl.to_s if record.ttl
-          attributes["weight"] = record.weight.to_s if record.weight
+          attributes["weight"] = record.weight ? record.weight.to_s : "-1"
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 
           resources["aws_route53_record.#{module_name_of(record)}"] = {

@@ -145,6 +145,7 @@ resource "aws_route53_record" "-052-example-net-CNAME" {
                   "records.#" => "2",
                   "ttl" => "3600",
                   "set_identifier" => "dev",
+                  "weight" => "-1",
                 },
               }
             },
@@ -173,6 +174,7 @@ resource "aws_route53_record" "-052-example-net-CNAME" {
                   "zone_id" => "CDEFGHIJKLMNOP",
                   "records.#" => "1",
                   "ttl" => "3600",
+                  "weight" => "-1",
                 },
               }
             },
