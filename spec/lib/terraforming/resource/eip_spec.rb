@@ -12,7 +12,7 @@ module Terraforming
           {
             domain: "vpc",
             instance_id: "i-12345678",
-            network_interface_id: "eni-12345678",
+            network_interface: "eni-12345678",
             association_id: "eipassoc-98765432",
             network_interface_owner_id: "123456789012",
             public_ip: "12.34.56.78",
@@ -21,7 +21,7 @@ module Terraforming
           },
           {
             domain: "vpc",
-            network_interface_id: "eni-23456789",
+            network_interface: "eni-23456789",
             association_id: "eipassoc-87654321",
             network_interface_owner_id: "234567890123",
             public_ip: "2.2.2.2",
@@ -49,7 +49,7 @@ resource "aws_eip" "eipalloc-87654321" {
 }
 
 resource "aws_eip" "eipalloc-76543210" {
-    network_interface_id = "eni-23456789"
+    network_interface = "eni-23456789"
     vpc                  = true
 }
 
