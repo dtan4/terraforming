@@ -26,7 +26,7 @@ module Terraforming
             "domain" => addr.domain,
             "id" => addr.allocation_id,
             "instance" => addr.instance_id,
-            "network_interface_id" => addr.network_interface,
+            "network_interface_id" => addr.network_interface_id,
             "private_ip" => addr.private_ip_address,
             "public_ip" => addr.public_ip,
             "vpc" => is_vpc?(addr).to_s,
