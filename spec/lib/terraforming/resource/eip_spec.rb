@@ -73,7 +73,7 @@ resource "aws_eip" "eipalloc-33333333" {
                     "domain" => "vpc",
                     "id" => "eipalloc-87654321",
                     "instance" => "i-12345678",
-                    "network_interface_id" => "eni-12345678",
+                    "network_interface" => "eni-12345678",
                     "private_ip" => "1.1.1.1",
                     "public_ip" => "12.34.56.78",
                     "vpc" => "true"
@@ -88,7 +88,7 @@ resource "aws_eip" "eipalloc-33333333" {
                     "association_id" => "eipassoc-87654321",
                     "domain" => "vpc",
                     "id" => "eipalloc-76543210",
-                    "network_interface_id" => "eni-23456789",
+                    "network_interface" => "eni-23456789",
                     "private_ip" => "9.9.9.9",
                     "public_ip" => "2.2.2.2",
                     "vpc" => "true"
