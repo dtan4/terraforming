@@ -45,7 +45,7 @@ module Terraforming
       private
 
       def iam_roles
-        @client.list_roles.roles
+        @client.list_roles.collect {|r| r.roles}.flatten
       end
     end
   end
