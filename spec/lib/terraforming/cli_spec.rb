@@ -262,6 +262,14 @@ module Terraforming
 
         it_behaves_like "CLI examples"
       end
+      
+      describe "vgw" do
+        let(:klass)   { Terraforming::Resource::VPNGateway }
+        let(:command) { :vgw }
+
+        it_behaves_like "CLI examples"
+      end
+      
     end
 
     context "flush to stdout" do

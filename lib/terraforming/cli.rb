@@ -171,6 +171,12 @@ module Terraforming
       execute(Terraforming::Resource::VPC, options)
     end
 
+    desc "vgw", "VPN Gateway"
+    def vgw
+      execute(Terraforming::Resource::VPNGateway, options)
+    end
+
+
     private
 
     def execute(klass, options)
