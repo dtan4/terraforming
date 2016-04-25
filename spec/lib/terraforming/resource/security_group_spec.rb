@@ -95,6 +95,24 @@ module Terraforming
                 ],
                 ip_ranges: []
               },
+              {
+                ip_protocol: "tcp",
+                from_port: 7777,
+                to_port: 7777,
+                user_id_group_pairs: [
+                  {
+                    user_id: "001122334455",
+                    group_name: "group1",
+                    group_id: "sg-5678efgh"
+                  },
+                  {
+                    user_id: "001122334455",
+                    group_name: "group1",
+                    group_id: "sg-7777abcd"
+                  }
+                ],
+                ip_ranges: []
+              },
             ],
             ip_permissions_egress: [
               {
@@ -184,6 +202,14 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
         to_port         = 22
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
+        self            = true
+    }
+
+    ingress {
+        from_port       = 7777
+        to_port         = 7777
+        protocol        = "tcp"
+        security_groups = ["sg-7777abcd"]
         self            = true
     }
 
@@ -280,6 +306,14 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                   "ingress.1909903921.security_groups.#" => "0",
                   "ingress.1909903921.self" => "true",
                   "ingress.1909903921.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.#" => "3",
+                  "ingress.1728187046.from_port" => "7777",
+                  "ingress.1728187046.to_port" => "7777",
+                  "ingress.1728187046.protocol" => "tcp",
+                  "ingress.1728187046.cidr_blocks.#" => "0",
+                  "ingress.1728187046.security_groups.#" => "1",
+                  "ingress.1728187046.self" => "true",
+                  "ingress.1728187046.security_groups.1756790741" => "sg-7777abcd"
                 }
               }
             },

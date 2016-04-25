@@ -10,16 +10,18 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
         protocol        = "<%= permission.ip_protocol %>"
-<%- if permission.ip_ranges.length > 0 -%>
+    <%- if permission.ip_ranges.length > 0 -%>
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
-<%- end -%>
-<%- if permission.user_id_group_pairs.length > 0 -%>
-  <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
-  <%- unless self_referenced -%>
-        security_groups = <%= security_groups.inspect %>
-  <%- end -%>
+    <%- end -%>
+    <%- if security_group.length > 0 -%>
+      <%- if security_groups.length > 0 -%>
+        security_groups = <%= security_groups %>
+      <%- end -%>
+      <%- if permission.user_id_group_pairs.length > 0 -%>
+        <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
         self            = <%= self_referenced %>
-<%- end -%>
+      <%- end -%>
+    <%- end -%>
     }
 
 <% end -%>
