@@ -155,14 +155,14 @@ module Terraforming
       def security_groups_in(permission, security_group)
         permission.user_id_group_pairs.map { |range|
           # EC2-Classic, same account
-          if security_group.owner_id == range.user_id and !range.group_name.nil?
-            next range.group_name
+          if security_group.owner_id == range.user_id && !range.group_name.nil?
+            range.group_name
           # VPC
-          elsif security_group.owner_id == range.user_id and range.group_name.nil?
-            next range.group_id
+          elsif security_group.owner_id == range.user_id && range.group_name.nil?
+            range.group_id
           # EC2-Classic, other account
           else
-            next "#{range.user_id}/#{range.group_name}"
+            "#{range.user_id}/#{range.group_name}"
           end
         }
       end
