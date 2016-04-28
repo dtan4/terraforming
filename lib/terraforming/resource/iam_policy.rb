@@ -26,6 +26,7 @@ module Terraforming
             "id" => policy.arn,
             "name" => policy.policy_name,
             "path" => policy.path,
+            "description" => iam_policy_description(policy),
             "policy" => prettify_policy(version.document, breakline: true, unescape: true),
           }
           resources["aws_iam_policy.#{policy.policy_name}"] = {
@@ -44,6 +45,10 @@ module Terraforming
 
       def iam_policies
         @client.list_policies(scope: "Local").collect {|r| r.policies}.flatten
+      end
+
+      def iam_policy_description(policy)
+        @client.get_policy(policy_arn: policy.arn).policy.description
       end
 
       def iam_policy_version_of(policy)
