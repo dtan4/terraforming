@@ -18,7 +18,8 @@ module Terraforming
             attachment_count: 0,
             is_attachable: true,
             create_date: Time.parse("2015-04-01 12:34:56 UTC"),
-            update_date: Time.parse("2015-05-14 11:25:36 UTC")
+            update_date: Time.parse("2015-05-14 11:25:36 UTC"),
+            description: "hoge",
           },
           {
             policy_name: "fuga_policy",
@@ -29,7 +30,8 @@ module Terraforming
             attachment_count: 1,
             is_attachable: true,
             create_date: Time.parse("2015-04-01 12:00:00 UTC"),
-            update_date: Time.parse("2015-04-26 19:54:56 UTC")
+            update_date: Time.parse("2015-04-26 19:54:56 UTC"),
+            description: "fuga",
           }
         ]
       end
@@ -53,6 +55,7 @@ module Terraforming
       end
 
       before do
+        client.stub_responses(:get_policy, [{ policy: policies[0] }, { policy: policies[1] }])
         client.stub_responses(:list_policies, policies: policies)
         client.stub_responses(:get_policy_version, [{ policy_version: hoge_policy_version } , { policy_version: fuga_policy_version }])
       end
@@ -61,9 +64,10 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_iam_policy" "hoge_policy" {
-    name   = "hoge_policy"
-    path   = "/"
-    policy = <<POLICY
+    name        = "hoge_policy"
+    path        = "/"
+    description = "hoge"
+    policy      = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -80,9 +84,10 @@ POLICY
 }
 
 resource "aws_iam_policy" "fuga_policy" {
-    name   = "fuga_policy"
-    path   = "/system/"
-    policy = <<POLICY
+    name        = "fuga_policy"
+    path        = "/system/"
+    description = "fuga"
+    policy      = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -113,6 +118,7 @@ POLICY
                   "id" => "arn:aws:iam::123456789012:policy/hoge_policy",
                   "name" => "hoge_policy",
                   "path" => "/",
+                  "description" => "hoge",
                   "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
                 }
               }
@@ -125,6 +131,7 @@ POLICY
                   "id" => "arn:aws:iam::345678901234:policy/fuga-policy",
                   "name" => "fuga_policy",
                   "path" => "/system/",
+                  "description" => "fuga",
                   "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
                 }
               }
