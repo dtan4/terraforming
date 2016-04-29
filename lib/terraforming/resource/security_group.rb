@@ -79,7 +79,8 @@ module Terraforming
 
       def permission_attributes_of(security_group, permission, type)
         hashcode = permission_hashcode_of(security_group, permission)
-        security_groups = security_groups_in(permission).reject { |group_id| group_id == security_group.group_id }
+        security_groups = security_groups_in(permission, security_group).reject { |group_name| group_name == security_group.group_name }.reject { |group_id| group_id == security_group.group_id }
+
 
         attributes = {
           "#{type}.#{hashcode}.from_port" => (permission.from_port || 0).to_s,
@@ -138,21 +139,32 @@ module Terraforming
           "#{self_referenced_permission?(security_group, permission).to_s}-"
 
         permission.ip_ranges.each { |range| string << "#{range.cidr_ip}-" }
-        security_groups_in(permission).each { |group| string << "#{group}-" }
+        security_groups_in(permission, security_group).each { |group| string << "#{group}-" }
 
         Zlib.crc32(string)
       end
 
       def self_referenced_permission?(security_group, permission)
-        security_groups_in(permission).include?(security_group.group_id)
+        (security_groups_in(permission, security_group) & [security_group.group_id, security_group.group_name]).any?
       end
 
       def security_groups
         @client.describe_security_groups.security_groups
       end
 
-      def security_groups_in(permission)
-        permission.user_id_group_pairs.map { |range| range.group_id }
+      def security_groups_in(permission, security_group)
+        permission.user_id_group_pairs.map { |range|
+          # EC2-Classic, same account
+          if security_group.owner_id == range.user_id && !range.group_name.nil?
+            range.group_name
+          # VPC
+          elsif security_group.owner_id == range.user_id && range.group_name.nil?
+            range.group_id
+          # EC2-Classic, other account
+          else
+            "#{range.user_id}/#{range.group_name}"
+          end
+        }
       end
 
       def tags_attributes_of(security_group)

@@ -5,7 +5,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
     vpc_id      = "<%= security_group.vpc_id || '' %>"
 
 <% dedup_permissions(security_group.ip_permissions, security_group.group_id).each do |permission| -%>
-  <%- security_groups = security_groups_in(permission).reject { |group_id| group_id == security_group.group_id } -%>
+  <%- security_groups = security_groups_in(permission, security_group).reject { |group_name| group_name == security_group.group_name }.reject { |group_id| group_id == security_group.group_id } -%>
     ingress {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
@@ -15,9 +15,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
   <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
-  <%- unless self_referenced -%>
         security_groups = <%= security_groups.inspect %>
-  <%- end -%>
         self            = <%= self_referenced %>
 <%- end -%>
     }
@@ -34,9 +32,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
   <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
-  <%- unless self_referenced -%>
-        security_groups = <%= security_groups_in(permission).inspect %>
-  <%- end -%>
+        security_groups = <%= security_groups_in(permission, security_group).reject { |group_id| group_id == security_group.group_id }.inspect %>
         self            = <%= self_referenced %>
 <%- end -%>
     }
