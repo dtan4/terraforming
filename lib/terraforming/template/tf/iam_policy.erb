@@ -1,9 +1,10 @@
 <% iam_policies.each do |policy| -%>
   <%- version = iam_policy_version_of(policy) -%>
 resource "aws_iam_policy" "<%= policy.policy_name %>" {
-    name   = "<%= policy.policy_name %>"
-    path   = "<%= policy.path %>"
-    policy = <<POLICY
+    name        = "<%= policy.policy_name %>"
+    path        = "<%= policy.path %>"
+    description = "<%= iam_policy_description(policy) %>"
+    policy      = <<POLICY
 <%= prettify_policy(version.document, unescape: true) %>
 POLICY
 }
