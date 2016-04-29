@@ -24,7 +24,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 
 ## Supported version
 
-Ruby 2.x
+Ruby 2.1 or higher
 
 ## Installation
 
