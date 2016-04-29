@@ -118,7 +118,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_security_group" "sg-1234abcd-hoge" {
+resource "aws_security_group" "hoge" {
     name        = "hoge"
     description = "Group for hoge"
     vpc_id      = ""
@@ -141,7 +141,7 @@ resource "aws_security_group" "sg-1234abcd-hoge" {
 
 }
 
-resource "aws_security_group" "sg-5678efgh-fuga" {
+resource "aws_security_group" "vpc-1234abcd-fuga" {
     name        = "fuga"
     description = "Group for fuga"
     vpc_id      = "vpc-1234abcd"
@@ -185,7 +185,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_security_group.sg-1234abcd-hoge" => {
+            "aws_security_group.hoge" => {
               "type" => "aws_security_group",
               "primary" => {
                 "id" => "sg-1234abcd",
@@ -215,7 +215,7 @@ resource "aws_security_group" "sg-5678efgh-fuga" {
                 }
               }
             },
-            "aws_security_group.sg-5678efgh-fuga" => {
+            "aws_security_group.vpc-1234abcd-fuga" => {
               "type" => "aws_security_group",
               "primary" => {
                 "id" => "sg-5678efgh",
