@@ -15,6 +15,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
+  -  [Example: Export all](#example-export-all)
   -  [Export tf](#export-tf)
   -  [Export tfstate](#export-tfstate)
 - [Run as Docker container](#run-as-docker-container-)
@@ -104,9 +105,9 @@ Commands:
   terraforming vpc             # VPC
 ```
 
-### Export all (example)
-example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
-```
+### Example: Export all
+Example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
+```bash
 export AWS_REGION=us-west-2
 terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
 # remove files that only have 1 empty line (nothing in AWS)
