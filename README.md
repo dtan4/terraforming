@@ -15,9 +15,9 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 - [Installation](#installation)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
-  -  [Example: Export all](#example-export-all)
   -  [Export tf](#export-tf)
   -  [Export tfstate](#export-tfstate)
+    -  [Example: Export all](#example-export-all)
 - [Run as Docker container](#run-as-docker-container-)
 - [Development](#development)
 - [Contributing](#contributing)
@@ -103,15 +103,6 @@ Commands:
   terraforming sn              # Subnet
   terraforming sqs             # SQS
   terraforming vpc             # VPC
-```
-
-### Example: Export all
-Example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
-```bash
-export AWS_REGION=us-west-2
-terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
-# remove files that only have 1 empty line (nothing in AWS)
-find . -type f | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
 ```
 
 ### Export tf
@@ -322,6 +313,15 @@ No changes. Infrastructure is up-to-date. This means that Terraform
 could not detect any differences between your configuration and
 the real physical resources that exist. As a result, Terraform
 doesn't need to do anything.
+```
+
+#### Example: Export all
+Example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
+```bash
+export AWS_REGION=us-west-2
+terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
+# remove files that only have 1 empty line (nothing in AWS)
+find . -type f | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
 ```
 
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
