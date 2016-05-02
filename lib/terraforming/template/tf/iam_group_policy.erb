@@ -1,5 +1,5 @@
 <% iam_group_policies.each do |policy| -%>
-resource "aws_iam_group_policy" "<%= policy.policy_name %>" {
+resource "aws_iam_group_policy" "<%= unique_name(policy) %>" {
     name   = "<%= policy.policy_name %>"
     group  = "<%= policy.group_name %>"
     policy = <<POLICY
