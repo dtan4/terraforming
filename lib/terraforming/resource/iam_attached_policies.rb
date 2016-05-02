@@ -49,7 +49,7 @@ module Terraforming
           list = @client.send("list_#{type}s")["#{type}s"]
           list.each do |resource|
             resource_name = resource["#{type}_name"]
-            attached = @client.send("list_attached_#{type}_policies", "#{type}_name": resource_name).attached_policies
+            attached = @client.send("list_attached_#{type}_policies", :"#{type}_name" => resource_name).attached_policies
             attached.each do |policy|
               unless policies.key? policy.policy_name then
                 policies[policy.policy_name] = {
