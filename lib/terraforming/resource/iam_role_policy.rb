@@ -27,7 +27,7 @@ module Terraforming
             "policy" => prettify_policy(policy.policy_document, breakline: true, unescape: true),
             "role" => policy.role_name,
           }
-          resources["aws_iam_role_policy.#{policy.policy_name}"] = {
+          resources["aws_iam_role_policy.#{unique_name(policy)}"] = {
             "type" => "aws_iam_role_policy",
             "primary" => {
               "id" => iam_role_policy_id_of(policy),
@@ -40,6 +40,10 @@ module Terraforming
       end
 
       private
+
+      def unique_name(policy)
+        "#{policy.role_name}_#{policy.policy_name}"
+      end
 
       def iam_roles
         @client.list_roles.roles
