@@ -95,6 +95,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "iamap" do
+        let(:klass)   { Terraforming::Resource::IAMAttachedPolicies }
+        let(:command) { :iamap }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "iamg" do
         let(:klass)   { Terraforming::Resource::IAMGroup }
         let(:command) { :iamg }
