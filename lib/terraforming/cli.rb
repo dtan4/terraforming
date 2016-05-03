@@ -177,8 +177,15 @@ module Terraforming
     def execute(klass, options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
-      result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
-
+      filter = JSON.parse(options[:filters])
+      if filtering_enabled?(klass)
+        puts "filtering enabled!"
+        result = options[:tfstate] ? tfstate(klass, options[:merge], filter) : tf(klass, filter)
+      else
+        puts "filtering NOT enabled"
+        result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
+      end
+        
       if options[:tfstate] && options[:merge] && options[:overwrite]
         open(options[:merge], "w+") do |f|
           f.write(result)
@@ -189,14 +196,14 @@ module Terraforming
       end
     end
 
-    def tf(klass)
-      klass.tf
+    def tf(klass, filters)
+      klass.tf(filters)
     end
 
-    def tfstate(klass, tfstate_path)
+    def tfstate(klass, tfstate_path, filters)
       tfstate = tfstate_path ? JSON.parse(open(tfstate_path).read) : tfstate_skeleton
       tfstate["serial"] = tfstate["serial"] + 1
-      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
+      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate(filters))
       JSON.pretty_generate(tfstate)
     end
 
