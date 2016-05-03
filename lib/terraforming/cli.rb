@@ -6,6 +6,7 @@ module Terraforming
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
 
+
     desc "asg", "AutoScaling Group"
     def asg
       execute(Terraforming::Resource::AutoScalingGroup, options)
@@ -197,6 +198,11 @@ module Terraforming
       tfstate["serial"] = tfstate["serial"] + 1
       tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
       JSON.pretty_generate(tfstate)
+    end
+
+    def filtering_enabled?(klass)
+      filtering_enabled = [Terraforming::Resource::EC2]
+      filtering_enabled.include?(klass) ? true : false
     end
 
     def tfstate_skeleton
