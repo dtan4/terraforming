@@ -5,7 +5,7 @@ module Terraforming
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
-
+    class_option :filters, type: :string, desc: "Filter AWS resource"
 
     desc "asg", "AutoScaling Group"
     def asg
