@@ -177,12 +177,11 @@ module Terraforming
     def execute(klass, options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
-      filter = JSON.parse(options[:filters])
+      
+      filter = options[:filters].empty? ? JSON.parse(options[:filters]) : [{}]
       if filtering_enabled?(klass)
-        puts "filtering enabled!"
         result = options[:tfstate] ? tfstate(klass, options[:merge], filter) : tf(klass, filter)
       else
-        puts "filtering NOT enabled"
         result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
       end
         
