@@ -3,16 +3,17 @@ module Terraforming
     class EC2
       include Terraforming::Util
 
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
+      def self.tf(filters, client: Aws::EC2::Client.new)
+        self.new(client, filters).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(filters, client: Aws::EC2::Client.new)
+        self.new(client, filters).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, filters)
         @client = client
+        @filters = filters
       end
 
       def tf
@@ -110,7 +111,7 @@ module Terraforming
       end
 
       def instances
-        @client.describe_instances.reservations.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
+        @client.describe_instances({filters: @filters}).reservations.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
       end
 
       def module_name_of(instance)
