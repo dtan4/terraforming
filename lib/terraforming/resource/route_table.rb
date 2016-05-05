@@ -30,6 +30,8 @@ module Terraforming
           attributes.merge!(routes_attributes_of(route_table))
           attributes.merge!(propagating_vgws_attributes_of(route_table))
 
+
+          attributes.merge!(tags_attributes_of(route_table))
           resources["aws_route_table.#{module_name_of(route_table)}"] = {
             "type" => "aws_route_table",
             "primary" => {
@@ -43,6 +45,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(route_table)
+        tags = route_table.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def routes_of(route_table)
         route_table.routes.reject do |route|

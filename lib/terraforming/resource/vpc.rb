@@ -29,6 +29,8 @@ module Terraforming
             "instance_tenancy" => vpc.instance_tenancy,
             "tags.#" => vpc.tags.length.to_s,
           }
+
+          attributes.merge!(tags_attributes_of(vpc))
           resources["aws_vpc.#{module_name_of(vpc)}"] = {
             "type" => "aws_vpc",
             "primary" => {
@@ -42,6 +44,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(vpc)
+        tags = vpc.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def enable_dns_hostnames?(vpc)
         vpc_attribute(vpc, :enableDnsHostnames).enable_dns_hostnames.value

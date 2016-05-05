@@ -29,6 +29,8 @@ module Terraforming
             "availability_zone" => vpn_gateway.availability_zone,
             "tags.#" => vpn_gateway.tags.length.to_s,
           }
+
+          attributes.merge!(tags_attributes_of(vpn_gateway))
           resources["aws_vpn_gateway.#{module_name_of(vpn_gateway)}"] = {
             "type" => "aws_vpn_gateway",
             "primary" => {
@@ -42,6 +44,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(vpn_gateway)
+        tags = vpn_gateway.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def vpn_gateways
         @client.describe_vpn_gateways.vpn_gateways

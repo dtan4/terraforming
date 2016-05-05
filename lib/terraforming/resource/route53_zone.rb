@@ -34,6 +34,8 @@ module Terraforming
             "vpc_region" => vpc ? vpc.vpc_region : "",
             "zone_id" => zone_id,
           }
+
+          attributes.merge!(tags_attributes_of(hosted_zone))
           resources["aws_route53_zone.#{module_name_of(hosted_zone)}"] = {
             "type" => "aws_route53_zone",
             "primary" => {
@@ -75,6 +77,13 @@ module Terraforming
 
       def private_hosted_zone?(hosted_zone)
         hosted_zone.hosted_zone.config.private_zone
+
+      def tags_attributes_of(hosted_zone)
+        tags = hosted_zone.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
       end
 
       def vpc_of(hosted_zone)

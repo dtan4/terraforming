@@ -30,6 +30,8 @@ module Terraforming
             "subnet_id" => network_interface.subnet_id,
             "tags.#" => network_interface.tag_set.length.to_s,
           }
+
+          attributes.merge!(tags_attributes_of(network_interface))
           resources["aws_network_interface.#{module_name_of(network_interface)}"] = {
             "type" => "aws_network_interface",
             "primary" => {
@@ -50,6 +52,13 @@ module Terraforming
 
       def private_ips_of(network_interface)
         network_interface.private_ip_addresses.map{|addr| addr.private_ip_address }
+
+      def tags_attributes_of(network_interface)
+        tags = network_interface.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
       end
 
       def security_groups_of(network_interface)

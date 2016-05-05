@@ -50,6 +50,8 @@ module Terraforming
 
           attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
 
+
+          attributes.merge!(tags_attributes_of(instance))
           resources["aws_instance.#{module_name_of(instance)}"] = {
             "type" => "aws_instance",
             "primary" => {
@@ -66,6 +68,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(instance)
+        tags = instance.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def block_device_ids_of(instance)
         instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }
