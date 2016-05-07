@@ -51,7 +51,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_iam_group_policy" "hoge_policy" {
+resource "aws_iam_group_policy" "hoge_hoge_policy" {
     name   = "hoge_policy"
     group  = "hoge"
     policy = <<POLICY
@@ -70,7 +70,7 @@ resource "aws_iam_group_policy" "hoge_policy" {
 POLICY
 }
 
-resource "aws_iam_group_policy" "fuga_policy" {
+resource "aws_iam_group_policy" "fuga_fuga_policy" {
     name   = "fuga_policy"
     group  = "fuga"
     policy = <<POLICY
@@ -96,7 +96,7 @@ POLICY
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_iam_group_policy.hoge_policy" => {
+            "aws_iam_group_policy.hoge_hoge_policy" => {
               "type" => "aws_iam_group_policy",
               "primary" => {
                 "id" => "hoge:hoge_policy",
@@ -108,7 +108,7 @@ POLICY
                 }
               }
             },
-            "aws_iam_group_policy.fuga_policy" => {
+            "aws_iam_group_policy.fuga_fuga_policy" => {
               "type" => "aws_iam_group_policy",
               "primary" => {
                 "id" => "fuga:fuga_policy",

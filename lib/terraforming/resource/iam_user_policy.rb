@@ -27,7 +27,7 @@ module Terraforming
             "policy" => prettify_policy(policy.policy_document, breakline: true, unescape: true),
             "user" => policy.user_name,
           }
-          resources["aws_iam_user_policy.#{policy.policy_name}"] = {
+          resources["aws_iam_user_policy.#{unique_name(policy)}"] = {
             "type" => "aws_iam_user_policy",
             "primary" => {
               "id" => iam_user_policy_id_of(policy),
@@ -40,6 +40,10 @@ module Terraforming
       end
 
       private
+
+      def unique_name(policy)
+        "#{policy.user_name}_#{policy.policy_name}"
+      end
 
       def iam_users
         @client.list_users.users

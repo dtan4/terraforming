@@ -53,7 +53,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_iam_role_policy" "hoge_role_policy" {
+resource "aws_iam_role_policy" "hoge_role_hoge_role_policy" {
     name   = "hoge_role_policy"
     role   = "hoge_role"
     policy = <<POLICY
@@ -76,7 +76,7 @@ resource "aws_iam_role_policy" "hoge_role_policy" {
 POLICY
 }
 
-resource "aws_iam_role_policy" "fuga_role_policy" {
+resource "aws_iam_role_policy" "fuga_role_fuga_role_policy" {
     name   = "fuga_role_policy"
     role   = "fuga_role"
     policy = <<POLICY
@@ -101,7 +101,7 @@ POLICY
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_iam_role_policy.hoge_role_policy" => {
+            "aws_iam_role_policy.hoge_role_hoge_role_policy" => {
               "type" => "aws_iam_role_policy",
               "primary" => {
                 "id" => "hoge_role:hoge_role_policy",
@@ -113,7 +113,7 @@ POLICY
                 }
               }
             },
-            "aws_iam_role_policy.fuga_role_policy" => {
+            "aws_iam_role_policy.fuga_role_fuga_role_policy" => {
               "type" => "aws_iam_role_policy",
               "primary" => {
                 "id" => "fuga_role:fuga_role_policy",
