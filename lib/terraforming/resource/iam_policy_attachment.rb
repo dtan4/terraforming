@@ -1,6 +1,6 @@
 module Terraforming
   module Resource
-    class IAMAttachedPolicies
+    class IAMPolicyAttachment
       include Terraforming::Util
 ;
       def self.tf(client: Aws::IAM::Client.new)
@@ -16,7 +16,7 @@ module Terraforming
       end
 
       def tf
-        apply_template(@client, "tf/iam_attached_policies")
+        apply_template(@client, "tf/iam_policy_attachment")
       end
 
       def tfstate
@@ -43,7 +43,7 @@ module Terraforming
 
       private
 
-      def iam_policies_map()
+      def iam_policies_map
         policies = Hash.new
         [:user, :group, :role].each do |type|
           list = @client.send("list_#{type}s")["#{type}s"]
@@ -51,7 +51,7 @@ module Terraforming
             resource_name = resource["#{type}_name"]
             attached = @client.send("list_attached_#{type}_policies", :"#{type}_name" => resource_name).attached_policies
             attached.each do |policy|
-              unless policies.key? policy.policy_name then
+              unless policies.key? policy.policy_name
                 policies[policy.policy_name] = {
                     policy_arn: policy.policy_arn,
                     user:  Set.new,

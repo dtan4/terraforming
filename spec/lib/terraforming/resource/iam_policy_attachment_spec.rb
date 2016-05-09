@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Terraforming
   module Resource
-    describe IAMAttachedPolicies do
+    describe IAMPolicyAttachment do
       let(:client) do
         Aws::IAM::Client.new(stub_responses: true)
       end
