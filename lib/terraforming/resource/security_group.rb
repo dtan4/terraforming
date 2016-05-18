@@ -74,7 +74,11 @@ module Terraforming
       end
 
       def module_name_of(security_group)
-        normalize_module_name("#{security_group.group_id}-#{security_group.group_name}")
+        if security_group.vpc_id.nil?
+          normalize_module_name("#{security_group.group_name}")
+        else
+          normalize_module_name("#{security_group.vpc_id}-#{security_group.group_name}")
+        end
       end
 
       def permission_attributes_of(security_group, permission, type)
