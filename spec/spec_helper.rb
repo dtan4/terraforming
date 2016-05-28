@@ -1,7 +1,9 @@
+require "coveralls"
 require "simplecov"
 
 SimpleCov.start do
   formatter SimpleCov::Formatter::MultiFormatter.new([
+    Coveralls::SimpleCov::Formatter,
     SimpleCov::Formatter::HTMLFormatter,
   ])
 end
