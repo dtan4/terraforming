@@ -107,6 +107,51 @@ module Terraforming
             tags: [
               { key: "Name", value: "fuga" }
             ]
+          },
+          {
+            owner_id: "098765432109",
+            group_name: "piyo",
+            group_id: "sg-9012ijkl",
+            description: "Group for piyo",
+            vpc_id: "vpc-1234abcd",
+            ip_permissions: [
+              {
+                ip_protocol: "tcp",
+                from_port: 22,
+                to_port: 22,
+                user_id_group_pairs: [
+                 {
+                    user_id: "098765432109",
+                    group_name: nil,
+                    group_id: "sg-9012ijkl"
+                  }
+                ],
+                ip_ranges: []
+              },
+              {
+                ip_protocol: "tcp",
+                from_port: 22,
+                to_port: 22,
+                user_id_group_pairs: [],
+                ip_ranges: [
+                  { cidr_ip: "0.0.0.0/0" }
+                ]
+              },
+            ],
+            ip_permissions_egress: [
+              {
+                ip_protocol: "-1",
+                from_port: 1,
+                to_port: 65535,
+                user_id_group_pairs: [],
+                ip_ranges: [
+                  { cidr_ip: "0.0.0.0/0" }
+                ]
+              },
+            ],
+            tags: [
+              { key: "Name", value: "piyo" }
+            ]
           }
         ]
       end
@@ -175,6 +220,33 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
 
     tags {
         "Name" = "fuga"
+    }
+}
+
+resource "aws_security_group" "vpc-1234abcd-piyo" {
+    name        = "piyo"
+    description = "Group for piyo"
+    vpc_id      = "vpc-1234abcd"
+
+    ingress {
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        cidr_blocks     = ["0.0.0.0/0"]
+        security_groups = []
+        self            = true
+    }
+
+
+    egress {
+        from_port       = 1
+        to_port         = 65535
+        protocol        = "-1"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
+    tags {
+        "Name" = "piyo"
     }
 }
 
@@ -251,6 +323,37 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
                   "ingress.1446312017.self" => "false",
                   "ingress.1446312017.security_groups.3311523735" => "sg-1234efgh",
                   "ingress.1446312017.cidr_blocks.0" => "0.0.0.0/0",
+                }
+              }
+            },
+            "aws_security_group.vpc-1234abcd-piyo" => {
+              "type" => "aws_security_group",
+              "primary" => {
+                "id" => "sg-9012ijkl",
+                "attributes" => {
+                  "description" => "Group for piyo",
+                  "id" => "sg-9012ijkl",
+                  "name" => "piyo",
+                  "owner_id" => "098765432109",
+                  "vpc_id" => "vpc-1234abcd",
+                  "tags.#" => "1",
+                  "tags.Name" => "piyo",
+                  "egress.#" => "1",
+                  "egress.1899000807.from_port" => "1",
+                  "egress.1899000807.to_port" => "65535",
+                  "egress.1899000807.protocol" => "-1",
+                  "egress.1899000807.cidr_blocks.#" => "1",
+                  "egress.1899000807.security_groups.#" => "0",
+                  "egress.1899000807.self" => "false",
+                  "egress.1899000807.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.#" => "1",
+                  "ingress.1905676327.from_port" => "22",
+                  "ingress.1905676327.to_port" => "22",
+                  "ingress.1905676327.protocol" => "tcp",
+                  "ingress.1905676327.cidr_blocks.#" => "1",
+                  "ingress.1905676327.security_groups.#" => "0",
+                  "ingress.1905676327.self" => "true",
+                  "ingress.1905676327.cidr_blocks.0" => "0.0.0.0/0",
                 }
               }
             },
