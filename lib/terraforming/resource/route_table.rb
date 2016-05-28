@@ -89,7 +89,7 @@ module Terraforming
                  "#{route.gateway_id}-"
 
         instance_set = false
-        if route.instance_id != ''
+        if !route.instance_id.nil? && route.instance_id != ''
           string << route.instance_id.to_s
           instance_set = true
         end
