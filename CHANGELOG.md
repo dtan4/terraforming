@@ -1,3 +1,32 @@
+# [v0.8.0](https://github.com/dtan4/terraforming/releases/tag/v0.8.0) (2016-05-29)
+
+## Notice
+
+- Drop Ruby 2.0 support. Now Terraforming supports Ruby 2.1 or higher. #206
+
+## Resource
+
+- AWS VPN Gateway #190 (thanks @tmccabe07)
+- AWS Launch Configuration #187 (thanks @phoolish)
+- AWS SQS #169 (thanks @manabusakai)
+
+## Fixed / Updated
+
+- Add prefix not to duplicate IAM inline policy name #212 (thanks @stormbeta)
+- Use the latest Ox and Oj #210
+- Simplify Security Group name #207 (thanks @woohgit)
+- Include description field for IAM policies #203 (thanks @stormbeta)
+- Support paging paging for IAM resources #201 (thanks @dominis)
+- Fix Security Group output around EC2-Classic #200 (thanks @woohgit)
+- Default Route53 record weight should be "-1" #197 (thanks @woohgit)
+- Add Elasticache Redis port #189 (thanks @phoolish)
+- Add `--region` option #188 (thanks @hajhatten)
+- Add zsh completion #176 (thanks @knakayama)
+- Add subnet ID to the resource name #185 (thanks @bandesz)
+- Add EC2 placement group #180 (thanks @wsh)
+- Wrap tag name in ELB #179 (thanks @robatwave)
+- Retrive full list of AutoScaling Groups #170 (thanks @shouyu)
+
 # [v0.7.0](https://github.com/dtan4/terraforming/releases/tag/v0.7.0) (2016-02-16)
 
 ## Resource
