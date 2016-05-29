@@ -88,8 +88,8 @@ Commands:
   terraforming iamrp           # IAM Role Policy
   terraforming iamu            # IAM User
   terraforming iamup           # IAM User Policy
-  terraforming lc              # Auto Scaling Launch Configurations
   terraforming igw             # Internet Gateway
+  terraforming lc              # Launch Configuration
   terraforming nacl            # Network ACL
   terraforming nif             # Network Interface
   terraforming r53r            # Route53 Record
@@ -102,6 +102,7 @@ Commands:
   terraforming sg              # Security Group
   terraforming sn              # Subnet
   terraforming sqs             # SQS
+  terraforming vgw             # VPN Gateway
   terraforming vpc             # VPC
 ```
 
