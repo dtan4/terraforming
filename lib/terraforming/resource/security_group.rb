@@ -33,6 +33,8 @@ module Terraforming
           attributes.merge!(egress_attributes_of(security_group))
           attributes.merge!(ingress_attributes_of(security_group))
 
+
+          attributes.merge!(tags_attributes_of(security_group))
           resources["aws_security_group.#{module_name_of(security_group)}"] = {
             "type" => "aws_security_group",
             "primary" => {
@@ -46,6 +48,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(security_group)
+        tags = security_group.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def ingress_attributes_of(security_group)
         ingresses = dedup_permissions(security_group.ip_permissions, security_group.group_id)

@@ -43,6 +43,8 @@ module Terraforming
           attributes.merge!(tags_attributes_of(load_balancer))
 
 
+
+          attributes.merge!(tags_attributes_of(load_balancer))
           resources["aws_elb.#{module_name_of(load_balancer)}"] = {
             "type" => "aws_elb",
             "primary" => {
@@ -175,3 +177,10 @@ module Terraforming
     end
   end
 end
+
+      def tags_attributes_of(load_balancer)
+        tags = load_balancer.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end

@@ -28,6 +28,8 @@ module Terraforming
             "vpc_id" => internet_gateway.attachments[0].vpc_id,
             "tags.#" => internet_gateway.tags.length.to_s,
           }
+
+          attributes.merge!(tags_attributes_of(internet_gateway))
           resources["aws_internet_gateway.#{module_name_of(internet_gateway)}"] = {
             "type" => "aws_internet_gateway",
             "primary" => {
@@ -41,6 +43,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(internet_gateway)
+        tags = internet_gateway.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def internet_gateways
         @client.describe_internet_gateways.internet_gateways

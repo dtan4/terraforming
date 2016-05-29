@@ -29,6 +29,8 @@ module Terraforming
             "tags.#" => network_acl.tags.length.to_s,
             "vpc_id" => network_acl.vpc_id,
           }
+
+          attributes.merge!(tags_attributes_of(network_acl))
           resources["aws_network_acl.#{module_name_of(network_acl)}"] = {
             "type" => "aws_network_acl",
             "primary" => {
@@ -42,6 +44,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(network_acl)
+        tags = network_acl.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def default_entry?(entry)
         entry.rule_number == default_rule_number

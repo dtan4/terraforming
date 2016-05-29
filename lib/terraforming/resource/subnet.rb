@@ -29,6 +29,8 @@ module Terraforming
             "tags.#" => subnet.tags.length.to_s,
             "vpc_id" => subnet.vpc_id,
           }
+
+          attributes.merge!(tags_attributes_of(subnet))
           resources["aws_subnet.#{module_name_of(subnet)}"] = {
             "type" => "aws_subnet",
             "primary" => {
@@ -42,6 +44,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(subnet)
+        tags = subnet.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def subnets
         @client.describe_subnets.subnets

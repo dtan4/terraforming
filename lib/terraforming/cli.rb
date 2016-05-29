@@ -5,6 +5,7 @@ module Terraforming
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
+    class_option :filters, type: :string, desc: "Filter AWS resource"
 
     desc "asg", "AutoScaling Group"
     def asg
@@ -182,8 +183,10 @@ module Terraforming
     def execute(klass, options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
-      result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
-
+      
+      filter = options[:filters] ? JSON.parse(options[:filters]) : [{}]
+      result = options[:tfstate] ? tfstate(klass, options[:merge], filter) : tf(klass, filter)
+        
       if options[:tfstate] && options[:merge] && options[:overwrite]
         open(options[:merge], "w+") do |f|
           f.write(result)
@@ -194,15 +197,21 @@ module Terraforming
       end
     end
 
-    def tf(klass)
-      klass.tf
+    def tf(klass, filters)
+      filtering_enabled?(klass) ? klass.tf(filters) : klass.tf
     end
 
-    def tfstate(klass, tfstate_path)
+    def tfstate(klass, tfstate_path, filters)
       tfstate = tfstate_path ? JSON.parse(open(tfstate_path).read) : tfstate_skeleton
       tfstate["serial"] = tfstate["serial"] + 1
-      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
+      state = filtering_enabled?(klass) ? klass.tfstate(filters) : klass.tfstate
+      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(state)
       JSON.pretty_generate(tfstate)
+    end
+
+    def filtering_enabled?(klass)
+      filtering_enabled = [Terraforming::Resource::EC2]
+      filtering_enabled.include?(klass) ? true : false
     end
 
     def tfstate_skeleton

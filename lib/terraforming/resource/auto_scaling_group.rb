@@ -49,6 +49,8 @@ module Terraforming
             })
           end
 
+
+          attributes.merge!(tags_attributes_of(group))
           resources["aws_autoscaling_group.#{module_name_of(group)}"] = {
             "type" => "aws_autoscaling_group",
             "primary" => {
@@ -65,6 +67,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(group)
+        tags = group.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def auto_scaling_groups
         @client.describe_auto_scaling_groups.map(&:auto_scaling_groups).flatten

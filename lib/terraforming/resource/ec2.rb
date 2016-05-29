@@ -3,16 +3,17 @@ module Terraforming
     class EC2
       include Terraforming::Util
 
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
+      def self.tf(filters, client: Aws::EC2::Client.new)
+        self.new(client, filters).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(filters, client: Aws::EC2::Client.new)
+        self.new(client, filters).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, filters)
         @client = client
+        @filters = filters
       end
 
       def tf
@@ -50,6 +51,8 @@ module Terraforming
 
           attributes["subnet_id"] = instance.subnet_id if in_vpc?(instance)
 
+
+          attributes.merge!(tags_attributes_of(instance))
           resources["aws_instance.#{module_name_of(instance)}"] = {
             "type" => "aws_instance",
             "primary" => {
@@ -66,6 +69,13 @@ module Terraforming
       end
 
       private
+
+      def tags_attributes_of(instance)
+        tags = instance.tags
+        attributes = { "tags.#" => tags.length.to_s }
+        tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
+        attributes
+      end
 
       def block_device_ids_of(instance)
         instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }
@@ -101,7 +111,7 @@ module Terraforming
       end
 
       def instances
-        @client.describe_instances.reservations.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
+        @client.describe_instances({filters: @filters}).reservations.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
       end
 
       def module_name_of(instance)
