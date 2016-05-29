@@ -1,4 +1,4 @@
-# [v0.7.0](https://github.com/dtan4/terraforming/releases/tag/v0.6.2) (2016-02-16)
+# [v0.7.0](https://github.com/dtan4/terraforming/releases/tag/v0.7.0) (2016-02-16)
 
 ## Resource
 
