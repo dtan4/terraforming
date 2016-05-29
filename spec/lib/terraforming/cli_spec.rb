@@ -33,248 +33,248 @@ module Terraforming
       end
 
       describe "asg" do
-        let(:klass)   { Terraforming::Resource::AutoScalingGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::AutoScalingGroup }
         let(:command) { :asg }
 
         it_behaves_like "CLI examples"
       end
 
       describe "dbpg" do
-        let(:klass)   { Terraforming::Resource::DBParameterGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::DBParameterGroup }
         let(:command) { :dbpg }
 
         it_behaves_like "CLI examples"
       end
 
       describe "dbsg" do
-        let(:klass)   { Terraforming::Resource::DBSecurityGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::DBSecurityGroup }
         let(:command) { :dbsg }
 
         it_behaves_like "CLI examples"
       end
 
       describe "dbsn" do
-        let(:klass)   { Terraforming::Resource::DBSubnetGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::DBSubnetGroup }
         let(:command) { :dbsn }
 
         it_behaves_like "CLI examples"
       end
 
       describe "ec2" do
-        let(:klass)   { Terraforming::Resource::EC2 }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::EC2 }
         let(:command) { :ec2 }
 
         it_behaves_like "CLI examples"
       end
 
       describe "ecc" do
-        let(:klass)   { Terraforming::Resource::ElastiCacheCluster }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::ElastiCacheCluster }
         let(:command) { :ecc }
 
         it_behaves_like "CLI examples"
       end
 
       describe "ecsn" do
-        let(:klass)   { Terraforming::Resource::ElastiCacheSubnetGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::ElastiCacheSubnetGroup }
         let(:command) { :ecsn }
 
         it_behaves_like "CLI examples"
       end
 
       describe "eip" do
-        let(:klass)   { Terraforming::Resource::EIP }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::EIP }
         let(:command) { :eip }
 
         it_behaves_like "CLI examples"
       end
 
       describe "elb" do
-        let(:klass)   { Terraforming::Resource::ELB }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::ELB }
         let(:command) { :elb }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamg" do
-        let(:klass)   { Terraforming::Resource::IAMGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMGroup }
         let(:command) { :iamg }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamgm" do
-        let(:klass)   { Terraforming::Resource::IAMGroupMembership }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMGroupMembership }
         let(:command) { :iamgm }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamgp" do
-        let(:klass)   { Terraforming::Resource::IAMGroupPolicy }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMGroupPolicy }
         let(:command) { :iamgp }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamip" do
-        let(:klass)   { Terraforming::Resource::IAMInstanceProfile }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMInstanceProfile }
         let(:command) { :iamip }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamp" do
-        let(:klass)   { Terraforming::Resource::IAMPolicy }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMPolicy }
         let(:command) { :iamp }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamr" do
-        let(:klass)   { Terraforming::Resource::IAMRole }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMRole }
         let(:command) { :iamr }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamrp" do
-        let(:klass)   { Terraforming::Resource::IAMRolePolicy }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMRolePolicy }
         let(:command) { :iamrp }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamu" do
-        let(:klass)   { Terraforming::Resource::IAMUser }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMUser }
         let(:command) { :iamu }
 
         it_behaves_like "CLI examples"
       end
 
       describe "iamup" do
-        let(:klass)   { Terraforming::Resource::IAMUserPolicy }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::IAMUserPolicy }
         let(:command) { :iamup }
 
         it_behaves_like "CLI examples"
       end
 
       describe "lc" do
-        let(:klass)   { Terraforming::Resource::LaunchConfiguration }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::LaunchConfiguration }
         let(:command) { :lc }
 
         it_behaves_like "CLI examples"
       end
 
       describe "igw" do
-        let(:klass)   { Terraforming::Resource::InternetGateway }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::InternetGateway }
         let(:command) { :igw }
 
         it_behaves_like "CLI examples"
       end
 
       describe "nacl" do
-        let(:klass)   { Terraforming::Resource::NetworkACL }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::NetworkACL }
         let(:command) { :nacl }
 
         it_behaves_like "CLI examples"
       end
 
       describe "nif" do
-        let(:klass)   { Terraforming::Resource::NetworkInterface }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::NetworkInterface }
         let(:command) { :nif }
 
         it_behaves_like "CLI examples"
       end
 
       describe "r53r" do
-        let(:klass)   { Terraforming::Resource::Route53Record }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::Route53Record }
         let(:command) { :r53r }
 
         it_behaves_like "CLI examples"
       end
 
       describe "r53z" do
-        let(:klass)   { Terraforming::Resource::Route53Zone }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::Route53Zone }
         let(:command) { :r53z }
 
         it_behaves_like "CLI examples"
       end
 
       describe "RDS" do
-        let(:klass)   { Terraforming::Resource::RDS }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::RDS }
         let(:command) { :rds }
 
         it_behaves_like "CLI examples"
       end
 
       describe "rs" do
-        let(:klass)   { Terraforming::Resource::Redshift }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::Redshift }
         let(:command) { :rs }
 
         it_behaves_like "CLI examples"
       end
 
       describe "rt" do
-        let(:klass)   { Terraforming::Resource::RouteTable }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::RouteTable }
         let(:command) { :rt }
 
         it_behaves_like "CLI examples"
       end
 
       describe "rta" do
-        let(:klass)   { Terraforming::Resource::RouteTableAssociation }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::RouteTableAssociation }
         let(:command) { :rta }
 
         it_behaves_like "CLI examples"
       end
 
       describe "s3" do
-        let(:klass)   { Terraforming::Resource::S3 }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::S3 }
         let(:command) { :s3 }
 
         it_behaves_like "CLI examples"
       end
 
       describe "sg" do
-        let(:klass)   { Terraforming::Resource::SecurityGroup }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::SecurityGroup }
         let(:command) { :sg }
 
         it_behaves_like "CLI examples"
       end
 
       describe "sqs" do
-        let(:klass)   { Terraforming::Resource::SQS }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::SQS }
         let(:command) { :sqs }
 
         it_behaves_like "CLI examples"
       end
 
       describe "sn" do
-        let(:klass)   { Terraforming::Resource::Subnet }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::Subnet }
         let(:command) { :sn }
 
         it_behaves_like "CLI examples"
       end
 
       describe "vpc" do
-        let(:klass)   { Terraforming::Resource::VPC }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::VPC }
         let(:command) { :vpc }
 
         it_behaves_like "CLI examples"
       end
-      
+
       describe "vgw" do
-        let(:klass)   { Terraforming::Resource::VPNGateway }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::VPNGateway }
         let(:command) { :vgw }
 
         it_behaves_like "CLI examples"
       end
-      
+
     end
 
     context "flush to stdout" do
       describe "s3" do
-        let(:klass)   { Terraforming::Resource::S3 }
+        let(:klass)   { Terraforming::Provider::AWS::Resource::S3 }
         let(:command) { :s3 }
 
         let(:tf) do

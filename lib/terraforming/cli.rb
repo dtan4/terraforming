@@ -8,172 +8,172 @@ module Terraforming
 
     desc "asg", "AutoScaling Group"
     def asg
-      execute(Terraforming::Resource::AutoScalingGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::AutoScalingGroup, options)
     end
 
     desc "dbpg", "Database Parameter Group"
     def dbpg
-      execute(Terraforming::Resource::DBParameterGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::DBParameterGroup, options)
     end
 
     desc "dbsg", "Database Security Group"
     def dbsg
-      execute(Terraforming::Resource::DBSecurityGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::DBSecurityGroup, options)
     end
 
     desc "dbsn", "Database Subnet Group"
     def dbsn
-      execute(Terraforming::Resource::DBSubnetGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::DBSubnetGroup, options)
     end
 
     desc "ec2", "EC2"
     def ec2
-      execute(Terraforming::Resource::EC2, options)
+      execute(Terraforming::Provider::AWS::Resource::EC2, options)
     end
 
     desc "ecc", "ElastiCache Cluster"
     def ecc
-      execute(Terraforming::Resource::ElastiCacheCluster, options)
+      execute(Terraforming::Provider::AWS::Resource::ElastiCacheCluster, options)
     end
 
     desc "ecsn", "ElastiCache Subnet Group"
     def ecsn
-      execute(Terraforming::Resource::ElastiCacheSubnetGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::ElastiCacheSubnetGroup, options)
     end
 
     desc "eip", "EIP"
     def eip
-      execute(Terraforming::Resource::EIP, options)
+      execute(Terraforming::Provider::AWS::Resource::EIP, options)
     end
 
     desc "elb", "ELB"
     def elb
-      execute(Terraforming::Resource::ELB, options)
+      execute(Terraforming::Provider::AWS::Resource::ELB, options)
     end
 
     desc "iamg", "IAM Group"
     def iamg
-      execute(Terraforming::Resource::IAMGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMGroup, options)
     end
 
     desc "iamgm", "IAM Group Membership"
     def iamgm
-      execute(Terraforming::Resource::IAMGroupMembership, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMGroupMembership, options)
     end
 
     desc "iamgp", "IAM Group Policy"
     def iamgp
-      execute(Terraforming::Resource::IAMGroupPolicy, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMGroupPolicy, options)
     end
 
     desc "iamip", "IAM Instance Profile"
     def iamip
-      execute(Terraforming::Resource::IAMInstanceProfile, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMInstanceProfile, options)
     end
 
     desc "iamp", "IAM Policy"
     def iamp
-      execute(Terraforming::Resource::IAMPolicy, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMPolicy, options)
     end
 
     desc "iamr", "IAM Role"
     def iamr
-      execute(Terraforming::Resource::IAMRole, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMRole, options)
     end
 
     desc "iamrp", "IAM Role Policy"
     def iamrp
-      execute(Terraforming::Resource::IAMRolePolicy, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMRolePolicy, options)
     end
 
     desc "iamu", "IAM User"
     def iamu
-      execute(Terraforming::Resource::IAMUser, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMUser, options)
     end
 
     desc "iamup", "IAM User Policy"
     def iamup
-      execute(Terraforming::Resource::IAMUserPolicy, options)
+      execute(Terraforming::Provider::AWS::Resource::IAMUserPolicy, options)
     end
 
     desc "lc", "Launch Configuration"
     def lc
-      execute(Terraforming::Resource::LaunchConfiguration, options)
+      execute(Terraforming::Provider::AWS::Resource::LaunchConfiguration, options)
     end
 
     desc "igw", "Internet Gateway"
     def igw
-      execute(Terraforming::Resource::InternetGateway, options)
+      execute(Terraforming::Provider::AWS::Resource::InternetGateway, options)
     end
 
     desc "nacl", "Network ACL"
     def nacl
-      execute(Terraforming::Resource::NetworkACL, options)
+      execute(Terraforming::Provider::AWS::Resource::NetworkACL, options)
     end
 
     desc "nif", "Network Interface"
     def nif
-      execute(Terraforming::Resource::NetworkInterface, options)
+      execute(Terraforming::Provider::AWS::Resource::NetworkInterface, options)
     end
 
     desc "r53r", "Route53 Record"
     def r53r
-      execute(Terraforming::Resource::Route53Record, options)
+      execute(Terraforming::Provider::AWS::Resource::Route53Record, options)
     end
 
     desc "r53z", "Route53 Hosted Zone"
     def r53z
-      execute(Terraforming::Resource::Route53Zone, options)
+      execute(Terraforming::Provider::AWS::Resource::Route53Zone, options)
     end
 
     desc "rds", "RDS"
     def rds
-      execute(Terraforming::Resource::RDS, options)
+      execute(Terraforming::Provider::AWS::Resource::RDS, options)
     end
 
     desc "rs", "Redshift"
     def rs
-      execute(Terraforming::Resource::Redshift, options)
+      execute(Terraforming::Provider::AWS::Resource::Redshift, options)
     end
 
     desc "rt", "Route Table"
     def rt
-      execute(Terraforming::Resource::RouteTable, options)
+      execute(Terraforming::Provider::AWS::Resource::RouteTable, options)
     end
 
     desc "rta", "Route Table Association"
     def rta
-      execute(Terraforming::Resource::RouteTableAssociation, options)
+      execute(Terraforming::Provider::AWS::Resource::RouteTableAssociation, options)
     end
 
     desc "s3", "S3"
     def s3
-      execute(Terraforming::Resource::S3, options)
+      execute(Terraforming::Provider::AWS::Resource::S3, options)
     end
 
     desc "sg", "Security Group"
     def sg
-      execute(Terraforming::Resource::SecurityGroup, options)
+      execute(Terraforming::Provider::AWS::Resource::SecurityGroup, options)
     end
 
     desc "sn", "Subnet"
     def sn
-      execute(Terraforming::Resource::Subnet, options)
+      execute(Terraforming::Provider::AWS::Resource::Subnet, options)
     end
 
     desc "sqs", "SQS"
     def sqs
-      execute(Terraforming::Resource::SQS, options)
+      execute(Terraforming::Provider::AWS::Resource::SQS, options)
     end
 
     desc "vpc", "VPC"
     def vpc
-      execute(Terraforming::Resource::VPC, options)
+      execute(Terraforming::Provider::AWS::Resource::VPC, options)
     end
 
     desc "vgw", "VPN Gateway"
     def vgw
-      execute(Terraforming::Resource::VPNGateway, options)
+      execute(Terraforming::Provider::AWS::Resource::VPNGateway, options)
     end
 
 
