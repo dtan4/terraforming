@@ -123,7 +123,7 @@ module Terraforming
               "ap-northeast-1b",
               "ap-northeast-1c"
             ],
-            scheme: "internet-facing",
+            scheme: "internal",
             source_security_group: {
               owner_alias: "345678901234",
               group_name: "elb"
@@ -181,6 +181,7 @@ resource "aws_elb" "hoge" {
     idle_timeout                = 60
     connection_draining         = true
     connection_draining_timeout = 300
+    internal                    = false
 
     listener {
         instance_port      = 80
@@ -212,6 +213,7 @@ resource "aws_elb" "fuga" {
     idle_timeout                = 90
     connection_draining         = true
     connection_draining_timeout = 900
+    internal                    = true
 
     listener {
         instance_port      = 80
@@ -254,6 +256,7 @@ resource "aws_elb" "fuga" {
                   "id" => "hoge",
                   "idle_timeout" => "60",
                   "instances.#" => "1",
+                  "internal" => "false",
                   "name" => "hoge",
                   "source_security_group" => "default",
                   "health_check.#" =>"1",
@@ -292,6 +295,7 @@ resource "aws_elb" "fuga" {
                   "id" => "fuga",
                   "idle_timeout" => "90",
                   "instances.#" => "1",
+                  "internal" => "true",
                   "name" => "fuga",
                   "source_security_group" => "elb",
                   "health_check.#" =>"1",

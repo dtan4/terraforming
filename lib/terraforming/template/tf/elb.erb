@@ -13,6 +13,7 @@ resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
     idle_timeout                = <%= load_balancer_attributes.connection_settings.idle_timeout %>
     connection_draining         = <%= load_balancer_attributes.connection_draining.enabled %>
     connection_draining_timeout = <%= load_balancer_attributes.connection_draining.timeout %>
+    internal                    = <%= internal?(load_balancer).to_s %>
 
 <% load_balancer.listener_descriptions.map { |ld| ld.listener }.map do |listener| -%>
     listener {

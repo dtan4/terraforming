@@ -31,6 +31,7 @@ module Terraforming
             "id" => load_balancer.load_balancer_name,
             "idle_timeout" => load_balancer_attributes.connection_settings.idle_timeout.to_s,
             "instances.#" => load_balancer.instances.length.to_s,
+            "internal" => internal?(load_balancer).to_s,
             "name" => load_balancer.load_balancer_name,
             "source_security_group" => load_balancer.source_security_group.group_name,
           }
@@ -171,6 +172,10 @@ module Terraforming
 
       def vpc_elb?(load_balancer)
         load_balancer.vpc_id != ""
+      end
+
+      def internal?(load_balancer)
+        load_balancer.scheme == "internal"
       end
     end
   end
