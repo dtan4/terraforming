@@ -175,7 +175,7 @@ module Terraforming
       end
 
       def internal?(load_balancer)
-        load_balancer.scheme == 'internal'
+        load_balancer.scheme == "internal"
       end
     end
   end
