@@ -15,6 +15,14 @@ resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
     connection_draining_timeout = <%= load_balancer_attributes.connection_draining.timeout %>
     internal                    = <%= internal?(load_balancer).to_s %>
 
+<%- if load_balancer_attributes.access_log.enabled -%>
+    access_logs {
+        bucket        = "<%= load_balancer_attributes.access_log.s3_bucket_name %>"
+        bucket_prefix = "<%= load_balancer_attributes.access_log.s3_bucket_prefix %>"
+        interval      = <%= load_balancer_attributes.access_log.emit_interval %>
+    }
+
+<%- end -%>
 <% load_balancer.listener_descriptions.map { |ld| ld.listener }.map do |listener| -%>
     listener {
         instance_port      = <%= listener.instance_port %>
