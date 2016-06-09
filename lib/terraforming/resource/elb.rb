@@ -36,6 +36,11 @@ module Terraforming
             "source_security_group" => load_balancer.source_security_group.group_name,
           }
 
+          if load_balancer_attributes.access_log.enabled
+
+          end
+
+          attributes.merge!(access_logs_attributes_of(load_balancer_attributes))
           attributes.merge!(healthcheck_attributes_of(load_balancer))
           attributes.merge!(listeners_attributes_of(load_balancer))
           attributes.merge!(sg_attributes_of(load_balancer))
@@ -53,6 +58,23 @@ module Terraforming
           }
 
           resources
+        end
+      end
+
+      def access_logs_attributes_of(load_balancer_attributes)
+        access_log = load_balancer_attributes.access_log
+
+        if access_log.enabled
+          {
+            "access_logs.#" => "1",
+            "access_logs.0.bucket" => access_log.s3_bucket_name,
+            "access_logs.0.bucket_prefix" => access_log.s3_bucket_prefix,
+            "access_logs.0.interval" => access_log.emit_interval.to_s,
+          }
+        else
+          {
+            "access_logs.#" => "0",
+          }
         end
       end
 

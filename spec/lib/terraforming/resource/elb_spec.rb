@@ -145,7 +145,12 @@ module Terraforming
       let(:fuga_attributes) do
         {
           cross_zone_load_balancing: { enabled: true },
-          access_log: { enabled: false },
+          access_log: {
+            enabled: true,
+            s3_bucket_name: "hoge-elb-logs",
+            emit_interval: 60,
+            s3_bucket_prefix: "fuga",
+          },
           connection_draining: { enabled: true, timeout: 900 },
           connection_settings: { idle_timeout: 90 },
           additional_attributes: []
@@ -215,6 +220,12 @@ resource "aws_elb" "fuga" {
     connection_draining_timeout = 900
     internal                    = true
 
+    access_logs {
+        bucket        = "hoge-elb-logs"
+        bucket_prefix = "fuga"
+        interval      = 60
+    }
+
     listener {
         instance_port      = 80
         instance_protocol  = "http"
@@ -248,6 +259,7 @@ resource "aws_elb" "fuga" {
               "primary" => {
                 "id" => "hoge",
                 "attributes" => {
+                  "access_logs.#" => "0",
                   "availability_zones.#" => "2",
                   "connection_draining" => "true",
                   "connection_draining_timeout" => "300",
@@ -287,6 +299,10 @@ resource "aws_elb" "fuga" {
               "primary" => {
                 "id" => "fuga",
                 "attributes" => {
+                  "access_logs.#" => "1",
+                  "access_logs.0.bucket" => "hoge-elb-logs",
+                  "access_logs.0.bucket_prefix" => "fuga",
+                  "access_logs.0.interval" => "60",
                   "availability_zones.#" => "2",
                   "connection_draining" => "true",
                   "connection_draining_timeout" => "900",
