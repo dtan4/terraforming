@@ -51,6 +51,11 @@ module Terraforming
       execute(Terraforming::Resource::ELB, options)
     end
 
+    desc "iampa", "IAM Policy Attachment"
+    def iampa
+      execute(Terraforming::Resource::IAMPolicyAttachment, options)
+    end
+
     desc "iamg", "IAM Group"
     def iamg
       execute(Terraforming::Resource::IAMGroup, options)
