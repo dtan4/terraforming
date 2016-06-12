@@ -1,3 +1,14 @@
+# [v0.9.0](https://github.com/dtan4/terraforming/releases/tag/v0.8.0) (2016-06-12)
+
+## Resource
+
+- AWS IAM Policy Attachment #225
+
+## Fixed / Updated
+
+- Add `access_logs` attribute to ELB #223
+- Add `internal` attribute to ELB #221 (thanks @kbruner)
+
 # [v0.8.0](https://github.com/dtan4/terraforming/releases/tag/v0.8.0) (2016-05-29)
 
 ## Notice

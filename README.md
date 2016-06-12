@@ -79,11 +79,13 @@ Commands:
   terraforming ecsn            # ElastiCache Subnet Group
   terraforming eip             # EIP
   terraforming elb             # ELB
+  terraforming help [COMMAND]  # Describe available commands or one specifi...
   terraforming iamg            # IAM Group
   terraforming iamgm           # IAM Group Membership
   terraforming iamgp           # IAM Group Policy
   terraforming iamip           # IAM Instance Profile
   terraforming iamp            # IAM Policy
+  terraforming iamp            # IAM Policy Attachment
   terraforming iamr            # IAM Role
   terraforming iamrp           # IAM Role Policy
   terraforming iamu            # IAM User
@@ -104,6 +106,13 @@ Commands:
   terraforming sqs             # SQS
   terraforming vgw             # VPN Gateway
   terraforming vpc             # VPC
+
+Options:
+  [--merge=MERGE]                  # tfstate file to merge
+  [--overwrite], [--no-overwrite]  # Overwrite existng tfstate
+  [--tfstate], [--no-tfstate]      # Generate tfstate
+  [--profile=PROFILE]              # AWS credentials profile
+  [--region=REGION]                # AWS region
 ```
 
 ### Export tf
