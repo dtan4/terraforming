@@ -20,19 +20,19 @@ module Terraforming
       end
 
       def tfstate
-        iam_policies.inject({}) do |resources, policy|
-          version = iam_policy_version_of(policy)
+        iam_policy_attachments.inject({}) do |resources, policy_attachment|
           attributes = {
-            "id" => policy.arn,
-            "name" => policy.policy_name,
-            "path" => policy.path,
-            "description" => iam_policy_description(policy),
-            "policy" => prettify_policy(version.document, breakline: true, unescape: true),
+            "id" => policy_attachment[:name],
+            "name" => policy_attachment[:name],
+            "policy_arn" => policy_attachment[:arn],
+            "groups.#" => policy_attachment[:entities].policy_groups.length.to_s,
+            "users.#" => policy_attachment[:entities].policy_users.length.to_s,
+            "roles.#" => policy_attachment[:entities].policy_roles.length.to_s,
           }
-          resources["aws_iam_policy.#{policy.policy_name}"] = {
-            "type" => "aws_iam_policy",
+          resources["aws_iam_policy_attachment.#{policy_attachment[:name]}"] = {
+            "type" => "aws_iam_policy_attachment",
             "primary" => {
-              "id" => policy.arn,
+              "id" => policy_attachment[:name],
               "attributes" => attributes
             }
           }

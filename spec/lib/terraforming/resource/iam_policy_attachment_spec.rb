@@ -94,31 +94,33 @@ resource "aws_iam_policy_attachment" "fuga-policy-attachment" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_iam_policy.hoge_policy" => {
-              "type" => "aws_iam_policy",
+            "aws_iam_policy_attachment.hoge-policy-attachment" => {
+              "type" => "aws_iam_policy_attachment",
               "primary" => {
-                "id" => "arn:aws:iam::123456789012:policy/hoge_policy",
+                "id" => "hoge-policy-attachment",
                 "attributes" => {
-                  "id" => "arn:aws:iam::123456789012:policy/hoge_policy",
-                  "name" => "hoge_policy",
-                  "path" => "/",
-                  "description" => "hoge",
-                  "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                  "id" => "hoge-policy-attachment",
+                  "name" => "hoge-policy-attachment",
+                  "policy_arn" => "arn:aws:iam::123456789012:policy/hoge",
+                  "groups.#" => "2",
+                  "users.#" => "1",
+                  "roles.#" => "0",
                 }
               }
             },
-            "aws_iam_policy.fuga_policy" => {
-              "type" => "aws_iam_policy",
+            "aws_iam_policy_attachment.fuga-policy-attachment" => {
+              "type" => "aws_iam_policy_attachment",
               "primary" => {
-                "id" => "arn:aws:iam::345678901234:policy/fuga-policy",
+                "id" => "fuga-policy-attachment",
                 "attributes" => {
-                  "id" => "arn:aws:iam::345678901234:policy/fuga-policy",
-                  "name" => "fuga_policy",
-                  "path" => "/system/",
-                  "description" => "fuga",
-                  "policy" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": [\n        \"ec2:Describe*\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": \"*\"\n    }\n  ]\n}\n",
+                  "id" => "fuga-policy-attachment",
+                  "name" => "fuga-policy-attachment",
+                  "policy_arn" => "arn:aws:iam::345678901234:policy/fuga",
+                  "groups.#" => "1",
+                  "users.#" => "2",
+                  "roles.#" => "2",
                 }
               }
             },
