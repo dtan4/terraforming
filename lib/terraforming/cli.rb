@@ -76,6 +76,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMPolicy, options)
     end
 
+    desc "iamp", "IAM Policy Attachment"
+    def iampa
+      execute(Terraforming::Resource::IAMPolicyAttachment, options)
+    end
+
     desc "iamr", "IAM Role"
     def iamr
       execute(Terraforming::Resource::IAMRole, options)
