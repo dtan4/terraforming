@@ -130,6 +130,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "iampa" do
+        let(:klass)   { Terraforming::Resource::IAMPolicyAttachment }
+        let(:command) { :iampa }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "iamr" do
         let(:klass)   { Terraforming::Resource::IAMRole }
         let(:command) { :iamr }
@@ -262,14 +269,14 @@ module Terraforming
 
         it_behaves_like "CLI examples"
       end
-      
+
       describe "vgw" do
         let(:klass)   { Terraforming::Resource::VPNGateway }
         let(:command) { :vgw }
 
         it_behaves_like "CLI examples"
       end
-      
+
     end
 
     context "flush to stdout" do
