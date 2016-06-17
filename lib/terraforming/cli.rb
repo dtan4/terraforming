@@ -121,6 +121,11 @@ module Terraforming
       execute(Terraforming::Resource::NetworkInterface, options)
     end
 
+    desc "opsworks", "opsworks"
+    def opsworks
+      execute(Terraforming::Resource::OpsWorks, options)
+    end
+
     desc "r53r", "Route53 Record"
     def r53r
       execute(Terraforming::Resource::Route53Record, options)
