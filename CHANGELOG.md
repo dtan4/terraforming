@@ -1,4 +1,10 @@
-# [v0.9.0](https://github.com/dtan4/terraforming/releases/tag/v0.8.0) (2016-06-12)
+# [v0.9.1](https://github.com/dtan4/terraforming/releases/tag/v0.9.1) (2016-06-17)
+
+## Fixed / Updated
+
+- Fix Ox load error #229 (thanks @winebarrel)
+
+# [v0.9.0](https://github.com/dtan4/terraforming/releases/tag/v0.9.0) (2016-06-12)
 
 ## Resource
 
