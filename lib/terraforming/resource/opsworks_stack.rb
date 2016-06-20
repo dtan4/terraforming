@@ -51,7 +51,7 @@ module Terraforming
             "custom_cookbooks_source.username" => stack.custom_cookbooks_source.username
           }
 
-          resources["aws_opsworks_stack.#{stack.name}"] = {
+          resources["aws_opsworks_stack.#{module_name_of(stack)}"] = {
             "type" => "aws_opsworks_stack",
             "primary" => {
               "id" => stack.stack_id,
@@ -70,6 +70,10 @@ module Terraforming
 
       def stacks
         @client.describe_stacks.stacks
+      end
+
+      def module_name_of(stack)
+        normalize_module_name(stack.name)
       end
 
     end

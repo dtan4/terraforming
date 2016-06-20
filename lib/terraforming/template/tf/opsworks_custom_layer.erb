@@ -1,6 +1,6 @@
 <% stacks.each do |stack| -%>
 <% stack_layers(stack.stack_id).each do |layer| -%>
-resource "aws_opsworks_custom_layer" "<%= stack.name + "_" + layer.name %>" {
+resource "aws_opsworks_custom_layer" "<%= module_name_of(stack) + "_" + module_name_of(layer) %>" {
     auto_assign_elastic_ips       = "<%= layer.auto_assign_elastic_ips %>"
     auto_assign_public_ips        = "<%= layer.auto_assign_public_ips %>"
     auto_healing                  = "<%= layer.enable_auto_healing %>"

@@ -1,5 +1,5 @@
 <% stacks.each do |stack| -%>
-resource "aws_opsworks_stack" "<%= stack.name %>" {
+resource "aws_opsworks_stack" "<%= module_name_of(stack) %>" {
     color                         = "<%= stack.attributes['Color'] %>"
     default_availability_zone     = "<%= stack.default_availability_zone %>"
     default_instance_profile_arn  = "<%= stack.default_instance_profile_arn %>"

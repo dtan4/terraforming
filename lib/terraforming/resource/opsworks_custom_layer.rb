@@ -84,7 +84,7 @@ module Terraforming
               attributes["ebs_volume.#{index}.iops"] = volume.iops.to_s
             end
 
-            resources["aws_opsworks_custom_layer.#{stack.name}_#{layer.name}"] = {
+            resources["aws_opsworks_custom_layer.#{module_name_of(stack)}_#{module_name_of(layer)}"] = {
               "type" => "aws_opsworks_custom_layer",
               "primary" => {
                 "id" => layer.layer_id,
@@ -109,6 +109,11 @@ module Terraforming
       def stack_layers(stack_id)
         @client.describe_layers({stack_id: stack_id}).layers
       end
+
+      def module_name_of(object)
+        normalize_module_name(object.name)
+      end
+
     end
   end
 end
