@@ -121,14 +121,14 @@ module Terraforming
       execute(Terraforming::Resource::NetworkInterface, options)
     end
 
-    desc "opws", "OpsWorks Stack"
-    def opws
-      execute(Terraforming::Resource::OpsWorksStack, options)
-    end
-
     desc "opwcl", "OpsWorks Custom Layer"
     def opwcl
       execute(Terraforming::Resource::OpsWorksCustomLayer, options)
+    end
+
+    desc "opws", "OpsWorks Stack"
+    def opws
+      execute(Terraforming::Resource::OpsWorksStack, options)
     end
 
     desc "r53r", "Route53 Record"
