@@ -27,7 +27,15 @@ module Terraforming
       end
 
       before do
-        client.stub_responses(:list_groups, groups: groups)
+        client.stub_responses(:list_groups, [{
+                                               groups: [groups[0]],
+                                               is_truncated: true,
+                                               marker: 'marker'
+                                             }, {
+                                               groups: [groups[1]],
+                                               is_truncated: false,
+                                               marker: nil
+                                             }])
       end
 
       describe ".tf" do

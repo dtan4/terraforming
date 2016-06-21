@@ -44,7 +44,7 @@ module Terraforming
       private
 
       def iam_policies
-        @client.list_policies(scope: "Local").collect {|r| r.policies}.flatten
+        @client.list_policies(scope: "Local").map(&:policies).flatten
       end
 
       def iam_policy_description(policy)

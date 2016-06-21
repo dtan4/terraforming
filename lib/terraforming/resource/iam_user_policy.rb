@@ -45,12 +45,12 @@ module Terraforming
         "#{policy.user_name}_#{policy.policy_name}"
       end
 
-      def iam_users
-        @client.list_users.users
-      end
-
       def iam_user_policy_id_of(policy)
         "#{policy.user_name}:#{policy.policy_name}"
+      end
+
+      def iam_users
+        @client.list_users.map(&:users).flatten
       end
 
       def iam_user_policy_names_in(user)

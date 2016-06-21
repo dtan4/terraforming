@@ -45,12 +45,12 @@ module Terraforming
         "#{policy.group_name}_#{policy.policy_name}"
       end
 
-      def iam_groups
-        @client.list_groups.groups
-      end
-
       def iam_group_policy_id_of(policy)
         "#{policy.group_name}:#{policy.policy_name}"
+      end
+
+      def iam_groups
+        @client.list_groups.map(&:groups).flatten
       end
 
       def iam_group_policy_names_in(group)

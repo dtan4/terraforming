@@ -41,7 +41,7 @@ module Terraforming
       private
 
       def cache_subnet_groups
-        @client.describe_cache_subnet_groups.cache_subnet_groups
+        @client.describe_cache_subnet_groups.map(&:cache_subnet_groups).flatten
       end
 
       def subnet_ids_of(cache_subnet_group)

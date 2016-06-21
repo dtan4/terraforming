@@ -47,7 +47,7 @@ module Terraforming
       private
 
       def eips
-        @client.describe_addresses.addresses
+        @client.describe_addresses.map(&:addresses).flatten
       end
 
       def is_vpc?(addr)

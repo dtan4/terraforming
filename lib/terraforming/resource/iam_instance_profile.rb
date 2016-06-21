@@ -43,7 +43,7 @@ module Terraforming
       private
 
       def iam_instance_profiles
-        @client.list_instance_profiles.instance_profiles
+        @client.list_instance_profiles.map(&:instance_profiles).flatten
       end
     end
   end

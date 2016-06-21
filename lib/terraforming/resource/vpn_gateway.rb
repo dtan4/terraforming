@@ -44,7 +44,7 @@ module Terraforming
       private
 
       def vpn_gateways
-        @client.describe_vpn_gateways.vpn_gateways
+        @client.describe_vpn_gateways.map(&:vpn_gateways).flatten
       end
 
       def module_name_of(vpn_gateway)

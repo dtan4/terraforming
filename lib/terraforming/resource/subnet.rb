@@ -44,7 +44,7 @@ module Terraforming
       private
 
       def subnets
-        @client.describe_subnets.subnets
+        @client.describe_subnets.map(&:subnets).flatten
       end
 
       def module_name_of(subnet)

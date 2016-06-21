@@ -59,7 +59,7 @@ module Terraforming
       end
 
       def queue_urls
-        @client.list_queues.queue_urls
+        @client.list_queues.map(&:queue_urls).flatten
       end
 
       def module_name_of(queue)

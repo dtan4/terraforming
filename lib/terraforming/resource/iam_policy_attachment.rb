@@ -48,11 +48,24 @@ module Terraforming
       end
 
       def entities_for_policy(policy)
-        @client.list_entities_for_policy(policy_arn: policy.arn)
+        # list_entities_for_policy is a weird one: the response class
+        # has three different member variables that we need to
+        # paginate through altogether.
+        result = Aws::IAM::Types::ListEntitiesForPolicyResponse.new
+        result.policy_groups = []
+        result.policy_users = []
+        result.policy_roles = []
+        @client.list_entities_for_policy(policy_arn: policy.arn).each do |resp|
+          result.policy_groups += resp.policy_groups
+          result.policy_users += resp.policy_users
+          result.policy_roles += resp.policy_roles
+        end
+        
+        result
       end
 
       def iam_policies
-        @client.list_policies(scope: "Local").policies
+        @client.list_policies(scope: "Local").map(&:policies).flatten
       end
 
       def iam_policy_attachments

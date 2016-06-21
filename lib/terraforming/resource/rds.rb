@@ -63,7 +63,7 @@ module Terraforming
       private
 
       def db_instances
-        @client.describe_db_instances.db_instances
+        @client.describe_db_instances.map(&:db_instances).flatten
       end
 
       def module_name_of(instance)

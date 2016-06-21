@@ -69,7 +69,7 @@ module Terraforming
       private
 
       def stacks
-        @client.describe_stacks.stacks
+        @client.describe_stacks.map(&:stacks).flatten
       end
 
       def module_name_of(stack)

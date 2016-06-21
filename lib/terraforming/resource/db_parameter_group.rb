@@ -43,11 +43,11 @@ module Terraforming
       private
 
       def db_parameter_groups
-        @client.describe_db_parameter_groups.db_parameter_groups
+        @client.describe_db_parameter_groups.map(&:db_parameter_groups).flatten
       end
 
       def db_parameters_in(parameter_group)
-        @client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).parameters
+        @client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name).map(&:parameters).flatten
       end
 
       def module_name_of(parameter_group)

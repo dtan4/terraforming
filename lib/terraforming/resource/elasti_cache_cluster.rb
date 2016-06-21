@@ -57,7 +57,7 @@ module Terraforming
       private
 
       def cache_clusters
-        @client.describe_cache_clusters(show_cache_node_info: true).cache_clusters
+        @client.describe_cache_clusters(show_cache_node_info: true).map(&:cache_clusters).flatten
       end
 
       def cluster_in_vpc?(cache_cluster)

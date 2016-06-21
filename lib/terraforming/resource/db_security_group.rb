@@ -46,7 +46,7 @@ module Terraforming
       end
 
       def db_security_groups
-        @client.describe_db_security_groups.db_security_groups.select { |sg| ingresses_of(sg).length > 0 }
+        @client.describe_db_security_groups.map(&:db_security_groups).flatten.select { |sg| ingresses_of(sg).length > 0 }
       end
 
       def module_name_of(security_group)

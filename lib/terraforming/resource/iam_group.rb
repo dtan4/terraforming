@@ -43,7 +43,7 @@ module Terraforming
       private
 
       def iam_groups
-        @client.list_groups.collect {|r| r.groups}.flatten
+        @client.list_groups.map(&:groups).flatten
       end
     end
   end

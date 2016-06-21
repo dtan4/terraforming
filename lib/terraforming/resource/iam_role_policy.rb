@@ -45,12 +45,12 @@ module Terraforming
         "#{policy.role_name}_#{policy.policy_name}"
       end
 
-      def iam_roles
-        @client.list_roles.roles
-      end
-
       def iam_role_policy_id_of(policy)
         "#{policy.role_name}:#{policy.policy_name}"
+      end
+
+      def iam_roles
+        @client.list_roles.map(&:roles).flatten
       end
 
       def iam_role_policy_names_in(role)

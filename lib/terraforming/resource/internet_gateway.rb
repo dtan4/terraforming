@@ -43,7 +43,7 @@ module Terraforming
       private
 
       def internet_gateways
-        @client.describe_internet_gateways.internet_gateways
+        @client.describe_internet_gateways.map(&:internet_gateways).flatten
       end
 
       def module_name_of(internet_gateway)

@@ -68,7 +68,7 @@ module Terraforming
       end
 
       def network_acls
-        @client.describe_network_acls.network_acls
+        @client.describe_network_acls.map(&:network_acls).flatten
       end
 
       def subnet_ids_of(network_acl)
