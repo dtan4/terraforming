@@ -76,7 +76,7 @@ module Terraforming
       execute(Terraforming::Resource::IAMPolicy, options)
     end
 
-    desc "iamp", "IAM Policy Attachment"
+    desc "iampa", "IAM Policy Attachment"
     def iampa
       execute(Terraforming::Resource::IAMPolicyAttachment, options)
     end
