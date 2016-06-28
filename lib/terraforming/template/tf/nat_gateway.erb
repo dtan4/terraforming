@@ -1,0 +1,9 @@
+<% nat_gateways.each do |nat_gateway| -%>
+<% unless nat_gateway.nat_gateway_addresses.empty? -%>
+resource "aws_nat_gateway" "<%= module_name_of(nat_gateway) %>" {
+    allocation_id = "<%= nat_gateway.nat_gateway_addresses[0].allocation_id %>"
+    subnet_id = "<%= nat_gateway.subnet_id %>"
+}
+
+<% end -%>
+<% end -%>

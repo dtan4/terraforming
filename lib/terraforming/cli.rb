@@ -116,6 +116,11 @@ module Terraforming
       execute(Terraforming::Resource::NetworkACL, options)
     end
 
+    desc "nat", "NAT Gateway"
+    def nat
+      execute(Terraforming::Resource::NATGateway, options)
+    end
+
     desc "nif", "Network Interface"
     def nif
       execute(Terraforming::Resource::NetworkInterface, options)
