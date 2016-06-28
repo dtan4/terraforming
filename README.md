@@ -93,6 +93,7 @@ Commands:
   terraforming igw             # Internet Gateway
   terraforming lc              # Launch Configuration
   terraforming nacl            # Network ACL
+  terraforming nat             # NAT Gateway
   terraforming nif             # Network Interface
   terraforming opwcl           # OpsWorks Custom Layer
   terraforming opws            # OpsWorks Stack
