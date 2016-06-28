@@ -94,6 +94,8 @@ Commands:
   terraforming lc              # Launch Configuration
   terraforming nacl            # Network ACL
   terraforming nif             # Network Interface
+  terraforming opwcl           # OpsWorks Custom Layer
+  terraforming opws            # OpsWorks Stack
   terraforming r53r            # Route53 Record
   terraforming r53z            # Route53 Hosted Zone
   terraforming rds             # RDS
