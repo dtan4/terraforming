@@ -1,0 +1,72 @@
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/LineLength:
+  Exclude:
+    - "spec/**/*"
+
+# Offense count: 42
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EachWithObject:
+  Enabled: false
+
+Style/HashSyntax:
+  Exclude:
+    - 'Rakefile'
+
+# TODO: check again
+Style/IndentArray:
+  Enabled: false
+
+# TODO: check again
+Style/IndentHash:
+  Enabled: false
+
+Style/LineEndConcatenation:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/RedundantSelf:
+  Enabled: false
+
+# TODO: check again (force to %r literal)
+Style/RegexpLiteral:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/SymbolProc:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Style/UnneededPercentQ:
+  Enabled: false
