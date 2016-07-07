@@ -70,3 +70,11 @@ Style/TrailingCommaInLiteral:
 
 Style/UnneededPercentQ:
   Enabled: false
+
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: "map"
+    collect!: "map!"
+    inject: "inject"
+    detect: "find"
+    find_all: "select"
