@@ -1,11 +1,11 @@
 <% eips.each do |addr| -%>
 resource "aws_eip" "<%= addr.allocation_id %>" {
 <% if addr.instance_id -%>
-    instance             = "<%= addr.instance_id %>"
+    instance          = "<%= addr.instance_id %>"
 <% elsif addr.network_interface_id -%>
-    network_interface_id = "<%= addr.network_interface_id %>"
+    network_interface = "<%= addr.network_interface_id %>"
 <% end -%>
-    vpc                  = <%= is_vpc?(addr) %>
+    vpc               = <%= is_vpc?(addr) %>
 }
 
 <% end -%>
