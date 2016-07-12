@@ -5,7 +5,9 @@ module Terraforming
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
-    class_option :"aws-use-bundled-cert", type: :boolean , desc: "Use the bundled CA certificate from AWS SDK"
+    class_option :"aws-use-bundled-cert",
+                 type: :boolean,
+                 desc: "Use the bundled CA certificate from AWS SDK"
 
     desc "asg", "AutoScaling Group"
     def asg
