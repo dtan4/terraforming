@@ -5,6 +5,7 @@ module Terraforming
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
+    class_option :"aws-use-bundled-cert", type: :boolean , desc: "Use the bundled CA certificate from AWS SDK"
 
     desc "asg", "AutoScaling Group"
     def asg
@@ -202,6 +203,7 @@ module Terraforming
     def execute(klass, options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
+      Aws.use_bundled_cert! if options[:"aws-use-bundled-cert"]
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]
