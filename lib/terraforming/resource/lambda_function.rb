@@ -16,7 +16,12 @@ module Terraforming
       end
 
       def tf
+        puts lambda_functions
         apply_template(@client, "tf/lambda_function")
+      end
+
+      def matttest
+        lambda_functions
       end
 
       def tfstate
@@ -44,9 +49,8 @@ module Terraforming
           func_detail = @client.get_function(
             { function_name: lambda_function.function_name })
 
-          sdownload_lambda_code(
-            resources[lambda_function.function_name].url,
-            filename)
+          download_lambda_code(func_detail.code.location,
+                               "#{func_detail.configuration.function_name}.zip")
 
           resources[lambda_function.function_name] = func_detail
 
