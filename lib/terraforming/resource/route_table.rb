@@ -57,7 +57,7 @@ module Terraforming
       end
 
       def route_tables
-        @client.describe_route_tables.route_tables
+        @client.describe_route_tables.map(&:route_tables).flatten
       end
 
       def routes_attributes_of(route_table)

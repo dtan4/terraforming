@@ -96,9 +96,7 @@ module Terraforming
       end
 
       def launch_configurations
-        @client.describe_launch_configurations.collect do |r|
-          r.launch_configurations
-        end.flatten
+        @client.describe_launch_configurations.map(&:launch_configurations).flatten
       end
 
       def module_name_of(launch_configuration)

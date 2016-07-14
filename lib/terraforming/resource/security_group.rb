@@ -153,7 +153,7 @@ module Terraforming
       end
 
       def security_groups
-        @client.describe_security_groups.security_groups
+        @client.describe_security_groups.map(&:security_groups).flatten
       end
 
       def security_groups_in(permission, security_group)

@@ -48,7 +48,7 @@ module Terraforming
       end
 
       def iam_groups
-        @client.list_groups.groups
+        @client.list_groups.map(&:groups).flatten
       end
 
       def membership_name_of(group)

@@ -41,7 +41,7 @@ module Terraforming
       private
 
       def db_subnet_groups
-        @client.describe_db_subnet_groups.db_subnet_groups
+        @client.describe_db_subnet_groups.map(&:db_subnet_groups).flatten
       end
 
       def module_name_of(subnet_group)

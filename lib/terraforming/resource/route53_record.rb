@@ -52,7 +52,7 @@ module Terraforming
       private
 
       def hosted_zones
-        @client.list_hosted_zones.hosted_zones
+        @client.list_hosted_zones.map(&:hosted_zones).flatten
       end
 
       def record_id_of(record, zone_id)

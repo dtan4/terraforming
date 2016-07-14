@@ -56,7 +56,7 @@ module Terraforming
       end
 
       def vpcs
-        @client.describe_vpcs.vpcs
+        @client.describe_vpcs.map(&:vpcs).flatten
       end
 
       def vpc_attribute(vpc, attribute)

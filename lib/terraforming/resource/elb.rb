@@ -181,7 +181,7 @@ module Terraforming
       end
 
       def load_balancers
-        @client.describe_load_balancers.load_balancer_descriptions
+        @client.describe_load_balancers.map(&:load_balancer_descriptions).flatten
       end
 
       def load_balancer_attributes_of(load_balancer)

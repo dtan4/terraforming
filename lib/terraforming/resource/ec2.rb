@@ -73,7 +73,7 @@ module Terraforming
 
       def block_devices_of(instance)
         return [] unless instance.block_device_mappings.length > 0
-        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).volumes
+        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten
       end
 
       def block_device_mapping_of(instance, volume_id)
@@ -101,7 +101,7 @@ module Terraforming
       end
 
       def instances
-        @client.describe_instances.reservations.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
+        @client.describe_instances.map(&:reservations).flatten.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
       end
 
       def module_name_of(instance)

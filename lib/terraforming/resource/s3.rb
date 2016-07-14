@@ -53,7 +53,7 @@ module Terraforming
       end
 
       def buckets
-        @client.list_buckets.buckets.select { |bucket| same_region?(bucket) }
+        @client.list_buckets.map(&:buckets).flatten.select { |bucket| same_region?(bucket) }
       end
 
       def module_name_of(bucket)

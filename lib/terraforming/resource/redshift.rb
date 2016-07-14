@@ -56,7 +56,7 @@ module Terraforming
       private
 
       def clusters
-        @client.describe_clusters.clusters
+        @client.describe_clusters.map(&:clusters).flatten
       end
 
       def module_name_of(cluster)

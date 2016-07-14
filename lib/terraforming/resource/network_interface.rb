@@ -61,7 +61,7 @@ module Terraforming
       end
 
       def network_interfaces
-        @client.describe_network_interfaces.network_interfaces
+        @client.describe_network_interfaces.map(&:network_interfaces).flatten
       end
 
     end
