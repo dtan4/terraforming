@@ -9,10 +9,11 @@ resource "aws_lambda_function" "<%= lambda_function.configuration.function_name 
     runtime = "<%= lambda_function.configuration.runtime %>"
     timeout = "<%= lambda_function.configuration.timeout %>"
     source_code_hash = "<%= lambda_function.configuration.code_sha_256 %>"
-    <% unless lambda_function.configuration.vpc_config.nil? -%>
+<% unless lambda_function.configuration.vpc_config.nil? -%>
     vpc_config {
         subnet_ids = <%= lambda_function.configuration.vpc_config.subnet_ids %>
-        security_groups_ids = <%= lambda_function.configuration.vpc_config.security_group_ids %>
-    }<% end -%>
+        security_group_ids = <%= lambda_function.configuration.vpc_config.security_group_ids %>
+    }
+<% end -%>
 }
-<% end -%>s
+<% end -%>
