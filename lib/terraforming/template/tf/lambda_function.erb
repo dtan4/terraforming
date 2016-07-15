@@ -13,7 +13,6 @@ resource "aws_lambda_function" "<%= lambda_function.configuration.function_name 
     vpc_config {
         subnet_ids = <%= lambda_function.configuration.vpc_config.subnet_ids %>
         security_groups_ids = <%= lambda_function.configuration.vpc_config.security_group_ids %>
-    }
-    <% end -%>
+    }<% end -%>
 }
-<% end -%>
+<% end -%>s
