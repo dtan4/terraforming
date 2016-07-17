@@ -14,6 +14,7 @@ require "erb"
 require "json"
 require "thor"
 require "zlib"
+require "net/http"
 
 require "terraforming/util"
 require "terraforming/version"

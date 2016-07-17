@@ -1,4 +1,4 @@
-<% lambda_functions.each do |lambda_function| -%>
+<% lambda_functions_with_code.each do |lambda_function| -%>
 resource "aws_lambda_function" "<%= lambda_function.configuration.function_name %>" {
     filename = "<%= lambda_function.configuration.function_name %>.zip"
     function_name = "<%= lambda_function.configuration.function_name %>"
