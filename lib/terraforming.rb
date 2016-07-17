@@ -9,7 +9,6 @@ rescue NameError => e
 end
 
 require "aws-sdk-core"
-Aws.use_bundled_cert!
 require "erb"
 require "json"
 require "thor"
