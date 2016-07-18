@@ -1,0 +1,19 @@
+<% lambda_functions_with_code.each do |lambda_function| -%>
+resource "aws_lambda_function" "<%= lambda_function.configuration.function_name %>" {
+    filename = "<%= lambda_function.configuration.function_name %>.zip"
+    function_name = "<%= lambda_function.configuration.function_name %>"
+    role = "<%= lambda_function.configuration.role %>"
+    handler = "<%= lambda_function.configuration.handler %>"
+    description = "<%= lambda_function.configuration.description %>"
+    memory_size = "<%= lambda_function.configuration.memory_size %>"
+    runtime = "<%= lambda_function.configuration.runtime %>"
+    timeout = "<%= lambda_function.configuration.timeout %>"
+    source_code_hash = "<%= lambda_function.configuration.code_sha_256 %>"
+<% unless lambda_function.configuration.vpc_config.nil? -%>
+    vpc_config {
+        subnet_ids = <%= lambda_function.configuration.vpc_config.subnet_ids %>
+        security_group_ids = <%= lambda_function.configuration.vpc_config.security_group_ids %>
+    }
+<% end -%>
+}
+<% end -%>
