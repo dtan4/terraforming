@@ -93,6 +93,7 @@ module Terraforming
         uri = URI.parse(url)
 
         http_client = Net::HTTP.new(uri.host, uri.port)
+
         http_client.use_ssl = true
         http_client.ca_file = Aws.config[:ssl_ca_bundle]
         http_client.verify_mode = OpenSSL::SSL::VERIFY_PEER
@@ -101,7 +102,7 @@ module Terraforming
           response = http.get(uri)
 
           unless response.code == "200"
-            raise "Error downloading Lambda Code HTTP Res Code #{response.code}"
+            raise "Error downloading Lambda Code HTTP Res Code #{response.code} from #{url}"
           end
 
           open filename, 'wb' do |io|
