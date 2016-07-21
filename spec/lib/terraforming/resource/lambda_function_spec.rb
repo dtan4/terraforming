@@ -24,7 +24,7 @@ module Terraforming
                   memory_size: 128,
                   runtime: "python2.7",
                   timeout: 3,
-                  last_modified: Time.new(2002, 10, 31, 2, 2, 2),
+                  last_modified: Time.new(2015, 10, 31, 2, 2, 2),
                 },
                 code:{
                   location:"http://localhost/file.zip"
@@ -44,6 +44,7 @@ module Terraforming
                     memory_size: 128,
                     runtime: "python2.7",
                     timeout: 3,
+                    last_modified: Time.new(2015, 10, 31, 2, 2, 2),
                     vpc_config: {
                         subnet_ids: ['subnet-12345678'],
                         security_group_ids: ['sg-12345678'],
@@ -83,12 +84,43 @@ module Terraforming
                         "function_name" => "lambda_func_1",
                         "handler" => "lambda_test",
                         "id" => "lambda_func_1",
-                        "last_modified" =>  "2002-10-31T02:02:02-0400",
+                        "last_modified" =>  "2015-10-31T02:02:02-0400",
                         "memory_size" => "128",
                         "role" => "arn:aws:iam::123456789012:role/lambdatest",
                         "runtime" => "python2.7",
                         "source_code_hash" => nil,
                         "timeout" => "3",
+                    }
+                }
+            },
+        })
+        end
+
+        it "should generate tfstate for Lambda in a VPC" do
+          client.stub_responses(:get_function, get_lambda_with_vpc)
+          expect(described_class.tfstate(client: client)).to eq({
+            "aws_lambda_function.lambda_func_2" => {
+                "type" => "aws_lambda_function",
+                "primary" => {
+                    "id" => "lambda_func_2",
+                    "attributes" => {
+                        "arn" => nil,
+                        "description" => "Lambda Test Description",
+                        "filename" => "lambda_func_2.zip",
+                        "function_name" => "lambda_func_2",
+                        "handler" => "lambda_test",
+                        "id" => "lambda_func_2",
+                        "last_modified" =>  "2015-10-31T02:02:02-0400",
+                        "memory_size" => "128",
+                        "role" => "arn:aws:iam::123456789012:role/lambdatest",
+                        "runtime" => "python2.7",
+                        "source_code_hash" => nil,
+                        "timeout" => "3",
+                        "vpc_config.#" => "1",
+                        "vpc_config.0.security_group_ids.#"=> "1",
+                        "vpc_config.0.security_group_ids.3003185701"=> "sg-12345678",
+                        "vpc_config.0.subnet_ids.#" => "1",
+                        "vpc_config.0.subnet_ids.1404027315"=>"subnet-12345678"
                     }
                 }
             },
@@ -142,7 +174,6 @@ resource "aws_lambda_function" "lambda_func_2" {
         end
 
         it "should save lambda function to local file" do
-          #clear buffer
           buffer = StringIO.new()
           allow(File).to receive(:open).and_yield(buffer)
           described_class.tf(client: client)
