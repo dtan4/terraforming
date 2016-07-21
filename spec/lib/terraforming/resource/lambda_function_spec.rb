@@ -84,7 +84,8 @@ module Terraforming
                         "function_name" => "lambda_func_1",
                         "handler" => "lambda_test",
                         "id" => "lambda_func_1",
-                        "last_modified" => "2015-10-31T02:02:02-0400",
+                        "last_modified" => Time.new(2015, 10, 31, 2, 2, 2)
+                                               .strftime("%FT%T%z"),
                         "memory_size" => "128",
                         "role" => "arn:aws:iam::123456789012:role/lambdatest",
                         "runtime" => "python2.7",
@@ -110,7 +111,8 @@ module Terraforming
                         "function_name" => "lambda_func_2",
                         "handler" => "lambda_test",
                         "id" => "lambda_func_2",
-                        "last_modified" => "2015-10-31T02:02:02-0400",
+                        "last_modified" => Time.new(2015, 10, 31, 2, 2, 2)
+                                               .strftime("%FT%T%z"),
                         "memory_size" => "128",
                         "role" => "arn:aws:iam::123456789012:role/lambdatest",
                         "runtime" => "python2.7",
