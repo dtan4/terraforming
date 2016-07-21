@@ -101,7 +101,9 @@ module Terraforming
         http_client.start do |http|
           response = http.get(uri)
           unless response.code == "200"
-            raise "Error downloading Lambda Code HTTP Res Code #{response.code} from #{url}"
+            raise \
+              "Error downloading Lambda Code HTTP Res Code #{response.code}" \
+              "from #{url}"
           end
 
           File.open filename, 'wb' do |io|
