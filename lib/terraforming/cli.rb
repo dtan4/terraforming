@@ -101,6 +101,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
+    desc "lf", "Lambda Function"
+    def lambdafunction
+      execute(Terraforming::Resource::LambdaFunction, options)
+    end
+
     desc "lc", "Launch Configuration"
     def lc
       execute(Terraforming::Resource::LaunchConfiguration, options)
