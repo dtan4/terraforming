@@ -44,8 +44,7 @@ module Terraforming
       private
 
       def group_members_of(group)
-        users = @client.get_group(group_name: group.group_name).map { |r| r.users }.flatten
-        users.map { |user| user.user_name }
+        @client.get_group(group_name: group.group_name).map(&:users).flatten.map(&:user_name)
       end
 
       def iam_groups
