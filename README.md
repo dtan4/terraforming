@@ -65,7 +65,7 @@ aws_secret_access_key = FugaFuga
 $ terraforming s3 --profile hoge
 ```
 
-You can force the AWS SDK to utilize the CA certificate that is bundled with the SDK for systems where the default OpenSSL certificate is not installed (e.g. Windows) by utilizing the `--aws-use-bundled-cert` option.
+You can force the AWS SDK to utilize the CA certificate that is bundled with the SDK for systems where the default OpenSSL certificate is not installed (e.g. Windows) by utilizing the `--use-bundled-cert` option.
 
 ```bash
 PS C:\> terraforming ec2 --use-bundled-cert
