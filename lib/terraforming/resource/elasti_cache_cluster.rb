@@ -40,7 +40,7 @@ module Terraforming
                                  cache_cluster.configuration_endpoint.port.to_s
                                else
                                  cache_cluster.cache_nodes[0].endpoint.port.to_s
-          end
+                               end
 
           resources["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
             "type" => "aws_elasticache_cluster",
