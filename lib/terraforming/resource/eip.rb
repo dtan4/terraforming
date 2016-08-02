@@ -29,7 +29,7 @@ module Terraforming
             "network_interface" => addr.network_interface_id,
             "private_ip" => addr.private_ip_address,
             "public_ip" => addr.public_ip,
-            "vpc" => is_vpc?(addr).to_s,
+            "vpc" => vpc?(addr).to_s,
           }
           attributes.delete_if { |_k, v| v.nil? }
           resources["aws_eip.#{addr.allocation_id}"] = {
@@ -50,7 +50,7 @@ module Terraforming
         @client.describe_addresses.map(&:addresses).flatten
       end
 
-      def is_vpc?(addr)
+      def vpc?(addr)
         addr.domain.eql?("vpc")
       end
     end
