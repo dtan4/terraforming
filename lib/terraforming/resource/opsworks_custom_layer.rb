@@ -23,18 +23,18 @@ module Terraforming
         stacks.inject({}) do |resources, stack|
           stack_layers(stack.stack_id).each do |layer|
             attributes = {
-              "auto_assign_elastic_ips"       => layer.auto_assign_elastic_ips.to_s,
-              "auto_assign_public_ips"        => layer.auto_assign_public_ips.to_s,
-              "auto_healing"                  => layer.enable_auto_healing.to_s,
-              "custom_instance_profile_arn"   => layer.custom_instance_profile_arn,
-              "custom_security_group_ids"     => layer.custom_security_group_ids.join(","),
-              "drain_elb_on_shutdown"         => layer.lifecycle_event_configuration.shutdown.delay_until_elb_connections_drained.to_s,
-              "install_updates_on_boot"       => layer.install_updates_on_boot.to_s,
-              "instance_shutdown_timeout"     => layer.lifecycle_event_configuration.shutdown.execution_timeout.to_s,
-              "name"                          => layer.name,
-              "short_name"                    => layer.shortname,
-              "stack_id"                      => layer.stack_id,
-              "use_ebs_optimized_instances"   => layer.use_ebs_optimized_instances.to_s,
+              "auto_assign_elastic_ips"     => layer.auto_assign_elastic_ips.to_s,
+              "auto_assign_public_ips"      => layer.auto_assign_public_ips.to_s,
+              "auto_healing"                => layer.enable_auto_healing.to_s,
+              "custom_instance_profile_arn" => layer.custom_instance_profile_arn,
+              "custom_security_group_ids"   => layer.custom_security_group_ids.join(","),
+              "drain_elb_on_shutdown"       => layer.lifecycle_event_configuration.shutdown.delay_until_elb_connections_drained.to_s,
+              "install_updates_on_boot"     => layer.install_updates_on_boot.to_s,
+              "instance_shutdown_timeout"   => layer.lifecycle_event_configuration.shutdown.execution_timeout.to_s,
+              "name"                        => layer.name,
+              "short_name"                  => layer.shortname,
+              "stack_id"                    => layer.stack_id,
+              "use_ebs_optimized_instances" => layer.use_ebs_optimized_instances.to_s,
             }
 
             attributes["custom_security_group_ids.#"] = layer.custom_security_group_ids.count.to_s

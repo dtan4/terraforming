@@ -83,7 +83,11 @@ module Terraforming
 
       def permission_attributes_of(security_group, permission, type)
         hashcode = permission_hashcode_of(security_group, permission)
-        security_groups = security_groups_in(permission, security_group).reject { |group_name| group_name == security_group.group_name }.reject { |group_id| group_id == security_group.group_id }
+        security_groups = security_groups_in(permission, security_group).reject do |group_name|
+          group_name == security_group.group_name
+        end.reject do |group_id|
+          group_id == security_group.group_id
+        end
 
         attributes = {
           "#{type}.#{hashcode}.from_port" => (permission.from_port || 0).to_s,

@@ -101,7 +101,9 @@ module Terraforming
       end
 
       def instances
-        @client.describe_instances.map(&:reservations).flatten.map(&:instances).flatten.reject { |instance| instance.state.name == "terminated" }
+        @client.describe_instances.map(&:reservations).flatten.map(&:instances).flatten.reject do |instance|
+          instance.state.name == "terminated"
+        end
       end
 
       def module_name_of(instance)
