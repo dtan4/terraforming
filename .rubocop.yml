@@ -8,6 +8,7 @@ Metrics/CyclomaticComplexity:
   Enabled: false
 
 Metrics/LineLength:
+  Max: 130
   Exclude:
     - "spec/**/*"
 
