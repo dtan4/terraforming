@@ -60,7 +60,7 @@ module Terraforming
           result.policy_users += resp.policy_users
           result.policy_roles += resp.policy_roles
         end
-        
+
         result
       end
 

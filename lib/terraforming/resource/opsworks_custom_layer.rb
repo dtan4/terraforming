@@ -21,21 +21,20 @@ module Terraforming
 
       def tfstate
         stacks.inject({}) do |resources, stack|
-
           stack_layers(stack.stack_id).each do |layer|
             attributes = {
-              "auto_assign_elastic_ips"       => layer.auto_assign_elastic_ips.to_s,
-              "auto_assign_public_ips"        => layer.auto_assign_public_ips.to_s,
-              "auto_healing"                  => layer.enable_auto_healing.to_s,
-              "custom_instance_profile_arn"   => layer.custom_instance_profile_arn,
-              "custom_security_group_ids"     => layer.custom_security_group_ids.join(","),
-              "drain_elb_on_shutdown"         => layer.lifecycle_event_configuration.shutdown.delay_until_elb_connections_drained.to_s,
-              "install_updates_on_boot"       => layer.install_updates_on_boot.to_s,
-              "instance_shutdown_timeout"     => layer.lifecycle_event_configuration.shutdown.execution_timeout.to_s,
-              "name"                          => layer.name,
-              "short_name"                    => layer.shortname,
-              "stack_id"                      => layer.stack_id,
-              "use_ebs_optimized_instances"   => layer.use_ebs_optimized_instances.to_s,
+              "auto_assign_elastic_ips"     => layer.auto_assign_elastic_ips.to_s,
+              "auto_assign_public_ips"      => layer.auto_assign_public_ips.to_s,
+              "auto_healing"                => layer.enable_auto_healing.to_s,
+              "custom_instance_profile_arn" => layer.custom_instance_profile_arn,
+              "custom_security_group_ids"   => layer.custom_security_group_ids.join(","),
+              "drain_elb_on_shutdown"       => layer.lifecycle_event_configuration.shutdown.delay_until_elb_connections_drained.to_s,
+              "install_updates_on_boot"     => layer.install_updates_on_boot.to_s,
+              "instance_shutdown_timeout"   => layer.lifecycle_event_configuration.shutdown.execution_timeout.to_s,
+              "name"                        => layer.name,
+              "short_name"                  => layer.shortname,
+              "stack_id"                    => layer.stack_id,
+              "use_ebs_optimized_instances" => layer.use_ebs_optimized_instances.to_s,
             }
 
             attributes["custom_security_group_ids.#"] = layer.custom_security_group_ids.count.to_s
@@ -107,13 +106,12 @@ module Terraforming
       end
 
       def stack_layers(stack_id)
-        @client.describe_layers({stack_id: stack_id}).layers
+        @client.describe_layers({ stack_id: stack_id }).layers
       end
 
       def module_name_of(object)
         normalize_module_name(object.name)
       end
-
     end
   end
 end

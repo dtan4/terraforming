@@ -87,7 +87,7 @@ POLICY
               "primary" => {
                 "id" => "hoge_role",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::123456789012:role/hoge_role",
+                  "arn" => "arn:aws:iam::123456789012:role/hoge_role",
                   "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
                   "id" => "hoge_role",
                   "name" => "hoge_role",
@@ -101,7 +101,7 @@ POLICY
               "primary" => {
                 "id" => "fuga_role",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::345678901234:role/fuga_role",
+                  "arn" => "arn:aws:iam::345678901234:role/fuga_role",
                   "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
                   "id" => "fuga_role",
                   "name" => "fuga_role",

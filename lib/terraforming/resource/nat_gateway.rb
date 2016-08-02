@@ -24,7 +24,7 @@ module Terraforming
           next resources if nat_gateway.nat_gateway_addresses.empty?
 
           attributes = {
-            "id"     => nat_gateway.nat_gateway_id,
+            "id" => nat_gateway.nat_gateway_id,
             "allocation_id" => nat_gateway.nat_gateway_addresses[0].allocation_id,
             "subnet_id" => nat_gateway.subnet_id,
             "network_inferface_id" => nat_gateway.nat_gateway_addresses[0].network_interface_id,
@@ -43,7 +43,7 @@ module Terraforming
         end
       end
 
-    private
+      private
 
       def nat_gateways
         @client.describe_nat_gateways.nat_gateways

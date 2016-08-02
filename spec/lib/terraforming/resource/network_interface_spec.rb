@@ -84,7 +84,7 @@ module Terraforming
               instance_id: "i-12345678",
               delete_on_termination: true,
               attachment_id: "eni-attach-12345678",
-              instance_owner_id: "345678901234", 
+              instance_owner_id: "345678901234",
             },
             private_dns_name: "ip-2-2-2-2.ap-northeast-1.compute.internal",
             availability_zone: "ap-northeast-1a",

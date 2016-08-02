@@ -44,7 +44,7 @@ module Terraforming
 
       before do
         client.stub_responses(:list_groups, groups: groups)
-        client.stub_responses(:list_group_policies, [{ policy_names: %w(hoge_policy)}, { policy_names: %w(fuga_policy) }])
+        client.stub_responses(:list_group_policies, [{ policy_names: %w(hoge_policy) }, { policy_names: %w(fuga_policy) }])
         client.stub_responses(:get_group_policy, [hoge_policy, fuga_policy])
       end
 

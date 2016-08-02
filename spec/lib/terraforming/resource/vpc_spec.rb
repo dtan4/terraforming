@@ -45,7 +45,7 @@ module Terraforming
 
         attr_stub_responses = []
 
-        %w(vpc-1234abcd vpc-5678efgh).each do |vpc_id|
+        %w(vpc-1234abcd vpc-5678efgh).each do |_vpc_id|
           %i(enable_dns_hostnames enable_dns_support).each do |attr|
             attr_stub_responses << { attr => { value: true }  }
           end

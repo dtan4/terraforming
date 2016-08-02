@@ -21,7 +21,6 @@ module Terraforming
 
       def tfstate
         launch_configurations.inject({}) do |resources, lc|
-
           attributes = {
             "name" => lc.launch_configuration_name,
             "image_id" => lc.image_id,
@@ -72,7 +71,7 @@ module Terraforming
       end
 
       def ebs_block_device?(block_device)
-        block_device.virtual_name == nil && block_device.ebs
+        block_device.virtual_name.nil? && block_device.ebs
       end
 
       def ebs_block_device_count(launch_configuration)

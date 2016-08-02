@@ -71,7 +71,7 @@ module Terraforming
 
       before do
         client.stub_responses(:list_hosted_zones,
-          hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
+                              hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
         client.stub_responses(:list_tags_for_resource, [
           { resource_tag_set: hoge_resource_tag_set },
           { resource_tag_set: fuga_resource_tag_set },
@@ -112,14 +112,14 @@ resource "aws_route53_zone" "fuga-net-private" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_route53_zone.hoge-net-public"=> {
-              "type"=> "aws_route53_zone",
-              "primary"=> {
-                "id"=> "ABCDEFGHIJKLMN",
-                "attributes"=> {
-                  "comment"=> "",
-                  "id"=> "ABCDEFGHIJKLMN",
-                  "name"=> "hoge.net",
+            "aws_route53_zone.hoge-net-public" => {
+              "type" => "aws_route53_zone",
+              "primary" => {
+                "id" => "ABCDEFGHIJKLMN",
+                "attributes" => {
+                  "comment" => "",
+                  "id" => "ABCDEFGHIJKLMN",
+                  "name" => "hoge.net",
                   "name_servers.#" => "4",
                   "tags.#" => "1",
                   "vpc_id" => "",
@@ -128,14 +128,14 @@ resource "aws_route53_zone" "fuga-net-private" {
                 },
               }
             },
-            "aws_route53_zone.fuga-net-private"=> {
-              "type"=> "aws_route53_zone",
-              "primary"=> {
-                "id"=>  "OPQRSTUVWXYZAB",
-                "attributes"=> {
-                  "comment"=> "fuga.net zone comment",
-                  "id"=> "OPQRSTUVWXYZAB",
-                  "name"=> "fuga.net",
+            "aws_route53_zone.fuga-net-private" => {
+              "type" => "aws_route53_zone",
+              "primary" => {
+                "id" => "OPQRSTUVWXYZAB",
+                "attributes" => {
+                  "comment" => "fuga.net zone comment",
+                  "id" => "OPQRSTUVWXYZAB",
+                  "name" => "fuga.net",
                   "name_servers.#" => "0",
                   "tags.#" => "1",
                   "vpc_id" => "vpc-1234abcd",

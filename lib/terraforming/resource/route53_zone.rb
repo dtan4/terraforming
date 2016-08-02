@@ -25,9 +25,9 @@ module Terraforming
           vpc = vpc_of(hosted_zone)
 
           attributes = {
-            "comment"=> comment_of(hosted_zone),
-            "id"=> zone_id,
-            "name"=> name_of(hosted_zone),
+            "comment" => comment_of(hosted_zone),
+            "id" => zone_id,
+            "name" => name_of(hosted_zone),
             "name_servers.#" => name_servers_of(hosted_zone).length.to_s,
             "tags.#" => tags_of(hosted_zone).length.to_s,
             "vpc_id" => vpc ? vpc.vpc_id : "",
@@ -82,7 +82,7 @@ module Terraforming
       end
 
       def zone_id_of(hosted_zone)
-        hosted_zone.hosted_zone.id.gsub(/\A\/hostedzone\//, "")
+        hosted_zone.hosted_zone.id.gsub(%r{\A/hostedzone/}, "")
       end
     end
   end

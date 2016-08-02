@@ -24,7 +24,7 @@ module Terraforming
           membership_name = membership_name_of(group)
 
           attributes = {
-            "group"=> group.group_name,
+            "group" => group.group_name,
             "id" => membership_name,
             "name" => membership_name,
             "users.#" => group_members_of(group).length.to_s,

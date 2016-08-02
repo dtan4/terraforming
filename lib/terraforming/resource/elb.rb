@@ -48,7 +48,6 @@ module Terraforming
           attributes.merge!(instances_attributes_of(load_balancer))
           attributes.merge!(tags_attributes_of(load_balancer))
 
-
           resources["aws_elb.#{module_name_of(load_balancer)}"] = {
             "type" => "aws_elb",
             "primary" => {
@@ -106,7 +105,7 @@ module Terraforming
 
       def tags_attributes_of(elb)
         tags = @client.describe_tags(load_balancer_names: [elb.load_balancer_name]).tag_descriptions.first.tags
-        attributes = {"tags.#" => tags.length.to_s}
+        attributes = { "tags.#" => tags.length.to_s }
 
         tags.each do |tag|
           attributes["tags.#{tag.key}"] = tag.value
@@ -116,7 +115,7 @@ module Terraforming
       end
 
       def instances_attributes_of(elb)
-        attributes = {"instances.#" => elb.instances.length.to_s}
+        attributes = { "instances.#" => elb.instances.length.to_s }
 
         elb.instances.each do |instance|
           attributes["instances.#{Zlib.crc32(instance.instance_id)}"] = instance.instance_id
@@ -126,7 +125,7 @@ module Terraforming
       end
 
       def subnets_attributes_of(elb)
-        attributes = {"subnets.#" => elb.subnets.length.to_s}
+        attributes = { "subnets.#" => elb.subnets.length.to_s }
 
         elb.subnets.each do |subnet_id|
           attributes["subnets.#{Zlib.crc32(subnet_id)}"] = subnet_id
@@ -136,7 +135,7 @@ module Terraforming
       end
 
       def sg_attributes_of(elb)
-        attributes = {"security_groups.#" => elb.security_groups.length.to_s}
+        attributes = { "security_groups.#" => elb.security_groups.length.to_s }
 
         elb.security_groups.each do |sg_id|
           attributes["security_groups.#{Zlib.crc32(sg_id)}"] = sg_id
@@ -146,7 +145,7 @@ module Terraforming
       end
 
       def listeners_attributes_of(elb)
-        attributes = {"listener.#" => elb.listener_descriptions.length.to_s}
+        attributes = { "listener.#" => elb.listener_descriptions.length.to_s }
 
         elb.listener_descriptions.each do |listener_description|
           attributes.merge!(listener_attributes_of(listener_description.listener))

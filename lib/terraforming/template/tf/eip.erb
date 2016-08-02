@@ -5,7 +5,7 @@ resource "aws_eip" "<%= addr.allocation_id %>" {
 <% elsif addr.network_interface_id -%>
     network_interface = "<%= addr.network_interface_id %>"
 <% end -%>
-    vpc               = <%= is_vpc?(addr) %>
+    vpc               = <%= vpc?(addr) %>
 }
 
 <% end -%>

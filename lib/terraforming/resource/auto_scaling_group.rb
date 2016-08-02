@@ -83,7 +83,7 @@ module Terraforming
       end
 
       def vpc_zone_specified?(group)
-        group.vpc_zone_identifier && vpc_zone_identifier_of(group).length > 0
+        group.vpc_zone_identifier && !vpc_zone_identifier_of(group).empty?
       end
     end
   end

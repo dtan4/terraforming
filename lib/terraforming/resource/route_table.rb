@@ -47,8 +47,8 @@ module Terraforming
       def routes_of(route_table)
         route_table.routes.reject do |route|
           route.gateway_id.to_s == 'local' ||
-          route.origin.to_s == 'EnableVgwRoutePropagation' ||
-          route.destination_prefix_list_id
+            route.origin.to_s == 'EnableVgwRoutePropagation' ||
+            route.destination_prefix_list_id
         end
       end
 

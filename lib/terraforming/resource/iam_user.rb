@@ -22,7 +22,7 @@ module Terraforming
       def tfstate
         iam_users.inject({}) do |resources, user|
           attributes = {
-            "arn"=> user.arn,
+            "arn" => user.arn,
             "id" => user.user_name,
             "name" => user.user_name,
             "path" => user.path,

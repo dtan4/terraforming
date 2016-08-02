@@ -61,7 +61,7 @@ resource "aws_nat_gateway" "nat-0c5b68b2c4d64ea12" {
               "primary" => {
                 "id" => "nat-0c5b68b2c4d64e037",
                 "attributes" => {
-                  "id"     => "nat-0c5b68b2c4d64e037",
+                  "id" => "nat-0c5b68b2c4d64e037",
                   "allocation_id" => "eipalloc-b02a3c79",
                   "subnet_id" => "subnet-cd5645f7",
                   "network_inferface_id" => "eni-03d4046f",
@@ -75,7 +75,7 @@ resource "aws_nat_gateway" "nat-0c5b68b2c4d64ea12" {
               "primary" => {
                 "id" => "nat-0c5b68b2c4d64ea12",
                 "attributes" => {
-                  "id"     => "nat-0c5b68b2c4d64ea12",
+                  "id" => "nat-0c5b68b2c4d64ea12",
                   "allocation_id" => "eipalloc-a03a3c79",
                   "subnet_id" => "subnet-cd564c9e",
                   "network_inferface_id" => "eni-b6e4046f",

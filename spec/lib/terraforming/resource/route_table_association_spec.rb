@@ -146,7 +146,7 @@ resource "aws_route_table_association" "my-route-table-rtbassoc-e789012fg" {
             "aws_route_table_association.my-route-table-rtbassoc-e789012fg" => {
               "type" => "aws_route_table_association",
               "primary" => {
-                "id"=>"rtbassoc-e789012fg",
+                "id" => "rtbassoc-e789012fg",
                 "attributes" => {
                   "id" => "rtbassoc-e789012fg",
                   "route_table_id" => "rtb-a12bcd34",
