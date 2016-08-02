@@ -20,7 +20,7 @@ module Terraforming
         ]
       end
 
-      let(:owner)  do
+      let(:owner) do
         {
           display_name: "owner",
           id: "12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh"

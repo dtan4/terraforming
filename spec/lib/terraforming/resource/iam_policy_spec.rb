@@ -57,7 +57,7 @@ module Terraforming
       before do
         client.stub_responses(:get_policy, [{ policy: policies[0] }, { policy: policies[1] }])
         client.stub_responses(:list_policies, policies: policies)
-        client.stub_responses(:get_policy_version, [{ policy_version: hoge_policy_version } , { policy_version: fuga_policy_version }])
+        client.stub_responses(:get_policy_version, [{ policy_version: hoge_policy_version }, { policy_version: fuga_policy_version }])
       end
 
       describe ".tf" do

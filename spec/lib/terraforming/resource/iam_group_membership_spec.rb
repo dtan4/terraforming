@@ -104,7 +104,7 @@ resource "aws_iam_group_membership" "fuga" {
               "primary" => {
                 "id" => "hoge-group-membership",
                 "attributes" => {
-                  "group"=> "hoge",
+                  "group" => "hoge",
                   "id" => "hoge-group-membership",
                   "name" => "hoge-group-membership",
                   "users.#" => "1",
@@ -116,7 +116,7 @@ resource "aws_iam_group_membership" "fuga" {
               "primary" => {
                 "id" => "fuga-group-membership",
                 "attributes" => {
-                  "group"=> "fuga",
+                  "group" => "fuga",
                   "id" => "fuga-group-membership",
                   "name" => "fuga-group-membership",
                   "users.#" => "1",

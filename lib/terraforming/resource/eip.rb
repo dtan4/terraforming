@@ -31,7 +31,7 @@ module Terraforming
             "public_ip" => addr.public_ip,
             "vpc" => is_vpc?(addr).to_s,
           }
-          attributes.delete_if{|k, v| v.nil?}
+          attributes.delete_if { |_k, v| v.nil? }
           resources["aws_eip.#{addr.allocation_id}"] = {
             "type" => "aws_eip",
             "primary" => {

@@ -83,7 +83,7 @@ module Terraforming
 
       before do
         client.stub_responses(:list_hosted_zones,
-          hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
+                              hosted_zones: hosted_zones, marker: "", is_truncated: false, max_items: 1)
         client.stub_responses(:list_resource_record_sets, [
           { resource_record_sets: hoge_resource_record_sets, is_truncated: false, max_items: 1 },
           { resource_record_sets: fuga_resource_record_sets, is_truncated: false, max_items: 1 },
@@ -137,7 +137,7 @@ resource "aws_route53_record" "-052-example-net-CNAME" {
               "type" => "aws_route53_record",
               "primary" => {
                 "id" => "ABCDEFGHIJKLMN_hoge.net_A",
-                "attributes"=> {
+                "attributes" => {
                   "id" => "ABCDEFGHIJKLMN_hoge.net_A",
                   "name" => "hoge.net",
                   "type" => "A",
@@ -167,7 +167,7 @@ resource "aws_route53_record" "-052-example-net-CNAME" {
               "type" => "aws_route53_record",
               "primary" => {
                 "id" => "CDEFGHIJKLMNOP_*.example.net_CNAME",
-                "attributes"=> {
+                "attributes" => {
                   "id" => "CDEFGHIJKLMNOP_*.example.net_CNAME",
                   "name" => "*.example.net",
                   "type" => "CNAME",

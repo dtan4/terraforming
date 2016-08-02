@@ -187,7 +187,7 @@ resource "aws_route_table" "my-route-table-2" {
                   "vpc_id" => "vpc-ab123cde",
 
                   "tags.#" => "1",
-                  "tags.Name"=>"my-route-table",
+                  "tags.Name" => "my-route-table",
 
                   "route.#" => "3",
                   "route.4066406027.cidr_block" => "0.0.0.0/0",
@@ -216,13 +216,13 @@ resource "aws_route_table" "my-route-table-2" {
             "aws_route_table.my-route-table-2" => {
               "type" => "aws_route_table",
               "primary" => {
-                "id"=>"rtb-efgh5678",
+                "id" => "rtb-efgh5678",
                 "attributes" => {
                   "id" => "rtb-efgh5678",
                   "vpc_id" => "vpc-ab123cde",
 
                   "tags.#" => "1",
-                  "tags.Name"=>"my-route-table-2",
+                  "tags.Name" => "my-route-table-2",
 
                   "route.#" => "1",
                   "route.4031521715.cidr_block" => "0.0.0.0/0",

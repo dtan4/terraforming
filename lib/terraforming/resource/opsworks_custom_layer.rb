@@ -21,7 +21,6 @@ module Terraforming
 
       def tfstate
         stacks.inject({}) do |resources, stack|
-
           stack_layers(stack.stack_id).each do |layer|
             attributes = {
               "auto_assign_elastic_ips"       => layer.auto_assign_elastic_ips.to_s,
@@ -107,13 +106,12 @@ module Terraforming
       end
 
       def stack_layers(stack_id)
-        @client.describe_layers({stack_id: stack_id}).layers
+        @client.describe_layers({ stack_id: stack_id }).layers
       end
 
       def module_name_of(object)
         normalize_module_name(object.name)
       end
-
     end
   end
 end

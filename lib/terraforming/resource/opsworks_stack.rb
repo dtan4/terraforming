@@ -75,7 +75,6 @@ module Terraforming
       def module_name_of(stack)
         normalize_module_name(stack.name)
       end
-
     end
   end
 end

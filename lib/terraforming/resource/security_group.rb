@@ -75,7 +75,7 @@ module Terraforming
 
       def module_name_of(security_group)
         if security_group.vpc_id.nil?
-          normalize_module_name("#{security_group.group_name}")
+          normalize_module_name(security_group.group_name.to_s)
         else
           normalize_module_name("#{security_group.vpc_id}-#{security_group.group_name}")
         end
@@ -84,7 +84,6 @@ module Terraforming
       def permission_attributes_of(security_group, permission, type)
         hashcode = permission_hashcode_of(security_group, permission)
         security_groups = security_groups_in(permission, security_group).reject { |group_name| group_name == security_group.group_name }.reject { |group_id| group_id == security_group.group_id }
-
 
         attributes = {
           "#{type}.#{hashcode}.from_port" => (permission.from_port || 0).to_s,
@@ -140,7 +139,7 @@ module Terraforming
           "#{permission.from_port || 0}-" <<
           "#{permission.to_port || 0}-" <<
           "#{permission.ip_protocol}-" <<
-          "#{self_referenced_permission?(security_group, permission).to_s}-"
+          "#{self_referenced_permission?(security_group, permission)}-"
 
         permission.ip_ranges.each { |range| string << "#{range.cidr_ip}-" }
         security_groups_in(permission, security_group).each { |group| string << "#{group}-" }
@@ -157,7 +156,7 @@ module Terraforming
       end
 
       def security_groups_in(permission, security_group)
-        permission.user_id_group_pairs.map { |range|
+        permission.user_id_group_pairs.map do |range|
           # EC2-Classic, same account
           if security_group.owner_id == range.user_id && !range.group_name.nil?
             range.group_name
@@ -168,7 +167,7 @@ module Terraforming
           else
             "#{range.user_id}/#{range.group_name}"
           end
-        }
+        end
       end
 
       def tags_attributes_of(security_group)

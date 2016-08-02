@@ -26,6 +26,5 @@ module Terraforming
         json.strip
       end
     end
-
   end
 end

@@ -25,8 +25,8 @@ module Terraforming
           record_id = record_id_of(record, zone_id)
 
           attributes = {
-            "id"=> record_id,
-            "name"=> name_of(record.name.gsub(/\\052/, '*')),
+            "id" => record_id,
+            "name" => name_of(record.name.gsub(/\\052/, '*')),
             "type" => record.type,
             "zone_id" => zone_id,
           }

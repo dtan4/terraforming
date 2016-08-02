@@ -199,7 +199,6 @@ module Terraforming
       execute(Terraforming::Resource::VPNGateway, options)
     end
 
-
     private
 
     def execute(klass, options)

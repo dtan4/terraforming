@@ -3,7 +3,7 @@ require "oj"
 begin
   require "ox"
 rescue NameError => e
-  spec = Gem::Specification.stubs.find {|s| s.name == 'ox' }
+  spec = Gem::Specification.stubs.find { |s| s.name == 'ox' }
   raise e unless spec
   require File.join(spec.gem_dir, "lib/ox")
 end

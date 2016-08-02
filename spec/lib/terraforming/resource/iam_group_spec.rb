@@ -63,7 +63,7 @@ resource "aws_iam_group" "fuga" {
               "primary" => {
                 "id" => "hoge",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::123456789012:group/hoge",
+                  "arn" => "arn:aws:iam::123456789012:group/hoge",
                   "id" => "hoge",
                   "name" => "hoge",
                   "path" => "/",
@@ -76,7 +76,7 @@ resource "aws_iam_group" "fuga" {
               "primary" => {
                 "id" => "fuga",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::345678901234:group/fuga",
+                  "arn" => "arn:aws:iam::345678901234:group/fuga",
                   "id" => "fuga",
                   "name" => "fuga",
                   "path" => "/system/",

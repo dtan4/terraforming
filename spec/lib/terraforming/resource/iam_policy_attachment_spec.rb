@@ -52,7 +52,7 @@ module Terraforming
       let(:entities_for_policy_fuga) do
         {
           policy_groups: [
-            { group_name: "fuga",  group_id: "GRIPSTUVWXYZA89012345" },
+            { group_name: "fuga", group_id: "GRIPSTUVWXYZA89012345" },
           ],
           policy_users: [
             { user_name: "hoge", user_id: "USEREFGHIJKLMN1234567" },

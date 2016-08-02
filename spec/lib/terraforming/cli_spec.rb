@@ -276,7 +276,6 @@ module Terraforming
 
         it_behaves_like "CLI examples"
       end
-
     end
 
     context "flush to stdout" do
@@ -455,7 +454,7 @@ resource "aws_s3_bucket" "fuga" {
         end
 
         context "with --tfstate --merge TFSTATE --overwrite" do
-           before do
+          before do
             @tmp_tfstate = Tempfile.new("tfstate")
             @tmp_tfstate.write(open(tfstate_fixture_path).read)
             @tmp_tfstate.flush

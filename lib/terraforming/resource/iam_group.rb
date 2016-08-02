@@ -22,7 +22,7 @@ module Terraforming
       def tfstate
         iam_groups.inject({}) do |resources, group|
           attributes = {
-            "arn"=> group.arn,
+            "arn" => group.arn,
             "id" => group.group_name,
             "name" => group.group_name,
             "path" => group.path,

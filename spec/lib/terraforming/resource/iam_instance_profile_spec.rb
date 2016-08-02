@@ -68,7 +68,7 @@ resource "aws_iam_instance_profile" "fuga_profile" {
               "primary" => {
                 "id" => "hoge_profile",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::123456789012:instance-profile/hoge_profile",
+                  "arn" => "arn:aws:iam::123456789012:instance-profile/hoge_profile",
                   "id" => "hoge_profile",
                   "name" => "hoge_profile",
                   "path" => "/",
@@ -81,7 +81,7 @@ resource "aws_iam_instance_profile" "fuga_profile" {
               "primary" => {
                 "id" => "fuga_profile",
                 "attributes" => {
-                  "arn"=> "arn:aws:iam::345678901234:instance-profile/fuga_profile",
+                  "arn" => "arn:aws:iam::345678901234:instance-profile/fuga_profile",
                   "id" => "fuga_profile",
                   "name" => "fuga_profile",
                   "path" => "/system/",
