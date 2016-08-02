@@ -81,7 +81,7 @@ module Terraforming
       end
 
       def zone_id_of(hosted_zone)
-        hosted_zone.id.gsub(/\A\/hostedzone\//, "")
+        hosted_zone.id.gsub(%r{\A/hostedzone/}, "")
       end
     end
   end
