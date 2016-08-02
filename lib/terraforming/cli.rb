@@ -201,10 +201,14 @@ module Terraforming
 
     private
 
-    def execute(klass, options)
+    def configure_aws(options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
       Aws.use_bundled_cert! if options[:use_bundled_cert]
+    end
+
+    def execute(klass, options)
+      configure_aws(options)
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]
