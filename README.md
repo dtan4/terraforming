@@ -343,6 +343,15 @@ terraforming help | grep terraforming | grep -v help | awk '{print "terraforming
 find . -type f | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
 ```
 
+#### Example: Export all state
+```bash
+export AWS_REGION=us-west-2
+# Setup initial state
+terraforming s3 --tfstate > terraform.tfstate
+terraforming help | grep terraforming | grep -v -E "(help|s3)" | awk '{print "terraforming", $2, "--tfstate --merge=terraform.tfstate --overwrite";}' | bash
+```
+
+
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
 
 Terraforming Docker Image is available at [quay.io/dtan4/terraforming](https://quay.io/repository/dtan4/terraforming) and developed at [dtan4/dockerfile-terraforming](https://github.com/dtan4/dockerfile-terraforming).
