@@ -65,7 +65,7 @@ module Terraforming
       end
 
       def iam_policies
-        @client.list_policies(scope: "Local").map(&:policies).flatten
+        @client.list_policies(scope: "All", only_attached: true).map(&:policies).flatten
       end
 
       def iam_policy_attachments
