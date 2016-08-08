@@ -3,16 +3,17 @@ module Terraforming
     class VPNGateway
       include Terraforming::Util
 
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
+      def self.tf(match, client: Aws::EC2::Client.new)
+        self.new(client, match).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(match, client: Aws::EC2::Client.new)
+        self.new(client, match).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, match)
         @client = client
+        @match_regex = Regexp.new(match) if match
       end
 
       def tf
@@ -44,7 +45,9 @@ module Terraforming
       private
 
       def vpn_gateways
-        @client.describe_vpn_gateways.map(&:vpn_gateways).flatten
+        @client.describe_vpn_gateways.map(&:vpn_gateways).flatten.select do |resource|
+          @match_regex ? module_name_of(resource) =~ @match_regex : 1
+        end
       end
 
       def module_name_of(vpn_gateway)

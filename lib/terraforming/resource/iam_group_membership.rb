@@ -3,16 +3,17 @@ module Terraforming
     class IAMGroupMembership
       include Terraforming::Util
 
-      def self.tf(client: Aws::IAM::Client.new)
-        self.new(client).tf
+      def self.tf(match, client: Aws::IAM::Client.new)
+        self.new(client, match).tf
       end
 
-      def self.tfstate(client: Aws::IAM::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(match, client: Aws::IAM::Client.new)
+        self.new(client, match).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, match)
         @client = client
+        @match_regex = Regexp.new(match) if match
       end
 
       def tf
