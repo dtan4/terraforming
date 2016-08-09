@@ -3,16 +3,17 @@ module Terraforming
     class SQS
       include Terraforming::Util
 
-      def self.tf(client: Aws::SQS::Client.new)
-        self.new(client).tf
+      def self.tf(match, client: Aws::SQS::Client.new)
+        self.new(client, match).tf
       end
 
-      def self.tfstate(client: Aws::SQS::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(match, client: Aws::SQS::Client.new)
+        self.new(client, match).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, match)
         @client = client
+        @match_regex = Regexp.new(match) if match
       end
 
       def tf
@@ -59,7 +60,9 @@ module Terraforming
       end
 
       def queue_urls
-        @client.list_queues.map(&:queue_urls).flatten
+        @client.list_queues.map(&:queue_urls).flatten.select do |resource|
+          @match_regex ? module_name_of(resource) =~ @match_regex : 1
+        end
       end
 
       def module_name_of(queue)

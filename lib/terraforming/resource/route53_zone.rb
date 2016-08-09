@@ -3,16 +3,17 @@ module Terraforming
     class Route53Zone
       include Terraforming::Util
 
-      def self.tf(client: Aws::Route53::Client.new)
-        self.new(client).tf
+      def self.tf(match, client: Aws::Route53::Client.new)
+        self.new(client, match).tf
       end
 
-      def self.tfstate(client: Aws::Route53::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(match, client: Aws::Route53::Client.new)
+        self.new(client, match).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, match)
         @client = client
+        @match_regex = Regexp.new(match) if match
       end
 
       def tf
@@ -49,7 +50,9 @@ module Terraforming
       private
 
       def hosted_zones
-        @client.list_hosted_zones.map(&:hosted_zones).flatten.map { |hosted_zone| @client.get_hosted_zone(id: hosted_zone.id) }
+        @client.list_hosted_zones.map(&:hosted_zones).flatten.select do |resource|
+          @match_regex ? module_name_of(resource) =~ @match_regex : 1
+        end.map { |hosted_zone| @client.get_hosted_zone(id: hosted_zone.id) }
       end
 
       def tags_of(hosted_zone)

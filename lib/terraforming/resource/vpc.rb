@@ -3,16 +3,17 @@ module Terraforming
     class VPC
       include Terraforming::Util
 
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
+      def self.tf(match, client: Aws::EC2::Client.new)
+        self.new(client, match).tf
       end
 
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
+      def self.tfstate(match, client: Aws::EC2::Client.new)
+        self.new(client, match).tfstate
       end
 
-      def initialize(client)
+      def initialize(client, match)
         @client = client
+        @match_regex = Regexp.new(match) if match
       end
 
       def tf
@@ -56,7 +57,9 @@ module Terraforming
       end
 
       def vpcs
-        @client.describe_vpcs.map(&:vpcs).flatten
+        @client.describe_vpcs.map(&:vpcs).flatten.select do |resource|
+          @match_regex ? module_name_of(resource) =~ @match_regex : 1
+        end
       end
 
       def vpc_attribute(vpc, attribute)
