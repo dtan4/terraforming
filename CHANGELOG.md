@@ -6,7 +6,7 @@
 
 ## Fixed / Updated
 
-- Use the latest Oj (2.17.x [#257](https://github.com/dtan4/terraforming/pull/257)
+- Use the latest Oj (2.17.x) [#257](https://github.com/dtan4/terraforming/pull/257)
 - Use the latest aws-sdk (2.5.x) [#256](https://github.com/dtan4/terraforming/pull/256)
 - Attach AWS-scoped IAM policy attachments [#251](https://github.com/dtan4/terraforming/pull/251) (thanks @raylu)
 - Fix LaunchConfiguration tf result when associate_public_ip_address [#250](https://github.com/dtan4/terraforming/pull/250) (thanks @gotyoooo)
@@ -16,11 +16,11 @@
 - Fix name of "iampa" subcommand in CLI help output [#237](https://github.com/dtan4/terraforming/pull/237) (thanks @jimmycuadra)
 - Paginate all resources [#236](https://github.com/dtan4/terraforming/pull/236) (thanks @philsnow)
 
-OpsWorks support was omitted at v0.10.0 due to lack of tests. See [#264](https://github.com/dtan4/terraforming/pull/264) in detail.
+__NOTE:__ OpsWorks support was omitted at v0.10.0 due to lack of tests. See [#264](https://github.com/dtan4/terraforming/pull/264) in detail.
 
 ## Others
 
-- Introduce [RuboCop])(https://github.com/bbatsov/rubocop) and [SideCI](https://sideci.com/) to check coding style automatically [#242](https://github.com/dtan4/terraforming/pull/242)
+- Introduce [RuboCop](https://github.com/bbatsov/rubocop) and [SideCI](https://sideci.com/) to check coding style automatically [#242](https://github.com/dtan4/terraforming/pull/242)
 
 # [v0.9.1](https://github.com/dtan4/terraforming/releases/tag/v0.9.1) (2016-06-17)
 
