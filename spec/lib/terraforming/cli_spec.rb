@@ -186,6 +186,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "nat" do
+        let(:klass)   { Terraforming::Resource::NATGateway }
+        let(:command) { :nat }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "nif" do
         let(:klass)   { Terraforming::Resource::NetworkInterface }
         let(:command) { :nif }
