@@ -85,13 +85,13 @@ Commands:
   terraforming ecsn            # ElastiCache Subnet Group
   terraforming eip             # EIP
   terraforming elb             # ELB
-  terraforming help [COMMAND]  # Describe available commands or one specifi...
+  terraforming help [COMMAND]  # Describe available commands or one specific command
   terraforming iamg            # IAM Group
   terraforming iamgm           # IAM Group Membership
   terraforming iamgp           # IAM Group Policy
   terraforming iamip           # IAM Instance Profile
   terraforming iamp            # IAM Policy
-  terraforming iamp            # IAM Policy Attachment
+  terraforming iampa           # IAM Policy Attachment
   terraforming iamr            # IAM Role
   terraforming iamrp           # IAM Role Policy
   terraforming iamu            # IAM User
