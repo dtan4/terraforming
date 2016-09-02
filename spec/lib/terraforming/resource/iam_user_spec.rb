@@ -62,6 +62,7 @@ resource "aws_iam_user" "fuga-piyo" {
                   "name" => "hoge",
                   "path" => "/",
                   "unique_id" => "ABCDEFGHIJKLMN1234567",
+                  "force_destroy" => "false",
                 }
               }
             },
@@ -75,6 +76,7 @@ resource "aws_iam_user" "fuga-piyo" {
                   "name" => "fuga.piyo",
                   "path" => "/system/",
                   "unique_id" => "OPQRSTUVWXYZA8901234",
+                  "force_destroy" => "false",
                 }
               }
             },

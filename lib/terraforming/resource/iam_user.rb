@@ -27,12 +27,13 @@ module Terraforming
             "name" => user.user_name,
             "path" => user.path,
             "unique_id" => user.user_id,
+            "force_destroy" => "false",
           }
           resources["aws_iam_user.#{module_name_of(user)}"] = {
             "type" => "aws_iam_user",
             "primary" => {
               "id" => user.user_name,
-              "attributes" => attributes
+              "attributes" => attributes,
             }
           }
 
