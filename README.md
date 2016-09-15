@@ -337,8 +337,12 @@ Example assuming you want to export everything from us-west-2 and you are using 
 ```bash
 export AWS_REGION=us-west-2
 terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
-# remove files that only have 1 empty line (nothing in AWS)
-find . -type f | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
+
+# If you want to generate tfstate files for the above export
+terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--tfstate", "--profile", "default", ">", $2".tfstate";}' | bash
+
+# remove tf/tfstate files that only have 1 empty line (nothing in AWS)
+find . -type f -name '*.tf*' | xargs wc -l | grep '1 .' | awk '{print $2;}' | xargs rm
 ```
 
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
