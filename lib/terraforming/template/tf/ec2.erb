@@ -27,10 +27,10 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
     root_block_device {
         volume_type           = "<%= block_device.volume_type %>"
         volume_size           = <%= block_device.size %>
-<%- if block_device.iops -%>
+        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
+<%- if block_device.volume_type == "io1" && block_device.iops -%>
         iops                  = <%= block_device.iops %>
 <%- end -%>
-        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
     }
 <%- else -%>
     ebs_block_device {
@@ -38,10 +38,10 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
         snapshot_id           = "<%= block_device.snapshot_id %>"
         volume_type           = "<%= block_device.volume_type %>"
         volume_size           = <%= block_device.size %>
-<%- if block_device.iops -%>
+        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
+<%- if block_device.volume_type == "io1" && block_device.iops -%>
         iops                  = <%= block_device.iops %>
 <%- end -%>
-        delete_on_termination = <%= mapping.ebs.delete_on_termination %>
     }
 <% end -%>
 

@@ -278,7 +278,8 @@ module Terraforming
                 delete_on_termination: true
               }
             ],
-            volume_type: "standard",
+            volume_type: "io1",
+            iops: 24,
             encrypted: false
           }
         ]
@@ -332,9 +333,10 @@ resource "aws_instance" "hoge" {
     source_dest_check           = true
 
     root_block_device {
-        volume_type           = "standard"
+        volume_type           = "io1"
         volume_size           = 8
         delete_on_termination = true
+        iops                  = 24
     }
 
     tags {
@@ -360,7 +362,6 @@ resource "aws_instance" "i-5678efgh" {
         snapshot_id           = "snap-5678efgh"
         volume_type           = "gp2"
         volume_size           = 8
-        iops                  = 24
         delete_on_termination = true
     }
 
