@@ -29,6 +29,11 @@ module Terraforming
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
+    desc "dm", "Datadog Monitor"
+    def dm
+      execute(Terraforming::Resource::DatadogMonitor, options)
+    end
+
     desc "ec2", "EC2"
     def ec2
       execute(Terraforming::Resource::EC2, options)
@@ -224,17 +229,20 @@ module Terraforming
 
     def tfstate_skeleton
       {
-        "version" => 1,
-        "serial" => 0,
-        "modules" => [
-          {
-            "path" => [
-              "root"
-            ],
-            "outputs" => {},
-            "resources" => {},
-          }
-        ]
+          "version" => 3,
+          "terraform_version" => "0.7.3",
+          "serial" => 0,
+          "lineage" =>  SecureRandom.uuid,
+          "modules" => [
+              {
+                  "path" => [
+                      "root"
+                  ],
+                  "outputs" => {},
+                  "resources" => {},
+                  "depends_on" => []
+              }
+          ]
       }
     end
   end

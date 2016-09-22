@@ -60,6 +60,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "dm" do
+        let(:klass)   { Terraforming::Resource::DatadogMonitor }
+        let(:command) { :dm }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "ec2" do
         let(:klass)   { Terraforming::Resource::EC2 }
         let(:command) { :ec2 }
@@ -289,6 +296,7 @@ module Terraforming
       describe "s3" do
         let(:klass)   { Terraforming::Resource::S3 }
         let(:command) { :s3 }
+        let(:lineage) { "29f30492-cf1d-4f09-86f8-7ef739ded732" }
 
         let(:tf) do
           <<-EOS
@@ -334,8 +342,10 @@ resource "aws_s3_bucket" "fuga" {
 
         let(:initial_tfstate) do
           {
-            "version" => 1,
+            "version" => 3,
+            "terraform_version" => "0.7.3",
             "serial" => 1,
+            "lineage" => lineage,
             "modules" => [
               {
                 "path" => [
@@ -365,7 +375,8 @@ resource "aws_s3_bucket" "fuga" {
                       }
                     }
                   },
-                }
+                },
+                "depends_on" => []
               }
             ]
           }
@@ -373,8 +384,10 @@ resource "aws_s3_bucket" "fuga" {
 
         let(:merged_tfstate) do
           {
-            "version" => 1,
+            "version" => 3,
+            "terraform_version" =>  "0.7.3",
             "serial" => 89,
+            "lineage" => lineage,
             "remote" => {
               "type" => "s3",
               "config" => { "bucket" => "terraforming-tfstate", "key" => "tf" }
@@ -435,6 +448,7 @@ resource "aws_s3_bucket" "fuga" {
         end
 
         before do
+          allow(SecureRandom).to receive(:uuid).and_return(lineage)
           allow(klass).to receive(:tf).and_return(tf)
           allow(klass).to receive(:tfstate).and_return(tfstate)
         end

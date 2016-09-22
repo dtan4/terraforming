@@ -45,7 +45,7 @@ Or install it yourself as:
 
 ## Prerequisites
 
-You need to set AWS credentials.
+### AWS credentials.
 
 ```bash
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX
@@ -71,6 +71,13 @@ You can force the AWS SDK to utilize the CA certificate that is bundled with the
 PS C:\> terraforming ec2 --use-bundled-cert
 ```
 
+### Datadog credentials
+
+```bash
+export DATADOG_API_KEY=XXXXXXXXXXXXXXXXXXXX
+export DATADOG_APP_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
 ## Usage
 
 ```bash
@@ -80,6 +87,7 @@ Commands:
   terraforming dbpg            # Database Parameter Group
   terraforming dbsg            # Database Security Group
   terraforming dbsn            # Database Subnet Group
+  terraforming dm              # Datadog Monitor
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
   terraforming ecsn            # ElastiCache Subnet Group
@@ -160,8 +168,10 @@ $ terraforming s3 --tfstate
 
 ```json
 {
-  "version": 1,
+  "version": 3,
+  "terraform_version": "0.7.3",
   "serial": 1,
+  "lineage": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   "modules": {
     "path": [
       "root"
@@ -191,7 +201,10 @@ $ terraforming s3 --tfstate
           }
         }
       }
-    }
+    },
+    "depends_on: [
+
+    ]
   }
 }
 ```
@@ -205,8 +218,10 @@ Existing `terraform.tfstate`:
 # /path/to/terraform.tfstate
 
 {
-  "version": 1,
+  "version": 3,
+  "terraform_version": "0.7.3",
   "serial": 88,
+  "lineage": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   "remote": {
     "type": "s3",
     "config": {
@@ -243,7 +258,10 @@ Existing `terraform.tfstate`:
           }
         }
       }
-    }
+    },
+    depends_on: [
+
+    ]
   }
 }
 ```
@@ -256,8 +274,10 @@ $ terraforming s3 --tfstate --merge=/path/to/tfstate
 
 ```json
 {
-  "version": 1,
+  "version": 3,
+  "terraform_version": "0.7.3",
   "serial": 89,
+  "lineage": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   "remote": {
     "type": "s3",
     "config": {
@@ -316,7 +336,10 @@ $ terraforming s3 --tfstate --merge=/path/to/tfstate
           }
         }
       }
-    }
+    },
+    depends_on: [
+    
+    ]
   }
 }
 ```
@@ -360,6 +383,8 @@ $ docker run \
     -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
     -e AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
     -e AWS_REGION=xx-yyyy-0 \
+    -e DATADOG_API_KEY=XXXXXXXXXXXXXXXXXXXX \
+    -e DATADOG_APP_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
     quay.io/dtan4/terraforming:latest \
     terraforming s3
 ```

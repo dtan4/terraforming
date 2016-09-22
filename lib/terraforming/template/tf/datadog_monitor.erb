@@ -1,0 +1,69 @@
+<% monitors.each do |monitor| -%>
+resource "datadog_monitor" "<%= normalize_module_name(monitor["name"]) %>" {
+    name    = "<%= monitor["name"] %>"
+    type    = "<%= monitor["type"] %>"
+    query   = "<%= monitor["query"].gsub(/"/, '\"') %>"
+<%- if monitor["message"].include? "\n" -%>
+    message = <<EOF
+<%= monitor["message"] %>
+EOF
+<%- else -%>
+    message = "<%= monitor["message"] %>"
+<%- end -%>
+<%- unless monitor["escalation_message"].nil? -%>
+    escalation_message = <%= monitor["escalation_message"] %>
+<%- end -%>
+
+    thresholds {
+        critical = <%= monitor["options"]["thresholds"]["critical"] %>
+<%- unless monitor["options"]["thresholds"]["warning"].nil? -%>
+        warning = <%= monitor["options"]["thresholds"]["warning"] %>
+<%- end -%>
+<%- unless monitor["options"]["thresholds"]["ok"].nil? -%>
+        ok = <%= monitor["options"]["thresholds"]["ok"] %>
+<%- end -%>
+    }
+
+<%- unless monitor["options"]["notify_no_data"].nil? -%>
+    notify_no_data = <%= monitor["options"]["notify_no_data"] %>
+<%- end -%>
+<%- unless monitor["options"]["no_data_timeframe "].nil? -%>
+    no_data_timeframe = <%= monitor["options"]["no_data_timeframe "] %>
+<%- end -%>
+<%- unless monitor["options"]["renotify_interval"].nil? -%>
+    renotify_interval = <%= monitor["options"]["renotify_interval"] %>
+<%- end -%>
+<%- unless monitor["options"]["notify_audit"].nil? -%>
+    notify_audit = <%= monitor["options"]["notify_audit"] %>
+<%- end -%>
+<%- unless monitor["options"]["timeout_h"].nil? -%>
+    timeout_h = <%= monitor["options"]["timeout_h"] %>
+<%- end -%>
+<%- unless monitor["options"]["include_tags"].nil? -%>
+    include_tags = <%= monitor["options"]["include_tags"] %>
+<%- end -%>
+<%- unless monitor["options"]["require_full_window"].nil? -%>
+    require_full_window = <%= monitor["options"]["require_full_window"] %>
+<%- end -%>
+<%- unless monitor["options"]["locked"].nil? -%>
+    locked = <%= monitor["options"]["locked"] %>
+<%- end -%>
+<%- unless monitor["options"]["silenced"].nil? || monitor["options"]["silenced"].empty? -%>
+
+    silenced {
+<% monitor["options"]["silenced"].each do |key, value| -%>
+        "<%= key %>" = "<%= value || 0 %>" 
+<%- end -%>
+    }
+<%- end -%>
+<%- unless monitor["options"]["tags"].nil? || monitor["options"]["tags"].empty? -%>
+
+    tags {
+<% monitor["options"]["tags"].each do |tag| -%>
+        "<%= tag.split(":")[0] %>" = "<%= tag.split(":")[1] %>" 
+<%- end -%>
+    }
+<%- end -%>
+}
+
+<%- end -%>
