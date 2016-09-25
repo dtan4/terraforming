@@ -1,8 +1,6 @@
-require "multi_json"
-
 require "aws-sdk-core"
 require "erb"
-require "json"
+require "multi_json"
 require "thor"
 require "zlib"
 
