@@ -221,10 +221,10 @@ module Terraforming
     end
 
     def tfstate(klass, tfstate_path)
-      tfstate = tfstate_path ? JSON.parse(open(tfstate_path).read) : tfstate_skeleton
+      tfstate = tfstate_path ? MultiJson.load(open(tfstate_path).read) : tfstate_skeleton
       tfstate["serial"] = tfstate["serial"] + 1
       tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
-      JSON.pretty_generate(tfstate)
+      MultiJson.encode(tfstate, pretty: true)
     end
 
     def tfstate_skeleton

@@ -1,4 +1,4 @@
-require "oj"
+require "multi_json"
 
 begin
   require "ox"
