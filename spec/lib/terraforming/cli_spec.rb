@@ -39,6 +39,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "cwa" do
+        let(:klass)   { Terraforming::Resource::CloudWatchAlarm }
+        let(:command) { :cwa }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "dbpg" do
         let(:klass)   { Terraforming::Resource::DBParameterGroup }
         let(:command) { :dbpg }
