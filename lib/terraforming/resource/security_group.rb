@@ -75,9 +75,9 @@ module Terraforming
 
       def module_name_of(security_group)
         if security_group.vpc_id.nil?
-          normalize_module_name(security_group.group_name.to_s)
+          normalize_module_name("#{security_group.group_id}-#{security_group.group_name}")
         else
-          normalize_module_name("#{security_group.vpc_id}-#{security_group.group_name}")
+          normalize_module_name("#{security_group.vpc_id}-#{security_group.group_id}-#{security_group.group_name}")
         end
       end
 
