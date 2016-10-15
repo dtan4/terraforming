@@ -4,6 +4,9 @@ resource "aws_network_interface" "<%= module_name_of(network_interface) %>" {
     private_ips       = <%= private_ips_of(network_interface).inspect %>
     security_groups   = <%= security_groups_of(network_interface).inspect %>
     source_dest_check = <%= network_interface.source_dest_check %>
+<% unless network_interface.description.empty? -%>
+    description       = "<%= network_interface.description %>"
+<% end -%>
 <% if network_interface.attachment && network_interface.attachment.instance_id -%>
     attachment {
         instance     = "<%= network_interface.attachment.instance_id %>"
