@@ -90,6 +90,10 @@ module Terraforming
                 ]
               }
             ],
+            iam_instance_profile: {
+              arn: "arn:aws:iam::012345678901:instance-profile/hogehoge",
+              id: "AVLSQEDB2PUHTFXGRG7D9"
+            },
             ebs_optimized: false
           },
           {
@@ -106,7 +110,7 @@ module Terraforming
             monitoring: { state: "enabled" },
             launch_time: Time.parse("2015-03-12 01:23:45 UTC"),
             placement: { availability_zone: "ap-northeast-1b", group_name: "pg-1", tenancy: "default" },
-            subnet_id: "",
+            subnet_id: "subnet-5678efgh",
             vpc_id: "vpc-5678efgh",
             private_ip_address: "10.0.0.101",
             public_ip_address: "54.12.0.1",
@@ -126,7 +130,7 @@ module Terraforming
             client_token: "abcde1234567890123",
             tags: [],
             security_groups: [
-              { group_name: "default", group_id: "5678efgh" }
+              { group_name: "default", group_id: "sg-5678efgh" }
             ],
             source_dest_check: true,
             hypervisor: "xen",
@@ -187,8 +191,8 @@ module Terraforming
             monitoring: { state: "pending" },
             launch_time: Time.parse("2015-03-12 01:23:45 UTC"),
             placement: { availability_zone: "ap-northeast-1b", group_name: "", tenancy: "default" },
-            subnet_id: "",
-            vpc_id: "vpc-9012ijkl",
+            subnet_id: nil,
+            vpc_id: nil,
             private_ip_address: "10.0.0.102",
             public_ip_address: "54.12.0.2",
             architecture: "x86_64",
@@ -311,9 +315,39 @@ module Terraforming
         ]
       end
 
+      let(:hoge_describe_instance_attribute) do
+        {
+          instance_id: "i-1234abcd",
+          disable_api_termination: {
+            value: false
+          }
+        }
+      end
+
+      let(:fuga_describe_instance_attribute) do
+        {
+          instance_id: "i-5678efgh",
+          disable_api_termination: {
+            value: true
+          }
+        }
+      end
+
+      let(:piyo_describe_instance_attribute) do
+        {
+          instance_id: "i-5678efgh",
+          disable_api_termination: {
+            value: false
+          }
+        }
+      end
+
       before do
         client.stub_responses(:describe_instances, reservations: reservations)
         client.stub_responses(:describe_volumes, [{ volumes: hoge_volumes }, { volumes: fuga_volumes }])
+        client.stub_responses(:describe_instance_attribute, [hoge_describe_instance_attribute,
+                                                             fuga_describe_instance_attribute,
+                                                             piyo_describe_instance_attribute])
       end
 
       describe ".tf" do
@@ -322,8 +356,10 @@ module Terraforming
 resource "aws_instance" "hoge" {
     ami                         = "ami-1234abcd"
     availability_zone           = "ap-northeast-1b"
+    disable_api_termination     = false
     ebs_optimized               = false
     instance_type               = "t2.micro"
+    iam_instance_profile        = "hogehoge"
     monitoring                  = false
     key_name                    = "hoge-key"
     subnet_id                   = "subnet-1234abcd"
@@ -347,12 +383,14 @@ resource "aws_instance" "hoge" {
 resource "aws_instance" "i-5678efgh" {
     ami                         = "ami-5678efgh"
     availability_zone           = "ap-northeast-1b"
+    disable_api_termination     = true
     ebs_optimized               = false
     instance_type               = "t2.micro"
     placement_group             = "pg-1"
     monitoring                  = true
     key_name                    = "hoge-key"
-    security_groups             = ["default"]
+    subnet_id                   = "subnet-5678efgh"
+    vpc_security_group_ids      = ["sg-5678efgh"]
     associate_public_ip_address = true
     private_ip                  = "10.0.0.101"
     source_dest_check           = true
@@ -372,6 +410,7 @@ resource "aws_instance" "i-5678efgh" {
 resource "aws_instance" "i-9012ijkl" {
     ami                         = "ami-9012ijkl"
     availability_zone           = "ap-northeast-1b"
+    disable_api_termination     = false
     ebs_optimized               = false
     instance_type               = "t2.micro"
     monitoring                  = true
@@ -400,9 +439,11 @@ resource "aws_instance" "i-9012ijkl" {
                   "ami" => "ami-1234abcd",
                   "associate_public_ip_address" => "true",
                   "availability_zone" => "ap-northeast-1b",
+                  "disable_api_termination" => "false",
                   "ebs_block_device.#" => "0",
                   "ebs_optimized" => "false",
                   "ephemeral_block_device.#" => "0",
+                  "iam_instance_profile" => "hogehoge",
                   "id" => "i-1234abcd",
                   "instance_type" => "t2.micro",
                   "monitoring" => "false",
@@ -430,9 +471,11 @@ resource "aws_instance" "i-9012ijkl" {
                   "ami" => "ami-5678efgh",
                   "associate_public_ip_address" => "true",
                   "availability_zone" => "ap-northeast-1b",
+                  "disable_api_termination" => "true",
                   "ebs_block_device.#" => "1",
                   "ebs_optimized" => "false",
                   "ephemeral_block_device.#" => "0",
+                  "iam_instance_profile" => "",
                   "id" => "i-5678efgh",
                   "instance_type" => "t2.micro",
                   "monitoring" => "true",
@@ -442,10 +485,11 @@ resource "aws_instance" "i-9012ijkl" {
                   "public_dns" => "ec2-54-12-0-1.ap-northeast-1.compute.amazonaws.com",
                   "public_ip" => "54.12.0.1",
                   "root_block_device.#" => "0",
-                  "security_groups.#" => "1",
+                  "security_groups.#" => "0",
                   "source_dest_check" => "true",
                   "tenancy" => "default",
-                  "vpc_security_group_ids.#" => "0",
+                  "vpc_security_group_ids.#" => "1",
+                  "subnet_id" => "subnet-5678efgh",
                 },
                 "meta" => {
                   "schema_version" => "1"
@@ -460,9 +504,11 @@ resource "aws_instance" "i-9012ijkl" {
                   "ami" => "ami-9012ijkl",
                   "associate_public_ip_address" => "true",
                   "availability_zone" => "ap-northeast-1b",
+                  "disable_api_termination" => "false",
                   "ebs_block_device.#" => "0",
                   "ebs_optimized" => "false",
                   "ephemeral_block_device.#" => "0",
+                  "iam_instance_profile" => "",
                   "id" => "i-9012ijkl",
                   "instance_type" => "t2.micro",
                   "monitoring" => "true",

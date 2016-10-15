@@ -63,6 +63,7 @@ module Terraforming
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
+    region = "ap-northeast-1"
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -85,6 +86,7 @@ POLICY
 resource "aws_s3_bucket" "fuga" {
     bucket = "fuga"
     acl    = "private"
+    region = "ap-northeast-1"
 }
 
         EOS
@@ -104,6 +106,7 @@ resource "aws_s3_bucket" "fuga" {
                     "force_destroy" => "false",
                     "id" => "hoge",
                     "policy" => "{\"Version\":\"2012-10-17\",\"Id\":\"Policy123456789012\",\"Statement\":[{\"Sid\":\"Stmt123456789012\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/hoge\"},\"Action\":\"s3:*\",\"Resource\":\"arn:aws:s3:::hoge/*\"}]}",
+                    "region" => "ap-northeast-1"
                   }
                 }
               },
@@ -117,6 +120,7 @@ resource "aws_s3_bucket" "fuga" {
                     "force_destroy" => "false",
                     "id" => "fuga",
                     "policy" => "",
+                    "region" => "ap-northeast-1"
                   }
                 }
               },
@@ -144,6 +148,7 @@ resource "aws_s3_bucket" "fuga" {
 resource "aws_s3_bucket" "piyo" {
     bucket = "piyo"
     acl    = "private"
+    region = "us-east-1"
 }
 
         EOS
@@ -163,6 +168,7 @@ resource "aws_s3_bucket" "piyo" {
                     "force_destroy" => "false",
                     "id" => "piyo",
                     "policy" => "",
+                    "region" => "us-east-1"
                   }
                 }
               },

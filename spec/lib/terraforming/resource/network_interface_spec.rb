@@ -111,6 +111,7 @@ resource "aws_network_interface" "eni-1234abcd" {
     private_ips       = ["1.1.1.1"]
     security_groups   = []
     source_dest_check = true
+    description       = "test network_interface"
 }
 
 resource "aws_network_interface" "eni-2345efgh" {
@@ -118,6 +119,7 @@ resource "aws_network_interface" "eni-2345efgh" {
     private_ips       = ["2.2.2.2", "3.3.3.3"]
     security_groups   = ["sg-12345678", "sg-23456789"]
     source_dest_check = false
+    description       = "test network_interface"
     attachment {
         instance     = "i-12345678"
         device_index = 0
@@ -140,6 +142,7 @@ resource "aws_network_interface" "eni-2345efgh" {
                 "id" => "eni-1234abcd",
                 "attributes" => {
                   "attachment.#" => "0",
+                  "description" => "test network_interface",
                   "id" => "eni-1234abcd",
                   "private_ips.#" => "1",
                   "security_groups.#" => "0",
@@ -155,6 +158,7 @@ resource "aws_network_interface" "eni-2345efgh" {
                 "id" => "eni-2345efgh",
                 "attributes" => {
                   "attachment.#" => "1",
+                  "description" => "test network_interface",
                   "id" => "eni-2345efgh",
                   "private_ips.#" => "2",
                   "security_groups.#" => "2",
