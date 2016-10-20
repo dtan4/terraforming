@@ -80,7 +80,6 @@ module Terraforming
       def setting_hashcode_of(setting)
         Zlib.crc32("#{setting.namespace}-#{setting.option_name}-#{setting.resource}")
       end
-
     end
   end
 end
