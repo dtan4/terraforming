@@ -29,10 +29,10 @@ module Terraforming
             "cname_prefix " => environment.cname,
             "tier" => environment.tier.name,
             "solution_stack_name" => environment.solution_stack_name,
-            #{}"template_name" => environment.template_name,
+            # {}"template_name" => environment.template_name,
             "settings.#" => settings.length.to_s
-            #{}"tag.#" => environment.tags.length.to_s
-            #no tags available with this call or any other at time of writing
+            # {}"tag.#" => environment.tags.length.to_s
+            # no tags available with this call or any other at time of writing
           }
 
           settings.each do |setting|
@@ -71,7 +71,10 @@ module Terraforming
       end
 
       def settings_of(environment)
-        @client.describe_configuration_settings(application_name: environment.application_name, environment_name: environment.environment_name).configuration_settings.map(&:option_settings).flatten
+        app = environment.application_name
+        env = environment.environment_name
+        settings = @client.describe_configuration_settings(application_name: app, environment_name: env)
+        settings.configuration_settings.map(&:option_settings).flatten
       end
 
       def setting_hashcode_of(setting)

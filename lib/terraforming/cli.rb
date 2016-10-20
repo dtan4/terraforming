@@ -39,7 +39,6 @@ module Terraforming
       execute(Terraforming::Resource::EBApp, options)
     end
 
-
     desc "ebenv", "Elastic Beanstalk Environment"
     def ebenv
       execute(Terraforming::Resource::EBEnv, options)

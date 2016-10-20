@@ -44,8 +44,8 @@ resource "aws_elastic_beanstalk_application" "hoge" {
               "primary" => {
                 "id" => "hoge",
                 "attributes" => {
-                  "name"=> "hoge",
-                  "description"=> "an elastic beanstalk application"
+                  "name" => "hoge",
+                  "description" => "an elastic beanstalk application"
                 },
                 "meta" => {
                   "schema_version" => "1"
