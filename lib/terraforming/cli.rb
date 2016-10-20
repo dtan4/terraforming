@@ -34,6 +34,17 @@ module Terraforming
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
+    desc "ebapp", "Elastic Beanstalk Application"
+    def ebapp
+      execute(Terraforming::Resource::EBApp, options)
+    end
+
+
+    desc "ebenv", "Elastic Beanstalk Environment"
+    def ebenv
+      execute(Terraforming::Resource::EBEnv, options)
+    end
+
     desc "ec2", "EC2"
     def ec2
       execute(Terraforming::Resource::EC2, options)

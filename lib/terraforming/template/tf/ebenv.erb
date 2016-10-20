@@ -1,0 +1,23 @@
+<%- environments.each do |environment| -%>
+resource "aws_elastic_beanstalk_environment" "<%= module_name_of(environment) %>" {
+  name = "<%= environment.environment_name %>"
+  application = "<%= environment.application_name %>"
+  solution_stack_name = "<%= environment.solution_stack_name %>"
+  description = "<%= environment.description %>"
+  cname_prefix = "<%= environment.cname %>"
+  tier = "<%= environment.tier.name %>"
+<%- settings_of(environment).each do |setting| -%>
+<%- if setting.value.to_s.strip.length > 0 -%>
+
+  setting {
+    namespace = "<%= setting.namespace %>"
+    name      = "<%= setting.option_name %>"
+    value     = <%= setting.value.to_json %>
+<%- if setting.resource_name.to_s.strip.length > 0 -%>
+    resource  = "<%= setting.resource_name %>"
+<%- end -%>
+  }
+<%- end -%>
+<%- end -%>
+}
+<%- end -%>

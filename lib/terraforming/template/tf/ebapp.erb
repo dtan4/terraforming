@@ -1,0 +1,7 @@
+<% applications.each do |application| -%>
+resource "aws_elastic_beanstalk_application" "<%= module_name_of(application) %>" {
+  name = "<%= application.application_name %>"
+  description = "<%= application.description %>"
+}
+<% end -%>
+

@@ -67,6 +67,20 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "ebapp" do
+        let(:klass)   { Terraforming::Resource::EBApp }
+        let(:command) { :ebapp }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "ebenv" do
+        let(:klass)   { Terraforming::Resource::EBEnv }
+        let(:command) { :ebenv }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "ec2" do
         let(:klass)   { Terraforming::Resource::EC2 }
         let(:command) { :ec2 }
