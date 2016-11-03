@@ -22,7 +22,7 @@ module Terraforming
       end
 
       def tfstate
-        efsystems.inject({}){|resources, efs| resources}
+        efsystems.inject({}) { |resources, _efs| resources }
       end
 
       private

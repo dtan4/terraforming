@@ -6,4 +6,5 @@
 /doc/
 /pkg/
 /spec/reports/
+*.sw?
 /tmp/
