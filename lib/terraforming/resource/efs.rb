@@ -22,13 +22,7 @@ module Terraforming
       end
 
       def tfstate
-        efsystems.inject({}) do |resources, efs|
-          attributes = {
-              "creationtoken" =>  efs.creationtoken,
-          }
-
-          resources
-        end
+        efsystems.inject({}){|resources, efs| resources}
       end
 
       private
