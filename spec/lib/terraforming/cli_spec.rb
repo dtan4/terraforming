@@ -95,6 +95,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "efs" do
+        let(:klass)   { Terraforming::Resource::EFS }
+        let(:command) { :efs }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "elb" do
         let(:klass)   { Terraforming::Resource::ELB }
         let(:command) { :elb }
