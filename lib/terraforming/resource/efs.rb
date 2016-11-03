@@ -21,10 +21,6 @@ module Terraforming
         apply_template(@client, "tf/elastic_filesystem")
       end
 
-      def tfstate
-        efsystems.inject({}) { |resources, _efs| resources }
-      end
-
       private
 
       def efsystems
