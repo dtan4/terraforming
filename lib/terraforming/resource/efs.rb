@@ -25,7 +25,7 @@ module Terraforming
       def tfstate
         idx = -1
 
-        efsystems.inject({}) do  |resources, efs|
+        efsystems.inject({}) do |resources, efs|
           idx += 1
 
           attributes = {

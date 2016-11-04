@@ -9,35 +9,35 @@ module Terraforming
       end
 
       let(:efs_description_0) do
-          {
-            creation_time: Time.parse("2016-11-01 11:30:00 -0700"),
-            creation_token: "console-1234abcd-1234-abcd-a123-d34db33f0000",
-            file_system_id: "fs-0000abcd",
-            life_cycle_state: "available",
-            name: "efs_name_0",
-            number_of_mount_targets: 3,
-            owner_id: "999999999999",
-            performance_mode: "generalPurpose",
-            size_in_bytes: {value: 6144},
-          }
+        {
+          creation_time: Time.parse("2016-11-01 11:30:00 -0700"),
+          creation_token: "console-1234abcd-1234-abcd-a123-d34db33f0000",
+          file_system_id: "fs-0000abcd",
+          life_cycle_state: "available",
+          name: "efs_name_0",
+          number_of_mount_targets: 3,
+          owner_id: "999999999999",
+          performance_mode: "generalPurpose",
+          size_in_bytes: { value: 6144 },
+        }
       end
 
       let(:efs_description_1) do
-          {
-            creation_time: Time.parse("2016-10-24 11:42:21 -0700"),
-            creation_token: "console-0000abcd-4321-dcba-a123-d34db33f0000",
-            file_system_id: "fs-abcd1234",
-            life_cycle_state: "available",
-            name: "efs_name_1",
-            number_of_mount_targets: 3,
-            owner_id: "999999999999",
-            performance_mode: "generalPurpose",
-            size_in_bytes: {value: 23481234},
-          }
+        {
+          creation_time: Time.parse("2016-10-24 11:42:21 -0700"),
+          creation_token: "console-0000abcd-4321-dcba-a123-d34db33f0000",
+          file_system_id: "fs-abcd1234",
+          life_cycle_state: "available",
+          name: "efs_name_1",
+          number_of_mount_targets: 3,
+          owner_id: "999999999999",
+          performance_mode: "generalPurpose",
+          size_in_bytes: { value: 23481234 },
+        }
       end
 
       before do
-        client.stub_responses(:describe_file_systems, file_systems: [ efs_description_0, efs_description_1 ])
+        client.stub_responses(:describe_file_systems, file_systems: [efs_description_0, efs_description_1])
       end
 
       describe ".tf" do
@@ -72,17 +72,17 @@ resource "aws_efs_file_system" "efs.1" {
                     "primary" => {
                         "id" => "fs-0000abcd",
                         "attributes" => {
-                            "creation_token" => "console-1234abcd-1234-abcd-a123-d34db33f0000",
-                            "id" => "fs-0000abcd",
+                            "creation_token"   => "console-1234abcd-1234-abcd-a123-d34db33f0000",
+                            "id"               => "fs-0000abcd",
                             "performance_mode" => "generalPurpose",
-                            "tags.%" => "1",
-                            "tags.Name" => "efs_name_0"
+                            "tags.%"           => "1",
+                            "tags.Name"        => "efs_name_0"
                         },
-                        "meta" => {},
-                        "tainted" => false
+                        "meta"    => {},
+                        "tainted" => false,
                     },
-                    "deposed" => [],
-                    "provider" => "aws"
+                    "deposed"  => [],
+                    "provider" => "aws",
                 },
                 "aws_efs_file_system.efs.1" => {
                     "type" => "aws_efs_file_system",
@@ -90,17 +90,17 @@ resource "aws_efs_file_system" "efs.1" {
                     "primary" => {
                         "id" => "fs-abcd1234",
                         "attributes" => {
-                            "creation_token" => "console-0000abcd-4321-dcba-a123-d34db33f0000",
-                            "id" => "fs-abcd1234",
+                            "creation_token"   => "console-0000abcd-4321-dcba-a123-d34db33f0000",
+                            "id"               => "fs-abcd1234",
                             "performance_mode" => "generalPurpose",
-                            "tags.%" => "1",
-                            "tags.Name" => "efs_name_1"
+                            "tags.%"           => "1",
+                            "tags.Name"        => "efs_name_1"
                         },
-                        "meta" => {},
-                        "tainted" => false
+                        "meta"    => {},
+                        "tainted" => false,
                     },
-                    "deposed" => [],
-                    "provider" => "aws"
+                    "deposed"  => [],
+                    "provider" => "aws",
                 }
           })
         end
