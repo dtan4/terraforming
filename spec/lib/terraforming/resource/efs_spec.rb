@@ -65,42 +65,42 @@ resource "aws_efs_file_system" "efs.1" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-          "aws_efs_file_system.efs.0" => {
-                    "type" => "aws_efs_file_system",
-                    "depends_on" => [],
-                    "primary" => {
-                        "id" => "fs-0000abcd",
-                        "attributes" => {
-                            "creation_token"   => "console-1234abcd-1234-abcd-a123-d34db33f0000",
-                            "id"               => "fs-0000abcd",
-                            "performance_mode" => "generalPurpose",
-                            "tags.%"           => "1",
-                            "tags.Name"        => "efs_name_0"
-                        },
-                        "meta"    => {},
-                        "tainted" => false,
-                    },
-                    "deposed"  => [],
-                    "provider" => "aws",
-                },
-                "aws_efs_file_system.efs.1" => {
-                    "type" => "aws_efs_file_system",
-                    "depends_on" => [],
-                    "primary" => {
-                        "id" => "fs-abcd1234",
-                        "attributes" => {
-                            "creation_token"   => "console-0000abcd-4321-dcba-a123-d34db33f0000",
-                            "id"               => "fs-abcd1234",
-                            "performance_mode" => "generalPurpose",
-                            "tags.%"           => "1",
-                            "tags.Name"        => "efs_name_1"
-                        },
-                        "meta"    => {},
-                        "tainted" => false,
-                    },
-                    "deposed"  => [],
-                    "provider" => "aws",
-                }
+            "aws_efs_file_system.efs.0" => {
+               "type"         => "aws_efs_file_system",
+               "depends_on"   => [],
+               "primary"      => {
+                 "id"         => "fs-0000abcd",
+                 "meta"       => {},
+                 "tainted"    => false,
+                 "attributes" => {
+                   "creation_token"   => "console-1234abcd-1234-abcd-a123-d34db33f0000",
+                   "id"               => "fs-0000abcd",
+                   "performance_mode" => "generalPurpose",
+                   "tags.%"           => "1",
+                   "tags.Name"        => "efs_name_0"
+                 },
+               },
+               "deposed"  => [],
+               "provider" => "aws",
+            },
+            "aws_efs_file_system.efs.1" => {
+               "type"         => "aws_efs_file_system",
+               "depends_on"   => [],
+               "primary"      => {
+                 "id"         => "fs-abcd1234",
+                 "meta"       => {},
+                 "tainted"    => false,
+                 "attributes" => {
+                    "creation_token"   => "console-0000abcd-4321-dcba-a123-d34db33f0000",
+                    "id"               => "fs-abcd1234",
+                    "performance_mode" => "generalPurpose",
+                    "tags.%"           => "1",
+                    "tags.Name"        => "efs_name_1"
+                 },
+               },
+               "deposed"  => [],
+               "provider" => "aws",
+            }
           })
         end
       end
