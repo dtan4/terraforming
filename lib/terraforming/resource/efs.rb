@@ -1,6 +1,5 @@
 # author: Jim Conner <snafu.x@gmail.com>
 # Nov 2016
-require 'awesome_print'
 module Terraforming
   module Resource
     class EFS
