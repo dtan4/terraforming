@@ -20,7 +20,7 @@ module Terraforming
       end
 
       def tfstate
-        file_systems.each_with_index.inject({}) do |resources, (efs, idx)|
+        file_systems.inject({}) do |resources, efs|
           attributes = {
             "creation_token" => efs.creation_token,
             "id" => efs.file_system_id,
