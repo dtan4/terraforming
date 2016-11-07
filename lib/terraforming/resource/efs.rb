@@ -29,7 +29,7 @@ module Terraforming
             "tags.Name" => efs.name,
           }
 
-          resources['%s' % [efs.file_system_id]] = {
+          resources[format('%s',efs.file_system_id)] = {
             "type" => "aws_efs_file_system",
             "depends_on" => [],
             "primary" => {
