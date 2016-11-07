@@ -56,7 +56,7 @@ module Terraforming
 
     desc "efs", "EFS"
     def efs
-      execute(Terraforming::Resource::EFS, options)
+      execute(Terraforming::Resource::EFSFileSystem, options)
     end
 
     desc "elb", "ELB"

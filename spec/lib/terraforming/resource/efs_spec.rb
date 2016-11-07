@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Terraforming
   module Resource
-    describe EFS do
+    describe EFSFileSystem do
       let(:client) do
         Aws::EFS::Client.new(stub_responses: true)
       end
@@ -42,7 +42,7 @@ module Terraforming
       describe ".tf" do
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
-resource "aws_efs_file_system" "efs.0" {
+resource "aws_efs_file_system" "fs-0000abcd" {
     creation_token = "console-1234abcd-1234-abcd-a123-d34db33f0000"
     file_system_id = "fs-0000abcd"
     performance_mode = "generalPurpose"
@@ -50,7 +50,7 @@ resource "aws_efs_file_system" "efs.0" {
         Name = "efs_name_0"
     }
 }
-resource "aws_efs_file_system" "efs.1" {
+resource "aws_efs_file_system" "fs-abcd1234" {
     creation_token = "console-0000abcd-4321-dcba-a123-d34db33f0000"
     file_system_id = "fs-abcd1234"
     performance_mode = "generalPurpose"
@@ -65,7 +65,7 @@ resource "aws_efs_file_system" "efs.1" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_efs_file_system.efs.0" => {
+            "fs-0000abcd" => {
                "type"         => "aws_efs_file_system",
                "depends_on"   => [],
                "primary"      => {
@@ -83,7 +83,7 @@ resource "aws_efs_file_system" "efs.1" {
                "deposed"  => [],
                "provider" => "aws",
             },
-            "aws_efs_file_system.efs.1" => {
+            "fs-abcd1234" => {
                "type"         => "aws_efs_file_system",
                "depends_on"   => [],
                "primary"      => {

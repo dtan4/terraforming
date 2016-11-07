@@ -96,7 +96,7 @@ module Terraforming
       end
 
       describe "efs" do
-        let(:klass)   { Terraforming::Resource::EFS }
+        let(:klass)   { Terraforming::Resource::EFSFileSystem }
         let(:command) { :efs }
 
         it_behaves_like "CLI examples"

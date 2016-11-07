@@ -1,8 +1,6 @@
-# author: Jim Conner <snafu.x@gmail.com>
-# Nov 2016
 module Terraforming
   module Resource
-    class EFS
+    class EFSFileSystem
       include Terraforming::Util
 
       def self.tf(client: Aws::EFS::Client.new)
@@ -22,11 +20,7 @@ module Terraforming
       end
 
       def tfstate
-        idx = -1
-
-        efsystems.inject({}) do |resources, efs|
-          idx += 1
-
+        file_systems.each_with_index.inject({}) do |resources, (efs,idx)|
           attributes = {
             "creation_token" => efs.creation_token,
             "id" => efs.file_system_id,
@@ -35,7 +29,7 @@ module Terraforming
             "tags.Name" => efs.name,
           }
 
-          resources["aws_efs_file_system.efs.#{idx}"] = {
+          resources['%s' % [efs.file_system_id]] = {
             "type" => "aws_efs_file_system",
             "depends_on" => [],
             "primary" => {
@@ -54,7 +48,7 @@ module Terraforming
 
       private
 
-      def efsystems
+      def file_systems
         @client.describe_file_systems.data.file_systems.flatten
       end
     end
