@@ -65,7 +65,7 @@ resource "aws_efs_file_system" "fs-abcd1234" {
       describe ".tfstate" do
         it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "fs-0000abcd" => {
+            "aws_efs_file_system.fs-0000abcd" => {
                "type"         => "aws_efs_file_system",
                "depends_on"   => [],
                "primary"      => {
@@ -83,7 +83,7 @@ resource "aws_efs_file_system" "fs-abcd1234" {
                "deposed"  => [],
                "provider" => "aws",
             },
-            "fs-abcd1234" => {
+            "aws_efs_file_system.fs-abcd1234" => {
                "type"         => "aws_efs_file_system",
                "depends_on"   => [],
                "primary"      => {
