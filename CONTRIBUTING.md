@@ -8,7 +8,7 @@ I love pull requests from everyone! By the way, I have a favor to ask you with y
   - Datadog: [terraforming-datadog](https://github.com/dtan4/terraforming-datadog)
   - DNSimple: [terraforming-dnsimple](https://github.com/dtan4/terraforming-dnsimple)
 - Do not bump gem version in your pull request.
-- Please follow the coding style of _existing_ code. Most of trivial rules can be checked by Rubocop ([`rubocop.yml`](https://github.com/dtan4/terraforming/blob/master/.rubocop.yml)).
+- Please follow the coding style of _existing_ code. Most of trivial rules can be checked by [RuboCop](https://github.com/bbatsov/rubocop) ([`rubocop.yml`](https://github.com/dtan4/terraforming/blob/master/.rubocop.yml)).
 - Please write tests for your changes. All tests are written with [RSpec](http://rspec.info/). In principle, I do not accept if the change decreases test coverage.
 
 ## Adding new resource
