@@ -1,6 +1,6 @@
 # Contributing
 
-I love pull requests from everyone! By the way, I have a favor to ask you with your contribution.
+I love pull requests from everyone! By the way, I have a favor to ask you with your contribution :bow:
 
 ## Making changes
 
