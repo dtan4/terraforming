@@ -9,6 +9,7 @@ I love pull requests from everyone! By the way, I have a favor to ask you with y
   - DNSimple: [terraforming-dnsimple](https://github.com/dtan4/terraforming-dnsimple)
 - Do not bump gem version in your pull request.
 - Please follow the coding style of _existing_ code. Most of trivial rules can be checked by [RuboCop](https://github.com/bbatsov/rubocop) ([`rubocop.yml`](https://github.com/dtan4/terraforming/blob/master/.rubocop.yml)).
+  - Coding style is checked automatically by [SideCI](https://sideci.com) right after creating pull request. If there is error, SideCI comments at the point error occured.
 - Please write tests for your changes. All tests are written with [RSpec](http://rspec.info/). In principle, I do not accept if the change decreases test coverage.
 
 ## Adding new resource
