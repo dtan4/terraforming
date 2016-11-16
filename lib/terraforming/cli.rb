@@ -54,6 +54,11 @@ module Terraforming
       execute(Terraforming::Resource::EIP, options)
     end
 
+    desc "efs", "EFS"
+    def efs
+      execute(Terraforming::Resource::EFSFileSystem, options)
+    end
+
     desc "elb", "ELB"
     def elb
       execute(Terraforming::Resource::ELB, options)
