@@ -15,7 +15,7 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
 <%- else -%>
     security_groups             = <%= instance.security_groups.map { |sg| sg.group_name }.inspect %>
 <%- end -%>
-    associate_public_ip_address = true
+    associate_public_ip_address = <%= associate_public_ip?(instance) %>
     private_ip                  = "<%= instance.private_ip_address %>"
 <%- if instance.source_dest_check -%>
     source_dest_check           = <%= instance.source_dest_check %>
