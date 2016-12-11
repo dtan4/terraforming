@@ -178,7 +178,7 @@ module Terraforming
             image_id: "ami-9012ijkl",
             state: { code: 16, name: "running" },
             private_dns_name: "ip-10-0-0-102.ap-northeast-1.compute.internal",
-            public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
+            public_dns_name: "",
             state_transition_reason: "",
             key_name: "hoge-key",
             ami_launch_index: 0,
@@ -190,7 +190,7 @@ module Terraforming
             subnet_id: "",
             vpc_id: "vpc-9012ijkl",
             private_ip_address: "10.0.0.102",
-            public_ip_address: "54.12.0.2",
+            public_ip_address: "",
             architecture: "x86_64",
             root_device_type: "ebs",
             root_device_name: "/dev/sda1",
@@ -225,21 +225,13 @@ module Terraforming
                   attach_time: Time.parse("2015-03-12 01:23:45 UTC"),
                   delete_on_termination: true
                 },
-                association: {
-                  public_ip: "54.12.0.2",
-                  public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
-                  ip_owner_id: "amazon"
-                },
+                association: nil,
                 private_ip_addresses: [
                   {
                     private_ip_address: "10.0.0.102",
                     private_dns_name: "ip-10-0-6-102.ap-northeast-1.compute.internal",
                     primary: true,
-                    association: {
-                      public_ip: "54.12.0.2",
-                      public_dns_name: "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
-                      ip_owner_id: "amazon"
-                    }
+                    association: nil
                   }
                 ]
               }
@@ -377,7 +369,7 @@ resource "aws_instance" "i-9012ijkl" {
     monitoring                  = true
     key_name                    = "hoge-key"
     security_groups             = ["default"]
-    associate_public_ip_address = true
+    associate_public_ip_address = false
     private_ip                  = "10.0.0.102"
     source_dest_check           = true
 
@@ -458,7 +450,7 @@ resource "aws_instance" "i-9012ijkl" {
                 "id" => "i-9012ijkl",
                 "attributes" => {
                   "ami" => "ami-9012ijkl",
-                  "associate_public_ip_address" => "true",
+                  "associate_public_ip_address" => "false",
                   "availability_zone" => "ap-northeast-1b",
                   "ebs_block_device.#" => "0",
                   "ebs_optimized" => "false",
@@ -468,8 +460,8 @@ resource "aws_instance" "i-9012ijkl" {
                   "monitoring" => "true",
                   "private_dns" => "ip-10-0-0-102.ap-northeast-1.compute.internal",
                   "private_ip" => "10.0.0.102",
-                  "public_dns" => "ec2-54-12-0-2.ap-northeast-1.compute.amazonaws.com",
-                  "public_ip" => "54.12.0.2",
+                  "public_dns" => "",
+                  "public_ip" => "",
                   "root_block_device.#" => "0",
                   "security_groups.#" => "1",
                   "source_dest_check" => "true",

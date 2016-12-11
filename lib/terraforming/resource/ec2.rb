@@ -26,7 +26,7 @@ module Terraforming
 
           attributes = {
             "ami" => instance.image_id,
-            "associate_public_ip_address" => "true",
+            "associate_public_ip_address" => associate_public_ip?(instance).to_s,
             "availability_zone" => instance.placement.availability_zone,
             "ebs_block_device.#" => ebs_block_devices_in(block_devices, instance).length.to_s,
             "ebs_optimized" => instance.ebs_optimized.to_s,
@@ -94,6 +94,10 @@ module Terraforming
       def in_vpc?(instance)
         !vpc_security_groups_of(instance).empty? ||
           (instance.subnet_id && instance.subnet_id != "" && instance.security_groups.empty?)
+      end
+
+      def associate_public_ip?(instance)
+        !instance.public_ip_address.to_s.empty?
       end
 
       def monitoring_state(instance)
