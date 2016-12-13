@@ -1,21 +1,21 @@
-<% tables.each do |instance| -%>
-resource "aws_dynamodb_table" "<%= instance.table_name %>" {
-    name           = "<%= instance.table_name %>"
-    read_capacity  = <%= instance.provisioned_throughput.read_capacity_units %>
-    write_capacity = <%= instance.provisioned_throughput.write_capacity_units %>
-    <% instance.key_schema.each do |key| -%>
+<% tables.each do |table| -%>
+resource "aws_dynamodb_table" "<%= table.table_name %>" {
+    name           = "<%= table.table_name %>"
+    read_capacity  = <%= table.provisioned_throughput.read_capacity_units %>
+    write_capacity = <%= table.provisioned_throughput.write_capacity_units %>
+    <% table.key_schema.each do |key| -%>
     <%= key.key_type.downcase %>_key = <%= key.attribute_name %>
     <% end -%>
-<% instance.attribute_definitions.each do |attribute| -%>
+<% table.attribute_definitions.each do |attribute| -%>
     attribute {
         name = "<%= attribute.attribute_name %>"
         type = "<%= attribute.attribute_type %>"
     }
 <% end -%>
-<% Array(instance.global_secondary_indexes).each do |index| -%>
+<% Array(table.global_secondary_indexes).each do |index| -%>
     global_secondary_index {
         name               = "<%= index.index_name %>"
-<% instance.key_schema.each do |key| -%>
+<% table.key_schema.each do |key| -%>
         <%= key.key_type.downcase %>_key = <%= key.attribute_name %>
 <% end -%>
         projection_type    = "<%= index.projection.projection_type %>"
