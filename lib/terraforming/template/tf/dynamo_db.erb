@@ -4,7 +4,7 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
     read_capacity  = <%= table.provisioned_throughput.read_capacity_units %>
     write_capacity = <%= table.provisioned_throughput.write_capacity_units %>
 <% table.key_schema.each do |key| -%>
-    <%= key.key_type.downcase %>_key = <%= key.attribute_name %>
+    <%= key.key_type.downcase %>_key = "<%= key.attribute_name %>"
 <% end -%>
 <% table.attribute_definitions.each do |attribute| -%>
     attribute {
@@ -16,7 +16,7 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
     global_secondary_index {
         name               = "<%= index.index_name %>"
 <% table.key_schema.each do |key| -%>
-        <%= key.key_type.downcase %>_key = <%= key.attribute_name %>
+        <%= key.key_type.downcase %>_key = "<%= key.attribute_name %>"
 <% end -%>
         projection_type    = "<%= index.projection.projection_type %>"
         non_key_attributes = "<%= Array(index.projection.non_key_attributes).size %>"
