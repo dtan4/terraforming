@@ -12,6 +12,10 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
         type = "<%= attribute.attribute_type %>"
     }
 <% end -%>
+<% if table.stream_specification -%>
+    stream_enabled   = <%= table.stream_specification.stream_enabled %>
+    stream_view_type = <%= table.stream_specification.stream_type %>
+<% end -%>
 <% Array(table.global_secondary_indexes).each do |index| -%>
     global_secondary_index {
         name               = "<%= index.index_name %>"
