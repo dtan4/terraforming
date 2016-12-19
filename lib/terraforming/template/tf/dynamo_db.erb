@@ -22,6 +22,8 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
 <% table.key_schema.each do |key| -%>
         <%= key.key_type.downcase %>_key = "<%= key.attribute_name %>"
 <% end -%>
+        read_capacity      = <%= index.provisioned_throughput.read_capacity_units %>
+        write_capacity     = <%= index.provisioned_throughput.write_capacity_units %>
         projection_type    = "<%= index.projection.projection_type %>"
 <% keys = index.projection.non_key_attributes -%>
 <% if Array(keys).size > 0 -%>
