@@ -27,7 +27,7 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
         projection_type    = "<%= index.projection.projection_type %>"
 <% keys = index.projection.non_key_attributes -%>
 <% if Array(keys).size > 0 -%>
-        non_key_attributes = [ <%= keys.map{ |k| "\"#{k}\""}.join(' ') %> ]
+        non_key_attributes = <%= keys.inspect %>
 <% end -%>
     }
 <% end -%>
@@ -40,7 +40,7 @@ resource "aws_dynamodb_table" "<%= table.table_name %>" {
         projection_type    = "<%= index.projection.projection_type %>"
     <% keys = index.projection.non_key_attributes -%>
     <% if Array(keys).size > 0 -%>
-        non_key_attributes = [ <%= keys.map{ |k| "\"#{k}\""}.join(' ') %> ]
+        non_key_attributes = <%= keys.inspect %>
     <% end -%>
     }
 <% end -%>
