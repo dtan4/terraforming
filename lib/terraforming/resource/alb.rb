@@ -24,6 +24,7 @@ module Terraforming
           load_balancer_attributes = load_balancer_attributes_of(load_balancer)
           attributes = {
             "dns_name" => load_balancer.dns_name,
+            "enable_deletion_protection" => load_balancer_attributes["deletion_protection.enabled"].to_s,
             "id" => load_balancer.load_balancer_arn,
             "idle_timeout" => load_balancer_attributes["idle_timeout.timeout_seconds"].to_s,
             "internal" => internal?(load_balancer).to_s,

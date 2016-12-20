@@ -106,6 +106,8 @@ resource "aws_alb" "hoge" {
     security_groups = ["sg-1234abcd", "sg-5678efgh"]
     subnets         = ["subnet-1234abcd", "subnet-5678efgh"]
 
+    enable_deletion_protection = false
+
     access_logs {
         bucket  = "my-elb-logs"
         enabled = true
@@ -123,6 +125,8 @@ resource "aws_alb" "fuga" {
     name            = "fuga"
     security_groups = ["sg-1234abcd"]
     subnets         = ["subnet-1234abcd", "subnet-9012ijkl"]
+
+    enable_deletion_protection = true
 
     access_logs {
         bucket  = "my-elb-logs"
@@ -151,6 +155,7 @@ resource "aws_alb" "fuga" {
                   "access_logs.0.prefix" => "hoge",
                   "access_logs.0.enabled" => "true",
                   "dns_name" => "hoge-123456789.ap-northeast-1.elb.amazonaws.com",
+                  "enable_deletion_protection" => "false",
                   "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/hoge/1234abcd1234abcd",
                   "idle_timeout" => "600",
                   "internal" => "false",
@@ -173,6 +178,7 @@ resource "aws_alb" "fuga" {
                   "access_logs.0.prefix" => "fuga",
                   "access_logs.0.enabled" => "false",
                   "dns_name" => "fuga-567891234.ap-northeast-1.elb.amazonaws.com",
+                  "enable_deletion_protection" => "true",
                   "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/fuga/5678efgh5678efgh",
                   "idle_timeout" => "60",
                   "internal" => "true",
