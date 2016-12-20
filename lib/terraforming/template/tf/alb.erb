@@ -7,13 +7,11 @@ resource "aws_alb" "<%= module_name_of(load_balancer) %>" {
     security_groups = <%= load_balancer.security_groups.inspect %>
     subnets         = <%= load_balancer.availability_zones.map { |az| az.subnet_id }.inspect %>
 
-<%- if load_balancer_attributes["access_logs.s3.enabled"] == "true" -%>
     access_logs {
         bucket  = "<%= load_balancer_attributes["access_logs.s3.bucket"] %>"
-        enabled = true
+        enabled = <%= load_balancer_attributes["access_logs.s3.enabled"] %>
         prefix  = "<%= load_balancer_attributes["access_logs.s3.prefix"] %>"
     }
-<%- end -%>
 
     tags {
 <% tags.each do |tag| -%>

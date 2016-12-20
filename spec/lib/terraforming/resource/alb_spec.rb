@@ -57,7 +57,7 @@ module Terraforming
         [
           { key: "access_logs.s3.enabled", value: "false" },
           { key: "idle_timeout.timeout_seconds", value: "600" },
-          { key: "access_logs.s3.prefix", value: "hoge" },
+          { key: "access_logs.s3.prefix", value: "fuga" },
           { key: "deletion_protection.enabled", value: "false" },
           { key: "access_logs.s3.bucket", value: "my-elb-logs" },
         ]
@@ -121,6 +121,11 @@ resource "aws_alb" "fuga" {
     security_groups = ["sg-1234abcd"]
     subnets         = ["subnet-1234abcd"]
 
+    access_logs {
+        bucket  = "my-elb-logs"
+        enabled = false
+        prefix  = "fuga"
+    }
 
     tags {
     }
