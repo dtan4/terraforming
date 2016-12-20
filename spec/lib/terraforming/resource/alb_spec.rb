@@ -37,6 +37,7 @@ module Terraforming
             type: "application",
             availability_zones: [
               { zone_name: "ap-northeast-1c", subnet_id: "subnet-1234abcd" },
+              { zone_name: "ap-northeast-1b", subnet_id: "subnet-9012ijkl" }
             ],
             security_groups: ["sg-1234abcd"]
           },
@@ -119,7 +120,7 @@ resource "aws_alb" "fuga" {
     name            = "fuga"
     internal        = true
     security_groups = ["sg-1234abcd"]
-    subnets         = ["subnet-1234abcd"]
+    subnets         = ["subnet-1234abcd", "subnet-9012ijkl"]
 
     access_logs {
         bucket  = "my-elb-logs"
@@ -173,7 +174,7 @@ resource "aws_alb" "fuga" {
                   "internal" => "true",
                   "name" => "fuga",
                   "security_groups.#" => "1",
-                  "subnets.#" => "1",
+                  "subnets.#" => "2",
                   "tags.%" => "0",
                   "zone_id" => "12345678ABCDEF",
                 }
