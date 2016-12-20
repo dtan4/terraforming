@@ -136,7 +136,51 @@ resource "aws_alb" "fuga" {
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate"
+        it "should generate tfstate" do
+          expect(described_class.tfstate(client: client)).to eq({
+            "aws_alb.hoge" => {
+              "type" => "aws_alb",
+              "primary" => {
+                "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/hoge/1234abcd1234abcd",
+                "attributes" => {
+                  "access_logs.#" => "1",
+                  "access_logs.0.bucket" => "my-elb-logs",
+                  "access_logs.0.prefix" => "hoge",
+                  "access_logs.0.enabled" => "true",
+                  "dns_name" => "hoge-123456789.ap-northeast-1.elb.amazonaws.com",
+                  "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/hoge/1234abcd1234abcd",
+                  "internal" => "false",
+                  "name" => "hoge",
+                  "security_groups.#" => "2",
+                  "subnets.#" => "2",
+                  "tags.%" => "1",
+                  "tags.Environment" => "Production",
+                  "zone_id" => "12345678ABCDEF",
+                }
+              }
+            },
+            "aws_alb.fuga" => {
+              "type" => "aws_alb",
+              "primary" => {
+                "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/fuga/5678efgh5678efgh",
+                "attributes" => {
+                  "access_logs.#" => "1",
+                  "access_logs.0.bucket" => "my-elb-logs",
+                  "access_logs.0.prefix" => "fuga",
+                  "access_logs.0.enabled" => "false",
+                  "dns_name" => "fuga-567891234.ap-northeast-1.elb.amazonaws.com",
+                  "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/fuga/5678efgh5678efgh",
+                  "internal" => "true",
+                  "name" => "fuga",
+                  "security_groups.#" => "1",
+                  "subnets.#" => "1",
+                  "tags.%" => "0",
+                  "zone_id" => "12345678ABCDEF",
+                }
+              }
+            }
+          })
+        end
       end
     end
   end
