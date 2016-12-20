@@ -2,8 +2,9 @@
   <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
   <%- tags = tags_of(load_balancer) -%>
 resource "aws_alb" "<%= module_name_of(load_balancer) %>" {
-    name            = "<%= load_balancer.load_balancer_name %>"
+    idle_timeout    = <%= load_balancer_attributes["idle_timeout.timeout_seconds"] %>
     internal        = <%= internal?(load_balancer).to_s %>
+    name            = "<%= load_balancer.load_balancer_name %>"
     security_groups = <%= load_balancer.security_groups.inspect %>
     subnets         = <%= load_balancer.availability_zones.map { |az| az.subnet_id }.inspect %>
 

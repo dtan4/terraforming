@@ -25,6 +25,7 @@ module Terraforming
           attributes = {
             "dns_name" => load_balancer.dns_name,
             "id" => load_balancer.load_balancer_arn,
+            "idle_timeout" => load_balancer_attributes["idle_timeout.timeout_seconds"].to_s,
             "internal" => internal?(load_balancer).to_s,
             "name" => load_balancer.load_balancer_name,
             "security_groups.#" => load_balancer.security_groups.length.to_s,

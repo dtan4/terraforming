@@ -57,9 +57,9 @@ module Terraforming
       let(:fuga_attributes) do
         [
           { key: "access_logs.s3.enabled", value: "false" },
-          { key: "idle_timeout.timeout_seconds", value: "600" },
+          { key: "idle_timeout.timeout_seconds", value: "60" },
           { key: "access_logs.s3.prefix", value: "fuga" },
-          { key: "deletion_protection.enabled", value: "false" },
+          { key: "deletion_protection.enabled", value: "true" },
           { key: "access_logs.s3.bucket", value: "my-elb-logs" },
         ]
       end
@@ -100,8 +100,9 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_alb" "hoge" {
-    name            = "hoge"
+    idle_timeout    = 600
     internal        = false
+    name            = "hoge"
     security_groups = ["sg-1234abcd", "sg-5678efgh"]
     subnets         = ["subnet-1234abcd", "subnet-5678efgh"]
 
@@ -117,8 +118,9 @@ resource "aws_alb" "hoge" {
 }
 
 resource "aws_alb" "fuga" {
-    name            = "fuga"
+    idle_timeout    = 60
     internal        = true
+    name            = "fuga"
     security_groups = ["sg-1234abcd"]
     subnets         = ["subnet-1234abcd", "subnet-9012ijkl"]
 
@@ -150,6 +152,7 @@ resource "aws_alb" "fuga" {
                   "access_logs.0.enabled" => "true",
                   "dns_name" => "hoge-123456789.ap-northeast-1.elb.amazonaws.com",
                   "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/hoge/1234abcd1234abcd",
+                  "idle_timeout" => "600",
                   "internal" => "false",
                   "name" => "hoge",
                   "security_groups.#" => "2",
@@ -171,6 +174,7 @@ resource "aws_alb" "fuga" {
                   "access_logs.0.enabled" => "false",
                   "dns_name" => "fuga-567891234.ap-northeast-1.elb.amazonaws.com",
                   "id" => "arn:aws:elasticloadbalancing:ap-northeast-1:012345678901:loadbalancer/app/fuga/5678efgh5678efgh",
+                  "idle_timeout" => "60",
                   "internal" => "true",
                   "name" => "fuga",
                   "security_groups.#" => "1",
