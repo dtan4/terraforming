@@ -9,6 +9,11 @@ module Terraforming
                  type: :boolean,
                  desc: "Use the bundled CA certificate from AWS SDK"
 
+    desc "alb", "ALB"
+    def alb
+      execute(Terraforming::Resource::ALB, options)
+    end
+
     desc "asg", "AutoScaling Group"
     def asg
       execute(Terraforming::Resource::AutoScalingGroup, options)
