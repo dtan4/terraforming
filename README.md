@@ -76,6 +76,7 @@ PS C:\> terraforming ec2 --use-bundled-cert
 ```bash
 $ terraforming
 Commands:
+  terraforming alb             # ALB
   terraforming asg             # AutoScaling Group
   terraforming cwa             # CloudWatch Alarm
   terraforming dbpg            # Database Parameter Group
@@ -84,6 +85,7 @@ Commands:
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
   terraforming ecsn            # ElastiCache Subnet Group
+  terraforming efs             # EFS File System
   terraforming eip             # EIP
   terraforming elb             # ELB
   terraforming help [COMMAND]  # Describe available commands or one specific command

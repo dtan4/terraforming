@@ -59,7 +59,7 @@ module Terraforming
       execute(Terraforming::Resource::EIP, options)
     end
 
-    desc "efs", "EFS"
+    desc "efs", "EFS File System"
     def efs
       execute(Terraforming::Resource::EFSFileSystem, options)
     end

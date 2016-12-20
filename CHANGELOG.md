@@ -1,3 +1,14 @@
+# [v0.12.0](https://github.com/dtan4/terraforming/releases/tag/v0.11.0) (2016-12-20)
+
+## Resource
+
+- AWS ALB [#291](https://github.com/dtan4/terraforming/pull/291)
+- AWS EFS File System [#283](https://github.com/dtan4/terraforming/pull/283) (thanks @notjames)
+
+## Fixed / Updated
+
+- Fix associate_public_ip_address attr for EC2 [#287](https://github.com/dtan4/terraforming/pull/287) (thanks @diwaniuk)
+
 # [v0.11.0](https://github.com/dtan4/terraforming/releases/tag/v0.11.0) (2016-11-14)
 
 ## Resource
