@@ -128,12 +128,6 @@ resource "aws_alb" "fuga" {
 
     enable_deletion_protection = true
 
-    access_logs {
-        bucket  = "my-elb-logs"
-        enabled = false
-        prefix  = "fuga"
-    }
-
     tags {
     }
 }
