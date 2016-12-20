@@ -85,7 +85,7 @@ Commands:
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
   terraforming ecsn            # ElastiCache Subnet Group
-  terraforming efs             # EFS
+  terraforming efs             # EFS File System
   terraforming eip             # EIP
   terraforming elb             # ELB
   terraforming help [COMMAND]  # Describe available commands or one specific command
