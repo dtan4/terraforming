@@ -1,0 +1,28 @@
+<% load_balancers.each do |load_balancer| -%>
+  <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
+  <%- tags = tags_of(load_balancer) -%>
+resource "aws_alb" "<%= module_name_of(load_balancer) %>" {
+    idle_timeout    = <%= load_balancer_attributes["idle_timeout.timeout_seconds"] %>
+    internal        = <%= internal?(load_balancer).to_s %>
+    name            = "<%= load_balancer.load_balancer_name %>"
+    security_groups = <%= load_balancer.security_groups.inspect %>
+    subnets         = <%= load_balancer.availability_zones.map { |az| az.subnet_id }.inspect %>
+
+    enable_deletion_protection = <%= load_balancer_attributes["deletion_protection.enabled"].to_s %>
+
+<%- if load_balancer_attributes["access_logs.s3.enabled"] == "true" -%>
+    access_logs {
+        bucket  = "<%= load_balancer_attributes["access_logs.s3.bucket"] %>"
+        enabled = <%= load_balancer_attributes["access_logs.s3.enabled"] %>
+        prefix  = "<%= load_balancer_attributes["access_logs.s3.prefix"] %>"
+    }
+
+<%- end -%>
+    tags {
+<% tags.each do |tag| -%>
+        "<%= tag.key %>" = "<%= tag.value %>"
+<% end -%>
+    }
+}
+
+<% end -%>

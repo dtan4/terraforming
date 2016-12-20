@@ -33,6 +33,13 @@ module Terraforming
       end
 
       describe "asg" do
+        let(:klass)   { Terraforming::Resource::ALB }
+        let(:command) { :alb }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "asg" do
         let(:klass)   { Terraforming::Resource::AutoScalingGroup }
         let(:command) { :asg }
 
