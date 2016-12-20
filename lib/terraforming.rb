@@ -8,6 +8,7 @@ require "terraforming/util"
 require "terraforming/version"
 
 require "terraforming/cli"
+require "terraforming/resource/alb"
 require "terraforming/resource/auto_scaling_group"
 require "terraforming/resource/cloud_watch_alarm"
 require "terraforming/resource/db_parameter_group"
