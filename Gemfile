@@ -16,6 +16,4 @@ group :development do
   gem "rubocop"
 
   gem "terminal-notifier-guard"
-
-  gem "activesupport", "~> 5.0.0"
 end
