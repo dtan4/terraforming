@@ -22,3 +22,41 @@ I love pull requests from everyone! By the way, I have a favor to ask you with y
 - Command name should be abbreviation.
   - e.g. `aws_iam_group_membership`: `iamgp`
 - Please check generation result by executing `terraform plan` with real resources. There should be NO diff with generated `.tf` and `.tfstate`.
+
+`script/generate` generates new resource code / test skeletons.
+
+```bash
+$ script/generate ec2
+==> Generate ec2.rb
+==> Generate ec2_spec.rb
+==> Generate ec2.erb
+
+Add below code by hand.
+
+lib/terraforming.rb:
+
+    require "terraforming/resource/ec2"
+
+lib/terraforming/cli.rb:
+
+    module Terraforming
+      class CLI < Thor
+
+        # Subcommand name should be acronym.
+        desc "ec2", "Ec2"
+        def ec2
+          execute(Terraforming::Resource::Ec2, options)
+        end
+
+spec/lib/terraforming/cli_spec.rb:
+
+module Terraforming
+  describe CLI do
+    context "resources" do
+    describe "ec2" do
+        let(:klass)   { Terraforming::Resource::Ec2
+        let(:command) { :ec2 }
+
+        it_behaves_like "CLI examples"
+      end
+```

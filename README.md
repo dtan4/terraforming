@@ -375,6 +375,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
+Please read [Contribution Guide](CONTRIBUTING.md) at first.
+
 1. Fork it ( https://github.com/dtan4/terraforming/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
