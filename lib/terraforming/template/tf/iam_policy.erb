@@ -1,6 +1,6 @@
 <% iam_policies.each do |policy| -%>
   <%- version = iam_policy_version_of(policy) -%>
-resource "aws_iam_policy" "<%= policy.policy_name %>" {
+resource "aws_iam_policy" "<%= module_name_of(policy) %>" {
     name        = "<%= policy.policy_name %>"
     path        = "<%= policy.path %>"
     description = "<%= iam_policy_description(policy) %>"

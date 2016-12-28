@@ -42,7 +42,7 @@ module Terraforming
       private
 
       def unique_name(policy)
-        "#{policy.role_name}_#{policy.policy_name}"
+        "#{normalize_module_name(policy.role_name)}_#{normalize_module_name(policy.policy_name)}"
       end
 
       def iam_role_policy_id_of(policy)

@@ -42,7 +42,7 @@ module Terraforming
                                  cache_cluster.cache_nodes[0].endpoint.port.to_s
                                end
 
-          resources["aws_elasticache_cluster.#{cache_cluster.cache_cluster_id}"] = {
+          resources["aws_elasticache_cluster.#{module_name_of(cache_cluster)}"] = {
             "type" => "aws_elasticache_cluster",
             "primary" => {
               "id" => cache_cluster.cache_cluster_id,
@@ -70,6 +70,10 @@ module Terraforming
 
       def security_group_names_of(cache_cluster)
         cache_cluster.cache_security_groups.map { |sg| sg.cache_security_group_name }
+      end
+
+      def module_name_of(cache_cluster)
+        normalize_module_name(cache_cluster.cache_cluster_id)
       end
     end
   end

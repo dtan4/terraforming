@@ -1,5 +1,5 @@
 <% iam_groups.each do |group| -%>
-resource "aws_iam_group" "<%= group.group_name %>" {
+resource "aws_iam_group" "<%= module_name_of(group) %>" {
     name = "<%= group.group_name %>"
     path = "<%= group.path %>"
 }

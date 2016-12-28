@@ -29,7 +29,7 @@ module Terraforming
             "tags.Name" => efs.name,
           }
 
-          resources["aws_efs_file_system.#{efs.file_system_id}"] = {
+          resources["aws_efs_file_system.#{module_name_of(efs)}"] = {
             "type" => "aws_efs_file_system",
             "depends_on" => [],
             "primary" => {
@@ -50,6 +50,10 @@ module Terraforming
 
       def file_systems
         @client.describe_file_systems.data.file_systems.flatten
+      end
+
+      def module_name_of(efs)
+        normalize_module_name(efs.file_system_id)
       end
     end
   end

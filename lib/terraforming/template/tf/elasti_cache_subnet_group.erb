@@ -1,5 +1,5 @@
 <% cache_subnet_groups.each do |cache_subnet_group| -%>
-resource "aws_elasticache_subnet_group" "<%= cache_subnet_group.cache_subnet_group_name %>" {
+resource "aws_elasticache_subnet_group" "<%= module_name_of(cache_subnet_group) %>" {
     name        = "<%= cache_subnet_group.cache_subnet_group_name %>"
     description = "<%= cache_subnet_group.cache_subnet_group_description %>"
     subnet_ids  = <%= subnet_ids_of(cache_subnet_group).inspect %>
