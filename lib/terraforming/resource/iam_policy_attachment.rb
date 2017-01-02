@@ -81,7 +81,6 @@ module Terraforming
       def module_name_of(policy_attachment)
         normalize_module_name(policy_attachment[:name])
       end
-
     end
   end
 end
