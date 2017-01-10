@@ -10,7 +10,7 @@ module Terraforming
       end
 
       describe ".tf" do
-        it "should generate tf" do
+        xit "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_<%= resource %>" "resource_name" {
 
@@ -21,7 +21,7 @@ resource "aws_<%= resource %>" "resource_name" {
       end
 
       describe ".tfstate" do
-        it "should generate tfstate" do
+        xit "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
             "aws_<%= resource %>.resource_name" => {
               "type" => "aws_<%= resource %>",
