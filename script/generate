@@ -77,13 +77,13 @@ lib/terraforming/cli.rb:
 
 spec/lib/terraforming/cli_spec.rb:
 
-module Terraforming
-  describe CLI do
-    context "resources" do
-    describe "#{resource}" do
-        let(:klass)   { Terraforming::Resource::#{camelize(resource) }
-        let(:command) { :#{resource} }
+    module Terraforming
+      describe CLI do
+        context "resources" do
+        describe "#{resource}" do
+          let(:klass)   { Terraforming::Resource::#{camelize(resource) }
+          let(:command) { :#{resource} }
 
-        it_behaves_like "CLI examples"
-      end
+          it_behaves_like "CLI examples"
+        end
 EOS
