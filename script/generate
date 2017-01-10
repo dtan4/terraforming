@@ -13,7 +13,7 @@ EOS
 def camelize(string)
   string
     .sub(/^[a-z\d]*/) { |match| match.capitalize }
-    .gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+    .gsub(%r{(?:_|(/))([a-z\d]*)}i) { "#{$1}#{$2.capitalize}" }
     .gsub('/'.freeze, '::'.freeze)
 end
 
