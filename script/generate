@@ -58,11 +58,11 @@ File.open(File.join("lib", "terraforming", "resource", "#{resource}.rb"), "w+") 
 
 puts "==> Generate #{resource}_spec.rb"
 resource_spec_rb = generate_resource_spec_rb(resource)
-File.open(File.join("spec", "lib", "terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_rb) }
+File.open(File.join("spec", "lib", "terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_spec_rb) }
 
 puts "==> Generate #{resource}.erb"
 resource_erb = generate_resource_erb(resource)
-File.open(File.join("lib", "terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_rb) }
+File.open(File.join("lib", "terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_erb) }
 
 puts <<-EOS
 
