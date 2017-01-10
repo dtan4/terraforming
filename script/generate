@@ -11,7 +11,10 @@ Example:
 EOS
 
 def camelize(string)
-  string.sub(/^[a-z\d]*/) { |match| match.capitalize }.gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }.gsub('/'.freeze, '::'.freeze)
+  string
+    .sub(/^[a-z\d]*/) { |match| match.capitalize }
+    .gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
+    .gsub('/'.freeze, '::'.freeze)
 end
 
 def generate_resource_erb(resource)
@@ -30,9 +33,14 @@ def generate_resource_spec_rb(resource)
 end
 
 def humanize(string)
-  string.sub(/\A_+/, ''.freeze).sub(/_id\z/, ''.freeze).tr('_'.freeze, ' '.freeze).gsub(/([a-z\d]*)/i) do |match|
-    match.downcase
-  end.split(" ").map{ |w| w[0].upcase + w[1..-1] }.join(" ")
+  string
+    .sub(/\A_+/, ''.freeze)
+    .sub(/_id\z/, ''.freeze)
+    .tr('_'.freeze, ' '.freeze)
+    .gsub(/([a-z\d]*)/i) { |match| match.downcase }
+    .split(" ")
+    .map { |w| w[0].upcase + w[1..-1] }
+    .join(" ")
 end
 
 
@@ -50,7 +58,7 @@ File.open(File.join("lib", "terraforming", "resource", "#{resource}.rb"), "w+") 
 
 puts "==> Generate #{resource}_spec.rb"
 resource_spec_rb = generate_resource_spec_rb(resource)
-File.open(File.join("spec", "lib", "terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_rb)}
+File.open(File.join("spec", "lib", "terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_rb) }
 
 puts "==> Generate #{resource}.erb"
 resource_erb = generate_resource_erb(resource)
@@ -81,7 +89,7 @@ spec/lib/terraforming/cli_spec.rb:
       describe CLI do
         context "resources" do
         describe "#{resource}" do
-          let(:klass)   { Terraforming::Resource::#{camelize(resource) }
+          let(:klass)   { Terraforming::Resource::#{camelize(resource)} }
           let(:command) { :#{resource} }
 
           it_behaves_like "CLI examples"
