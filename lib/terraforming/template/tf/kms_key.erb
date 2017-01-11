@@ -1,0 +1,13 @@
+<% keys.each do |key| -%>
+resource "aws_kms_key" "<%= key.key_id %>" {
+    description             = "<%= key.description %>"
+    key_usage               = "<%= key_usage_of(key) %>"
+    is_enabled              = <%= key.enabled %>
+    enable_key_rotation     = <%= key_rotation_status_of(key).key_rotation_enabled %>
+
+    policy = <<POLICY
+<%= key_policy_of(key).strip %>
+POLICY
+}
+
+<% end -%>
