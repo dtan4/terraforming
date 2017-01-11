@@ -43,8 +43,12 @@ module Terraforming
 
       private
 
+      def aliases
+        @aliases ||= @client.list_aliases.aliases
+      end
+
       def keys
-        @client.list_keys.keys.map { |key| @client.describe_key(key_id: key.key_id) }.map(&:key_metadata)
+        @client.list_keys.keys.reject { |key| managed_master_key?(key) }.map { |key| @client.describe_key(key_id: key.key_id) }.map(&:key_metadata)
       end
 
       def key_policy_of(key)
@@ -61,6 +65,10 @@ module Terraforming
 
       def key_usage_of(key)
         key.key_usage.gsub("_", "/")
+      end
+
+      def managed_master_key?(key)
+        !aliases.select { |a| a.target_key_id == key.key_id && a.alias_name =~ %r{\Aalias/aws/} }.empty?
       end
     end
   end

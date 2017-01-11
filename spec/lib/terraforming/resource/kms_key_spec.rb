@@ -17,6 +17,10 @@ module Terraforming
             key_id: "abcd1234-ab12-cd34-ef56-abcdef123456",
             key_arn: "arn:aws:kms:ap-northeast-1:123456789012:key/abcd1234-ab12-cd34-ef56-abcdef123456",
           },
+          {
+            key_id: "12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
+            key_arn: "arn:aws:kms:ap-northeast-1:123456789012:key/12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
+          },
         ]
       end
 
@@ -50,6 +54,42 @@ module Terraforming
             origin: "AWS_KMS",
           },
         }
+      end
+
+      let(:piyo_key) do
+        {
+          key_metadata: {
+            aws_account_id: "123456789012",
+            key_id: "12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
+            arn: "arn:aws:kms:ap-northeast-1:123456789012:key/12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
+            creation_date: Time.new("2016-09-09 12:34:56 +0900"),
+            enabled: true,
+            description: "Default master key that protects my ACM private keys when no other key is defined",
+            key_usage: "ENCRYPT_DECRYPT",
+            key_state: "Enabled",
+            origin: "AWS_KMS",
+          },
+        }
+      end
+
+      let(:aliases) do
+        [
+          {
+            alias_name: "alias/aws/acm",
+            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/aws/acm",
+            target_key_id: "12ab34cd-56ef-12ab-34cd-12ab34cd56ef"
+          },
+          {
+            alias_name: "alias/hoge",
+            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/hoge",
+            target_key_id: "1234abcd-12ab-34cd-56ef-1234567890ab"
+          },
+          {
+            alias_name: "alias/fuga",
+            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/hoge",
+            target_key_id: "abcd1234-ab12-cd34-ef56-abcdef123456"
+          },
+        ]
       end
 
       let(:hoge_policies) do
@@ -145,7 +185,8 @@ EOS
 
       before do
         client.stub_responses(:list_keys, keys: keys)
-        client.stub_responses(:describe_key, [hoge_key, fuga_key])
+        client.stub_responses(:list_aliases, aliases: aliases)
+        client.stub_responses(:describe_key, [hoge_key, fuga_key, piyo_key])
         client.stub_responses(:list_key_policies, [hoge_policies, fuga_policies])
         client.stub_responses(:get_key_policy, [hoge_policy, fuga_policy])
         client.stub_responses(:get_key_rotation_status, [hoge_key_rotation_status, fuga_key_rotation_status])
