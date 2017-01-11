@@ -119,6 +119,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
+    desc "kmsk", "KMS Key"
+    def kmsk
+      execute(Terraforming::Resource::KMSKey, options)
+    end
+
     desc "lc", "Launch Configuration"
     def lc
       execute(Terraforming::Resource::LaunchConfiguration, options)

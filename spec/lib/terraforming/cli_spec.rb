@@ -186,6 +186,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "kmsk" do
+        let(:klass)   { Terraforming::Resource::KMSKey }
+        let(:command) { :kmsk }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "lc" do
         let(:klass)   { Terraforming::Resource::LaunchConfiguration }
         let(:command) { :lc }
