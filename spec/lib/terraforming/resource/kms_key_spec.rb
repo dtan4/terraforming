@@ -232,13 +232,37 @@ POLICY
       end
 
       describe ".tfstate" do
-        xit "should generate tfstate" do
+        it "should generate tfstate" do
           expect(described_class.tfstate(client: client)).to eq({
-            "aws_kms_key.resource_name" => {
+            "aws_kms_key.1234abcd-12ab-34cd-56ef-1234567890ab" => {
               "type" => "aws_kms_key",
               "primary" => {
-                "id" => "",
+                "id" => "1234abcd-12ab-34cd-56ef-1234567890ab",
                 "attributes" => {
+                  "arn" => "arn:aws:kms:ap-northeast-1:123456789012:key/1234abcd-12ab-34cd-56ef-1234567890ab",
+                  "description" => "hoge",
+                  "enable_key_rotation" => "true",
+                  "id" => "1234abcd-12ab-34cd-56ef-1234567890ab",
+                  "is_enabled" => "true",
+                  "key_id" => "1234abcd-12ab-34cd-56ef-1234567890ab",
+                  "key_usage" => "ENCRYPT/DECRYPT",
+                  "policy" => "{\n  \"Version\" : \"2012-10-17\",\n  \"Id\" : \"key-default-1\",\n  \"Statement\" : [ {\n    \"Sid\" : \"Enable IAM User Permissions\",\n    \"Effect\" : \"Allow\",\n    \"Principal\" : {\n      \"AWS\" : \"arn:aws:iam::123456789012:root\"\n    },\n    \"Action\" : \"kms:*\",\n    \"Resource\" : \"*\"\n  } ]\n}\n",
+                }
+              }
+            },
+            "aws_kms_key.abcd1234-ab12-cd34-ef56-abcdef123456" => {
+              "type" => "aws_kms_key",
+              "primary" => {
+                "id" => "abcd1234-ab12-cd34-ef56-abcdef123456",
+                "attributes" => {
+                  "arn" => "arn:aws:kms:ap-northeast-1:123456789012:key/abcd1234-ab12-cd34-ef56-abcdef123456",
+                  "description" => "fuga",
+                  "enable_key_rotation" => "false",
+                  "id" => "abcd1234-ab12-cd34-ef56-abcdef123456",
+                  "is_enabled" => "true",
+                  "key_id" => "abcd1234-ab12-cd34-ef56-abcdef123456",
+                  "key_usage" => "ENCRYPT/DECRYPT",
+                  "policy" => "{\n  \"Version\" : \"2012-10-17\",\n  \"Id\" : \"key-consolepolicy-2\",\n  \"Statement\" : [ {\n    \"Sid\" : \"Enable IAM User Permissions\",\n    \"Effect\" : \"Allow\",\n    \"Principal\" : {\n      \"AWS\" : \"arn:aws:iam::123456789012:root\"\n    },\n    \"Action\" : \"kms:*\",\n    \"Resource\" : \"*\"\n  }, {\n    \"Sid\" : \"Allow access for Key Administrators\",\n    \"Effect\" : \"Allow\",\n    \"Action\" : [ \"kms:Create*\", \"kms:Describe*\", \"kms:Enable*\", \"kms:List*\", \"kms:Put*\", \"kms:Update*\", \"kms:Revoke*\", \"kms:Disable*\", \"kms:Get*\", \"kms:Delete*\", \"kms:ScheduleKeyDeletion\", \"kms:CancelKeyDeletion\" ],\n    \"Resource\" : \"*\"\n  }, {\n    \"Sid\" : \"Allow use of the key\",\n    \"Effect\" : \"Allow\",\n    \"Principal\" : {\n      \"AWS\" : [ \"arn:aws:iam::123456789012:user/user1\", \"arn:aws:iam::123456789012:user/user2\" ]\n    },\n    \"Action\" : [ \"kms:Encrypt\", \"kms:Decrypt\", \"kms:ReEncrypt*\", \"kms:GenerateDataKey*\", \"kms:DescribeKey\" ],\n    \"Resource\" : \"*\"\n  }, {\n    \"Sid\" : \"Allow attachment of persistent resources\",\n    \"Effect\" : \"Allow\",\n    \"Principal\" : {\n      \"AWS\" : [ \"arn:aws:iam::123456789012:user/user1\", \"arn:aws:iam::123456789012:user/user2\" ]\n    },\n    \"Action\" : [ \"kms:CreateGrant\", \"kms:ListGrants\", \"kms:RevokeGrant\" ],\n    \"Resource\" : \"*\",\n    \"Condition\" : {\n      \"Bool\" : {\n        \"kms:GrantIsForAWSResource\" : \"true\"\n      }\n    }\n\n  } ]\n}\n",
                 }
               }
             }
