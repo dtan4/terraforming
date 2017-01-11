@@ -48,7 +48,12 @@ module Terraforming
       end
 
       def keys
-        @client.list_keys.keys.reject { |key| managed_master_key?(key) }.map { |key| @client.describe_key(key_id: key.key_id) }.map(&:key_metadata)
+        @client
+          .list_keys
+          .keys
+          .reject { |key| managed_master_key?(key) }
+          .map { |key| @client.describe_key(key_id: key.key_id) }
+          .map(&:key_metadata)
       end
 
       def key_policy_of(key)
