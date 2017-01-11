@@ -20,20 +20,16 @@ module Terraforming
       end
 
       def tfstate
-        keys.inject({}) do |resources, key|
-          resources["aws_kms_key.#{key.key_id}"] = {
-            "type" => "aws_kms_key",
+        aliases.inject({}) do |resources, als|
+          resources["aws_kms_alias.#{module_name_of(als)}"] = {
+            "type" => "aws_kms_alias",
             "primary" => {
-              "id" => key.key_id,
+              "id" => als.alias_name,
               "attributes" => {
-                "arn" => key.arn,
-                "description" => key.description,
-                "enable_key_rotation" => key_rotation_status_of(key).key_rotation_enabled.to_s,
-                "id" => key.key_id,
-                "is_enabled" => key.enabled.to_s,
-                "key_id" => key.key_id,
-                "key_usage" => key_usage_of(key),
-                "policy" => key_policy_of(key),
+                "arn" => als.alias_arn,
+                "id" => als.alias_name,
+                "name" => als.alias_name,
+                "target_key_id" => als.target_key_id,
               },
             },
           }
