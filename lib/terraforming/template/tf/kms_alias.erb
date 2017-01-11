@@ -1,0 +1,7 @@
+<% aliases.each do |als| -%>
+resource "aws_kms_alias" "<%= module_name_of(als) %>" {
+    name          = "<%= als.alias_name %>"
+    target_key_id = "<%= als.target_key_id %>"
+}
+
+<% end -%>
