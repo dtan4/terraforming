@@ -44,7 +44,7 @@ module Terraforming
       end
 
       def managed_master_key_alias?(als)
-        !!(als.alias_name =~ %r{\Aalias/aws/})
+        als.alias_name =~ %r{\Aalias/aws/}
       end
 
       def module_name_of(als)
