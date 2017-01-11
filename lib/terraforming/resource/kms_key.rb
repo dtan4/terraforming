@@ -21,7 +21,7 @@ module Terraforming
 
       def tfstate
         keys.inject({}) do |resources, key|
-          resources["aws_kms_key.#{key.key_id}"] = {
+          resources["aws_kms_key.#{module_name_of(key)}"] = {
             "type" => "aws_kms_key",
             "primary" => {
               "id" => key.key_id,
@@ -74,6 +74,10 @@ module Terraforming
 
       def managed_master_key?(key)
         !aliases.select { |a| a.target_key_id == key.key_id && a.alias_name =~ %r{\Aalias/aws/} }.empty?
+      end
+
+      def module_name_of(key)
+        normalize_module_name(key.key_id)
       end
     end
   end
