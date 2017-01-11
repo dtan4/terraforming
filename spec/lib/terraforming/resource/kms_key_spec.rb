@@ -86,7 +86,7 @@ module Terraforming
           },
           {
             alias_name: "alias/fuga",
-            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/hoge",
+            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/fuga",
             target_key_id: "abcd1234-ab12-cd34-ef56-abcdef123456"
           },
         ]
