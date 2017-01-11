@@ -59,7 +59,7 @@ module Terraforming
       def key_policy_of(key)
         policies = @client.list_key_policies(key_id: key.key_id).policy_names
 
-        return "" if policies.length.empty?
+        return "" if policies.empty?
 
         @client.get_key_policy(key_id: key.key_id, policy_name: policies[0]).policy
       end
