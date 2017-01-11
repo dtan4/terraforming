@@ -69,7 +69,7 @@ module Terraforming
       end
 
       def key_usage_of(key)
-        key.key_usage.gsub("_", "/")
+        key.key_usage.tr("_", "/")
       end
 
       def managed_master_key?(key)
