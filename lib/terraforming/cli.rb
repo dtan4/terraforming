@@ -119,6 +119,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMUserPolicy, options)
     end
 
+    desc "kmsa", "KMS Key Alias"
+    def kmsa
+      execute(Terraforming::Resource::KMSAlias, options)
+    end
+
     desc "kmsk", "KMS Key"
     def kmsk
       execute(Terraforming::Resource::KMSKey, options)
