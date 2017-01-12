@@ -77,17 +77,12 @@ module Terraforming
           record_sets_of(hosted_zone).map { |record| { record: record, zone_id: zone_id_of(hosted_zone) } }
         end.flatten
         count = {}
-        dups = to_return.group_by{ |record| module_name_of(record[:record], nil) }.select { |k, v| v.size > 1 }.map(&:first)
+        dups = to_return.group_by { |record| module_name_of(record[:record], nil) }.select { |_, v| v.size > 1 }.map(&:first)
         to_return.each do |r|
           module_name = module_name_of(r[:record], nil)
-          if dups.include?(module_name)
-            if count[module_name]
-              count[module_name] = count[module_name] + 1
-            else
-              count[module_name] = 0
-            end
-            r[:counter] = count[module_name]
-          end
+          next unless dups.include?(module_name)
+          count[module_name] = count[module_name] ? count[module_name] + 1 : 0
+          r[:counter] = count[module_name]
         end
         to_return
       end
