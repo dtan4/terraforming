@@ -35,6 +35,12 @@ module Terraforming
           attributes["records.#"] = record.resource_records.length.to_s unless record.resource_records.empty?
           attributes["ttl"] = record.ttl.to_s if record.ttl
           attributes["weight"] = record.weight ? record.weight.to_s : "-1"
+          attributes["region"] = record.region if record.region
+          if record.geo_location
+            attributes["continent"] = record.geo_location.continent_code if record.geo_location.continent_code
+            attributes["country"] = record.geo_location.country_code if record.geo_location.country_code
+            attributes["subdivision"] = record.geo_location.subdivision_code if record.geo_location.subdivision_code
+          end
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 
           resources["aws_route53_record.#{module_name_of(record)}"] = {
