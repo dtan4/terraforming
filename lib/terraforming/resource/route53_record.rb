@@ -22,6 +22,7 @@ module Terraforming
       def tfstate
         records.inject({}) do |resources, r|
           record, zone_id = r[:record], r[:zone_id]
+          counter = r[:counter]
           record_id = record_id_of(record, zone_id)
 
           attributes = {
@@ -43,7 +44,7 @@ module Terraforming
           end
           attributes["set_identifier"] = record.set_identifier if record.set_identifier
 
-          resources["aws_route53_record.#{module_name_of(record)}"] = {
+          resources["aws_route53_record.#{module_name_of(record, counter)}"] = {
             "type" => "aws_route53_record",
             "primary" => {
               "id" => record_id,
@@ -72,9 +73,23 @@ module Terraforming
       end
 
       def records
-        hosted_zones.map do |hosted_zone|
+        to_return = hosted_zones.map do |hosted_zone|
           record_sets_of(hosted_zone).map { |record| { record: record, zone_id: zone_id_of(hosted_zone) } }
         end.flatten
+        count = {}
+        dups = to_return.group_by{ |record| module_name_of(record[:record], nil) }.select { |k, v| v.size > 1 }.map(&:first)
+        to_return.each do |r|
+          module_name = module_name_of(r[:record], nil)
+          if dups.include?(module_name)
+            if count[module_name]
+              count[module_name] = count[module_name] + 1
+            else
+              count[module_name] = 0
+            end
+            r[:counter] = count[module_name]
+          end
+        end
+        to_return
       end
 
       # TODO(dtan4): change method name...
@@ -82,8 +97,8 @@ module Terraforming
         dns_name.gsub(/\.\z/, "")
       end
 
-      def module_name_of(record)
-        normalize_module_name(name_of(record.name) + "-" + record.type)
+      def module_name_of(record, counter)
+        normalize_module_name(name_of(record.name) + "-" + record.type + (!counter.nil? ? "-" + counter.to_s : ""))
       end
 
       def zone_id_of(hosted_zone)

@@ -1,6 +1,7 @@
 <% records.each do |r| -%>
   <%- record, zone_id = r[:record], r[:zone_id] -%>
-resource "aws_route53_record" "<%= module_name_of(record) %>" {
+  <%- counter = r[:counter] -%>
+resource "aws_route53_record" "<%= module_name_of(record, counter) %>" {
     zone_id = "<%= zone_id %>"
     name    = "<%= name_of(record.name.sub(/\\052/, '*')) %>"
     type    = "<%= record.type %>"
