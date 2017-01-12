@@ -1,5 +1,5 @@
 <% eips.each do |addr| -%>
-resource "aws_eip" "<%= addr.allocation_id %>" {
+resource "aws_eip" "<%= module_name_of(addr) %>" {
 <% if addr.instance_id -%>
     instance          = "<%= addr.instance_id %>"
 <% elsif addr.network_interface_id -%>

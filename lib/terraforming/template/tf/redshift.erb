@@ -1,5 +1,5 @@
 <% clusters.each do |cluster| -%>
-resource "aws_redshift_cluster" "<%= cluster.cluster_identifier %>" {
+resource "aws_redshift_cluster" "<%= module_name_of(cluster) %>" {
     cluster_identifier                  = "<%= cluster.cluster_identifier %>"
 <%- if cluster.db_name -%>
     database_name                       = "<%= cluster.db_name %>"

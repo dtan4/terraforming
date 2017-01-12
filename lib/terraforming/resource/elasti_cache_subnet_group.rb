@@ -26,7 +26,7 @@ module Terraforming
             "name" => cache_subnet_group.cache_subnet_group_name,
             "subnet_ids.#" => subnet_ids_of(cache_subnet_group).length.to_s,
           }
-          resources["aws_elasticache_subnet_group.#{cache_subnet_group.cache_subnet_group_name}"] = {
+          resources["aws_elasticache_subnet_group.#{module_name_of(cache_subnet_group)}"] = {
             "type" => "aws_elasticache_subnet_group",
             "primary" => {
               "id" => cache_subnet_group.cache_subnet_group_name,
@@ -46,6 +46,10 @@ module Terraforming
 
       def subnet_ids_of(cache_subnet_group)
         cache_subnet_group.subnets.map { |sn| sn.subnet_identifier }
+      end
+
+      def module_name_of(cache_subnet_group)
+        normalize_module_name(cache_subnet_group.cache_subnet_group_name)
       end
     end
   end
