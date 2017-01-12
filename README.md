@@ -100,6 +100,8 @@ Commands:
   terraforming iamu            # IAM User
   terraforming iamup           # IAM User Policy
   terraforming igw             # Internet Gateway
+  terraforming kmsa            # KMS Key Alias
+  terraforming kmsk            # KMS Key
   terraforming lc              # Launch Configuration
   terraforming nacl            # Network ACL
   terraforming nat             # NAT Gateway
@@ -118,11 +120,12 @@ Commands:
   terraforming vpc             # VPC
 
 Options:
-  [--merge=MERGE]                  # tfstate file to merge
-  [--overwrite], [--no-overwrite]  # Overwrite existng tfstate
-  [--tfstate], [--no-tfstate]      # Generate tfstate
-  [--profile=PROFILE]              # AWS credentials profile
-  [--region=REGION]                # AWS region
+  [--merge=MERGE]                                # tfstate file to merge
+  [--overwrite], [--no-overwrite]                # Overwrite existng tfstate
+  [--tfstate], [--no-tfstate]                    # Generate tfstate
+  [--profile=PROFILE]                            # AWS credentials profile
+  [--region=REGION]                              # AWS region
+  [--use-bundled-cert], [--no-use-bundled-cert]  # Use the bundled CA certificate from AWS SDK
 ```
 
 ### Export tf
@@ -137,7 +140,7 @@ $ terraforming <resource> [--profile PROFILE]
 $ terraforming s3
 ```
 
-```go
+```hcl
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
