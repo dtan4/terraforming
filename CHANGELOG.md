@@ -1,4 +1,15 @@
-# [v0.12.0](https://github.com/dtan4/terraforming/releases/tag/v0.11.0) (2016-12-20)
+# [v0.13.0](https://github.com/dtan4/terraforming/releases/tag/v0.13.0) (2017-01-12)
+
+## Resource
+
+- AWS KMS Key Alias [#300](https://github.com/dtan4/terraforming/pull/300)
+- AWS KMS Key [#299](https://github.com/dtan4/terraforming/pull/299)
+
+## Fixed / Updated
+
+- Normalize all resource names in tf and tfstate files [#296](https://github.com/dtan4/terraforming/pull/296) (thanks @nabarunchatterjee)
+
+# [v0.12.0](https://github.com/dtan4/terraforming/releases/tag/v0.12.0) (2016-12-20)
 
 ## Resource
 
