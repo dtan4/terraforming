@@ -140,7 +140,7 @@ $ terraforming <resource> [--profile PROFILE]
 $ terraforming s3
 ```
 
-```go
+```hcl
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
