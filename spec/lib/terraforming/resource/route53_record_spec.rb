@@ -109,7 +109,7 @@ resource "aws_route53_record" "www-fuga-net-A" {
     name    = "www.fuga.net"
     type    = "A"
     weighted_routing_policy {
-      weight = 10
+        weight = 10
     }
 
     alias {

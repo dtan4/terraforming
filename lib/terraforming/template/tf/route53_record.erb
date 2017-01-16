@@ -13,24 +13,24 @@ resource "aws_route53_record" "<%= module_name_of(record, counter) %>" {
 <%- end -%>
 <%- if record.weight -%>
     weighted_routing_policy {
-      weight = <%= record.weight %>
+        weight = <%= record.weight %>
     }
 <%- end -%>
 <%- if record.region -%>
     latency_routing_policy {
-      region = "<%= record.region %>"
+        region = "<%= record.region %>"
     }
 <%- end -%>
 <%- if record.geo_location -%>
     geolocation_routing_policy {
   <%- if record.geo_location.continent_code -%>
-      continent = "<%= record.geo_location.continent_code %>"
+        continent = "<%= record.geo_location.continent_code %>"
   <%- end -%>
   <%- if record.geo_location.country_code -%>
-      country = "<%= record.geo_location.country_code %>"
+        country = "<%= record.geo_location.country_code %>"
   <%- end -%>
   <%- if record.geo_location.subdivision_code -%>
-      subdivision = "<%= record.geo_location.subdivision_code %>"
+        subdivision = "<%= record.geo_location.subdivision_code %>"
   <%- end -%>
     }
 <%- end -%>
