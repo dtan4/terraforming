@@ -81,6 +81,24 @@ module Terraforming
                   { cidr_ip: "0.0.0.0/0" }
                 ]
               },
+              {
+                ip_protocol: "tcp",
+                from_port: 7777,
+                to_port: 7777,
+                user_id_group_pairs: [
+                 {
+                    user_id: "098765432109",
+                    group_name: nil,
+                    group_id: "sg-5678efgh"
+                 },
+                 {
+                    user_id: "098765432109",
+                    group_name: nil,
+                    group_id: "sg-7777abcd"
+                  }
+                ],
+                ip_ranges: []
+              },
             ],
             ip_permissions_egress: [
               {
@@ -208,6 +226,14 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
         self            = false
     }
 
+    ingress {
+        from_port       = 7777
+        to_port         = 7777
+        protocol        = "tcp"
+        security_groups = ["sg-7777abcd"]
+        self            = true
+    }
+
 
     egress {
         from_port       = 22
@@ -308,7 +334,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.2484852545.self" => "true",
                   "egress.2484852545.cidr_blocks.0" => "0.0.0.0/0",
                   "egress.2484852545.security_groups.3311523735" => "sg-1234efgh",
-                  "ingress.#" => "2",
+                  "ingress.#" => "3",
                   "ingress.1849628954.from_port" => "0",
                   "ingress.1849628954.to_port" => "65535",
                   "ingress.1849628954.protocol" => "tcp",
@@ -323,6 +349,13 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1446312017.self" => "false",
                   "ingress.1446312017.security_groups.3311523735" => "sg-1234efgh",
                   "ingress.1446312017.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.1728187046.from_port" => "7777",
+                  "ingress.1728187046.to_port" => "7777",
+                  "ingress.1728187046.protocol" => "tcp",
+                  "ingress.1728187046.cidr_blocks.#" => "0",
+                  "ingress.1728187046.security_groups.#" => "1",
+                  "ingress.1728187046.self" => "true",
+                  "ingress.1728187046.security_groups.1756790741" => "sg-7777abcd"
                 }
               }
             },
