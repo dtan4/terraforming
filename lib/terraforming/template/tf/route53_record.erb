@@ -1,6 +1,7 @@
 <% records.each do |r| -%>
   <%- record, zone_id = r[:record], r[:zone_id] -%>
-resource "aws_route53_record" "<%= module_name_of(record) %>" {
+  <%- counter = r[:counter] -%>
+resource "aws_route53_record" "<%= module_name_of(record, counter) %>" {
     zone_id = "<%= zone_id %>"
     name    = "<%= name_of(record.name.sub(/\\052/, '*')) %>"
     type    = "<%= record.type %>"
@@ -11,7 +12,27 @@ resource "aws_route53_record" "<%= module_name_of(record) %>" {
     ttl     = "<%= record.ttl %>"
 <%- end -%>
 <%- if record.weight -%>
-    weight  = <%= record.weight %>
+    weighted_routing_policy {
+        weight = <%= record.weight %>
+    }
+<%- end -%>
+<%- if record.region -%>
+    latency_routing_policy {
+        region = "<%= record.region %>"
+    }
+<%- end -%>
+<%- if record.geo_location -%>
+    geolocation_routing_policy {
+  <%- if record.geo_location.continent_code -%>
+        continent = "<%= record.geo_location.continent_code %>"
+  <%- end -%>
+  <%- if record.geo_location.country_code -%>
+        country = "<%= record.geo_location.country_code %>"
+  <%- end -%>
+  <%- if record.geo_location.subdivision_code -%>
+        subdivision = "<%= record.geo_location.subdivision_code %>"
+  <%- end -%>
+    }
 <%- end -%>
 <%- if record.set_identifier -%>
     set_identifier = "<%= record.set_identifier %>"
