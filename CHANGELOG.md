@@ -1,3 +1,12 @@
+# [v0.13.1](https://github.com/dtan4/terraforming/releases/tag/v0.13.1) (2017-01-23)
+
+## Fixed / Updated
+
+- Fixes for route53_records [#303](https://github.com/dtan4/terraforming/pull/303) (thanks @mioi)
+  - use `weighted_routing_policy`
+  - add various routing policy (latency, geolocation)
+  - uniquify resource name
+
 # [v0.13.0](https://github.com/dtan4/terraforming/releases/tag/v0.13.0) (2017-01-12)
 
 ## Resource
