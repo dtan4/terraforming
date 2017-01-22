@@ -10,9 +10,11 @@ env:
   matrix:
     - OJ=0
     - OJ=1
+before_install:
+  - gem update --system
+  - gem update bundler
 before_script:
   - if [[ $OJ -eq 1 ]]; then gem install oj; fi
-  - gem update --system
 notifications:
   slack:
     secure: iTI8zpxXQJqf5e9ix4buLRsGlf9lJRZqA9Fawdqm41msBrC0Zsp31XzBS7ZPiTcdHhImtOC4lccTCW2C8kR6waaG5VOF0U2BwyKaNFKsXMaVk6yrNhYkvJ9YVicuU9hL+JKLyBrSDYQ7+vXcHqaz4H4dYpPThrv6sfq4jBOp+eM=
