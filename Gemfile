@@ -13,7 +13,7 @@ group :development do
     gem "listen", "< 3.1.0"
   end
 
-  gem "rubocop"
+  gem "rubocop", "~> 0.47.1"
 
   gem "terminal-notifier-guard"
 end
