@@ -1,7 +1,8 @@
 language: ruby
 rvm:
-- 2.3.1
-- 2.2.5
+- 2.4.0
+- 2.3.3
+- 2.2.6
 - 2.1.10
 env:
   global:
@@ -9,6 +10,9 @@ env:
   matrix:
     - OJ=0
     - OJ=1
+before_install:
+  - gem update --system
+  - gem update bundler
 before_script:
   - if [[ $OJ -eq 1 ]]; then gem install oj; fi
 notifications:

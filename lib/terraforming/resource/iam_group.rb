@@ -28,7 +28,7 @@ module Terraforming
             "path" => group.path,
             "unique_id" => group.group_id,
           }
-          resources["aws_iam_group.#{group.group_name}"] = {
+          resources["aws_iam_group.#{module_name_of(group)}"] = {
             "type" => "aws_iam_group",
             "primary" => {
               "id" => group.group_name,
@@ -44,6 +44,10 @@ module Terraforming
 
       def iam_groups
         @client.list_groups.map(&:groups).flatten
+      end
+
+      def module_name_of(group)
+        normalize_module_name(group.group_name)
       end
     end
   end

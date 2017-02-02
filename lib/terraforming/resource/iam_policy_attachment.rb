@@ -29,7 +29,7 @@ module Terraforming
             "users.#" => policy_attachment[:entities].policy_users.length.to_s,
             "roles.#" => policy_attachment[:entities].policy_roles.length.to_s,
           }
-          resources["aws_iam_policy_attachment.#{policy_attachment[:name]}"] = {
+          resources["aws_iam_policy_attachment.#{module_name_of(policy_attachment)}"] = {
             "type" => "aws_iam_policy_attachment",
             "primary" => {
               "id" => policy_attachment[:name],
@@ -76,6 +76,10 @@ module Terraforming
             name: attachment_name_from(policy),
           }
         end
+      end
+
+      def module_name_of(policy_attachment)
+        normalize_module_name(policy_attachment[:name])
       end
     end
   end

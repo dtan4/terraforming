@@ -1,5 +1,5 @@
 <% iam_policy_attachments.each do |policy_attachment| -%>
-resource "aws_iam_policy_attachment" "<%= policy_attachment[:name] %>" {
+resource "aws_iam_policy_attachment" "<%= module_name_of(policy_attachment) %>" {
     name       = "<%= policy_attachment[:name] %>"
     policy_arn = "<%= policy_attachment[:arn] %>"
     groups     = <%= policy_attachment[:entities].policy_groups.map(&:group_name).inspect %>

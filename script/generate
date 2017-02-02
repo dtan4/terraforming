@@ -1,0 +1,97 @@
+#!/usr/bin/env ruby
+
+require "erb"
+
+USAGE = <<-EOS
+Usage: script/generate RESOURCE
+RESOURCE must be snake_case
+
+Example:
+  script/generate EC2
+EOS
+
+def camelize(string)
+  string
+    .sub(/^[a-z\d]*/) { |match| match.capitalize }
+    .gsub(%r{(?:_|(/))([a-z\d]*)}i) { "#{$1}#{$2.capitalize}" }
+    .gsub('/'.freeze, '::'.freeze)
+end
+
+def generate_resource_erb(resource)
+  template = File.join("templates", "resource.erb.erb")
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def generate_resource_rb(resource)
+  template = File.expand_path(File.join("templates", "resource.rb.erb"))
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def generate_resource_spec_rb(resource)
+  template = File.join("templates", "resource_spec.rb.erb")
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def humanize(string)
+  string
+    .sub(/\A_+/, ''.freeze)
+    .sub(/_id\z/, ''.freeze)
+    .tr('_'.freeze, ' '.freeze)
+    .gsub(/([a-z\d]*)/i) { |match| match.downcase }
+    .split(" ")
+    .map { |w| w[0].upcase + w[1..-1] }
+    .join(" ")
+end
+
+
+
+if ARGV.length != 1
+  $stderr.puts USAGE
+  exit 1
+end
+
+resource = ARGV[0]
+
+puts "==> Generate #{resource}.rb"
+resource_rb = generate_resource_rb(resource)
+File.open(File.join("lib", "terraforming", "resource", "#{resource}.rb"), "w+") { |f| f.write(resource_rb) }
+
+puts "==> Generate #{resource}_spec.rb"
+resource_spec_rb = generate_resource_spec_rb(resource)
+File.open(File.join("spec", "lib", "terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_spec_rb) }
+
+puts "==> Generate #{resource}.erb"
+resource_erb = generate_resource_erb(resource)
+File.open(File.join("lib", "terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_erb) }
+
+puts <<-EOS
+
+Add below code by hand.
+
+lib/terraforming.rb:
+
+    require "terraforming/resource/#{resource}"
+
+lib/terraforming/cli.rb:
+
+    module Terraforming
+      class CLI < Thor
+
+        # Subcommand name should be acronym.
+        desc "#{resource}", "#{humanize(resource)}"
+        def #{resource}
+          execute(Terraforming::Resource::#{camelize(resource)}, options)
+        end
+
+spec/lib/terraforming/cli_spec.rb:
+
+    module Terraforming
+      describe CLI do
+        context "resources" do
+        describe "#{resource}" do
+          let(:klass)   { Terraforming::Resource::#{camelize(resource)} }
+          let(:command) { :#{resource} }
+
+          it_behaves_like "CLI examples"
+        end
+EOS

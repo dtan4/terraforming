@@ -32,7 +32,7 @@ module Terraforming
             "vpc" => vpc?(addr).to_s,
           }
           attributes.delete_if { |_k, v| v.nil? }
-          resources["aws_eip.#{addr.allocation_id}"] = {
+          resources["aws_eip.#{module_name_of(addr)}"] = {
             "type" => "aws_eip",
             "primary" => {
               "id" => addr.allocation_id,
@@ -52,6 +52,10 @@ module Terraforming
 
       def vpc?(addr)
         addr.domain.eql?("vpc")
+      end
+
+      def module_name_of(addr)
+        normalize_module_name(addr.allocation_id)
       end
     end
   end

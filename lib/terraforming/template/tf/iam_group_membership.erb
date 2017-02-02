@@ -1,5 +1,5 @@
 <% iam_groups.each do |group| -%>
-resource "aws_iam_group_membership" "<%= group.group_name %>" {
+resource "aws_iam_group_membership" "<%= module_name_of(group) %>" {
     name  = "<%= membership_name_of(group) %>"
     users = <%= group_members_of(group).inspect %>
     group = "<%= group.group_name %>"

@@ -79,3 +79,6 @@ Style/CollectionMethods:
     inject: "inject"
     detect: "find"
     find_all: "select"
+
+Style/PerlBackrefs:
+  Enabled: false

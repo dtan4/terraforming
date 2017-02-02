@@ -1,3 +1,47 @@
+# [v0.13.1](https://github.com/dtan4/terraforming/releases/tag/v0.13.1) (2017-01-23)
+
+## Fixed / Updated
+
+- Fixes for route53_records [#303](https://github.com/dtan4/terraforming/pull/303) (thanks @mioi)
+  - use `weighted_routing_policy`
+  - add various routing policy (latency, geolocation)
+  - uniquify resource name
+
+# [v0.13.0](https://github.com/dtan4/terraforming/releases/tag/v0.13.0) (2017-01-12)
+
+## Resource
+
+- AWS KMS Key Alias [#300](https://github.com/dtan4/terraforming/pull/300)
+- AWS KMS Key [#299](https://github.com/dtan4/terraforming/pull/299)
+
+## Fixed / Updated
+
+- Normalize all resource names in tf and tfstate files [#296](https://github.com/dtan4/terraforming/pull/296) (thanks @nabarunchatterjee)
+
+# [v0.12.0](https://github.com/dtan4/terraforming/releases/tag/v0.12.0) (2016-12-20)
+
+## Resource
+
+- AWS ALB [#291](https://github.com/dtan4/terraforming/pull/291)
+- AWS EFS File System [#283](https://github.com/dtan4/terraforming/pull/283) (thanks @notjames)
+
+## Fixed / Updated
+
+- Fix associate_public_ip_address attr for EC2 [#287](https://github.com/dtan4/terraforming/pull/287) (thanks @diwaniuk)
+
+# [v0.11.0](https://github.com/dtan4/terraforming/releases/tag/v0.11.0) (2016-11-14)
+
+## Resource
+
+- AWS CloudWatch alarm [#273](https://github.com/dtan4/terraforming/pull/273) (thanks @eredi93)
+
+## Fixed / Updated
+
+- Remove native extension gems and use wrapper gem [#275](https://github.com/dtan4/terraforming/pull/275)
+- Generate `iops` field only with io1 volume [#271](https://github.com/dtan4/terraforming/pull/271)
+- Set `force_destroy: false` for IAM users [#267](https://github.com/dtan4/terraforming/pull/267) (thanks @raylu)
+- Remove commands to delete empty files in export in README.md [#261](https://github.com/dtan4/terraforming/pull/261) (thanks @benmanns)
+
 # [v0.10.0](https://github.com/dtan4/terraforming/releases/tag/v0.10.0) (2016-08-24)
 
 ## Resource

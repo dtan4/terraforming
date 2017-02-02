@@ -9,6 +9,11 @@ module Terraforming
                  type: :boolean,
                  desc: "Use the bundled CA certificate from AWS SDK"
 
+    desc "alb", "ALB"
+    def alb
+      execute(Terraforming::Resource::ALB, options)
+    end
+
     desc "asg", "AutoScaling Group"
     def asg
       execute(Terraforming::Resource::AutoScalingGroup, options)
@@ -64,6 +69,11 @@ module Terraforming
       execute(Terraforming::Resource::EIP, options)
     end
 
+    desc "efs", "EFS File System"
+    def efs
+      execute(Terraforming::Resource::EFSFileSystem, options)
+    end
+
     desc "elb", "ELB"
     def elb
       execute(Terraforming::Resource::ELB, options)
@@ -117,6 +127,16 @@ module Terraforming
     desc "iamup", "IAM User Policy"
     def iamup
       execute(Terraforming::Resource::IAMUserPolicy, options)
+    end
+
+    desc "kmsa", "KMS Key Alias"
+    def kmsa
+      execute(Terraforming::Resource::KMSAlias, options)
+    end
+
+    desc "kmsk", "KMS Key"
+    def kmsk
+      execute(Terraforming::Resource::KMSKey, options)
     end
 
     desc "lc", "Launch Configuration"

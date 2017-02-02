@@ -1,0 +1,18 @@
+<% file_systems.each_with_index do |efs, idx| -%>
+resource "aws_efs_file_system" "<%= module_name_of(efs) %>" {
+<% if efs.creation_token -%>
+    creation_token = "<%= efs.creation_token %>"
+<% end -%>
+<% if efs.file_system_id -%>
+    file_system_id = "<%= efs.file_system_id %>"
+<% end -%>
+<% if efs.performance_mode -%>
+    performance_mode = "<%= efs.performance_mode %>"
+<% end -%>
+<% if efs.name -%>
+    tags {
+        Name = "<%= efs.name %>"
+    }
+<% end -%>
+}
+<% end -%>

@@ -76,6 +76,7 @@ PS C:\> terraforming ec2 --use-bundled-cert
 ```bash
 $ terraforming
 Commands:
+  terraforming alb             # ALB
   terraforming asg             # AutoScaling Group
   terraforming cwa             # CloudWatch Alarm
   terraforming dbpg            # Database Parameter Group
@@ -84,6 +85,7 @@ Commands:
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
   terraforming ecsn            # ElastiCache Subnet Group
+  terraforming efs             # EFS File System
   terraforming eip             # EIP
   terraforming elb             # ELB
   terraforming help [COMMAND]  # Describe available commands or one specific command
@@ -98,6 +100,8 @@ Commands:
   terraforming iamu            # IAM User
   terraforming iamup           # IAM User Policy
   terraforming igw             # Internet Gateway
+  terraforming kmsa            # KMS Key Alias
+  terraforming kmsk            # KMS Key
   terraforming lc              # Launch Configuration
   terraforming nacl            # Network ACL
   terraforming nat             # NAT Gateway
@@ -116,11 +120,12 @@ Commands:
   terraforming vpc             # VPC
 
 Options:
-  [--merge=MERGE]                  # tfstate file to merge
-  [--overwrite], [--no-overwrite]  # Overwrite existng tfstate
-  [--tfstate], [--no-tfstate]      # Generate tfstate
-  [--profile=PROFILE]              # AWS credentials profile
-  [--region=REGION]                # AWS region
+  [--merge=MERGE]                                # tfstate file to merge
+  [--overwrite], [--no-overwrite]                # Overwrite existng tfstate
+  [--tfstate], [--no-tfstate]                    # Generate tfstate
+  [--profile=PROFILE]                            # AWS credentials profile
+  [--region=REGION]                              # AWS region
+  [--use-bundled-cert], [--no-use-bundled-cert]  # Use the bundled CA certificate from AWS SDK
 ```
 
 ### Export tf
@@ -135,7 +140,7 @@ $ terraforming <resource> [--profile PROFILE]
 $ terraforming s3
 ```
 
-```go
+```hcl
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
@@ -372,6 +377,8 @@ After checking out the repo, run `script/setup` to install dependencies. Then, r
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
+
+Please read [Contribution Guide](CONTRIBUTING.md) at first.
 
 1. Fork it ( https://github.com/dtan4/terraforming/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)

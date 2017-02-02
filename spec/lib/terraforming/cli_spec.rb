@@ -33,6 +33,13 @@ module Terraforming
       end
 
       describe "asg" do
+        let(:klass)   { Terraforming::Resource::ALB }
+        let(:command) { :alb }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "asg" do
         let(:klass)   { Terraforming::Resource::AutoScalingGroup }
         let(:command) { :asg }
 
@@ -105,6 +112,13 @@ module Terraforming
       describe "eip" do
         let(:klass)   { Terraforming::Resource::EIP }
         let(:command) { :eip }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "efs" do
+        let(:klass)   { Terraforming::Resource::EFSFileSystem }
+        let(:command) { :efs }
 
         it_behaves_like "CLI examples"
       end
@@ -182,6 +196,20 @@ module Terraforming
       describe "iamup" do
         let(:klass)   { Terraforming::Resource::IAMUserPolicy }
         let(:command) { :iamup }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "kmsa" do
+        let(:klass)   { Terraforming::Resource::KMSAlias }
+        let(:command) { :kmsa }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "kmsk" do
+        let(:klass)   { Terraforming::Resource::KMSKey }
+        let(:command) { :kmsk }
 
         it_behaves_like "CLI examples"
       end
