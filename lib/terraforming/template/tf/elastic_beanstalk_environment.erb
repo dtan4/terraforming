@@ -4,10 +4,9 @@ resource "aws_elastic_beanstalk_environment" "<%= module_name_of(environment) %>
   application = "<%= environment.application_name %>"
   solution_stack_name = "<%= environment.solution_stack_name %>"
   description = "<%= environment.description %>"
-  cname_prefix = "<%= environment.cname %>"
+  cname_prefix = "<%= environment.cname.split(/\./).first %>"
   tier = "<%= environment.tier.name %>"
 <%- settings_of(environment).each do |setting| -%>
-<%- if setting.value.to_s.strip.length > 0 -%>
 
   setting {
     namespace = "<%= setting.namespace %>"
@@ -18,6 +17,6 @@ resource "aws_elastic_beanstalk_environment" "<%= module_name_of(environment) %>
 <%- end -%>
   }
 <%- end -%>
-<%- end -%>
 }
 <%- end -%>
+

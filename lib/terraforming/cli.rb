@@ -36,12 +36,12 @@ module Terraforming
 
     desc "ebapp", "Elastic Beanstalk Application"
     def ebapp
-      execute(Terraforming::Resource::EBApp, options)
+      execute(Terraforming::Resource::ElasticBeanstalkApplication, options)
     end
 
     desc "ebenv", "Elastic Beanstalk Environment"
     def ebenv
-      execute(Terraforming::Resource::EBEnv, options)
+      execute(Terraforming::Resource::ElasticBeanstalkEnvironment, options)
     end
 
     desc "ec2", "EC2"

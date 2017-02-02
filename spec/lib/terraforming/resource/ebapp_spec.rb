@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Terraforming
   module Resource
-    describe EBApp do
+    describe ElasticBeanstalkApplication do
       let(:client) do
         Aws::ElasticBeanstalk::Client.new(stub_responses: true)
       end

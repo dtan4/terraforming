@@ -1,6 +1,6 @@
 module Terraforming
   module Resource
-    class EBEnv
+    class ElasticBeanstalkEnvironment
       include Terraforming::Util
 
       def self.tf(client: Aws::ElasticBeanstalk::Client.new)
@@ -26,7 +26,7 @@ module Terraforming
             "name" => environment.environment_name,
             "description" => environment.description ? environment.description : "",
             "application" => environment.application_name,
-            "cname_prefix " => environment.cname,
+            "cname_prefix" => environment.cname.split(/\./).first,
             "tier" => environment.tier.name,
             "solution_stack_name" => environment.solution_stack_name,
             # {}"template_name" => environment.template_name,
@@ -36,17 +36,19 @@ module Terraforming
           }
 
           settings.each do |setting|
-            hashcode = setting_hashcode_of(setting)
-            attributes.merge!({
-              "setting.#{hashcode}.namespace" => setting.namespace,
-              "setting.#{hashcode}.name" => setting.option_name,
-              "setting.#{hashcode}.value" => setting.value ? setting.value : "",
-              "setting.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
-            })
+            #if setting.value != ""
+              hashcode = setting_hashcode_of(setting)
+              attributes.merge!({
+                "setting.#{hashcode}.namespace" => setting.namespace,
+                "setting.#{hashcode}.name" => setting.option_name,
+                "setting.#{hashcode}.value" => setting.value ? setting.value : "",
+                "setting.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
+              })
+            #end
           end
 
-          resources["aws_elastic_beanstalk_application.#{module_name_of(environment)}"] = {
-            "type" => "aws_elastic_beanstalk_application",
+          resources["aws_elastic_beanstalk_environment.#{module_name_of(environment)}"] = {
+            "type" => "aws_elastic_beanstalk_environment",
             "primary" => {
               "id" => environment.environment_name,
               "attributes" => attributes,
@@ -78,7 +80,7 @@ module Terraforming
       end
 
       def setting_hashcode_of(setting)
-        Zlib.crc32("#{setting.namespace}-#{setting.option_name}-#{setting.resource}")
+        Zlib.crc32("#{setting.namespace}-#{setting.option_name}-#{setting.resource_name}")
       end
     end
   end

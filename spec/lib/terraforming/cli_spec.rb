@@ -68,14 +68,14 @@ module Terraforming
       end
 
       describe "ebapp" do
-        let(:klass)   { Terraforming::Resource::EBApp }
+        let(:klass)   { Terraforming::Resource::ElasticBeanstalkApplication }
         let(:command) { :ebapp }
 
         it_behaves_like "CLI examples"
       end
 
       describe "ebenv" do
-        let(:klass)   { Terraforming::Resource::EBEnv }
+        let(:klass)   { Terraforming::Resource::ElasticBeanstalkEnvironment }
         let(:command) { :ebenv }
 
         it_behaves_like "CLI examples"

@@ -1,6 +1,6 @@
 module Terraforming
   module Resource
-    class EBApp
+    class ElasticBeanstalkApplication
       include Terraforming::Util
 
       def self.tf(client: Aws::ElasticBeanstalk::Client.new)
