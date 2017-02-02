@@ -23,9 +23,11 @@ module Terraforming
         environments.inject({}) do |resources, environment|
           settings = settings_of(environment)
           attributes = {
+            "id" => environment.environment_id,
             "name" => environment.environment_name,
             "description" => environment.description ? environment.description : "",
             "application" => environment.application_name,
+            "cname" => environment.cname,
             "cname_prefix" => environment.cname.split(/\./).first,
             "tier" => environment.tier.name,
             "solution_stack_name" => environment.solution_stack_name,
@@ -38,10 +40,10 @@ module Terraforming
           settings.each do |setting|
             hashcode = setting_hashcode_of(setting)
             attributes.merge!({
-              "setting.#{hashcode}.namespace" => setting.namespace,
-              "setting.#{hashcode}.name" => setting.option_name,
-              "setting.#{hashcode}.value" => setting.value ? setting.value : "",
-              "setting.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
+              "all_settings.#{hashcode}.namespace" => setting.namespace,
+              "all_settings.#{hashcode}.name" => setting.option_name,
+              "all_settings.#{hashcode}.value" => setting.value ? setting.value : "",
+              "all_settings.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
             })
           end
 
