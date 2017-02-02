@@ -16,7 +16,7 @@ module Terraforming
       end
 
       def tf
-        apply_template(@client, "tf/ebapp")
+        apply_template(@client, "tf/elastic_beanstalk_application")
       end
 
       def tfstate
