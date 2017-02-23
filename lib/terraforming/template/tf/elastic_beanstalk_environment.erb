@@ -11,7 +11,7 @@ resource "aws_elastic_beanstalk_environment" "<%= module_name_of(environment) %>
   setting {
     namespace = "<%= setting.namespace %>"
     name      = "<%= setting.option_name %>"
-    value     = <%= setting.value.to_json %>
+    value     = <%= setting.value ? setting.value.to_json : "\"\"" %>
 <%- if setting.resource_name.to_s.strip.length > 0 -%>
     resource  = "<%= setting.resource_name %>"
 <%- end -%>

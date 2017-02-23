@@ -32,7 +32,7 @@ module Terraforming
             "tier" => environment.tier.name,
             "solution_stack_name" => environment.solution_stack_name,
             # {}"template_name" => environment.template_name,
-            "settings.#" => settings.length.to_s
+            "all_settings.#" => settings.length.to_s
             # {}"tag.#" => environment.tags.length.to_s
             # no tags available with this call or any other at time of writing
           }
@@ -50,7 +50,7 @@ module Terraforming
           resources["aws_elastic_beanstalk_environment.#{module_name_of(environment)}"] = {
             "type" => "aws_elastic_beanstalk_environment",
             "primary" => {
-              "id" => environment.environment_name,
+              "id" => environment.environment_id,
               "attributes" => attributes,
               "meta" => {
                 "schema_version" => "1"
