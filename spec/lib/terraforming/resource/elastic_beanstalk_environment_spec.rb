@@ -107,11 +107,11 @@ resource "aws_elastic_beanstalk_environment" "hoge-env" {
               "primary" => {
                 "id" => "e-abcde1234",
                 "attributes" => {
-                  "id"=>"e-abcde1234",
+                  "id" => "e-abcde1234",
                   "name" => "hoge-env",
                   "description" => "Description of hoge",
                   "application" => "hoge",
-                  "cname"=>"hoge-env.us-east-1.elasticbeanstalk.com", 
+                  "cname" => "hoge-env.us-east-1.elasticbeanstalk.com",
                   "cname_prefix" => "hoge-env",
                   "tier" => "WebServer",
                   "solution_stack_name" => "64bit Amazon Linux 2016.03 v2.1.1 running Tomcat 8 Java 8",
