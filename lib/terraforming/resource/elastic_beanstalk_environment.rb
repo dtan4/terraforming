@@ -38,15 +38,14 @@ module Terraforming
           }
 
           settings.each do |setting|
-            if setting.value
-              hashcode = setting_hashcode_of(setting)
-              attributes.merge!({
-                "all_settings.#{hashcode}.namespace" => setting.namespace,
-                "all_settings.#{hashcode}.name" => setting.option_name,
-                "all_settings.#{hashcode}.value" => setting.value,
-                "all_settings.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
-              })
-            end
+            next unless setting.value
+            hashcode = setting_hashcode_of(setting)
+            attributes.merge!({
+              "all_settings.#{hashcode}.namespace" => setting.namespace,
+              "all_settings.#{hashcode}.name" => setting.option_name,
+              "all_settings.#{hashcode}.value" => setting.value,
+              "all_settings.#{hashcode}.resource" => setting.resource_name ? setting.resource_name : ""
+            })
           end
 
           resources["aws_elastic_beanstalk_environment.#{module_name_of(environment)}"] = {
