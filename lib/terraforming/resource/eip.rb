@@ -24,7 +24,7 @@ module Terraforming
           attributes = {
             "association_id" => addr.association_id,
             "domain" => addr.domain,
-            "id" => addr.allocation_id,
+            "id" => vpc?(addr) ? addr.allocation_id : addr.public_ip,
             "instance" => addr.instance_id,
             "network_interface" => addr.network_interface_id,
             "private_ip" => addr.private_ip_address,
@@ -35,7 +35,7 @@ module Terraforming
           resources["aws_eip.#{module_name_of(addr)}"] = {
             "type" => "aws_eip",
             "primary" => {
-              "id" => addr.allocation_id,
+              "id" => vpc?(addr) ? addr.allocation_id : addr.public_ip,
               "attributes" => attributes
             }
           }
@@ -55,7 +55,11 @@ module Terraforming
       end
 
       def module_name_of(addr)
-        normalize_module_name(addr.allocation_id)
+        if vpc?(addr)
+          normalize_module_name(addr.allocation_id)
+        else
+          normalize_module_name(addr.public_ip)
+        end
       end
     end
   end

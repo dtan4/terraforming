@@ -33,6 +33,16 @@ module Terraforming
             domain: "vpc",
             allocation_id: "eipalloc-33333333",
           },
+          {
+            instance_id: "i-91112221",
+            public_ip: "2.2.2.4",
+            allocation_id: nil,
+            association_id: nil,
+            domain: "standard",
+            network_interface_id: nil,
+            network_interface_owner_id: nil,
+            private_ip_address: nil
+          }
         ]
       end
 
@@ -55,6 +65,11 @@ resource "aws_eip" "eipalloc-76543210" {
 
 resource "aws_eip" "eipalloc-33333333" {
     vpc               = true
+}
+
+resource "aws_eip" "2-2-2-4" {
+    instance          = "i-91112221"
+    vpc               = false
 }
 
           EOS
@@ -106,6 +121,19 @@ resource "aws_eip" "eipalloc-33333333" {
                     "vpc" => "true"
                 }
               }
+            },
+            "aws_eip.2-2-2-4" => {
+              "type" => "aws_eip",
+              "primary" => {
+                "id" => "2.2.2.4",
+                "attributes" => {
+                    "domain" => "standard",
+                    "id" => "2.2.2.4",
+                    "instance" => "i-91112221",
+                    "public_ip" => "2.2.2.4",
+                    "vpc" => "false"
+                },
+              },
             },
           })
         end
