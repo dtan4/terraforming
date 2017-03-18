@@ -342,7 +342,8 @@ doesn't need to do anything.
 Example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
 ```bash
 export AWS_REGION=us-west-2
-terraforming help | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
+export AWS_PROFILE=default
+terraforming help | grep terraforming | grep -v help | awk '{command=$2; $1=$2=$3=""; filename=tolower(gensub(/\s+/, "_", "g", gensub(/^\s*/, "", "g")))".tf"; print "echo \"Exporting", filename "...\";", "terraforming", command, "--profile", "'$AWS_PROFILE'", ">", filename}' | bash
 # find files that only have 1 empty line (likely nothing in AWS)
 find . -type f -name '*.tf' | xargs wc -l | grep ' 1 .'
 ```
