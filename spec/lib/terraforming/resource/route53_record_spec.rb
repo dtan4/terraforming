@@ -89,6 +89,13 @@ module Terraforming
               country_code: "JP",
             },
           },
+          {
+            name: "geo.example.net.",
+            type: "A",
+            ttl: 60,
+            weight: nil,
+            set_identifier: nil,
+          },
         ]
       end
 
@@ -139,7 +146,7 @@ resource "aws_route53_record" "-052-example-net-CNAME" {
 
 }
 
-resource "aws_route53_record" "geo-example-net-A" {
+resource "aws_route53_record" "geo-example-net-A-0" {
     zone_id = "CDEFGHIJKLMNOP"
     name    = "geo.example.net"
     type    = "A"
@@ -149,6 +156,14 @@ resource "aws_route53_record" "geo-example-net-A" {
         continent = "AS"
         country = "JP"
     }
+
+}
+
+resource "aws_route53_record" "geo-example-net-A-1" {
+    zone_id = "CDEFGHIJKLMNOP"
+    name    = "geo.example.net"
+    type    = "A"
+    ttl     = "60"
 
 }
 
@@ -204,7 +219,7 @@ resource "aws_route53_record" "geo-example-net-A" {
                 },
               }
             },
-            "aws_route53_record.geo-example-net-A" => {
+            "aws_route53_record.geo-example-net-A-0" => {
               "type" => "aws_route53_record",
               "primary" => {
                 "id" => "CDEFGHIJKLMNOP_geo.example.net_A",
@@ -217,6 +232,20 @@ resource "aws_route53_record" "geo-example-net-A" {
                   "ttl" => "3600",
                   "continent" => "AS",
                   "country" => "JP",
+                },
+              }
+            },
+            "aws_route53_record.geo-example-net-A-1" => {
+              "type" => "aws_route53_record",
+              "primary" => {
+                "id" => "CDEFGHIJKLMNOP_geo.example.net_A",
+                "attributes" => {
+                  "id" => "CDEFGHIJKLMNOP_geo.example.net_A",
+                  "name" => "geo.example.net",
+                  "type" => "A",
+                  "zone_id" => "CDEFGHIJKLMNOP",
+                  "weight" => "-1",
+                  "ttl" => "60",
                 },
               }
             },
