@@ -22,6 +22,7 @@ resource "aws_route53_record" "<%= module_name_of(record, counter) %>" {
     }
 <%- end -%>
 <%- if record.geo_location -%>
+
     geolocation_routing_policy {
   <%- if record.geo_location.continent_code -%>
         continent = "<%= record.geo_location.continent_code %>"
