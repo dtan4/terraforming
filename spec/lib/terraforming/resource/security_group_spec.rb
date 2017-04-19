@@ -353,7 +353,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1446312017.to_port" => "22",
                   "ingress.1446312017.protocol" => "tcp",
                   "ingress.1446312017.cidr_blocks.#" => "1",
-                  "ingress.1446312017.prefix_list_ids.#"=>"0",
+                  "ingress.1446312017.prefix_list_ids.#" => "0",
                   "ingress.1446312017.security_groups.#" => "1",
                   "ingress.1446312017.self" => "false",
                   "ingress.1446312017.security_groups.3311523735" => "sg-1234efgh",
