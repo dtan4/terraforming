@@ -10,6 +10,9 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
         protocol        = "<%= permission.ip_protocol %>"
+<%- if permission.prefix_list_ids.length > 0 -%>
+        prefix_list_ids = <%= permission.prefix_list_ids.map { |range| range.prefix_list_id }.inspect %>
+<%- end -%>
 <%- if permission.ip_ranges.length > 0 -%>
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
 <%- end -%>
@@ -27,6 +30,9 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
         from_port       = <%= permission.from_port || 0 %>
         to_port         = <%= permission.to_port || 0 %>
         protocol        = "<%= permission.ip_protocol %>"
+<%- if permission.prefix_list_ids.length > 0 -%>
+        prefix_list_ids = <%= permission.prefix_list_ids.map { |range| range.prefix_list_id }.inspect %>
+<%- end -%>
 <%- if permission.ip_ranges.length > 0 -%>
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
 <%- end -%>
