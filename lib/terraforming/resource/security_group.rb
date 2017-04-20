@@ -92,12 +92,17 @@ module Terraforming
           "#{type}.#{hashcode}.to_port" => (permission.to_port || 0).to_s,
           "#{type}.#{hashcode}.protocol" => permission.ip_protocol,
           "#{type}.#{hashcode}.cidr_blocks.#" => permission.ip_ranges.length.to_s,
+          "#{type}.#{hashcode}.prefix_list_ids.#" => permission.prefix_list_ids.length.to_s,
           "#{type}.#{hashcode}.security_groups.#" => security_groups.length.to_s,
           "#{type}.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
         }
 
         permission.ip_ranges.each_with_index do |range, index|
           attributes["#{type}.#{hashcode}.cidr_blocks.#{index}"] = range.cidr_ip
+        end
+
+        permission.prefix_list_ids.each_with_index do |prefix_list, index|
+          attributes["#{type}.#{hashcode}.prefix_list_ids.#{index}"] = prefix_list.prefix_list_id
         end
 
         security_groups.each do |group|

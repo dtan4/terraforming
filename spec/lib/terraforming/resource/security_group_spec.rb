@@ -164,7 +164,10 @@ module Terraforming
                 user_id_group_pairs: [],
                 ip_ranges: [
                   { cidr_ip: "0.0.0.0/0" }
-                ]
+                ],
+                prefix_list_ids: [
+                  { prefix_list_id: "pl-xxxxxx" }
+                ],
               },
             ],
             tags: [
@@ -268,6 +271,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
         from_port       = 1
         to_port         = 65535
         protocol        = "-1"
+        prefix_list_ids = ["pl-xxxxxx"]
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
@@ -300,6 +304,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.2541437006.to_port" => "22",
                   "ingress.2541437006.protocol" => "tcp",
                   "ingress.2541437006.cidr_blocks.#" => "1",
+                  "ingress.2541437006.prefix_list_ids.#" => "0",
                   "ingress.2541437006.security_groups.#" => "0",
                   "ingress.2541437006.self" => "false",
                   "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
@@ -307,6 +312,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.3232230010.to_port" => "22",
                   "ingress.3232230010.protocol" => "tcp",
                   "ingress.3232230010.cidr_blocks.#" => "0",
+                  "ingress.3232230010.prefix_list_ids.#" => "0",
                   "ingress.3232230010.security_groups.#" => "1",
                   "ingress.3232230010.self" => "true",
                   "ingress.3232230010.security_groups.1889292513" => "987654321012/piyo",
@@ -330,6 +336,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.2484852545.to_port" => "22",
                   "egress.2484852545.protocol" => "tcp",
                   "egress.2484852545.cidr_blocks.#" => "1",
+                  "egress.2484852545.prefix_list_ids.#" => "0",
                   "egress.2484852545.security_groups.#" => "1",
                   "egress.2484852545.self" => "true",
                   "egress.2484852545.cidr_blocks.0" => "0.0.0.0/0",
@@ -339,12 +346,14 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1849628954.to_port" => "65535",
                   "ingress.1849628954.protocol" => "tcp",
                   "ingress.1849628954.cidr_blocks.#" => "0",
+                  "ingress.1849628954.prefix_list_ids.#" => "0",
                   "ingress.1849628954.security_groups.#" => "0",
                   "ingress.1849628954.self" => "true",
                   "ingress.1446312017.from_port" => "22",
                   "ingress.1446312017.to_port" => "22",
                   "ingress.1446312017.protocol" => "tcp",
                   "ingress.1446312017.cidr_blocks.#" => "1",
+                  "ingress.1446312017.prefix_list_ids.#" => "0",
                   "ingress.1446312017.security_groups.#" => "1",
                   "ingress.1446312017.self" => "false",
                   "ingress.1446312017.security_groups.3311523735" => "sg-1234efgh",
@@ -353,6 +362,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1728187046.to_port" => "7777",
                   "ingress.1728187046.protocol" => "tcp",
                   "ingress.1728187046.cidr_blocks.#" => "0",
+                  "ingress.1728187046.prefix_list_ids.#" => "0",
                   "ingress.1728187046.security_groups.#" => "1",
                   "ingress.1728187046.self" => "true",
                   "ingress.1728187046.security_groups.1756790741" => "sg-7777abcd"
@@ -376,14 +386,17 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.1899000807.to_port" => "65535",
                   "egress.1899000807.protocol" => "-1",
                   "egress.1899000807.cidr_blocks.#" => "1",
+                  "egress.1899000807.prefix_list_ids.#" => "1",
                   "egress.1899000807.security_groups.#" => "0",
                   "egress.1899000807.self" => "false",
                   "egress.1899000807.cidr_blocks.0" => "0.0.0.0/0",
+                  "egress.1899000807.prefix_list_ids.0" => "pl-xxxxxx",
                   "ingress.#" => "1",
                   "ingress.1905676327.from_port" => "22",
                   "ingress.1905676327.to_port" => "22",
                   "ingress.1905676327.protocol" => "tcp",
                   "ingress.1905676327.cidr_blocks.#" => "1",
+                  "ingress.1905676327.prefix_list_ids.#" => "0",
                   "ingress.1905676327.security_groups.#" => "0",
                   "ingress.1905676327.self" => "true",
                   "ingress.1905676327.cidr_blocks.0" => "0.0.0.0/0",
