@@ -1,3 +1,11 @@
+# [v0.13.2](https://github.com/dtan4/terraforming/releases/tag/v0.13.2) (2017-04-20)
+
+## Fixed / Updated
+
+- Add prefix lists to security groups configuration [#326](https://github.com/dtan4/terraforming/pull/326) (thanks @julia-stripe)
+- Support Ruby 2.4 without warnings [#323](https://github.com/dtan4/terraforming/pull/323)
+- Fix support for EIP in EC2-Classic [#316](https://github.com/dtan4/terraforming/pull/316) (thanks @yn)
+
 # [v0.13.1](https://github.com/dtan4/terraforming/releases/tag/v0.13.1) (2017-01-23)
 
 ## Fixed / Updated
