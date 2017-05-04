@@ -318,6 +318,13 @@ module Terraforming
 
         it_behaves_like "CLI examples"
       end
+
+      describe "sns_topic" do
+        let(:klass)   { Terraforming::Resource::SNSTopic }
+        let(:command) { :sns_topic }
+
+        it_behaves_like "CLI examples"
+      end
     end
 
     context "flush to stdout" do

@@ -115,6 +115,7 @@ Commands:
   terraforming s3              # S3
   terraforming sg              # Security Group
   terraforming sn              # Subnet
+  terraforming snst            # SNS Topic
   terraforming sqs             # SQS
   terraforming vgw             # VPN Gateway
   terraforming vpc             # VPC
