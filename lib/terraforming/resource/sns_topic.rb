@@ -22,11 +22,12 @@ module Terraforming
       def tfstate
         topics.inject({}) do |resources, topic|
           attributes = {
-            "name"         => module_name_of(topic),
-            "id"           => topic["TopicArn"],
-            "arn"          => topic["TopicArn"],
-            "display_name" => topic["DisplayName"],
-            "policy"       => topic.key?("Policy") ? topic["Policy"] : "",
+            "name"            => module_name_of(topic),
+            "id"              => topic["TopicArn"],
+            "arn"             => topic["TopicArn"],
+            "display_name"    => topic["DisplayName"],
+            "policy"          => topic.key?("Policy") ? topic["Policy"] : "",
+            "delivery_policy" => topic.key?("DeliveryPolicy") ? topic["DeliveryPolicy"] : ""
           }
           resources["aws_sns_topic.#{module_name_of(topic)}"] = {
             "type" => "aws_sns_topic",
