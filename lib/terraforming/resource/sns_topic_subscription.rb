@@ -54,14 +54,14 @@ module Terraforming
 
       def subscription_arns
         token = ""
-        subscriptions = []
+        arns = []
         begin
           resp = @client.list_subscriptions(next_token: token)
-          subscriptions += resp.subscriptions.map(&:subscription_arn).flatten
+          arns += resp.subscriptions.map(&:subscription_arn).flatten
           token = resp.next_token
         end until token == nil
 
-        subscriptions
+        arns
       end
 
       def module_name_of(subscription)

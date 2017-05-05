@@ -54,7 +54,15 @@ module Terraforming
       end
 
       def topic_arns
-        @client.list_topics.topics.map(&:topic_arn).flatten
+        token = ""
+        arns = []
+        begin
+          resp = @client.list_topics(next_token: token)
+          arns += resp.topics.map(&:topic_arn).flatten
+          token = resp.next_token
+        end until token == nil
+
+        arns
       end
 
       def module_name_of(topic)
