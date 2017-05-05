@@ -45,21 +45,18 @@ module Terraforming
 
       def topics
         topic_arns.map do |topic_arn|
-          attributes = nil
-          begin
-            attributes = @client.get_topic_attributes({
-              topic_arn: topic_arn,
-            }).attributes
-            attributes["TopicArn"] = topic_arn
-          rescue # sometimes an invalid ARN is returned
-          end
+          attributes = @client.get_topic_attributes({
+            topic_arn: topic_arn,
+          }).attributes
+          attributes["TopicArn"] = topic_arn
           attributes
-        end.compact
+        end
       end
 
       def topic_arns
         token = ""
         arns = []
+
         begin
           resp = @client.list_topics(next_token: token)
           arns += resp.topics.map(&:topic_arn).flatten

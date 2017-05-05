@@ -44,18 +44,22 @@ module Terraforming
 
       def subscriptions
         subscription_arns.map do |subscription_arn|
-          attributes = @client.get_subscription_attributes({
-            subscription_arn: subscription_arn,
-          }).attributes
-          attributes["SubscriptionArn"] = subscription_arn
+          attributes = nil
+          begin
+            attributes = @client.get_subscription_attributes({
+              subscription_arn: subscription_arn,
+            }).attributes
+            attributes["SubscriptionArn"] = subscription_arn
+          rescue #sometimes an invalid ARN is received
+          end
           attributes
-        end
+        end.compact
       end
 
       def subscription_arns
         token = ""
         arns = []
-        
+
         begin
           resp = @client.list_subscriptions(next_token: token)
           arns += resp.subscriptions.map(&:subscription_arn).flatten
