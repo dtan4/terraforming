@@ -55,6 +55,7 @@ module Terraforming
       def subscription_arns
         token = ""
         arns = []
+        
         begin
           resp = @client.list_subscriptions(next_token: token)
           arns += resp.subscriptions.map(&:subscription_arn).flatten
