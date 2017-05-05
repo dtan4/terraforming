@@ -319,9 +319,16 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
-      describe "sns_topic" do
+      describe "snst" do
         let(:klass)   { Terraforming::Resource::SNSTopic }
-        let(:command) { :sns_topic }
+        let(:command) { :snst }
+
+        it_behaves_like "CLI examples"
+      end
+
+      describe "snss" do
+        let(:klass)   { Terraforming::Resource::SNSTopicSubscription }
+        let(:command) { :snss }
 
         it_behaves_like "CLI examples"
       end

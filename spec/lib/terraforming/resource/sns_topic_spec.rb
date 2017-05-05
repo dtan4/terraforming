@@ -36,9 +36,9 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_sns_topic" "topicOfFanciness" {
-    name            = "topicOfFanciness"
-    display_name    = "topicOfFancinessDisplayName"
-    policy          = <<POLICY
+  name            = "topicOfFanciness"
+  display_name    = "topicOfFancinessDisplayName"
+  policy          = <<POLICY
 {
   "Version": "2008-10-17",
   "Id": "__default_policy_ID",
@@ -70,7 +70,7 @@ resource "aws_sns_topic" "topicOfFanciness" {
   ]
 }
 POLICY
-    delivery_policy = <<POLICY
+  delivery_policy = <<POLICY
 {
   "http": {
     "defaultHealthyRetryPolicy": {

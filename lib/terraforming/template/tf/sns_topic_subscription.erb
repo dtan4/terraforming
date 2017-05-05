@@ -1,0 +1,11 @@
+<% subscriptions.each do |subscription| -%>
+resource "aws_sns_topic_subscription" "<%= module_name_of(subscription) %>" {
+  topic_arn            = "<%= subscription["TopicArn"] %>"
+  protocol             = "<%= subscription["Protocol"] %>"
+  endpoint             = "<%= subscription["Endpoint"] %>"
+<% if subscription.key? "RawMessageDelivery" -%>
+  raw_message_delivery = "<%= subscription["RawMessageDelivery"] %>"
+<% end -%>
+}
+
+<% end -%>
