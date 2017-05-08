@@ -34,10 +34,10 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
-  topic_arn            = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
-  protocol             = "sqs"
-  endpoint             = "arn:aws:sqs:us-west-2:012345678901:a-cool-queue"
-  raw_message_delivery = "false"
+  topic_arn                       = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
+  protocol                        = "sqs"
+  endpoint                        = "arn:aws:sqs:us-west-2:012345678901:a-cool-queue"
+  raw_message_delivery            = "false"
 }
 
         EOS
@@ -52,11 +52,13 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
               "primary" => {
                 "id" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
                 "attributes" => {
-                  "id"                   => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
-                  "topic_arn"            => "arn:aws:sns:us-west-2:012345678901:a-cool-topic",
-                  "protocol"             => "sqs",
-                  "endpoint"             => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
-                  "raw_message_delivery" => "false"
+                  "id"                              => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
+                  "topic_arn"                       => "arn:aws:sns:us-west-2:012345678901:a-cool-topic",
+                  "protocol"                        => "sqs",
+                  "endpoint"                        => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
+                  "raw_message_delivery"            => "false",
+                  "confirmation_timeout_in_minutes" => "1",
+                  "endpoint_auto_confirms"          => "false"
                 },
               },
             }

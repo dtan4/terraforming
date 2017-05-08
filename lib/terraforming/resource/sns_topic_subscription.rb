@@ -22,11 +22,13 @@ module Terraforming
       def tfstate
         subscriptions.inject({}) do |resources, subscription|
           attributes = {
-            "id"                   => subscription["SubscriptionArn"],
-            "topic_arn"            => subscription["TopicArn"],
-            "protocol"             => subscription["Protocol"],
-            "endpoint"             => subscription["Endpoint"],
-            "raw_message_delivery" => subscription["RawMessageDelivery"]
+            "id"                              => subscription["SubscriptionArn"],
+            "topic_arn"                       => subscription["TopicArn"],
+            "protocol"                        => subscription["Protocol"],
+            "endpoint"                        => subscription["Endpoint"],
+            "raw_message_delivery"            => subscription["RawMessageDelivery"],
+            "confirmation_timeout_in_minutes" => subscription.key?("ConfirmationTimeoutInMinutes") ? subscription["ConfirmationTimeoutInMinutes"] : "1",
+            "endpoint_auto_confirms"          => subscription.key?("EndpointAutoConfirms") ? subscription["EndpointAutoConfirms"] : "false"
           }
           resources["aws_sns_topic_subscription.#{module_name_of(subscription)}"] = {
             "type" => "aws_sns_topic_subscription",
