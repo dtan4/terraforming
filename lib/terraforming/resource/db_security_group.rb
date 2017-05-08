@@ -51,7 +51,7 @@ module Terraforming
 
         loop do
           resp = @client.describe_db_security_groups(marker: marker)
-          dbsgs += resp.db_security_groups.select { |sg| !ingresses_of(sg).empty? }
+          dbsgs += resp.db_security_groups.reject { |sg| ingresses_of(sg).empty? }
           marker = resp.marker
           break if marker.nil? || marker.empty?
         end

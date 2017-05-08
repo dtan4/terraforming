@@ -64,10 +64,10 @@ module Terraforming
         loop do
           resp = @client.list_keys(marker: marker)
           keys += resp
-                    .keys
-                    .reject { |key| managed_master_key?(key) }
-                    .map { |key| @client.describe_key(key_id: key.key_id) }
-                    .map(&:key_metadata)
+                  .keys
+                  .reject { |key| managed_master_key?(key) }
+                  .map { |key| @client.describe_key(key_id: key.key_id) }
+                  .map(&:key_metadata)
           marker = resp.next_marker
           break if marker.nil? || marker.empty?
         end
