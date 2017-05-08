@@ -64,7 +64,7 @@ module Terraforming
           resp = @client.describe_cache_clusters(show_cache_node_info: true, marker: marker)
           clusters += resp.cache_clusters
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         clusters

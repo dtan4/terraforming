@@ -72,7 +72,7 @@ module Terraforming
           resp = @client.describe_load_balancers(marker: marker)
           lbs += resp.load_balancers
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         lbs

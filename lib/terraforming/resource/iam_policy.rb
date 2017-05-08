@@ -51,7 +51,7 @@ module Terraforming
           resp = @client.list_policies(scope: "Local", marker: marker)
           policies += resp.policies
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         policies

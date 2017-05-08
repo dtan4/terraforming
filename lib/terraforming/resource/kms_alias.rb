@@ -47,7 +47,7 @@ module Terraforming
           resp = @client.list_aliases(marker: marker)
           aliases += resp.aliases.reject { |als| managed_master_key_alias?(als) }
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         aliases

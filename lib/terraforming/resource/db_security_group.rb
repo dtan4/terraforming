@@ -51,12 +51,12 @@ module Terraforming
 
         loop do
           resp = @client.describe_db_security_groups(marker: marker)
-          dbsgs += resp.db_security_groups
+          dbsgs += resp.db_security_groups.select { |sg| !ingresses_of(sg).empty? }
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
-        dbsgs.select { |sg| !ingresses_of(sg).empty? }
+        dbsgs
       end
 
       def module_name_of(security_group)

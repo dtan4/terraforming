@@ -48,7 +48,7 @@ module Terraforming
           resp = @client.describe_cache_subnet_groups(marker: marker)
           groups += resp.cache_subnet_groups
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         groups

@@ -50,7 +50,7 @@ module Terraforming
           resp = @client.list_groups(marker: marker)
           groups += resp.groups
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         groups

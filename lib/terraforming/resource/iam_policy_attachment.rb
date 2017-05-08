@@ -63,7 +63,7 @@ module Terraforming
           result.policy_users += resp.policy_users
           result.policy_roles += resp.policy_roles
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         result

@@ -52,7 +52,7 @@ module Terraforming
           resp = @client.list_roles(marker: marker)
           roles += resp.roles
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         roles

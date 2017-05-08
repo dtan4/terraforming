@@ -53,7 +53,7 @@ module Terraforming
           resp = @client.describe_nat_gateways(next_token: token)
           gateways += resp.nat_gateways
           token = resp.next_token
-          break if token.nil?
+          break if token.nil? || token.empty?
         end
 
         gateways

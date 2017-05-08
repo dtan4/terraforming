@@ -60,7 +60,7 @@ module Terraforming
           resp = @client.describe_alarms(next_token: token)
           alarms += resp.metric_alarms
           token = resp.next_token
-          break if token.nil?
+          break if token.nil? || token.empty?
         end
 
         alarms

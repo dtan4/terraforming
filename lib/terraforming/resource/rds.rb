@@ -70,7 +70,7 @@ module Terraforming
           resp = @client.describe_db_instances(marker: marker)
           instances += resp.db_instances
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         instances

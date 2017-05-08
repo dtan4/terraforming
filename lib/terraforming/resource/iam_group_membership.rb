@@ -51,7 +51,7 @@ module Terraforming
           resp = @client.get_group(group_name: group.group_name, marker: marker)
           users += resp.users.flatten.map(&:user_name)
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         users
@@ -65,7 +65,7 @@ module Terraforming
           resp = @client.list_groups(marker: marker)
           groups += resp.groups
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         groups

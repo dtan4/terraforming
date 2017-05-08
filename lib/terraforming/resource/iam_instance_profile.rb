@@ -50,7 +50,7 @@ module Terraforming
           resp = @client.list_instance_profiles(marker: marker)
           profiles += resp.instance_profiles
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         profiles

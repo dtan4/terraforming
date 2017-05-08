@@ -187,7 +187,7 @@ module Terraforming
           resp = @client.describe_load_balancers(marker: marker)
           elbs += resp.load_balancer_descriptions
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         elbs

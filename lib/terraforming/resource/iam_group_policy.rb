@@ -57,7 +57,7 @@ module Terraforming
           resp = @client.list_groups(marker: marker)
           groups += resp.groups
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         groups
@@ -71,7 +71,7 @@ module Terraforming
           resp = @client.list_group_policies(group_name: group.group_name, marker: marker)
           policies += resp.policy_names
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         policies

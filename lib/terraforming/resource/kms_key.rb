@@ -51,7 +51,7 @@ module Terraforming
           resp = @client.list_aliases(marker: marker)
           aliases += resp.aliases
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         @aliases ||= aliases
@@ -69,7 +69,7 @@ module Terraforming
                     .map { |key| @client.describe_key(key_id: key.key_id) }
                     .map(&:key_metadata)
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         keys
@@ -83,7 +83,7 @@ module Terraforming
           resp = @client.list_key_policies(key_id: key.key_id, marker: marker)
           policies += resp.policy_names
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         return "" if policies.empty?

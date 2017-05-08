@@ -81,7 +81,7 @@ module Terraforming
           resp = @client.describe_volumes(volume_ids: block_device_ids_of(instance), next_token: token)
           volumes += resp.volumes
           token = resp.next_token
-          break if token.nil?
+          break if token.nil? || token.empty?
         end
 
         volumes
@@ -125,7 +125,7 @@ module Terraforming
             instance.state.name == "terminated"
           end
           token = resp.next_token
-          break if token.nil?
+          break if token.nil? || token.empty?
         end
 
         instances

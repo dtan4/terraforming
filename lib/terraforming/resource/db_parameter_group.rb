@@ -50,7 +50,7 @@ module Terraforming
           resp = @client.describe_db_parameter_groups(marker: marker)
           dbpgs += resp.db_parameter_groups
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         dbpgs
@@ -64,7 +64,7 @@ module Terraforming
           resp = @client.describe_db_parameters(db_parameter_group_name: parameter_group.db_parameter_group_name, marker: marker)
           params += resp.parameters
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         params

@@ -53,10 +53,10 @@ module Terraforming
         fss = []
 
         loop do
-          resp = @client.describe_file_systems
+          resp = @client.describe_file_systems(marker: marker)
           fss += resp.data.file_systems
           marker = resp.next_marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         fss

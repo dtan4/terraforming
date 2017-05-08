@@ -57,7 +57,7 @@ module Terraforming
           resp = @client.list_users(marker: marker)
           users += resp.users
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         users
@@ -71,7 +71,7 @@ module Terraforming
           resp = @client.list_user_policies(user_name: user.user_name, marker: marker)
           policies += resp.policy_names
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         policies

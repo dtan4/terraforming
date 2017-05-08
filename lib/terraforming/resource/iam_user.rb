@@ -51,7 +51,7 @@ module Terraforming
           resp = @client.list_users(marker: marker)
           users += resp.users
           marker = resp.marker
-          break if marker.nil?
+          break if marker.nil? || marker.empty?
         end
 
         users
