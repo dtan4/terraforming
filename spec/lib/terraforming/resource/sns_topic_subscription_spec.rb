@@ -10,6 +10,7 @@ module Terraforming
       let(:subscriptions) do
         [
             Aws::SNS::Types::Subscription.new(subscription_arn: "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1"),
+            Aws::SNS::Types::Subscription.new(subscription_arn: "PendingConfirmation")
         ]
       end
 

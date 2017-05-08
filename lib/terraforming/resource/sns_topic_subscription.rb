@@ -27,8 +27,10 @@ module Terraforming
             "protocol"                        => subscription["Protocol"],
             "endpoint"                        => subscription["Endpoint"],
             "raw_message_delivery"            => subscription["RawMessageDelivery"],
-            "confirmation_timeout_in_minutes" => subscription.key?("ConfirmationTimeoutInMinutes") ? subscription["ConfirmationTimeoutInMinutes"] : "1",
-            "endpoint_auto_confirms"          => subscription.key?("EndpointAutoConfirms") ? subscription["EndpointAutoConfirms"] : "false"
+            "confirmation_timeout_in_minutes" =>
+              subscription.key?("ConfirmationTimeoutInMinutes") ? subscription["ConfirmationTimeoutInMinutes"] : "1",
+            "endpoint_auto_confirms"          =>
+              subscription.key?("EndpointAutoConfirms") ? subscription["EndpointAutoConfirms"] : "false"
           }
           resources["aws_sns_topic_subscription.#{module_name_of(subscription)}"] = {
             "type" => "aws_sns_topic_subscription",
@@ -46,14 +48,13 @@ module Terraforming
 
       def subscriptions
         subscription_arns.map do |subscription_arn|
-          attributes = nil
-          begin
-            attributes = @client.get_subscription_attributes({
-              subscription_arn: subscription_arn,
-            }).attributes
-            attributes["SubscriptionArn"] = subscription_arn
-          rescue #sometimes an invalid ARN is received
-          end
+          # check explicitly for an issue with some subscriptions that returns ARN=PendingConfirmation
+          if subscription_arn == "PendingConfirmation" then next end
+
+          attributes = @client.get_subscription_attributes({
+            subscription_arn: subscription_arn,
+          }).attributes
+          attributes["SubscriptionArn"] = subscription_arn
           attributes
         end.compact
       end
@@ -66,7 +67,7 @@ module Terraforming
           resp = @client.list_subscriptions(next_token: token)
           arns += resp.subscriptions.map(&:subscription_arn).flatten
           token = resp.next_token
-        end until token == nil
+        end until token.nil?
 
         arns
       end

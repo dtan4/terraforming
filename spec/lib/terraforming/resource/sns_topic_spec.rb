@@ -88,7 +88,7 @@ POLICY
 POLICY
 }
 
-        EOS
+EOS
         end
       end
 
