@@ -49,7 +49,7 @@ module Terraforming
       def subscriptions
         subscription_arns.map do |subscription_arn|
           # check explicitly for an issue with some subscriptions that returns ARN=PendingConfirmation
-          if subscription_arn == "PendingConfirmation" then next end
+          next if subscription_arn == "PendingConfirmation"
 
           attributes = @client.get_subscription_attributes({
             subscription_arn: subscription_arn,
@@ -63,11 +63,12 @@ module Terraforming
         token = ""
         arns = []
 
-        begin
+        loop do
           resp = @client.list_subscriptions(next_token: token)
           arns += resp.subscriptions.map(&:subscription_arn).flatten
           token = resp.next_token
-        end until token.nil?
+          break if token.nil?
+        end
 
         arns
       end

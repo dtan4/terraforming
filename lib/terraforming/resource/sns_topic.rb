@@ -57,11 +57,12 @@ module Terraforming
         token = ""
         arns = []
 
-        begin
+        loop do
           resp = @client.list_topics(next_token: token)
           arns += resp.topics.map(&:topic_arn).flatten
           token = resp.next_token
-        end until token.nil?
+          break if token.nil?
+        end
 
         arns
       end
