@@ -46,7 +46,17 @@ module Terraforming
       private
 
       def nat_gateways
-        @client.describe_nat_gateways.nat_gateways
+        token = ""
+        gateways = []
+
+        loop do
+          resp = @client.describe_nat_gateways(next_token: token)
+          gateways += resp.nat_gateways
+          token = resp.next_token
+          break if token.nil? || token.empty?
+        end
+
+        gateways
       end
 
       def module_name_of(nat_gateway)

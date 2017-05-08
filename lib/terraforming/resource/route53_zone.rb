@@ -49,7 +49,17 @@ module Terraforming
       private
 
       def hosted_zones
-        @client.list_hosted_zones.map(&:hosted_zones).flatten.map { |hosted_zone| @client.get_hosted_zone(id: hosted_zone.id) }
+        marker = ""
+        zones = []
+
+        loop do
+          resp = @client.list_hosted_zones(marker: marker)
+          zones += resp.hosted_zones.map { |hosted_zone| @client.get_hosted_zone(id: hosted_zone.id) }
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        zones
       end
 
       def tags_of(hosted_zone)

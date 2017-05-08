@@ -44,11 +44,31 @@ module Terraforming
       private
 
       def group_members_of(group)
-        @client.get_group(group_name: group.group_name).map(&:users).flatten.map(&:user_name)
+        marker = ""
+        users = []
+
+        loop do
+          resp = @client.get_group(group_name: group.group_name, marker: marker)
+          users += resp.users.flatten.map(&:user_name)
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        users
       end
 
       def iam_groups
-        @client.list_groups.map(&:groups).flatten
+        marker = ""
+        groups = []
+
+        loop do
+          resp = @client.list_groups(marker: marker)
+          groups += resp.groups
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        groups
       end
 
       def membership_name_of(group)

@@ -50,11 +50,31 @@ module Terraforming
       end
 
       def iam_roles
-        @client.list_roles.map(&:roles).flatten
+        marker = ""
+        roles = []
+
+        loop do
+          resp = @client.list_roles(marker: marker)
+          roles += resp.roles
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        roles
       end
 
       def iam_role_policy_names_in(role)
-        @client.list_role_policies(role_name: role.role_name).policy_names
+        marker = ""
+        policies = []
+
+        loop do
+          resp = @client.list_role_policies(role_name: role.role_name, marker: marker)
+          policies += resp.policy_names
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        policies
       end
 
       def iam_role_policy_of(role, policy_name)

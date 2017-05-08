@@ -45,7 +45,17 @@ module Terraforming
       private
 
       def iam_roles
-        @client.list_roles.map(&:roles).flatten
+        marker = ""
+        roles = []
+
+        loop do
+          resp = @client.list_roles(marker: marker)
+          roles += resp.roles
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        roles
       end
 
       def module_name_of(role)

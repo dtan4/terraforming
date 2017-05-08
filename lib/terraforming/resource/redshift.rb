@@ -56,7 +56,17 @@ module Terraforming
       private
 
       def clusters
-        @client.describe_clusters.map(&:clusters).flatten
+        marker = ""
+        clusters = []
+
+        loop do
+          resp = @client.describe_clusters(marker: marker)
+          clusters += resp.clusters
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        clusters
       end
 
       def module_name_of(cluster)

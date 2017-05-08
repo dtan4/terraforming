@@ -73,7 +73,18 @@ module Terraforming
 
       def block_devices_of(instance)
         return [] if instance.block_device_mappings.empty?
-        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten
+
+        token = ""
+        volumes = []
+
+        loop do
+          resp = @client.describe_volumes(volume_ids: block_device_ids_of(instance), next_token: token)
+          volumes += resp.volumes
+          token = resp.next_token
+          break if token.nil? || token.empty?
+        end
+
+        volumes
       end
 
       def block_device_mapping_of(instance, volume_id)
@@ -105,9 +116,19 @@ module Terraforming
       end
 
       def instances
-        @client.describe_instances.map(&:reservations).flatten.map(&:instances).flatten.reject do |instance|
-          instance.state.name == "terminated"
+        token = ""
+        instances = []
+
+        loop do
+          resp = @client.describe_instances(next_token: token)
+          instances += resp.reservations.flatten.map(&:instances).flatten.reject do |instance|
+            instance.state.name == "terminated"
+          end
+          token = resp.next_token
+          break if token.nil? || token.empty?
         end
+
+        instances
       end
 
       def module_name_of(instance)

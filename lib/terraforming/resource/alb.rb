@@ -65,7 +65,17 @@ module Terraforming
       end
 
       def load_balancers
-        @client.describe_load_balancers.load_balancers
+        marker = ""
+        lbs = []
+
+        loop do
+          resp = @client.describe_load_balancers(marker: marker)
+          lbs += resp.load_balancers
+          marker = resp.next_marker
+          break if marker.nil? || marker.empty?
+        end
+
+        lbs
       end
 
       def load_balancer_attributes_of(load_balancer)

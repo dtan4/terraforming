@@ -43,7 +43,17 @@ module Terraforming
       private
 
       def iam_groups
-        @client.list_groups.map(&:groups).flatten
+        marker = ""
+        groups = []
+
+        loop do
+          resp = @client.list_groups(marker: marker)
+          groups += resp.groups
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        groups
       end
 
       def module_name_of(group)

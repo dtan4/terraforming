@@ -180,7 +180,17 @@ module Terraforming
       end
 
       def load_balancers
-        @client.describe_load_balancers.map(&:load_balancer_descriptions).flatten
+        marker = ""
+        elbs = []
+
+        loop do
+          resp = @client.describe_load_balancers(marker: marker)
+          elbs += resp.load_balancer_descriptions
+          marker = resp.next_marker
+          break if marker.nil? || marker.empty?
+        end
+
+        elbs
       end
 
       def load_balancer_attributes_of(load_balancer)

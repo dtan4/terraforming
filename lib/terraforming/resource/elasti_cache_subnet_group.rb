@@ -41,7 +41,17 @@ module Terraforming
       private
 
       def cache_subnet_groups
-        @client.describe_cache_subnet_groups.map(&:cache_subnet_groups).flatten
+        marker = ""
+        groups = []
+
+        loop do
+          resp = @client.describe_cache_subnet_groups(marker: marker)
+          groups += resp.cache_subnet_groups
+          marker = resp.marker
+          break if marker.nil? || marker.empty?
+        end
+
+        groups
       end
 
       def subnet_ids_of(cache_subnet_group)
