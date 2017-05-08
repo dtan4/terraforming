@@ -44,20 +44,47 @@ module Terraforming
       private
 
       def aliases
-        @aliases ||= @client.list_aliases.aliases
+        marker = ""
+        aliases = []
+
+        loop do
+          resp = @client.list_aliases(marker: marker)
+          aliases += resp.aliases
+          marker = resp.next_marker
+          break if marker.nil?
+        end
+
+        @aliases ||= aliases
       end
 
       def keys
-        @client
-          .list_keys
-          .keys
-          .reject { |key| managed_master_key?(key) }
-          .map { |key| @client.describe_key(key_id: key.key_id) }
-          .map(&:key_metadata)
+        marker = ""
+        keys = []
+
+        loop do
+          resp = @client.list_keys(marker: marker)
+          keys += resp
+                    .keys
+                    .reject { |key| managed_master_key?(key) }
+                    .map { |key| @client.describe_key(key_id: key.key_id) }
+                    .map(&:key_metadata)
+          marker = resp.next_marker
+          break if marker.nil?
+        end
+
+        keys
       end
 
       def key_policy_of(key)
-        policies = @client.list_key_policies(key_id: key.key_id).policy_names
+        marker = ""
+        policies = []
+
+        loop do
+          resp = @client.list_key_policies(key_id: key.key_id, marker: marker)
+          policies += resp.policy_names
+          marker = resp.next_marker
+          break if marker.nil?
+        end
 
         return "" if policies.empty?
 

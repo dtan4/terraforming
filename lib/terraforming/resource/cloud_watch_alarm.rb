@@ -53,7 +53,17 @@ module Terraforming
       end
 
       def alarms
-        @client.describe_alarms.map(&:metric_alarms).flatten
+        token = ""
+        alarms = []
+
+        loop do
+          resp = @client.describe_alarms(next_token: token)
+          alarms += resp.metric_alarms
+          token = resp.next_token
+          break if token.nil?
+        end
+
+        alarms
       end
 
       def module_name_of(alarm)

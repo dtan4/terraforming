@@ -50,11 +50,31 @@ module Terraforming
       end
 
       def iam_users
-        @client.list_users.map(&:users).flatten
+        marker = ""
+        users = []
+
+        loop do
+          resp = @client.list_users(marker: marker)
+          users += resp.users
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        users
       end
 
       def iam_user_policy_names_in(user)
-        @client.list_user_policies(user_name: user.user_name).policy_names
+        marker = ""
+        policies = []
+
+        loop do
+          resp = @client.list_user_policies(user_name: user.user_name, marker: marker)
+          policies += resp.policy_names
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        policies
       end
 
       def iam_user_policy_of(user, policy_name)

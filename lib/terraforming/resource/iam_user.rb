@@ -44,7 +44,17 @@ module Terraforming
       private
 
       def iam_users
-        @client.list_users.map(&:users).flatten
+        marker = ""
+        users = []
+
+        loop do
+          resp = @client.list_users(marker: marker)
+          users += resp.users
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        users
       end
 
       def module_name_of(user)

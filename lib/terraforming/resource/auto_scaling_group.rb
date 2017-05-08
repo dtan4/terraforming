@@ -67,7 +67,17 @@ module Terraforming
       private
 
       def auto_scaling_groups
-        @client.describe_auto_scaling_groups.map(&:auto_scaling_groups).flatten
+        token = ""
+        asgs = []
+
+        loop do
+          resp = @client.describe_auto_scaling_groups(next_token: token)
+          asgs += resp.auto_scaling_groups
+          token = resp.next_token
+          break if token.nil?
+        end
+
+        asgs
       end
 
       def module_name_of(group)

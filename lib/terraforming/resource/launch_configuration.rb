@@ -95,6 +95,16 @@ module Terraforming
       end
 
       def launch_configurations
+        token = ""
+        lcs = []
+
+        loop do
+          resp = @client.describe_launch_configurations(next_token: token)
+          lcs += resp.launch_configurations
+          token = resp.next_token
+          break if token.nil?
+        end
+
         @client.describe_launch_configurations.map(&:launch_configurations).flatten
       end
 

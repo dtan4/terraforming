@@ -43,7 +43,17 @@ module Terraforming
       private
 
       def iam_instance_profiles
-        @client.list_instance_profiles.map(&:instance_profiles).flatten
+        marker = ""
+        profiles = []
+
+        loop do
+          resp = @client.list_instance_profiles(marker: marker)
+          profiles += resp.instance_profiles
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        profiles
       end
 
       def module_name_of(profile)

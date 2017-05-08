@@ -40,7 +40,17 @@ module Terraforming
       private
 
       def aliases
-        @client.list_aliases.aliases.reject { |als| managed_master_key_alias?(als) }
+        marker = ""
+        aliases = []
+
+        loop do
+          resp = @client.list_aliases(marker: marker)
+          aliases += resp.aliases.reject { |als| managed_master_key_alias?(als) }
+          marker = resp.next_marker
+          break if marker.nil?
+        end
+
+        aliases
       end
 
       def managed_master_key_alias?(als)

@@ -49,7 +49,17 @@ module Terraforming
       private
 
       def file_systems
-        @client.describe_file_systems.data.file_systems.flatten
+        marker = ""
+        fss = []
+
+        loop do
+          resp = @client.describe_file_systems
+          fss += resp.data.file_systems
+          marker = resp.next_marker
+          break if marker.nil?
+        end
+
+        fss
       end
 
       def module_name_of(efs)

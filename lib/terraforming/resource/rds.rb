@@ -63,7 +63,17 @@ module Terraforming
       private
 
       def db_instances
-        @client.describe_db_instances.map(&:db_instances).flatten
+        marker = ""
+        instances = []
+
+        loop do
+          resp = @client.describe_db_instances(marker: marker)
+          instances += resp.db_instances
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        instances
       end
 
       def module_name_of(instance)

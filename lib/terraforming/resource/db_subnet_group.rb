@@ -41,7 +41,17 @@ module Terraforming
       private
 
       def db_subnet_groups
-        @client.describe_db_subnet_groups.map(&:db_subnet_groups).flatten
+        marker = ""
+        groups = []
+
+        loop do
+          resp = @client.describe_db_subnet_groups(marker: marker)
+          groups += resp.db_subnet_groups
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        groups
       end
 
       def module_name_of(subnet_group)

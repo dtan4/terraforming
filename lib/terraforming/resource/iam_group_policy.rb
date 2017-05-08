@@ -50,11 +50,31 @@ module Terraforming
       end
 
       def iam_groups
-        @client.list_groups.map(&:groups).flatten
+        marker = ""
+        groups = []
+
+        loop do
+          resp = @client.list_groups(marker: marker)
+          groups += resp.groups
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        groups
       end
 
       def iam_group_policy_names_in(group)
-        @client.list_group_policies(group_name: group.group_name).policy_names
+        marker = ""
+        policies = []
+
+        loop do
+          resp = @client.list_group_policies(group_name: group.group_name, marker: marker)
+          policies += resp.policy_names
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        policies
       end
 
       def iam_group_policy_of(group, policy_name)

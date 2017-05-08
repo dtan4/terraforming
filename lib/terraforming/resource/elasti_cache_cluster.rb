@@ -57,7 +57,17 @@ module Terraforming
       private
 
       def cache_clusters
-        @client.describe_cache_clusters(show_cache_node_info: true).map(&:cache_clusters).flatten
+        marker = ""
+        clusters = []
+
+        loop do
+          resp = @client.describe_cache_clusters(show_cache_node_info: true, marker: marker)
+          clusters += resp.cache_clusters
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        clusters
       end
 
       def cluster_in_vpc?(cache_cluster)

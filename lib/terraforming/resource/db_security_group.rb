@@ -46,7 +46,17 @@ module Terraforming
       end
 
       def db_security_groups
-        @client.describe_db_security_groups.map(&:db_security_groups).flatten.select { |sg| !ingresses_of(sg).empty? }
+        marker = ""
+        dbsgs = []
+
+        loop do
+          resp = @client.describe_db_security_groups(marker: marker)
+          dbsgs += resp.db_security_groups
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        dbsgs.select { |sg| !ingresses_of(sg).empty? }
       end
 
       def module_name_of(security_group)

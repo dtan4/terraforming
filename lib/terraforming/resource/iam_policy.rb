@@ -44,7 +44,17 @@ module Terraforming
       private
 
       def iam_policies
-        @client.list_policies(scope: "Local").map(&:policies).flatten
+        marker = ""
+        policies = []
+
+        loop do
+          resp = @client.list_policies(scope: "Local", marker: marker)
+          policies += resp.policies
+          marker = resp.marker
+          break if marker.nil?
+        end
+
+        policies
       end
 
       def iam_policy_description(policy)
