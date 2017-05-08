@@ -26,7 +26,8 @@ module Terraforming
             "topic_arn"                       => subscription["TopicArn"],
             "protocol"                        => subscription["Protocol"],
             "endpoint"                        => subscription["Endpoint"],
-            "raw_message_delivery"            => subscription["RawMessageDelivery"],
+            "raw_message_delivery"            =>
+              subscription.key?("RawMessageDelivery") ? subscription["RawMessageDelivery"] : "false",
             "confirmation_timeout_in_minutes" =>
               subscription.key?("ConfirmationTimeoutInMinutes") ? subscription["ConfirmationTimeoutInMinutes"] : "1",
             "endpoint_auto_confirms"          =>
