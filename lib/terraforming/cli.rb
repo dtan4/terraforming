@@ -4,6 +4,7 @@ module Terraforming
     class_option :overwrite, type: :boolean, desc: "Overwrite existing tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
+    class_option :assume, type: :string, desc: "Assume Role"
     class_option :region, type: :string, desc: "AWS region"
     class_option :use_bundled_cert,
                  type: :boolean,
@@ -229,6 +230,15 @@ module Terraforming
     def configure_aws(options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
+
+      if options[:assume]
+        args = {
+          role_arn: options[:assume],
+          role_session_name: "terraforming-session-#{Time.now.to_i}"
+        }
+        args[:client] = Aws::STS::Client.new(profile: options[:profile]) if options[:profile]
+        Aws.config[:credentials] = Aws::AssumeRoleCredentials.new(args)
+      end
       Aws.use_bundled_cert! if options[:use_bundled_cert]
     end
 
