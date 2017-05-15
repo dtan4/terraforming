@@ -5,6 +5,7 @@ module Terraforming
     before(:all) do
       @sts_client = Aws::STS::Client.new(stub_responses: true)
     end
+
     context "resources" do
       shared_examples "CLI examples" do
         context "without --tfstate" do
