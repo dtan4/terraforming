@@ -4,7 +4,7 @@ module Terraforming
     class_option :overwrite, type: :boolean, desc: "Overwrite existing tfstate"
     class_option :tfstate, type: :boolean, desc: "Generate tfstate"
     class_option :profile, type: :string, desc: "AWS credentials profile"
-    class_option :assume, type: :string, desc: "Assume Role"
+    class_option :assume, type: :string, desc: "Assume role"
     class_option :region, type: :string, desc: "AWS region"
     class_option :use_bundled_cert,
                  type: :boolean,
