@@ -38,6 +38,27 @@ module Terraforming
               client: @sts_client
             })
           end
+
+          it "should switch roles and export tfstate" do
+            expect(klass).to receive(:tfstate).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: 'arn:aws:iam::123456789123:role/test-role',
+              region: 'ap-northeast-1',
+              client: @sts_client,
+              tfstate: true
+            })
+          end
+
+          it "should switch roles and export merged tfstate" do
+            expect(klass).to receive(:tfstate).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: 'arn:aws:iam::123456789123:role/test-role',
+              region: 'ap-northeast-1',
+              client: @sts_client,
+              tfstate: true,
+              merge: tfstate_fixture_path
+            })
+          end
         end
 
         context "with --assumes and --tfstate" do
