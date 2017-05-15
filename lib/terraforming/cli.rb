@@ -222,15 +222,9 @@ module Terraforming
       Aws.config[:region] = options[:region] if options[:region]
 
       if options[:assume]
-        args = {
-          role_arn: options[:assume],
-          role_session_name: "terraforming-session-#{Time.now.to_i}"
-        }
-        if options[:client]
-          args[:client] = options[:client]
-        elsif options[:profile]
-          args[:client] = Aws::STS::Client.new(profile: options[:profile])
-        end
+        args = { role_arn: options[:assume], role_session_name: "terraforming-session-#{Time.now.to_i}" }
+        args[:client] = options[:client] if options[:client]
+        args[:client] = Aws::STS::Client.new(profile: options[:profile]) if options[:profile]
         Aws.config[:credentials] = Aws::AssumeRoleCredentials.new(args)
       end
       Aws.use_bundled_cert! if options[:use_bundled_cert]
