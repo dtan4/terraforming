@@ -29,7 +29,7 @@ module Terraforming
           end
         end
 
-        context "with --assumes" do
+        context "with --assumes and without --tfstate" do
           it "should switch roles and export tf" do
             expect(klass).to receive(:tf).with(no_args)
             described_class.new.invoke(command, [], {
@@ -38,7 +38,9 @@ module Terraforming
               client: @sts_client
             })
           end
+        end
 
+        context "with --assumes and --tfstate" do
           it "should switch roles and export tfstate" do
             expect(klass).to receive(:tfstate).with(no_args)
             described_class.new.invoke(command, [], {
@@ -48,7 +50,9 @@ module Terraforming
               tfstate: true
             })
           end
+        end
 
+        context "with --assumes and --tfstate --merge TFSTATE" do
           it "should switch roles and export merged tfstate" do
             expect(klass).to receive(:tfstate).with(no_args)
             described_class.new.invoke(command, [], {
