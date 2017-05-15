@@ -2,6 +2,9 @@ require "spec_helper"
 
 module Terraforming
   describe CLI do
+    before(:all) do
+      @sts_client = Aws::STS::Client.new(stub_responses: true)
+    end
     context "resources" do
       shared_examples "CLI examples" do
         context "without --tfstate" do
@@ -24,12 +27,24 @@ module Terraforming
             described_class.new.invoke(command, [], { tfstate: true, merge: tfstate_fixture_path })
           end
         end
+
+        context "with --assumes" do
+          it "should switch roles and export tf" do
+            expect(klass).to receive(:tf).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: "arn:aws:iam::123456789123:role/test-role",
+              region: 'ap-northeast-1',
+              client: @sts_client
+            })
+          end
+        end
       end
 
       before do
         allow(STDOUT).to receive(:puts).and_return(nil)
         allow(klass).to receive(:tf).and_return("")
         allow(klass).to receive(:tfstate).and_return({})
+        allow(klass).to receive(:assume).and_return({})
       end
 
       describe "asg" do
