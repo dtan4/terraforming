@@ -65,6 +65,12 @@ aws_secret_access_key = FugaFuga
 $ terraforming s3 --profile hoge
 ```
 
+You can assume a role by using the `--assume` option.
+
+```bash
+$ terraforming s3 --assume arn:aws:iam::123456789123:role/test-role
+```
+
 You can force the AWS SDK to utilize the CA certificate that is bundled with the SDK for systems where the default OpenSSL certificate is not installed (e.g. Windows) by utilizing the `--use-bundled-cert` option.
 
 ```bash
