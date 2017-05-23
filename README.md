@@ -128,6 +128,15 @@ Options:
   [--use-bundled-cert], [--no-use-bundled-cert]  # Use the bundled CA certificate from AWS SDK
 ```
 
+### Export all (example)
+example assuming you want to export everything from us-west-2 and you are using ~/.aws/credentials with a `default` profile
+```
+export AWS_REGION=us-west-2
+terraforming | grep terraforming | grep -v help | awk '{print "terraforming", $2, "--profile", "default", ">", $2".tf";}' | bash
+# remove empty files
+find . -type f -size 1 -delete
+```
+
 ### Export tf
 
 ```bash
