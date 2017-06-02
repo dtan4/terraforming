@@ -14,7 +14,7 @@ module Terraforming
         ]
       end
 
-      let(:attributes) do
+      let(:attributes_regular) do
         {
           "Endpoint"                     => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
           "Protocol"                     => "sqs",
@@ -26,13 +26,25 @@ module Terraforming
         }
       end
 
+      let(:attributes_email) do
+        {
+          "Endpoint"                     => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
+          "Protocol"                     => "email-json",
+          "RawMessageDelivery"           => "false",
+          "ConfirmationWasAuthenticated" => "true",
+          "Owner"                        => "012345678901",
+          "SubscriptionArn"              => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
+          "TopicArn"                     => "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
+        }
+      end
+
       before do
         client.stub_responses(:list_subscriptions, subscriptions: subscriptions)
-        client.stub_responses(:get_subscription_attributes, attributes: attributes)
+        client.stub_responses(:get_subscription_attributes, attributes: attributes_regular)
       end
 
       describe ".tf" do
-        it "should generate tf" do
+        it "should generate tf for non-email subscriptions" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   topic_arn                       = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
@@ -40,6 +52,20 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   endpoint                        = "arn:aws:sqs:us-west-2:012345678901:a-cool-queue"
   raw_message_delivery            = "false"
 }
+
+        EOS
+        end
+        it "should generate commented tf for email subscriptions" do
+          client.stub_responses(:get_subscription_attributes, attributes: attributes_email)
+          expect(described_class.tf(client: client)).to eq <<-EOS
+/*
+resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
+  topic_arn                       = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
+  protocol                        = "email-json"
+  endpoint                        = "arn:aws:sqs:us-west-2:012345678901:a-cool-queue"
+  raw_message_delivery            = "false"
+}
+*/
 
         EOS
         end
