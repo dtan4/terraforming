@@ -1,4 +1,7 @@
 <% subscriptions.each do |subscription| -%>
+<% if subscription["Protocol"].include?("email") -%>
+/*
+<% end -%>
 resource "aws_sns_topic_subscription" "<%= module_name_of(subscription) %>" {
   topic_arn                       = "<%= subscription["TopicArn"] %>"
   protocol                        = "<%= subscription["Protocol"] %>"
@@ -13,5 +16,7 @@ resource "aws_sns_topic_subscription" "<%= module_name_of(subscription) %>" {
   endpoint_auto_confirms          = "<%= subscription["EndpointAutoConfirms"] %>"
 <% end -%>
 }
-
+<% if subscription["Protocol"].include?("email") -%>
+*/
+<% end -%>
 <% end -%>

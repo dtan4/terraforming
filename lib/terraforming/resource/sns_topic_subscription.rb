@@ -20,7 +20,8 @@ module Terraforming
       end
 
       def tfstate
-        subscriptions.inject({}) do |resources, subscription|
+        subscriptions.reject{|x| x["Protocol"].include?("email")}
+                     .inject({}) do |resources, subscription|
           attributes = {
             "id"                              => subscription["SubscriptionArn"],
             "topic_arn"                       => subscription["TopicArn"],
