@@ -214,6 +214,16 @@ module Terraforming
       execute(Terraforming::Resource::VPNGateway, options)
     end
 
+    desc "snst", "SNS Topic"
+    def snst
+      execute(Terraforming::Resource::SNSTopic, options)
+    end
+
+    desc "snss", "SNS Subscription"
+    def snss
+      execute(Terraforming::Resource::SNSTopicSubscription, options)
+    end
+
     private
 
     def configure_aws(options)

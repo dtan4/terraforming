@@ -1,0 +1,23 @@
+<% subscriptions.each do |subscription| -%>
+<% if subscription["Protocol"].include?("email") -%>
+/*
+<% end -%>
+resource "aws_sns_topic_subscription" "<%= module_name_of(subscription) %>" {
+  topic_arn                       = "<%= subscription["TopicArn"] %>"
+  protocol                        = "<%= subscription["Protocol"] %>"
+  endpoint                        = "<%= subscription["Endpoint"] %>"
+<% if subscription.key? "RawMessageDelivery" -%>
+  raw_message_delivery            = "<%= subscription["RawMessageDelivery"] %>"
+<% end -%>
+<% if subscription.key? "ConfirmationTimeoutInMinutes" %>
+  confirmation_timeout_in_minutes = "<%= subscription["ConfirmationTimeoutInMinutes"] %>"
+<% end -%>
+<% if subscription.key? "EndpointAutoConfirms" %>
+  endpoint_auto_confirms          = "<%= subscription["EndpointAutoConfirms"] %>"
+<% end -%>
+}
+<% if subscription["Protocol"].include?("email") -%>
+*/
+<% end -%>
+
+<% end -%>

@@ -1,0 +1,17 @@
+<% topics.each do |topic| -%>
+resource "aws_sns_topic" "<%= module_name_of(topic) %>" {
+  name            = "<%= module_name_of(topic) %>"
+  display_name    = "<%= topic["DisplayName"] %>"
+<% if topic.key? "Policy" -%>
+  policy          = <<POLICY
+<%= prettify_policy(topic["Policy"], unescape: true) %>
+POLICY
+<% end -%>
+<% if topic.key? "DeliveryPolicy" -%>
+  delivery_policy = <<POLICY
+<%= prettify_policy(topic["DeliveryPolicy"], unescape: true) %>
+POLICY
+<% end -%>
+}
+
+<% end -%>
