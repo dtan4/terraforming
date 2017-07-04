@@ -130,7 +130,7 @@ module Terraforming
     end
 
     desc "lf", "Lambda Function"
-    def lambdafunction
+    def lf
       execute(Terraforming::Resource::LambdaFunction, options)
     end
 
