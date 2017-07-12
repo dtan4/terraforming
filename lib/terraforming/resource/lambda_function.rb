@@ -102,7 +102,7 @@ module Terraforming
           response = http.get(uri)
           unless response.code == "200"
             raise \
-              "Error downloading Lambda Code HTTP Res Code #{response.code}" \
+              "Error downloading Lambda Code HTTP Res Code #{response.code} " \
               "from #{url}"
           end
 

@@ -184,6 +184,22 @@ resource "aws_lambda_function" "lambda_func_2" {
           expect(buffer.string).to eq "Lambda Content"
         end
       end
+
+      describe "#download_lambda_code" do
+        subject { described_class.new(client) }
+
+        context "when the response from the server is not 200" do
+          before do
+            allow(Net::HTTPResponse).to receive(:code).and_return("500")
+          end
+
+          it "raises an error saying there was a error downloading the Lambda Code" do
+            expect {
+              subject.send(:download_lambda_code, "fake_url", "fake_filename")
+            }.to raise_error(StandardError, "Error downloading Lambda Code HTTP Res Code 500 from fake_url")
+          end
+        end
+      end
     end
   end
 end
