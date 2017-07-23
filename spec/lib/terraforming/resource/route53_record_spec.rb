@@ -137,7 +137,7 @@ resource "aws_route53_record" "www-fuga-net-A" {
     }
 }
 
-resource "aws_route53_record" "-052-example-net-CNAME" {
+resource "aws_route53_record" "wildcard-example-net-CNAME" {
     zone_id = "CDEFGHIJKLMNOP"
     name    = "*.example.net"
     type    = "CNAME"
@@ -204,7 +204,7 @@ resource "aws_route53_record" "geo-example-net-A-1" {
                 },
               }
             },
-            "aws_route53_record.-052-example-net-CNAME" => {
+            "aws_route53_record.wildcard-example-net-CNAME" => {
               "type" => "aws_route53_record",
               "primary" => {
                 "id" => "CDEFGHIJKLMNOP_*.example.net_CNAME",
