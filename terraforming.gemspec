@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "aws-sdk", "~> 2.9.6"
+  spec.add_dependency "aws-sdk", "~> 2.10.17"
   spec.add_dependency "multi_json", "~> 1.12.1"
   spec.add_dependency "thor"
 
