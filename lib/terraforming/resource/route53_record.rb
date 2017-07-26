@@ -95,7 +95,7 @@ module Terraforming
       end
 
       def module_name_of(record, counter)
-        normalize_module_name(name_of(record.name) + "-" + record.type + (!counter.nil? ? "-" + counter.to_s : ""))
+        normalize_module_name(name_of(record.name.gsub(/\\052/, 'wildcard')) + "-" + record.type + (!counter.nil? ? "-" + counter.to_s : ""))
       end
 
       def zone_id_of(hosted_zone)
