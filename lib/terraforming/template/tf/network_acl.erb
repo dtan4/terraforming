@@ -11,6 +11,10 @@ resource "aws_network_acl" "<%= module_name_of(network_acl) %>" {
         action     = "<%= ingress.rule_action %>"
         protocol   = "<%= ingress.protocol %>"
         cidr_block = "<%= ingress.cidr_block %>"
+<%- if ingress.icmp_type_code -%>
+        icmp_code  = "<%= ingress.icmp_type_code.code %>"
+        icmp_type  = "<%= ingress.icmp_type_code.type %>"
+<%- end -%>
     }
 
 <% end -%>
