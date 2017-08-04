@@ -1,3 +1,17 @@
+# [v0.13.333](https://github.com/dtan4/terraforming/releases/tag/v0.13.3) (2017-8-04)
+
+## Resource
+- AWS SNS support [#332](https://github.com/dtan4/terraforming/pull/332) (thanks @uberblah)
+
+## Fixed / Updated
+
+- Add prefix lists to security groups configuration [#326](https://github.com/dtan4/terraforming/pull/326) (thanks @julia-stripe)
+- Fixed typo in cli.rb [#329](https://github.com/dtan4/terraforming/pull/329) (thanks @slalFe)
+- Rename title of aws_route_53_record with wildcard [#348](https://github.com/dtan4/terraforming/pull/348) (thanks @furhouse)
+- use aws-sdk 2.10.x [#349](https://github.com/dtan4/terraforming/pull/349) 
+- Add icmp_code and icmp_type to NACL tf [#350](https://github.com/dtan4/terraforming/pull/350) 
+- drop ruby 2.1 from CI[#351](https://github.com/dtan4/terraforming/pull/351) 
+
 # [v0.13.2](https://github.com/dtan4/terraforming/releases/tag/v0.13.2) (2017-04-20)
 
 ## Fixed / Updated
