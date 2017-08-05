@@ -1,3 +1,15 @@
+# [v0.14.0](https://github.com/dtan4/terraforming/releases/tag/v0.14.0) (2017-08-05)
+
+## Fixed / Updated
+
+- Drop Ruby 2.1 from CI [#351](https://github.com/dtan4/terraforming/pull/351)
+- Add `icmp_code` and `icmp_type` to NACL [#350](https://github.com/dtan4/terraforming/pull/350)
+- Use aws-sdk [#349](https://github.com/dtan4/terraforming/pull/349)
+- Rename title of aws_route53_record with wildcard [#348](https://github.com/dtan4/terraforming/pull/348) (thanks @furhouse)
+- SNS Support [#332](https://github.com/dtan4/terraforming/pull/332) (thanks @uberblah)
+  - `terraforming snst` (SNS Topic), `terraforming snss` (SNS Subscription)
+- Fix typo in cli.rb [#329](https://github.com/dtan4/terraforming/pull/329) (thanks @slalFe)
+
 # [v0.13.2](https://github.com/dtan4/terraforming/releases/tag/v0.13.2) (2017-04-20)
 
 ## Fixed / Updated
