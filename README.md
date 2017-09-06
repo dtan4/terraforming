@@ -348,6 +348,11 @@ terraforming help | grep terraforming | grep -v help | awk '{print "terraforming
 # find files that only have 1 empty line (likely nothing in AWS)
 find . -type f -name '*.tf' | xargs wc -l | grep ' 1 .'
 ```
+or if you want to run the same on Windows through powershell
+```powershell
+$env:AWS_REGION="us-west-2"
+terraforming help | grep terraforming | grep -v help | awk '{print $2}' | foreach { Invoke-Expression -Command "cmd /k terraforming --use-bundled-cert $_ --profile=live > $_.tf" }
+```
 
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
 
