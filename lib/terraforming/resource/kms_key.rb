@@ -54,6 +54,7 @@ module Terraforming
           .reject { |key| managed_master_key?(key) }
           .map { |key| @client.describe_key(key_id: key.key_id) }
           .map(&:key_metadata)
+          .reject { |metadata| metadata.origin == "EXTERNAL" } # external origin key is not supoprted by Terraform
       end
 
       def key_policy_of(key)

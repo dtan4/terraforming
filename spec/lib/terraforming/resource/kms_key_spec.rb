@@ -21,6 +21,10 @@ module Terraforming
             key_id: "12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
             key_arn: "arn:aws:kms:ap-northeast-1:123456789012:key/12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
           },
+          {
+            key_id: "ab12cd34-ef56-ab12-cd34-ab12cd34ef56",
+            key_arn: "arn:aws:kms:ap-northeast-1:123456789012:key/ab12cd34-ef56-ab12-cd34-ab12cd34ef56",
+          },
         ]
       end
 
@@ -56,18 +60,18 @@ module Terraforming
         }
       end
 
-      let(:piyo_key) do
+      let(:foobar_key) do
         {
           key_metadata: {
             aws_account_id: "123456789012",
-            key_id: "12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
-            arn: "arn:aws:kms:ap-northeast-1:123456789012:key/12ab34cd-56ef-12ab-34cd-12ab34cd56ef",
-            creation_date: Time.new("2016-09-09 12:34:56 +0900"),
+            key_id: "ab12cd34-ef56-ab12-cd34-ab12cd34ef56",
+            arn: "arn:aws:kms:ap-northeast-1:123456789012:key/ab12cd34-ef56-ab12-cd34-ab12cd34ef56",
+            creation_date: Time.new("2017-09-09 12:34:56 +0900"),
             enabled: true,
-            description: "Default master key that protects my ACM private keys when no other key is defined",
+            description: "Default master key that protects my ACM private keys when no other key is foobar",
             key_usage: "ENCRYPT_DECRYPT",
-            key_state: "Enabled",
-            origin: "AWS_KMS",
+            key_state: "PendingImport",
+            origin: "EXTERNAL",
           },
         }
       end
@@ -88,6 +92,11 @@ module Terraforming
             alias_name: "alias/fuga",
             alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/fuga",
             target_key_id: "abcd1234-ab12-cd34-ef56-abcdef123456"
+          },
+          {
+            alias_name: "alias/foobar",
+            alias_arn: "arn:aws:kms:ap-northeast-1:123456789012:alias/foobar",
+            target_key_id: "ab12cd34-ef56-ab12-cd34-ab12cd34ef56"
           },
         ]
       end
@@ -186,7 +195,7 @@ EOS
       before do
         client.stub_responses(:list_keys, keys: keys)
         client.stub_responses(:list_aliases, aliases: aliases)
-        client.stub_responses(:describe_key, [hoge_key, fuga_key, piyo_key])
+        client.stub_responses(:describe_key, [hoge_key, fuga_key, foobar_key])
         client.stub_responses(:list_key_policies, [hoge_policies, fuga_policies])
         client.stub_responses(:get_key_policy, [hoge_policy, fuga_policy])
         client.stub_responses(:get_key_rotation_status, [hoge_key_rotation_status, fuga_key_rotation_status])
