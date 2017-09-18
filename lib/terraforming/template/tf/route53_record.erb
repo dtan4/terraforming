@@ -38,6 +38,15 @@ resource "aws_route53_record" "<%= module_name_of(record, counter) %>" {
 <%- if record.set_identifier -%>
     set_identifier = "<%= record.set_identifier %>"
 <%- end -%>
+<%- if record.health_check_id -%>
+    health_check_id = "<%= record.health_check_id %>"
+<%- end -%>
+    <%- if record.failover -%>
+
+    failover_routing_policy {
+        type = "<%= record.failover %>"
+    }
+    <%- end -%>
 
     <%- if record.alias_target -%>
     alias {
