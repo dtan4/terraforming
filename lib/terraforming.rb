@@ -1,4 +1,4 @@
-require "aws-sdk-core"
+require "aws-sdk"
 require "erb"
 require "multi_json"
 require "thor"
