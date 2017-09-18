@@ -1,3 +1,11 @@
+# [v0.15.0](https://github.com/dtan4/terraforming/releases/tag/v0.15.0) (2017-09-18)
+
+## Fixed / Updated
+
+- Upgrade to AWS SDK for Ruby V3 [#364](https://github.com/dtan4/terraforming/pull/364)
+- Ignore external key by `terraforming kmsk` (KMS key) [#363](https://github.com/dtan4/terraforming/pull/363)
+- Add failover attributes to Route53 record [#357](https://github.com/dtan4/terraforming/pull/357) (thanks @chroju)
+
 # [v0.14.0](https://github.com/dtan4/terraforming/releases/tag/v0.14.0) (2017-08-05)
 
 ## Fixed / Updated
