@@ -349,6 +349,10 @@ terraforming help | grep terraforming | grep -v help | awk '{print "terraforming
 find . -type f -name '*.tf' | xargs wc -l | grep ' 1 .'
 ```
 
+### Caveats
+
+- `terraforming kmsk` does not export EXTERNAL origin key, bacause Terraform does not support it.
+
 ## Run as Docker container [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
 
 Terraforming Docker Image is available at [quay.io/dtan4/terraforming](https://quay.io/repository/dtan4/terraforming) and developed at [dtan4/dockerfile-terraforming](https://github.com/dtan4/dockerfile-terraforming).
