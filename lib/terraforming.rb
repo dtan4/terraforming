@@ -18,6 +18,7 @@ require "erb"
 require "multi_json"
 require "thor"
 require "zlib"
+require "inifile"
 
 require "terraforming/util"
 require "terraforming/version"

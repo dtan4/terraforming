@@ -6,8 +6,8 @@ module Terraforming
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
     class_option :use_bundled_cert,
-                 type: :boolean,
-                 desc: "Use the bundled CA certificate from AWS SDK"
+      type: :boolean,
+      desc: "Use the bundled CA certificate from AWS SDK"
 
     desc "alb", "ALB"
     def alb
@@ -227,7 +227,12 @@ module Terraforming
     private
 
     def configure_aws(options)
-      Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
+      if options[:profile]
+        Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile])
+        config = IniFile.load(File.expand_path("~/.aws/credentials"))
+        profile = config[options[:profile]]
+        Aws.config[:region] = profile["region"] if profile.has_key?("region")
+      end
       Aws.config[:region] = options[:region] if options[:region]
       Aws.use_bundled_cert! if options[:use_bundled_cert]
     end
