@@ -9,6 +9,9 @@ env:
   matrix:
     - OJ=0
     - OJ=1
+branches:
+  only:
+    - master
 before_install:
   - gem update --system
   - gem update bundler
