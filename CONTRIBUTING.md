@@ -2,6 +2,15 @@
 
 I love pull requests from everyone! By the way, I have a favor to ask you with your contribution :bow:
 
+## Reporting issue
+
+- Please write your ...
+  - platform (macOS, Linux, Windows, ...)
+  - Ruby version
+  - Terraforming version
+  - Terraform version (if `terraform plan` failed)
+  - executed command and error message (if any)
+
 ## Making changes
 
 - Currently, this gem supports only __AWS__ resources. Other providers are supported as separated gems.
