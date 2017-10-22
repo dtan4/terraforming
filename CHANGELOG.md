@@ -1,5 +1,7 @@
 # [v0.16.0](https://github.com/dtan4/terraforming/releases/tag/v0.16.0) (2017-10-23)
 
+- Declare supported Terraform version: v0.9.3 or higher
+
 ## New feature
 
 - Support assuming role `--assume` [#379](https://github.com/dtan4/terraforming/pull/379) (thanks @cmedley)
