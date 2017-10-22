@@ -25,7 +25,9 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 
 ## Supported version
 
-Ruby 2.1 or higher
+- Ruby 2.1 or higher is required
+- Terraform v0.9.3 or higher is recommended
+  - Some resources (e.g. `iam_instance_profile`) uses newer resource specification
 
 ## Installation
 
