@@ -32,7 +32,7 @@ module Terraforming
                 "id" => key.key_id,
                 "is_enabled" => key.enabled.to_s,
                 "key_id" => key.key_id,
-                "key_usage" => key_usage_of(key),
+                "key_usage" => key.key_usage,
                 "policy" => key_policy_of(key),
               },
             },
@@ -67,10 +67,6 @@ module Terraforming
 
       def key_rotation_status_of(key)
         @client.get_key_rotation_status(key_id: key.key_id)
-      end
-
-      def key_usage_of(key)
-        key.key_usage.tr("_", "/")
       end
 
       def managed_master_key?(key)
