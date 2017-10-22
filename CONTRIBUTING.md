@@ -4,7 +4,7 @@ I love pull requests from everyone! By the way, I have a favor to ask you with y
 
 ## Reporting issue
 
-- Please clarify your ...
+- Please write your ...
   - platform (macOS, Linux, Windows, ...)
   - Ruby version
   - Terraforming version
