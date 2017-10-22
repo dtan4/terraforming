@@ -170,6 +170,33 @@ resource "aws_s3_bucket" "piyo" {
           end
         end
       end
+
+      context "from us-east-2" do
+        let(:client) do
+          Aws::S3::Client.new(region: "us-east-2", stub_responses: true)
+        end
+
+        before do
+          client.stub_responses(:list_buckets, buckets: buckets, owner: owner)
+          client.stub_responses(:get_bucket_policy, [
+            "NoSuchBucketPolicy",
+          ])
+          client.stub_responses(:get_bucket_location, ["NoSuchBucketPolicy"])
+        end
+
+        describe ".tf" do
+          it "should generate tf" do
+            expect(described_class.tf(client: client)).to eq <<-EOS
+        EOS
+          end
+        end
+
+        describe ".tfstate" do
+          it "should generate tfstate" do
+            expect(described_class.tfstate(client: client)).to eq({})
+          end
+        end
+      end
     end
   end
 end
