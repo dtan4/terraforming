@@ -12,9 +12,6 @@ env:
 branches:
   only:
     - master
-before_install:
-  - gem update --system
-  - gem update bundler
 before_script:
   - if [[ $OJ -eq 1 ]]; then gem install oj; fi
 notifications:
