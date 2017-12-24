@@ -172,7 +172,7 @@ module Terraforming
             range.group_id
           # EC2-Classic, other account
           else
-            "#{range.user_id}/#{range.group_name}"
+            "#{range.user_id}/#{range.group_name || range.group_id}"
           end
         end
       end
