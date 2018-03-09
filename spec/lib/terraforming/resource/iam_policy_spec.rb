@@ -62,7 +62,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_policy" "hoge_policy" {
     name        = "hoge_policy"
     path        = "/"
@@ -103,7 +103,7 @@ resource "aws_iam_policy" "fuga_policy" {
 POLICY
 }
 
-        EOS
+        TFOUT
         end
       end
 

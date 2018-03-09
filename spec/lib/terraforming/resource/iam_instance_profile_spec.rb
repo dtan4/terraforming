@@ -35,14 +35,14 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_instance_profile" "hoge_profile" {
     name = "hoge_profile"
     path = "/"
     role = "hoge_role"
 }
 
-        EOS
+        TFOUT
         end
       end
 

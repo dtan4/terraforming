@@ -91,7 +91,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_redshift_cluster" "test" {
     cluster_identifier                  = "test"
     database_name                       = "testdb"
@@ -111,7 +111,7 @@ resource "aws_redshift_cluster" "test" {
     encrypted                           = "true"
     skip_final_snapshot                 = "true"
 }
-        EOS
+        TFOUT
         end
       end
 

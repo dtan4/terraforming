@@ -46,13 +46,13 @@ module Terraforming
 
       before do
         client.stub_responses(:list_roles, roles: roles)
-        client.stub_responses(:list_role_policies, [{ policy_names: %w(hoge_role_policy) }, { policy_names: %w(fuga_role_policy) }])
+        client.stub_responses(:list_role_policies, [{ policy_names: %w[hoge_role_policy] }, { policy_names: %w[fuga_role_policy] }])
         client.stub_responses(:get_role_policy, [hoge_role_policy, fuga_role_policy])
       end
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_role_policy" "hoge_role_hoge_role_policy" {
     name   = "hoge_role_policy"
     role   = "hoge_role"
@@ -94,7 +94,7 @@ resource "aws_iam_role_policy" "fuga_role_fuga_role_policy" {
 POLICY
 }
 
-        EOS
+        TFOUT
         end
       end
 

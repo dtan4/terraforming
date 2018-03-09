@@ -79,7 +79,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_group_membership" "hoge" {
     name  = "hoge-group-membership"
     users = ["foo"]
@@ -92,7 +92,7 @@ resource "aws_iam_group_membership" "fuga" {
     group = "fuga"
 }
 
-        EOS
+        TFOUT
         end
       end
 

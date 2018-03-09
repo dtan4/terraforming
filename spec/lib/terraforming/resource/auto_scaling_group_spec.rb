@@ -148,7 +148,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_autoscaling_group" "hoge" {
     availability_zones        = ["ap-northeast-1b"]
     desired_capacity          = 2
@@ -203,7 +203,7 @@ resource "aws_autoscaling_group" "piyo" {
 
 }
 
-        EOS
+        TFOUT
         end
       end
 

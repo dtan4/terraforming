@@ -34,7 +34,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_user" "hoge" {
     name = "hoge"
     path = "/"
@@ -45,7 +45,7 @@ resource "aws_iam_user" "fuga-piyo" {
     path = "/system/"
 }
 
-        EOS
+        TFOUT
         end
       end
 

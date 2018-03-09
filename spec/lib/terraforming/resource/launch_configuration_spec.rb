@@ -108,7 +108,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_launch_configuration" "launch-123456789" {
     name                        = "launch-123456789"
     image_id                    = "ami-1234abcd"
@@ -152,7 +152,7 @@ resource "aws_launch_configuration" "launch-234567891" {
 
 }
 
-          EOS
+          TFOUT
         end
       end
 

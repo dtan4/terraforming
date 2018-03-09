@@ -124,7 +124,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_network_acl" "hoge" {
     vpc_id     = "vpc-1234abcd"
     subnet_ids = ["subnet-1234abcd", "subnet-5678efgh"]
@@ -183,7 +183,7 @@ resource "aws_network_acl" "fuga" {
     }
 }
 
-        EOS
+        TFOUT
         end
       end
 

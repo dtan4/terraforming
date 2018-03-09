@@ -19,7 +19,7 @@ module Terraforming
         apply_template(@client, "tf/route53_record")
       end
 
-      def tfstate
+      def tfstate # rubocop:disable Metrics/PerceivedComplexity
         records.inject({}) do |resources, r|
           record, zone_id = r[:record], r[:zone_id]
           counter = r[:counter]
@@ -101,7 +101,7 @@ module Terraforming
       end
 
       def module_name_of(record, counter)
-        normalize_module_name(name_of(record.name.gsub(/\\052/, 'wildcard')) + "-" + record.type + (!counter.nil? ? "-" + counter.to_s : ""))
+        normalize_module_name(name_of(record.name.gsub(/\\052/, 'wildcard')) + "-" + record.type + (!counter.nil? ? "-" + counter.to_s : "")) # rubocop:disable Metrics/LineLength
       end
 
       def zone_id_of(hosted_zone)

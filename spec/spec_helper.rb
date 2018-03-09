@@ -11,7 +11,7 @@ SimpleCov.start do
   ])
 end
 
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'terraforming'
 
 require 'tempfile'
@@ -26,5 +26,5 @@ def tfstate_fixture_path
 end
 
 def tfstate_fixture
-  JSON.parse(open(tfstate_fixture_path).read)
+  JSON.parse(File.open(tfstate_fixture_path).read)
 end

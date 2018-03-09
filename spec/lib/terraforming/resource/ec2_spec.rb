@@ -310,7 +310,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_instance" "hoge" {
     ami                         = "ami-1234abcd"
     availability_zone           = "ap-northeast-1b"
@@ -377,7 +377,7 @@ resource "aws_instance" "i-9012ijkl" {
     }
 }
 
-        EOS
+        TFOUT
         end
       end
 

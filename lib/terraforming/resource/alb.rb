@@ -69,7 +69,7 @@ module Terraforming
       end
 
       def load_balancer_attributes_of(load_balancer)
-        @client.describe_load_balancer_attributes(load_balancer_arn: load_balancer.load_balancer_arn).attributes.inject({}) do |result, attribute|
+        @client.describe_load_balancer_attributes(load_balancer_arn: load_balancer.load_balancer_arn).attributes.inject({}) do |result, attribute| # rubocop:disable Metrics/LineLength
           result[attribute.key] = attribute.value
           result
         end

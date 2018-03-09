@@ -44,13 +44,13 @@ module Terraforming
 
       before do
         client.stub_responses(:list_groups, groups: groups)
-        client.stub_responses(:list_group_policies, [{ policy_names: %w(hoge_policy) }, { policy_names: %w(fuga_policy) }])
+        client.stub_responses(:list_group_policies, [{ policy_names: %w[hoge_policy] }, { policy_names: %w[fuga_policy] }])
         client.stub_responses(:get_group_policy, [hoge_policy, fuga_policy])
       end
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_iam_group_policy" "hoge_hoge_policy" {
     name   = "hoge_policy"
     group  = "hoge"
@@ -89,7 +89,7 @@ resource "aws_iam_group_policy" "fuga_fuga_policy" {
 POLICY
 }
 
-        EOS
+        TFOUT
         end
       end
 

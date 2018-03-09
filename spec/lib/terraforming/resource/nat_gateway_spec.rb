@@ -38,7 +38,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_nat_gateway" "nat-0c5b68b2c4d64e037" {
     allocation_id = "eipalloc-b02a3c79"
     subnet_id = "subnet-cd5645f7"
@@ -49,7 +49,7 @@ resource "aws_nat_gateway" "nat-0c5b68b2c4d64ea12" {
     subnet_id = "subnet-cd564c9e"
 }
 
-        EOS
+        TFOUT
         end
       end
 

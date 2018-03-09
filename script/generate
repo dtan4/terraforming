@@ -2,13 +2,13 @@
 
 require "erb"
 
-USAGE = <<-EOS
-Usage: script/generate RESOURCE
-RESOURCE must be snake_case
+USAGE = <<-DOCS
+  Usage: script/generate RESOURCE
+  RESOURCE must be snake_case
 
-Example:
-  script/generate EC2
-EOS
+  Example:
+    script/generate EC2
+DOCS
 
 def camelize(string)
   string
@@ -19,17 +19,17 @@ end
 
 def generate_resource_erb(resource)
   template = File.join("templates", "resource.erb.erb")
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def generate_resource_rb(resource)
   template = File.expand_path(File.join("templates", "resource.rb.erb"))
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def generate_resource_spec_rb(resource)
   template = File.join("templates", "resource_spec.rb.erb")
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def humanize(string)
@@ -43,10 +43,8 @@ def humanize(string)
     .join(" ")
 end
 
-
-
 if ARGV.length != 1
-  $stderr.puts USAGE
+  warn USAGE
   exit 1
 end
 
@@ -64,34 +62,34 @@ puts "==> Generate #{resource}.erb"
 resource_erb = generate_resource_erb(resource)
 File.open(File.join("lib", "terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_erb) }
 
-puts <<-EOS
+puts <<-DOCS
 
-Add below code by hand.
+  Add below code by hand.
 
-lib/terraforming.rb:
+  lib/terraforming.rb:
 
-    require "terraforming/resource/#{resource}"
+      require "terraforming/resource/#{resource}"
 
-lib/terraforming/cli.rb:
+  lib/terraforming/cli.rb:
 
-    module Terraforming
-      class CLI < Thor
+      module Terraforming
+	class CLI < Thor
 
-        # Subcommand name should be acronym.
-        desc "#{resource}", "#{humanize(resource)}"
-        def #{resource}
-          execute(Terraforming::Resource::#{camelize(resource)}, options)
-        end
+	  # Subcommand name should be acronym.
+	  desc "#{resource}", "#{humanize(resource)}"
+	  def #{resource}
+	    execute(Terraforming::Resource::#{camelize(resource)}, options)
+	  end
 
-spec/lib/terraforming/cli_spec.rb:
+  spec/lib/terraforming/cli_spec.rb:
 
-    module Terraforming
-      describe CLI do
-        context "resources" do
-        describe "#{resource}" do
-          let(:klass)   { Terraforming::Resource::#{camelize(resource)} }
-          let(:command) { :#{resource} }
+      module Terraforming
+	describe CLI do
+	  context "resources" do
+	  describe "#{resource}" do
+	    let(:klass)   { Terraforming::Resource::#{camelize(resource)} }
+	    let(:command) { :#{resource} }
 
-          it_behaves_like "CLI examples"
-        end
-EOS
+	    it_behaves_like "CLI examples"
+	  end
+DOCS

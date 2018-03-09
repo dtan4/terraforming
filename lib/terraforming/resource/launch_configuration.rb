@@ -61,7 +61,7 @@ module Terraforming
 
       # Taken from http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html
       def root_block_device?(block_device)
-        %w(/dev/sda1 /dev/xvda).include? block_device.device_name
+        %w[/dev/sda1 /dev/xvda].include? block_device.device_name
       end
 
       def root_block_device_count(launch_configuration)

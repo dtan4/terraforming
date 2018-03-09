@@ -45,8 +45,8 @@ module Terraforming
 
         attr_stub_responses = []
 
-        %w(vpc-1234abcd vpc-5678efgh).each do |_vpc_id|
-          %i(enable_dns_hostnames enable_dns_support).each do |attr|
+        %w[vpc-1234abcd vpc-5678efgh].each do |_vpc_id|
+          %i[enable_dns_hostnames enable_dns_support].each do |attr|
             attr_stub_responses << { attr => { value: true }  }
           end
         end
@@ -56,7 +56,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_vpc" "hoge" {
     cidr_block           = "10.0.0.0/16"
     enable_dns_hostnames = true
@@ -79,7 +79,7 @@ resource "aws_vpc" "fuga" {
     }
 }
 
-        EOS
+        TFOUT
         end
       end
 

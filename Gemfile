@@ -10,7 +10,7 @@ group :development do
   if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.2.0")
     gem "listen", "~> 3.1.0"
   else
-    gem "listen", "< 3.1.0"
+    gem "listen", "< 3.1.0" # rubocop:disable Bundler/DuplicatedGem
   end
 
   gem "rubocop"

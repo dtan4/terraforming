@@ -65,7 +65,7 @@ module Terraforming
       end
 
       def add_checksummed_attributes(attributes, alarm)
-        %w(insufficient_data_actions alarm_actions ok_actions dimensions).each do |action|
+        %w[insufficient_data_actions alarm_actions ok_actions dimensions].each do |action|
           attribute = alarm.send(action.to_sym)
           attributes["#{action}.#"] = attribute.size.to_s
           attribute.each do |attr|

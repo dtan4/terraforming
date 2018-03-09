@@ -59,7 +59,7 @@ module Terraforming
 
       let(:hoge_delegation_set) do
         {
-          name_servers: %w(ns-1234.awsdns-12.co.uk ns-567.awsdns-34.net ns-8.awsdns-56.com ns-9012.awsdns-78.org)
+          name_servers: %w[ns-1234.awsdns-12.co.uk ns-567.awsdns-34.net ns-8.awsdns-56.com ns-9012.awsdns-78.org]
         }
       end
 
@@ -84,7 +84,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_route53_zone" "hoge-net-public" {
     name       = "hoge.net"
     comment    = ""
@@ -105,7 +105,7 @@ resource "aws_route53_zone" "fuga-net-private" {
     }
 }
 
-        EOS
+        TFOUT
         end
       end
 

@@ -1,7 +1,7 @@
 module Terraforming
   module Util
     def apply_template(client, erb)
-      ERB.new(open(template_path(erb)).read, nil, "-").result(binding)
+      ERB.new(File.open(template_path(erb)).read, nil, "-").result(binding)
     end
 
     def name_from_tag(resource, default_name)
@@ -14,7 +14,7 @@ module Terraforming
     end
 
     def template_path(template_name)
-      File.join(File.expand_path(File.dirname(__FILE__)), "template", template_name) << ".erb"
+      File.join(__dir__, "template", template_name) << ".erb"
     end
 
     def prettify_policy(document, breakline: false, unescape: false)

@@ -38,7 +38,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_sqs_queue" "test" {
     name                       = "test"
     visibility_timeout_seconds = 30
@@ -70,7 +70,7 @@ POLICY
 POLICY
 }
 
-        EOS
+        TFOUT
         end
       end
 

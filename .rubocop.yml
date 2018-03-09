@@ -1,6 +1,9 @@
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/BlockLength:
+  Enabled: false
+
 Metrics/ClassLength:
   Enabled: false
 
@@ -33,12 +36,13 @@ Style/HashSyntax:
   Exclude:
     - 'Rakefile'
 
-# TODO: check again
-Style/IndentArray:
+Layout/IndentArray:
   Enabled: false
 
-# TODO: check again
-Style/IndentHash:
+Layout/IndentHeredoc:
+  Enabled: false
+
+Layout/IndentHash:
   Enabled: false
 
 Style/LineEndConcatenation:
@@ -66,7 +70,10 @@ Style/StringLiterals:
 Style/SymbolProc:
   Enabled: false
 
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
   Enabled: false
 
 Style/UnneededPercentQ:

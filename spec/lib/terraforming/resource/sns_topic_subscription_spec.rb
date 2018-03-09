@@ -45,7 +45,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf for non-email subscriptions" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   topic_arn                       = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
   protocol                        = "sqs"
@@ -53,11 +53,11 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   raw_message_delivery            = "false"
 }
 
-        EOS
+        TFOUT
         end
         it "should generate commented tf for email subscriptions" do
           client.stub_responses(:get_subscription_attributes, attributes: attributes_email)
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 /*
 resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   topic_arn                       = "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
@@ -67,7 +67,7 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
 }
 */
 
-        EOS
+        TFOUT
         end
       end
 

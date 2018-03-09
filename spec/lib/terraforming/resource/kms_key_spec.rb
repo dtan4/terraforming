@@ -115,7 +115,7 @@ module Terraforming
 
       let(:hoge_policy) do
         {
-          policy: <<-EOS,
+          policy: <<-TFOUT,
 {
   "Version" : "2012-10-17",
   "Id" : "key-default-1",
@@ -129,13 +129,13 @@ module Terraforming
     "Resource" : "*"
   } ]
 }
-EOS
+TFOUT
         }
       end
 
       let(:fuga_policy) do
         {
-          policy: <<-EOS,
+          policy: <<-TFOUT,
 {
   "Version" : "2012-10-17",
   "Id" : "key-consolepolicy-2",
@@ -176,7 +176,7 @@ EOS
 
   } ]
 }
-EOS
+TFOUT
         }
       end
 
@@ -203,7 +203,7 @@ EOS
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_kms_key" "1234abcd-12ab-34cd-56ef-1234567890ab" {
     description             = "hoge"
     key_usage               = "ENCRYPT_DECRYPT"
@@ -277,7 +277,7 @@ resource "aws_kms_key" "abcd1234-ab12-cd34-ef56-abcdef123456" {
 POLICY
 }
 
-        EOS
+        TFOUT
         end
       end
 

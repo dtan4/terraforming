@@ -59,7 +59,7 @@ module Terraforming
 
         describe ".tf" do
           it "should generate tf" do
-            expect(described_class.tf(client: client)).to eq <<-EOS
+            expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
@@ -87,7 +87,7 @@ resource "aws_s3_bucket" "fuga" {
     acl    = "private"
 }
 
-        EOS
+        TFOUT
           end
         end
 
@@ -140,13 +140,13 @@ resource "aws_s3_bucket" "fuga" {
 
         describe ".tf" do
           it "should generate tf" do
-            expect(described_class.tf(client: client)).to eq <<-EOS
+            expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_s3_bucket" "piyo" {
     bucket = "piyo"
     acl    = "private"
 }
 
-        EOS
+        TFOUT
           end
         end
 
