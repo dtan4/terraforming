@@ -13,7 +13,5 @@ group :development do
     gem "listen", "< 3.1.0" # rubocop:disable Bundler/DuplicatedGem
   end
 
-  gem "rubocop"
-
   gem "terminal-notifier-guard"
 end
