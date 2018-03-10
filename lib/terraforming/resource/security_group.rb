@@ -1,19 +1,9 @@
+require_relative 'ec2_instance'
+
 module Terraforming
   module Resource
-    class SecurityGroup
+    class SecurityGroup < EC2Instance
       include Terraforming::Util
-
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
-      end
-
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
-      end
-
-      def initialize(client)
-        @client = client
-      end
 
       def tf
         apply_template(@client, "tf/security_group")
@@ -30,8 +20,8 @@ module Terraforming
           }
 
           attributes.merge!(tags_attributes_of(security_group))
-          attributes.merge!(attributes_of(security_group, "ingress"))
-          attributes.merge!(attributes_of(security_group, "egress"))
+          attributes.merge!(egress_attributes_of(security_group))
+          attributes.merge!(ingress_attributes_of(security_group))
 
           resources["aws_security_group.#{module_name_of(security_group)}"] = {
             "type" => "aws_security_group",
@@ -47,16 +37,23 @@ module Terraforming
 
       private
 
-      def attributes_of(security_group, direction)
-        if direction == "egress"
-          attrs = dedup_permissions(security_group.ip_permissions_egress, security_group.group_id)
-        elsif direction == "ingress"
-          attrs = dedup_permissions(security_group.ip_permissions, security_group.group_id)
-        end
-        attributes = { "#{direction}.#" => attrs.length.to_s }
+      def ingress_attributes_of(security_group)
+        ingresses = dedup_permissions(security_group.ip_permissions, security_group.group_id)
+        attributes = { "ingress.#" => ingresses.length.to_s }
 
-        attrs.each do |permission|
-          attributes.merge!(permission_attributes_of(security_group, permission, direction))
+        ingresses.each do |permission|
+          attributes.merge!(permission_attributes_of(security_group, permission, "ingress"))
+        end
+
+        attributes
+      end
+
+      def egress_attributes_of(security_group)
+        egresses = dedup_permissions(security_group.ip_permissions_egress, security_group.group_id)
+        attributes = { "egress.#" => egresses.length.to_s }
+
+        egresses.each do |permission|
+          attributes.merge!(permission_attributes_of(security_group, permission, "egress"))
         end
 
         attributes

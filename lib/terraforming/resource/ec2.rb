@@ -1,19 +1,9 @@
+require_relative 'ec2_instance'
+
 module Terraforming
   module Resource
-    class EC2
+    class EC2 < EC2Instance
       include Terraforming::Util
-
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
-      end
-
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
-      end
-
-      def initialize(client)
-        @client = client
-      end
 
       def tf
         apply_template(@client, "tf/ec2")
@@ -101,7 +91,7 @@ module Terraforming
       end
 
       def monitoring_state(instance)
-        %w(enabled pending).include?(instance.monitoring.state)
+        %w[enabled pending].include?(instance.monitoring.state)
       end
 
       def instances

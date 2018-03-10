@@ -1,19 +1,9 @@
+require_relative 'iam'
+
 module Terraforming
   module Resource
-    class IAMPolicy
+    class IAMPolicy < IAM
       include Terraforming::Util
-
-      def self.tf(client: Aws::IAM::Client.new)
-        self.new(client).tf
-      end
-
-      def self.tfstate(client: Aws::IAM::Client.new)
-        self.new(client).tfstate
-      end
-
-      def initialize(client)
-        @client = client
-      end
 
       def tf
         apply_template(@client, "tf/iam_policy")

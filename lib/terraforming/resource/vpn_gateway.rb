@@ -1,19 +1,9 @@
+require_relative 'ec2_instance'
+
 module Terraforming
   module Resource
-    class VPNGateway
+    class VPNGateway < EC2Instance
       include Terraforming::Util
-
-      def self.tf(client: Aws::EC2::Client.new)
-        self.new(client).tf
-      end
-
-      def self.tfstate(client: Aws::EC2::Client.new)
-        self.new(client).tfstate
-      end
-
-      def initialize(client)
-        @client = client
-      end
 
       def tf
         apply_template(@client, "tf/vpn_gateway")
