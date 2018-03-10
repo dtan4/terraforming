@@ -20,8 +20,8 @@ module Terraforming
           }
 
           attributes.merge!(tags_attributes_of(security_group))
-          attributes.merge!(egress_attributes_of(security_group))
-          attributes.merge!(ingress_attributes_of(security_group))
+          attributes.merge!(attributes_of(security_group, "ingress"))
+          attributes.merge!(attributes_of(security_group, "egress"))
 
           resources["aws_security_group.#{module_name_of(security_group)}"] = {
             "type" => "aws_security_group",
@@ -37,23 +37,16 @@ module Terraforming
 
       private
 
-      def ingress_attributes_of(security_group)
-        ingresses = dedup_permissions(security_group.ip_permissions, security_group.group_id)
-        attributes = { "ingress.#" => ingresses.length.to_s }
-
-        ingresses.each do |permission|
-          attributes.merge!(permission_attributes_of(security_group, permission, "ingress"))
+      def attributes_of(security_group, direction)
+        if direction == "egress"
+          attrs = dedup_permissions(security_group.ip_permissions_egress, security_group.group_id)
+        elsif direction == "ingress"
+          attrs = dedup_permissions(security_group.ip_permissions, security_group.group_id)
         end
+        attributes = { "#{direction}.#" => attrs.length.to_s }
 
-        attributes
-      end
-
-      def egress_attributes_of(security_group)
-        egresses = dedup_permissions(security_group.ip_permissions_egress, security_group.group_id)
-        attributes = { "egress.#" => egresses.length.to_s }
-
-        egresses.each do |permission|
-          attributes.merge!(permission_attributes_of(security_group, permission, "egress"))
+        attrs.each do |permission|
+          attributes.merge!(permission_attributes_of(security_group, permission, direction))
         end
 
         attributes
