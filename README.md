@@ -31,7 +31,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 
 ## Installation
 
-If in Mac, you can do the following:
+If you are using a Mac with Homebrew or Linux with [Linuxbrew](http://linuxbrew.sh/) , you can do the following:
 ```
 brew install terraforming
 ```
