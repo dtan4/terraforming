@@ -44,6 +44,8 @@ module Terraforming
 
       def bucket_location_of(bucket)
         @client.get_bucket_location(bucket: bucket.name).location_constraint
+      rescue Aws::S3::Errors::AccessDenied
+        nil
       end
 
       def bucket_policy_of(bucket)
