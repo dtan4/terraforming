@@ -178,7 +178,17 @@ module Terraforming
       end
 
       before do
-        client.stub_responses(:describe_security_groups, security_groups: security_groups)
+        client.stub_responses(:describe_security_groups, -> (context) {
+          group_ids = context.params[:group_ids]
+          groups = if group_ids
+                     security_groups.select { |sg|
+                       group_ids.include? sg[:group_id]
+                     }
+                   else
+                     security_groups
+                   end
+          { security_groups: groups }
+        })
       end
 
       describe ".tf" do
@@ -281,6 +291,36 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
 }
 
         EOS
+        end
+
+        context "with --group-ids" do
+          it "should generate partial tf" do
+            expect(described_class.tf({:client => client, "group-ids" => %w| sg-1234abcd |})).to eq <<-EOS
+resource "aws_security_group" "hoge" {
+    name        = "hoge"
+    description = "Group for hoge"
+    vpc_id      = ""
+
+    ingress {
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        cidr_blocks     = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        from_port       = 22
+        to_port         = 22
+        protocol        = "tcp"
+        security_groups = ["987654321012/piyo"]
+        self            = true
+    }
+
+
+}
+
+          EOS
+          end
         end
       end
 
@@ -404,6 +444,45 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
               }
             },
           })
+        end
+
+        context "with --group-ids" do
+          it "should generate partial tfstate" do
+            expect(described_class.tfstate({:client => client, "group-ids" => %w| sg-1234abcd |})).to eq({
+              "aws_security_group.hoge" => {
+                "type" => "aws_security_group",
+                "primary" => {
+                  "id" => "sg-1234abcd",
+                  "attributes" => {
+                      "description" => "Group for hoge",
+                      "id" => "sg-1234abcd",
+                      "name" => "hoge",
+                      "owner_id" => "012345678901",
+                      "vpc_id" => "",
+                      "tags.#" => "0",
+                      "egress.#" => "0",
+                      "ingress.#" => "2",
+                      "ingress.2541437006.from_port" => "22",
+                      "ingress.2541437006.to_port" => "22",
+                      "ingress.2541437006.protocol" => "tcp",
+                      "ingress.2541437006.cidr_blocks.#" => "1",
+                      "ingress.2541437006.prefix_list_ids.#" => "0",
+                      "ingress.2541437006.security_groups.#" => "0",
+                      "ingress.2541437006.self" => "false",
+                      "ingress.2541437006.cidr_blocks.0" => "0.0.0.0/0",
+                      "ingress.3232230010.from_port" => "22",
+                      "ingress.3232230010.to_port" => "22",
+                      "ingress.3232230010.protocol" => "tcp",
+                      "ingress.3232230010.cidr_blocks.#" => "0",
+                      "ingress.3232230010.prefix_list_ids.#" => "0",
+                      "ingress.3232230010.security_groups.#" => "1",
+                      "ingress.3232230010.self" => "true",
+                      "ingress.3232230010.security_groups.1889292513" => "987654321012/piyo",
+                  }
+                }
+              },
+            })
+          end
         end
       end
     end

@@ -300,6 +300,18 @@ module Terraforming
         let(:command) { :sg }
 
         it_behaves_like "CLI examples"
+
+        context "with --group-ids" do
+          it "should export partial tf" do
+            expect(klass).to receive(:tf).with({"group-ids" => %w| sg-1234abcd |})
+            described_class.new.invoke(command, [], {:"group-ids" => %w| sg-1234abcd |})
+          end
+
+          it "should export partial tfstate" do
+            expect(klass).to receive(:tfstate).with({"group-ids" => %w| sg-1234abcd |})
+            described_class.new.invoke(command, [], {:tfstate => true, :"group-ids" => %w| sg-1234abcd |})
+          end
+        end
       end
 
       describe "sqs" do
