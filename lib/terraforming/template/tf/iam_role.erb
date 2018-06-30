@@ -1,6 +1,7 @@
 <% iam_roles.each do |role| -%>
 resource "aws_iam_role" "<%= module_name_of(role) %>" {
     name               = "<%= role.role_name %>"
+    description        = "<%= role.description %>"
     path               = "<%= role.path %>"
     assume_role_policy = <<POLICY
 <%= prettify_policy(role.assume_role_policy_document, unescape: true) %>
