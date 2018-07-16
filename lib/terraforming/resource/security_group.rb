@@ -121,26 +121,32 @@ module Terraforming
             if a.user_id_group_pairs.any?
 
                 pairs = []
+                h = Hash.new
+
                 a.user_id_group_pairs.each { |r, i|
                     if r.description.nil?
                         r.description = ""
                     end
-                    if !r.description.empty?
-
-                        a1 = a.dup
-                        a1.ipv_6_ranges = []
-                        a1.prefix_list_ids = []
-                        a1.ip_ranges = []
-                        a1.user_id_group_pairs = [r]
-
-                        more.push a1
-
+                    if !h.has_key? r.description.to_s
+                       h[r.description] = [r]
                     else
-                        pairs.push r
+                       h[r.description].push r
                     end
                 }
-                a.user_id_group_pairs = pairs
-                if a.user_id_group_pairs.any? || a.ipv_6_ranges.any? || a.ip_ranges.any?
+                h.each_pair { |k, v|
+                    if k.to_s.empty?
+                        next
+                    end
+                    a1 = a.dup
+                    a1.ipv_6_ranges = []
+                    a1.prefix_list_ids = []
+                    a1.ip_ranges = []
+                    a1.user_id_group_pairs = v
+                    more.push a1
+                }
+
+                if h.has_key? ""
+                    a.user_id_group_pairs   = h[""]
                     more.push a
                 end
 
