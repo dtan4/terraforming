@@ -63,6 +63,9 @@ resource "aws_launch_configuration" "<%= module_name_of(launch_configuration) %>
 
     <%- end -%>
 <%- end -%>
+    lifecycle {
+            ignore_changes = ["name_prefix"]
+    }
 }
 
 <%- end -%>
