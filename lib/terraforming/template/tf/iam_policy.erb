@@ -3,7 +3,7 @@
 resource "aws_iam_policy" "<%= module_name_of(policy) %>" {
     name        = "<%= policy.policy_name %>"
     path        = "<%= policy.path %>"
-    description = "<%= iam_policy_description(policy) %>"
+    description = <%= iam_policy_description(policy).inspect %>
     policy      = <<POLICY
 <%= prettify_policy(version.document, unescape: true) %>
 POLICY
