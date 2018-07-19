@@ -48,11 +48,34 @@ module Terraforming
       end
 
       def keys
-        @client
-          .list_keys
-          .keys
+        allKeys = Array.new
+        flag = true
+        m = nil
+
+        while flag  do
+           res = @client
+                       .list_keys({
+                                    limit: 1000,
+                                    marker: m,
+                                  })
+
+           flag = res.truncated
+           m = res.next_marker
+           #res.keys.each {|key| puts module_name_of(key)}
+
+
+           allKeys = allKeys.concat(res.keys)
+           sleep(0.3)
+        end
+
+
+
+        allKeys
           .reject { |key| managed_master_key?(key) }
-          .map { |key| @client.describe_key(key_id: key.key_id) }
+          .map { |key|
+          sleep(0.2)
+          @client.describe_key(key_id: key.key_id)
+          }
           .map(&:key_metadata)
           .reject { |metadata| metadata.origin == "EXTERNAL" } # external origin key is not supoprted by Terraform
       end
