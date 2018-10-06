@@ -57,6 +57,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "cfd" do
+        let(:klass)   { Terraforming::Resource::CloudFrontDistribution }
+        let(:command) { :cfd }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "cwa" do
         let(:klass)   { Terraforming::Resource::CloudWatchAlarm }
         let(:command) { :cwa }
