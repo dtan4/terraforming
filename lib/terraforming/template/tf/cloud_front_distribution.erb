@@ -1,0 +1,55 @@
+<% distributions.each do |distribution| -%>
+resource "aws_cloudfront_distribution" "<%= distribution.id %>" {
+<%- if !distribution.aliases.items.empty? -%>
+  aliases = <%= distribution.aliases.items %>
+<%- end -%>
+<%- if !distribution.comment.empty? -%>
+  comment = "<%= distribution.comment %>"
+<%- end -%>
+  enabled = <%= distribution.enabled %>
+  <%- distribution.origins.items.each do |origin| -%>
+
+  origin {
+    domain_name = "<%= origin.domain_name %>"
+    origin_id   = "<%= origin.id %>"
+<%- if origin.s3_origin_config && !origin.s3_origin_config.origin_access_identity.empty? -%>
+    s3_origin_config {
+      origin_access_identity = "<%= origin.s3_origin_config.origin_access_identity %>"
+    }
+<%- end -%>
+  }
+  <%- end -%>
+  default_cache_behavior {
+    allowed_methods = <%= distribution.default_cache_behavior.allowed_methods.items %>
+    cached_methods = <%= distribution.default_cache_behavior.allowed_methods.cached_methods.items %>
+    compress = <%= distribution.default_cache_behavior.compress %>
+    forwarded_values {
+      cookies {
+        forward = "<%= distribution.default_cache_behavior.forwarded_values.cookies.forward %>"
+      }
+      query_string = <%= distribution.default_cache_behavior.forwarded_values.query_string %>
+    }
+    min_ttl = <%= distribution.default_cache_behavior.min_ttl %>
+    default_ttl = <%= distribution.default_cache_behavior.default_ttl %>
+    max_ttl = <%= distribution.default_cache_behavior.max_ttl %>
+    smooth_streaming = <%= distribution.default_cache_behavior.smooth_streaming %>
+    target_origin_id = "<%= distribution.default_cache_behavior.target_origin_id %>"
+    viewer_protocol_policy = "<%= distribution.default_cache_behavior.viewer_protocol_policy %>"
+  }
+
+  viewer_certificate {
+    acm_certificate_arn = "<%= distribution.viewer_certificate.acm_certificate_arn %>"
+<%- if distribution.viewer_certificate.cloud_front_default_certificate -%>
+    cloudfront_default_certificate = <%= distribution.viewer_certificate.cloud_front_default_certificate %>
+<%- end -%>
+    minimum_protocol_version = "<%= distribution.viewer_certificate.minimum_protocol_version %>"
+    ssl_support_method = "<%= distribution.viewer_certificate.ssl_support_method %>"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "<%= distribution.restrictions.geo_restriction.restriction_type %>"
+    }
+  }
+}
+<%- end -%>

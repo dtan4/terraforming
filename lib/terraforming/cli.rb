@@ -20,6 +20,11 @@ module Terraforming
       execute(Terraforming::Resource::AutoScalingGroup, options)
     end
 
+    desc "cfd", "CloudFront Distribution"
+    def cfd
+      execute(Terraforming::Resource::CloudFrontDistribution, options)
+    end
+
     desc "cwa", "CloudWatch Alarm"
     def cwa
       execute(Terraforming::Resource::CloudWatchAlarm, options)
