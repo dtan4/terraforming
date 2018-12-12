@@ -92,6 +92,7 @@ module Terraforming
           "#{type}.#{hashcode}.to_port" => (permission.to_port || 0).to_s,
           "#{type}.#{hashcode}.protocol" => permission.ip_protocol,
           "#{type}.#{hashcode}.cidr_blocks.#" => permission.ip_ranges.length.to_s,
+          "#{type}.#{hashcode}.ipv6_cidr_blocks.#" => permission.ipv_6_ranges.length.to_s,
           "#{type}.#{hashcode}.prefix_list_ids.#" => permission.prefix_list_ids.length.to_s,
           "#{type}.#{hashcode}.security_groups.#" => security_groups.length.to_s,
           "#{type}.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
@@ -99,6 +100,10 @@ module Terraforming
 
         permission.ip_ranges.each_with_index do |range, index|
           attributes["#{type}.#{hashcode}.cidr_blocks.#{index}"] = range.cidr_ip
+        end
+
+        permission.ipv_6_ranges.each_with_index do |range, index|
+          attributes["#{type}.#{hashcode}.ipv6_cidr_blocks.#{index}"] = range.cidr_ipv_6
         end
 
         permission.prefix_list_ids.each_with_index do |prefix_list, index|
@@ -136,6 +141,7 @@ module Terraforming
         permissions.each do |permission|
           master_permission.user_id_group_pairs.concat(permission.user_id_group_pairs)
           master_permission.ip_ranges.concat(permission.ip_ranges)
+          master_permission.ipv_6_ranges.concat(permission.ipv_6_ranges)
         end
 
         master_permission
@@ -149,6 +155,7 @@ module Terraforming
           "#{self_referenced_permission?(security_group, permission)}-"
 
         permission.ip_ranges.each { |range| string << "#{range.cidr_ip}-" }
+        permission.ipv_6_ranges.each { |range| string << "#{range.cidr_ipv_6}-" }
         security_groups_in(permission, security_group).each { |group| string << "#{group}-" }
 
         Zlib.crc32(string)
