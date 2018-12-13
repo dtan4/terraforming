@@ -14,7 +14,7 @@ resource "aws_dynamodb_table" "<%= table.table_name -%>" {
 <%- end -%>
 <%- if ttl_values(table) -%>
     ttl {
-        attribute_name = <%= ttl_values(table).attribute_name -%>
+        attribute_name = <%= ttl_values(table).attribute_name.inspect %>
         enabled = true
     }
 <%- end -%>
