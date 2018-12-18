@@ -133,7 +133,7 @@ module Terraforming
           hashcode = global_index_hashcode(global_sec_index)
           attributes = {"global_secondary_index.#{hashcode}.non_key_attributes.#" => global_sec_index["projection"]["non_key_attributes"].length.to_s}
           (0..global_sec_index["projection"]["non_key_attributes"].length.to_i-1).each do |index|
-            attributes.merge!({"global_secondary_index.#{hashcode}.non_key_attributes.#{index}" => attributes[index]})
+            attributes.merge!({"global_secondary_index.#{hashcode}.non_key_attributes.#{index}" => global_sec_index["projection"]["non_key_attributes"][index]})
           end
         end
         attributes
@@ -173,7 +173,7 @@ module Terraforming
           hashcode = local_index_hashcode(local_sec_index)
           attributes = {"local_secondary_index.#{hashcode}.non_key_attributes.#" => local_sec_index["projection"]["non_key_attributes"].length.to_s}
           (0..local_sec_index["projection"]["non_key_attributes"].length.to_i-1).each do |index|
-            attributes.merge!({"local_secondary_index.#{hashcode}.non_key_attributes.#{index}" => attributes[index]})
+            attributes.merge!({"local_secondary_index.#{hashcode}.non_key_attributes.#{index}" => local_sec_index["projection"]["non_key_attributes"][index]})
           end
         end
         attributes
@@ -189,9 +189,6 @@ module Terraforming
           attributes = {"key_schema.#"  => dynamo_db_table["key_schema"].length.to_s}
           if !find_key(dynamo_db_table,"HASH").empty? 
             attributes.merge!({"hash_key" => find_key(dynamo_db_table,"HASH")})
-          end
-          if !find_key(dynamo_db_table,"RANGE").empty?
-            attributes.merge!({"range_key" => find_key(dynamo_db_table,"RANGE")})
           end
         end
         attributes
@@ -213,11 +210,11 @@ module Terraforming
         attributes = {}
         if dynamo_db_table.sse_description
           if dynamo_db_table.sse_description.status == "ENABLED"
-            attributes = {"server_side_encryption.#" => 1}
+            attributes = {"server_side_encryption.#" => 1.to_s}
             attributes.merge!({"server_side_encryption.0.enabled" => true.to_s})
-          else
-            attributes = {"server_side_encryption.#" => 0}
           end
+        else
+          attributes.merge!({"server_side_encryption.#" => 0.to_s})
         end
         attributes
       end
@@ -232,11 +229,11 @@ module Terraforming
 
       def ttl_of(dynamo_db_table)
         attributes = {}
-        if ttl_values(dynamo_db_table)
-          ttl = ttl_values(dynamo_db_table)
-          hashcode = ttl_hashcode(ttl.attribute_name)
-          attributes = {"ttl.#" => 1.to_s} if 
-          attributes["ttl.#{hashcode}.attribute_name"] = ttl.attribute_name
+        ttl = ttl_values(dynamo_db_table)
+        if !ttl.empty?
+          hashcode = ttl_hashcode(ttl.first)
+          attributes = {"ttl.#" => 1.to_s} 
+          attributes["ttl.#{hashcode}.attribute_name"] = ttl.first
           attributes["ttl.#{hashcode}.enabled"] = true.to_s
         end
         return attributes
@@ -248,8 +245,8 @@ module Terraforming
 
       def tags_of(dynamo_db_table)
         attributes = {}
-        if tags(dynamo_db_table)
-          tags = tags(dynamo_db_table)
+        tags = tags(dynamo_db_table)
+        if !tags.empty?
           attributes = { "tags.%" => tags.length.to_s }
           tags.each do |tag|
             attributes["tags.#{tag.key}"] = tag.value
@@ -267,14 +264,14 @@ module Terraforming
           table_name: dynamo_db_table.table_name
         }).time_to_live_description
         if ttl.time_to_live_status == "ENABLED"
-          return ttl
-        else
-          return nil
+          return [ttl.attribute_name]
+        else 
+          return []
         end
       end
 
       def tags(dynamo_db_table)
-         return tags  if !@client.list_tags_of_resource({resource_arn: dynamo_db_table.table_arn}).tags.empty?
+        resp = @client.list_tags_of_resource({resource_arn: dynamo_db_table.table_arn}).tags
       end
 
       def module_name_of(dynamo_db_table)
