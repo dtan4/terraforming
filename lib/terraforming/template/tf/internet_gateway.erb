@@ -3,7 +3,7 @@
 resource "aws_internet_gateway" "<%= module_name_of(internet_gateway) %>" {
     vpc_id = "<%= internet_gateway.attachments[0].vpc_id %>"
 
-    tags {
+    tags = {
 <% internet_gateway.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
