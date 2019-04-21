@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "aws-sdk-autoscaling", "~> 1"
   spec.add_dependency "aws-sdk-cloudwatch", "~> 1"
+  spec.add_dependency "aws-sdk-dynamodb", "~> 1.18"
   spec.add_dependency "aws-sdk-ec2", "~> 1"
   spec.add_dependency "aws-sdk-efs", "~> 1", ">= 1.13.0"
   spec.add_dependency "aws-sdk-elasticache", "~> 1"

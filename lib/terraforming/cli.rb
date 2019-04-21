@@ -40,6 +40,11 @@ module Terraforming
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
+    desc "ddb", "Dynamo DB"
+    def ddb
+      execute(Terraforming::Resource::DynamoDb, options)
+    end
+
     desc "ec2", "EC2"
     def ec2
       execute(Terraforming::Resource::EC2, options)
