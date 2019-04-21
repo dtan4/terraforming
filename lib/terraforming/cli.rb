@@ -42,7 +42,7 @@ module Terraforming
 
     desc "ddb", "DynamoDB"
     def ddb
-      execute(Terraforming::Resource::DynamoDb, options)
+      execute(Terraforming::Resource::DynamoDB, options)
     end
 
     desc "ec2", "EC2"

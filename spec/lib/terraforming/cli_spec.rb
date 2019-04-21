@@ -86,7 +86,7 @@ module Terraforming
       end
 
       describe "ddb" do
-        let(:klass)   { Terraforming::Resource::DynamoDb }
+        let(:klass)   { Terraforming::Resource::DynamoDB }
         let(:command) { :ddb }
 
         it_behaves_like "CLI examples"
