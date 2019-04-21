@@ -1,8 +1,9 @@
 language: ruby
 rvm:
-- 2.5.1
-- 2.4.4
-- 2.3.7
+  # https://www.ruby-lang.org/en/downloads/branches/
+  - 2.6.x
+  - 2.5.x
+  - 2.4.x
 env:
   global:
     - secure: n0mxwnyjuXI4mJO4mp++2TnsPJ+XgCF/J1U2L5piE5j3xMhSU+5V0JrA1uFlS0Pemb44M7BjgmF9S4G35BwyAQpctpCYhqy9tFa6+Y6nxEv5hCv2cZz7BSAZM6eb+zq20409hxTHRaQOr1DBeE4R5S2PrmOXRqvYfTRv3LNSLFk=
