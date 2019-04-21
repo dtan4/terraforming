@@ -2,7 +2,7 @@ require "spec_helper"
 
 module Terraforming
   module Resource
-    describe DynamoDb do
+    describe DynamoDB do
       let(:client) do
         Aws::DynamoDB::Client.new(stub_responses: true)
       end

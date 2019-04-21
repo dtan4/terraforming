@@ -1,6 +1,6 @@
 module Terraforming
   module Resource
-    class DynamoDb
+    class DynamoDB
       include Terraforming::Util
       def self.tf(client: Aws::DynamoDB::Client.new)
         self.new(client).tf
