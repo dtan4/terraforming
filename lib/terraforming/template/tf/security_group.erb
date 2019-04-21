@@ -16,6 +16,9 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 <%- if permission.ip_ranges.length > 0 -%>
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
 <%- end -%>
+<%- if permission.ipv_6_ranges.length > 0 -%>
+        ipv6_cidr_blocks     = <%= permission.ipv_6_ranges.map { |range| range.cidr_ipv_6 }.inspect %>
+<%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
   <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
         security_groups = <%= security_groups.inspect %>
@@ -35,6 +38,9 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 <%- end -%>
 <%- if permission.ip_ranges.length > 0 -%>
         cidr_blocks     = <%= permission.ip_ranges.map { |range| range.cidr_ip }.inspect %>
+<%- end -%>
+<%- if permission.ipv_6_ranges.length > 0 -%>
+        ipv6_cidr_blocks     = <%= permission.ipv_6_ranges.map { |range| range.cidr_ipv_6 }.inspect %>
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
   <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
