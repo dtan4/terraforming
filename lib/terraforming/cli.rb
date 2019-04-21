@@ -40,7 +40,7 @@ module Terraforming
       execute(Terraforming::Resource::DBSubnetGroup, options)
     end
 
-    desc "ddb", "Dynamo DB"
+    desc "ddb", "DynamoDB"
     def ddb
       execute(Terraforming::Resource::DynamoDb, options)
     end
