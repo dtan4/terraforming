@@ -1,3 +1,11 @@
+# [v0.17.0](https://github.com/dtan4/terraforming/releases/tag/v0.17.0) (2019-04-21)
+
+## Fixed / Updated
+
+- Support Ruby from 2.3 to 2.6
+- Support the latest EFS client [#453](https://github.com/dtan4/terraforming/pull/453)
+- Fix cross-account security group reference [#389](https://github.com/dtan4/terraforming/pull/389) (thanks @seren)
+
 # [v0.16.0](https://github.com/dtan4/terraforming/releases/tag/v0.16.0) (2017-10-23)
 
 - Declare supported Terraform version: v0.9.3 or higher

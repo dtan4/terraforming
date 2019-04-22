@@ -16,7 +16,7 @@ module Terraforming
       end
 
       def tf
-        apply_template(@client, "tf/elastic_filesystem")
+        apply_template(@client, "tf/elastic_file_system")
       end
 
       def tfstate

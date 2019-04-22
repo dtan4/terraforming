@@ -18,6 +18,7 @@ module Terraforming
           owner_id: "999999999999",
           performance_mode: "generalPurpose",
           size_in_bytes: { value: 6144 },
+          tags: [],
         }
       end
 
@@ -32,6 +33,7 @@ module Terraforming
           owner_id: "999999999999",
           performance_mode: "generalPurpose",
           size_in_bytes: { value: 23481234 },
+          tags: [],
         }
       end
 
