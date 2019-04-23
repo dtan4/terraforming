@@ -2,13 +2,13 @@
 
 require "erb"
 
-USAGE = <<-EOS
+USAGE = <<-USAGE
 Usage: script/generate RESOURCE
 RESOURCE must be snake_case
 
 Example:
   script/generate EC2
-EOS
+USAGE
 
 def camelize(string)
   string
@@ -19,17 +19,17 @@ end
 
 def generate_resource_erb(resource)
   template = File.join("templates", "resource.erb.erb")
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def generate_resource_rb(resource)
   template = File.expand_path(File.join("templates", "resource.rb.erb"))
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def generate_resource_spec_rb(resource)
   template = File.join("templates", "resource_spec.rb.erb")
-  ERB.new(open(template).read, nil, "-").result(binding)
+  ERB.new(File.open(template).read, nil, "-").result(binding)
 end
 
 def humanize(string)
@@ -62,7 +62,7 @@ puts "==> Generate #{resource}.erb"
 resource_erb = generate_resource_erb(resource)
 File.open(File.join("lib", "terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_erb) }
 
-puts <<-EOS
+puts <<-INFO
 
 Add below code by hand.
 
@@ -92,4 +92,4 @@ spec/lib/terraforming/cli_spec.rb:
 
           it_behaves_like "CLI examples"
         end
-EOS
+INFO

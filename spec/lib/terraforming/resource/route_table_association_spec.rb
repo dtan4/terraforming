@@ -96,8 +96,7 @@ module Terraforming
                 state: 'active'
               }
             ],
-            associations: [
-            ],
+            associations: [],
             tags: [
               {
                 key: 'Name',

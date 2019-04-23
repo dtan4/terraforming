@@ -69,9 +69,9 @@ module Terraforming
       end
 
       def load_balancer_attributes_of(load_balancer)
-        @client.describe_load_balancer_attributes(load_balancer_arn: load_balancer.load_balancer_arn).attributes.inject({}) do |result, attribute|
-          result[attribute.key] = attribute.value
-          result
+        @client.describe_load_balancer_attributes(load_balancer_arn: load_balancer.load_balancer_arn).attributes.inject({}) do |res, attr|
+          res[attr.key] = attr.value
+          res
         end
       end
 

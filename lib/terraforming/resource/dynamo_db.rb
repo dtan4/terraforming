@@ -85,7 +85,7 @@ module Terraforming
       end
 
       def attribute_hashcode(attr_defn)
-        hashcode = Zlib.crc32(attr_defn.attribute_name + "-")
+        Zlib.crc32(attr_defn.attribute_name + "-")
       end
 
       def global_indexes(dynamo_db_table)
@@ -100,7 +100,7 @@ module Terraforming
       end
 
       def global_secondary_indexes_of(global_sec_index)
-        attributes = global_indexes_of(global_sec_index).merge!(global_index_non_key_attributes(global_sec_index))
+        global_indexes_of(global_sec_index).merge!(global_index_non_key_attributes(global_sec_index))
       end
 
       def global_indexes_of(global_sec_index)
@@ -118,11 +118,9 @@ module Terraforming
 
       def find_key(index, key_type)
         index["key_schema"].each do |schema|
-          if schema.key_type == key_type
-            return schema.attribute_name
-          else
-            return ""
-          end
+          return schema.attribute_name if schema.key_type == key_type
+
+          return ""
         end
       end
 
@@ -130,9 +128,11 @@ module Terraforming
         attributes = {}
         unless global_sec_index["projection"]["non_key_attributes"].nil?
           hashcode = global_index_hashcode(global_sec_index)
-          attributes = { "global_secondary_index.#{hashcode}.non_key_attributes.#" => global_sec_index["projection"]["non_key_attributes"].length.to_s }
+          key = "global_secondary_index.#{hashcode}.non_key_attributes.#"
+          attributes = { key => global_sec_index["projection"]["non_key_attributes"].length.to_s }
           (0..global_sec_index["projection"]["non_key_attributes"].length.to_i - 1).each do |index|
-            attributes.merge!({ "global_secondary_index.#{hashcode}.non_key_attributes.#{index}" => global_sec_index["projection"]["non_key_attributes"][index] })
+            global_key = "global_secondary_index.#{hashcode}.non_key_attributes.#{index}"
+            attributes.merge!({ global_key => global_sec_index["projection"]["non_key_attributes"][index] })
           end
         end
         attributes
@@ -156,7 +156,8 @@ module Terraforming
       def local_secondary_indexes_of(local_sec_index)
         attributes = {}
         hashcode = local_index_hashcode(local_sec_index)
-        attributes["local_secondary_index.#{hashcode}.range_key"] = find_key(local_sec_index, "RANGE") unless find_key(local_sec_index, "RANGE").empty?
+        key = "local_secondary_index.#{hashcode}.range_key"
+        attributes[key] = find_key(local_sec_index, "RANGE") unless find_key(local_sec_index, "RANGE").empty?
         attributes["local_secondary_index.#{hashcode}.name"] = local_sec_index.index_name
         attributes["local_secondary_index.#{hashcode}.projection_type"] = local_sec_index.projection.projection_type
         attributes.merge!(local_index_non_key_attributes(local_sec_index))
@@ -167,9 +168,11 @@ module Terraforming
         attributes = {}
         unless local_sec_index["projection"]["non_key_attributes"].nil?
           hashcode = local_index_hashcode(local_sec_index)
-          attributes = { "local_secondary_index.#{hashcode}.non_key_attributes.#" => local_sec_index["projection"]["non_key_attributes"].length.to_s }
+          key = "local_secondary_index.#{hashcode}.non_key_attributes.#"
+          attributes = { key => local_sec_index["projection"]["non_key_attributes"].length.to_s }
           (0..local_sec_index["projection"]["non_key_attributes"].length.to_i - 1).each do |index|
-            attributes.merge!({ "local_secondary_index.#{hashcode}.non_key_attributes.#{index}" => local_sec_index["projection"]["non_key_attributes"][index] })
+            local_key = "local_secondary_index.#{hashcode}.non_key_attributes.#{index}"
+            attributes.merge!({ local_key => local_sec_index["projection"]["non_key_attributes"][index] })
           end
         end
         attributes
@@ -196,7 +199,7 @@ module Terraforming
           attributes = { "point_in_time_recovery.#" => 1.to_s }
           attributes.merge!({ "point_in_time_recovery.0.enabled" => true.to_s })
         else
-          attributes = { "point_in_time_recovery.#" => 0.to_s }
+          { "point_in_time_recovery.#" => 0.to_s }
         end
       end
 
@@ -215,8 +218,8 @@ module Terraforming
 
       def stream_specification(dynamo_db_table)
         attributes = {}
-        if dynamo_db_table.stream_specification
-          attributes = { "stream_view_type" => dynamo_db_table.stream_specification.stream_view_type } if dynamo_db_table.stream_specification.stream_enabled
+        if dynamo_db_table.stream_specification && dynamo_db_table.stream_specification.stream_enabled
+          attributes = { "stream_view_type" => dynamo_db_table.stream_specification.stream_view_type }
         end
         attributes
       end
@@ -250,22 +253,20 @@ module Terraforming
       end
 
       def dynamo_db_tables
-        a = @client.list_tables.map(&:table_names).flatten
+        @client.list_tables.map(&:table_names).flatten
       end
 
       def ttl_values(dynamo_db_table)
         ttl = @client.describe_time_to_live({
           table_name: dynamo_db_table.table_name
         }).time_to_live_description
-        if ttl.time_to_live_status == "ENABLED"
-          return [ttl.attribute_name]
-        else
-          return []
-        end
+        return [ttl.attribute_name] if ttl.time_to_live_status == "ENABLED"
+
+        []
       end
 
       def tags(dynamo_db_table)
-        resp = @client.list_tags_of_resource({ resource_arn: dynamo_db_table.table_arn }).tags
+        @client.list_tags_of_resource({ resource_arn: dynamo_db_table.table_arn }).tags
       end
 
       def module_name_of(dynamo_db_table)

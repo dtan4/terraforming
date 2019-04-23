@@ -24,8 +24,7 @@ module Terraforming
               }
             ],
             requester_managed: false,
-            groups: [
-            ],
+            groups: [],
             private_dns_name: "ip-1-1-1-1.ap-northeast-1.compute.internal",
             availability_zone: "ap-northeast-1a",
             requester_id: "234567890123",

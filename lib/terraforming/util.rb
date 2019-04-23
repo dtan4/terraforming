@@ -1,7 +1,7 @@
 module Terraforming
   module Util
     def apply_template(client, erb)
-      ERB.new(open(template_path(erb)).read, nil, "-").result(binding)
+      ERB.new(File.open(template_path(erb)).read, nil, "-").result(binding)
     end
 
     def name_from_tag(resource, default_name)

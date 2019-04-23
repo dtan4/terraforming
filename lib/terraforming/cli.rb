@@ -250,7 +250,7 @@ module Terraforming
       result = options[:tfstate] ? tfstate(klass, options[:merge]) : tf(klass)
 
       if options[:tfstate] && options[:merge] && options[:overwrite]
-        open(options[:merge], "w+") do |f|
+        File.open(options[:merge], "w+") do |f|
           f.write(result)
           f.flush
         end
@@ -264,7 +264,7 @@ module Terraforming
     end
 
     def tfstate(klass, tfstate_path)
-      tfstate = tfstate_path ? MultiJson.load(open(tfstate_path).read) : tfstate_skeleton
+      tfstate = tfstate_path ? MultiJson.load(File.open(tfstate_path).read) : tfstate_skeleton
       tfstate["serial"] = tfstate["serial"] + 1
       tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
       MultiJson.encode(tfstate, pretty: true)

@@ -31,9 +31,7 @@ module Terraforming
             engine: "postgres",
             multi_az: false,
             latest_restorable_time: Time.parse("2015-01-01T00:00:00Z"),
-            db_security_groups: [
-
-            ],
+            db_security_groups: [],
             db_parameter_groups: [
               {
                 db_parameter_group_name: "default.postgres9.4",
@@ -64,9 +62,7 @@ module Terraforming
               db_subnet_group_description: "hogehoge",
               subnet_group_status: "Complete"
             },
-            read_replica_db_instance_identifiers: [
-
-            ],
+            read_replica_db_instance_identifiers: [],
             allocated_storage: 10,
             backup_retention_period: 1,
             db_name: "hogedb",

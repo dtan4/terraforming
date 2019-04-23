@@ -358,7 +358,7 @@ module Terraforming
         let(:command) { :s3 }
 
         let(:tf) do
-          <<-EOS
+          <<-STDOUT
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
@@ -369,7 +369,7 @@ resource "aws_s3_bucket" "fuga" {
     acl    = "private"
 }
 
-          EOS
+          STDOUT
         end
 
         let(:tfstate) do
@@ -530,13 +530,13 @@ resource "aws_s3_bucket" "fuga" {
         context "with --tfstate --merge TFSTATE --overwrite" do
           before do
             @tmp_tfstate = Tempfile.new("tfstate")
-            @tmp_tfstate.write(open(tfstate_fixture_path).read)
+            @tmp_tfstate.write(File.open(tfstate_fixture_path).read)
             @tmp_tfstate.flush
           end
 
           it "should overwrite passed tfstate" do
             described_class.new.invoke(command, [], { tfstate: true, merge: @tmp_tfstate.path, overwrite: true })
-            expect(open(@tmp_tfstate.path).read).to eq JSON.pretty_generate(merged_tfstate)
+            expect(File.open(@tmp_tfstate.path).read).to eq JSON.pretty_generate(merged_tfstate)
           end
 
           after do
