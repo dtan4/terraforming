@@ -114,7 +114,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_route_table_association" "my-route-table-rtbassoc-b123456cd" {
     route_table_id = "rtb-a12bcd34"
     subnet_id = "subnet-1234a567"
@@ -125,7 +125,7 @@ resource "aws_route_table_association" "my-route-table-rtbassoc-e789012fg" {
     subnet_id = "subnet-8901b123"
 }
 
-          EOS
+          TFOUT
         end
       end
 

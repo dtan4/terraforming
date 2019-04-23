@@ -93,7 +93,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_db_instance" "hogedb" {
     identifier                = "hogedb"
     allocated_storage         = 10
@@ -117,7 +117,7 @@ resource "aws_db_instance" "hogedb" {
     maintenance_window        = "mon:00:00-mon:00:30"
     final_snapshot_identifier = "hogedb-final"
 }
-          EOS
+          TFOUT
         end
       end
 

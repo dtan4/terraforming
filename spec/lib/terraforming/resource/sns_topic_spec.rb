@@ -34,7 +34,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_sns_topic" "topicOfFanciness" {
   name            = "topicOfFanciness"
   display_name    = "topicOfFancinessDisplayName"
@@ -88,7 +88,7 @@ POLICY
 POLICY
 }
 
-          EOS
+          TFOUT
         end
       end
 

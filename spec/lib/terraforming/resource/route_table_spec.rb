@@ -132,7 +132,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_route_table" "my-route-table" {
     vpc_id     = "vpc-ab123cde"
 
@@ -171,7 +171,7 @@ resource "aws_route_table" "my-route-table-2" {
     }
 }
 
-          EOS
+          TFOUT
         end
       end
 

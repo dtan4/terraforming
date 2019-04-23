@@ -33,7 +33,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_kms_alias" "hoge" {
     name          = "alias/hoge"
     target_key_id = "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -44,7 +44,7 @@ resource "aws_kms_alias" "fuga" {
     target_key_id = "abcd1234-ab12-cd34-ef56-abcdef123456"
 }
 
-          EOS
+          TFOUT
         end
       end
 

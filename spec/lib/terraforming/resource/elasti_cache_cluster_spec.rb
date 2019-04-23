@@ -137,7 +137,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_elasticache_cluster" "hoge" {
     cluster_id             = "hoge"
     engine                 = "memcached"
@@ -173,7 +173,7 @@ resource "aws_elasticache_cluster" "piyo" {
     notification_topic_arn = "arn:aws:sns:ap-northeast-1:123456789012:test"
 }
 
-          EOS
+          TFOUT
         end
       end
 

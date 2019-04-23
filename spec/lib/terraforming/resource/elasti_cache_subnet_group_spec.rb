@@ -40,7 +40,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_elasticache_subnet_group" "hoge" {
     name        = "hoge"
     description = "Group for hoge"
@@ -53,7 +53,7 @@ resource "aws_elasticache_subnet_group" "fuga" {
     subnet_ids  = ["subnet-5678efgh"]
 }
 
-          EOS
+          TFOUT
         end
       end
 

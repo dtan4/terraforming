@@ -48,7 +48,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_cloudwatch_metric_alarm" "Alarm-With-Dimensions" {
     alarm_name          = "Alarm With Dimensions"
     comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -78,7 +78,7 @@ resource "aws_cloudwatch_metric_alarm" "terraform-test-foobar5" {
     actions_enabled     = false
 }
 
-          EOS
+          TFOUT
         end
       end
 

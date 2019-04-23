@@ -105,7 +105,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_network_interface" "eni-1234abcd" {
     subnet_id         = "subnet-1234abcd"
     private_ips       = ["1.1.1.1"]
@@ -127,7 +127,7 @@ resource "aws_network_interface" "eni-2345efgh" {
     }
 }
 
-          EOS
+          TFOUT
         end
       end
 

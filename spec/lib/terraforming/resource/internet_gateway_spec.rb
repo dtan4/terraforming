@@ -39,7 +39,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_internet_gateway" "igw-1234abcd" {
     vpc_id = "vpc-1234abcd"
 
@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "test" {
     }
 }
 
-          EOS
+          TFOUT
         end
       end
 

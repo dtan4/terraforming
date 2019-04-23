@@ -98,7 +98,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_alb" "hoge" {
     idle_timeout    = 600
     internal        = false
@@ -132,7 +132,7 @@ resource "aws_alb" "fuga" {
     }
 }
 
-          EOS
+          TFOUT
         end
       end
 

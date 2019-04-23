@@ -84,7 +84,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_route53_zone" "hoge-net-public" {
     name       = "hoge.net"
     comment    = ""
@@ -105,7 +105,7 @@ resource "aws_route53_zone" "fuga-net-private" {
     }
 }
 
-          EOS
+          TFOUT
         end
       end
 

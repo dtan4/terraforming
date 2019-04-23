@@ -52,7 +52,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_eip" "eipalloc-87654321" {
     instance          = "i-12345678"
     vpc               = true
@@ -72,7 +72,7 @@ resource "aws_eip" "2-2-2-4" {
     vpc               = false
 }
 
-          EOS
+          TFOUT
         end
       end
 

@@ -43,7 +43,7 @@ module Terraforming
 
       describe ".tf" do
         it "should generate tf" do
-          expect(described_class.tf(client: client)).to eq <<-EOS
+          expect(described_class.tf(client: client)).to eq <<-TFOUT
 resource "aws_efs_file_system" "fs-0000abcd" {
     creation_token = "console-1234abcd-1234-abcd-a123-d34db33f0000"
     file_system_id = "fs-0000abcd"
@@ -60,7 +60,7 @@ resource "aws_efs_file_system" "fs-abcd1234" {
         Name = "efs_name_1"
     }
 }
-          EOS
+          TFOUT
         end
       end
 
