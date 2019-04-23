@@ -173,7 +173,7 @@ resource "aws_elasticache_cluster" "piyo" {
     notification_topic_arn = "arn:aws:sns:ap-northeast-1:123456789012:test"
 }
 
-        EOS
+          EOS
         end
       end
 

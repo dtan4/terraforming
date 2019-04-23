@@ -304,7 +304,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 
@@ -404,9 +404,9 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
             },
             "aws_security_group.vpc-1234abcd-piyo" => {
               "type" => "aws_security_group",
-              "primary"=>{
+              "primary" => {
                 "id" => "sg-9012ijkl",
-                "attributes"=>{
+                "attributes" => {
                   "description" => "Group for piyo",
                   "id" => "sg-9012ijkl",
                   "name" => "piyo",

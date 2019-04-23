@@ -103,7 +103,7 @@ resource "aws_iam_policy" "fuga_policy" {
 POLICY
 }
 
-        EOS
+          EOS
         end
       end
 

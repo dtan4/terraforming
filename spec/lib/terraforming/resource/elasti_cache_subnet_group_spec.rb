@@ -53,7 +53,7 @@ resource "aws_elasticache_subnet_group" "fuga" {
     subnet_ids  = ["subnet-5678efgh"]
 }
 
-        EOS
+          EOS
         end
       end
 

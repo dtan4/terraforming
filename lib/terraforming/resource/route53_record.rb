@@ -89,6 +89,7 @@ module Terraforming
         to_return.each do |r|
           module_name = module_name_of(r[:record], nil)
           next unless dups.include?(module_name)
+
           count[module_name] = count[module_name] ? count[module_name] + 1 : 0
           r[:counter] = count[module_name]
         end

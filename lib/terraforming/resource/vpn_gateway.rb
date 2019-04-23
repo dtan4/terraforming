@@ -24,7 +24,7 @@ module Terraforming
           next resources if vpn_gateway.vpc_attachments.empty?
 
           attributes = {
-            "id"     => vpn_gateway.vpn_gateway_id,
+            "id" => vpn_gateway.vpn_gateway_id,
             "vpc_id" => vpn_gateway.vpc_attachments[0].vpc_id,
             "availability_zone" => vpn_gateway.availability_zone,
             "tags.#" => vpn_gateway.tags.length.to_s,
@@ -32,7 +32,7 @@ module Terraforming
           resources["aws_vpn_gateway.#{module_name_of(vpn_gateway)}"] = {
             "type" => "aws_vpn_gateway",
             "primary" => {
-              "id"         => vpn_gateway.vpn_gateway_id,
+              "id" => vpn_gateway.vpn_gateway_id,
               "attributes" => attributes
             }
           }

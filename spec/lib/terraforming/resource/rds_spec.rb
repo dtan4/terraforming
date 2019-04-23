@@ -117,7 +117,7 @@ resource "aws_db_instance" "hogedb" {
     maintenance_window        = "mon:00:00-mon:00:30"
     final_snapshot_identifier = "hogedb-final"
 }
-        EOS
+          EOS
         end
       end
 

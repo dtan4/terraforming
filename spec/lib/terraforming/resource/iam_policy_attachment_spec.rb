@@ -89,7 +89,7 @@ resource "aws_iam_policy_attachment" "fuga-policy-attachment" {
     roles      = ["hoge_role", "fuga_role"]
 }
 
-        EOS
+          EOS
         end
       end
 

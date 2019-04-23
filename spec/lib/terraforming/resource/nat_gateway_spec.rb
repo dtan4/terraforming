@@ -49,7 +49,7 @@ resource "aws_nat_gateway" "nat-0c5b68b2c4d64ea12" {
     subnet_id = "subnet-cd564c9e"
 }
 
-        EOS
+          EOS
         end
       end
 

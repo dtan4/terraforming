@@ -111,7 +111,7 @@ resource "aws_redshift_cluster" "test" {
     encrypted                           = "true"
     skip_final_snapshot                 = "true"
 }
-        EOS
+          EOS
         end
       end
 
@@ -123,23 +123,23 @@ resource "aws_redshift_cluster" "test" {
               "primary" => {
                 "id" => "test",
                 "attributes" => {
-                  "cluster_identifier"                  => "test",
-                  "database_name"                       => "testdb",
-                  "cluster_type"                        => "multi-node",
-                  "node_type"                           => "dc1.large",
-                  "master_password"                     => "xxxxxxxx",
-                  "master_username"                     => "testuser",
-                  "availability_zone"                   => "ap-northeast-1c",
-                  "preferred_maintenance_window"        => "fri:15:00-fri:15:30",
-                  "cluster_parameter_group_name"        => "default.redshift-1.0",
+                  "cluster_identifier" => "test",
+                  "database_name" => "testdb",
+                  "cluster_type" => "multi-node",
+                  "node_type" => "dc1.large",
+                  "master_password" => "xxxxxxxx",
+                  "master_username" => "testuser",
+                  "availability_zone" => "ap-northeast-1c",
+                  "preferred_maintenance_window" => "fri:15:00-fri:15:30",
+                  "cluster_parameter_group_name" => "default.redshift-1.0",
                   "automated_snapshot_retention_period" => "1",
-                  "port"                                => "5439",
-                  "cluster_version"                     => "1.0",
-                  "allow_version_upgrade"               => "true",
-                  "number_of_nodes"                     => "2",
-                  "publicly_accessible"                 => "true",
-                  "encrypted"                           => "true",
-                  "skip_final_snapshot"                 => "true",
+                  "port" => "5439",
+                  "cluster_version" => "1.0",
+                  "allow_version_upgrade" => "true",
+                  "number_of_nodes" => "2",
+                  "publicly_accessible" => "true",
+                  "encrypted" => "true",
+                  "skip_final_snapshot" => "true",
                 }
               }
             },

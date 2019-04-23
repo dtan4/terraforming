@@ -34,7 +34,7 @@ module Terraforming
           resources["aws_nat_gateway.#{module_name_of(nat_gateway)}"] = {
             "type" => "aws_nat_gateway",
             "primary" => {
-              "id"         => nat_gateway.nat_gateway_id,
+              "id" => nat_gateway.nat_gateway_id,
               "attributes" => attributes
             }
           }

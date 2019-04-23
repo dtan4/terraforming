@@ -22,21 +22,21 @@ module Terraforming
       def tfstate
         queues.inject({}) do |resources, queue|
           attributes = {
-            "name"                       => module_name_of(queue),
-            "id"                         => queue["QueueUrl"],
-            "arn"                        => queue["QueueArn"],
+            "name" => module_name_of(queue),
+            "id" => queue["QueueUrl"],
+            "arn" => queue["QueueArn"],
             "visibility_timeout_seconds" => queue["VisibilityTimeout"],
-            "message_retention_seconds"  => queue["MessageRetentionPeriod"],
-            "max_message_size"           => queue["MaximumMessageSize"],
-            "delay_seconds"              => queue["DelaySeconds"],
-            "receive_wait_time_seconds"  => queue["ReceiveMessageWaitTimeSeconds"],
-            "policy"                     => queue.key?("Policy") ? queue["Policy"] : "",
-            "redrive_policy"             => queue.key?("RedrivePolicy") ? queue["RedrivePolicy"] : "",
+            "message_retention_seconds" => queue["MessageRetentionPeriod"],
+            "max_message_size" => queue["MaximumMessageSize"],
+            "delay_seconds" => queue["DelaySeconds"],
+            "receive_wait_time_seconds" => queue["ReceiveMessageWaitTimeSeconds"],
+            "policy" => queue.key?("Policy") ? queue["Policy"] : "",
+            "redrive_policy" => queue.key?("RedrivePolicy") ? queue["RedrivePolicy"] : "",
           }
           resources["aws_sqs_queue.#{module_name_of(queue)}"] = {
             "type" => "aws_sqs_queue",
             "primary" => {
-              "id"         => queue["QueueUrl"],
+              "id" => queue["QueueUrl"],
               "attributes" => attributes,
             }
           }

@@ -24,14 +24,14 @@ module Terraforming
           next resources if internet_gateway.attachments.empty?
 
           attributes = {
-            "id"     => internet_gateway.internet_gateway_id,
+            "id" => internet_gateway.internet_gateway_id,
             "vpc_id" => internet_gateway.attachments[0].vpc_id,
             "tags.#" => internet_gateway.tags.length.to_s,
           }
           resources["aws_internet_gateway.#{module_name_of(internet_gateway)}"] = {
             "type" => "aws_internet_gateway",
             "primary" => {
-              "id"         => internet_gateway.internet_gateway_id,
+              "id" => internet_gateway.internet_gateway_id,
               "attributes" => attributes
             }
           }

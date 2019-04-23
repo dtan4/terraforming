@@ -22,22 +22,22 @@ module Terraforming
       def tfstate
         clusters.inject({}) do |resources, cluster|
           attributes = {
-            "cluster_identifier"                  => cluster.cluster_identifier,
-            "cluster_type"                        => cluster.number_of_nodes == 1 ? "single-node" : "multi-node",
-            "node_type"                           => cluster.node_type,
-            "master_password"                     => "xxxxxxxx",
-            "master_username"                     => cluster.master_username,
-            "availability_zone"                   => cluster.availability_zone,
-            "preferred_maintenance_window"        => cluster.preferred_maintenance_window,
-            "cluster_parameter_group_name"        => cluster.cluster_parameter_groups[0].parameter_group_name,
+            "cluster_identifier" => cluster.cluster_identifier,
+            "cluster_type" => cluster.number_of_nodes == 1 ? "single-node" : "multi-node",
+            "node_type" => cluster.node_type,
+            "master_password" => "xxxxxxxx",
+            "master_username" => cluster.master_username,
+            "availability_zone" => cluster.availability_zone,
+            "preferred_maintenance_window" => cluster.preferred_maintenance_window,
+            "cluster_parameter_group_name" => cluster.cluster_parameter_groups[0].parameter_group_name,
             "automated_snapshot_retention_period" => cluster.automated_snapshot_retention_period.to_s,
-            "port"                                => cluster.endpoint.port.to_s,
-            "cluster_version"                     => cluster.cluster_version,
-            "allow_version_upgrade"               => cluster.allow_version_upgrade.to_s,
-            "number_of_nodes"                     => cluster.number_of_nodes.to_s,
-            "publicly_accessible"                 => cluster.publicly_accessible.to_s,
-            "encrypted"                           => cluster.encrypted.to_s,
-            "skip_final_snapshot"                 => "true",
+            "port" => cluster.endpoint.port.to_s,
+            "cluster_version" => cluster.cluster_version,
+            "allow_version_upgrade" => cluster.allow_version_upgrade.to_s,
+            "number_of_nodes" => cluster.number_of_nodes.to_s,
+            "publicly_accessible" => cluster.publicly_accessible.to_s,
+            "encrypted" => cluster.encrypted.to_s,
+            "skip_final_snapshot" => "true",
           }
           attributes["database_name"] = cluster.db_name if cluster.db_name
 

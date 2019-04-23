@@ -125,7 +125,7 @@ resource "aws_route_table_association" "my-route-table-rtbassoc-e789012fg" {
     subnet_id = "subnet-8901b123"
 }
 
-        EOS
+          EOS
         end
       end
 

@@ -87,7 +87,7 @@ resource "aws_s3_bucket" "fuga" {
     acl    = "private"
 }
 
-        EOS
+            EOS
           end
         end
 
@@ -146,7 +146,7 @@ resource "aws_s3_bucket" "piyo" {
     acl    = "private"
 }
 
-        EOS
+            EOS
           end
         end
 

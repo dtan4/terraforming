@@ -75,7 +75,7 @@ resource "aws_db_subnet_group" "fuga" {
     subnet_ids  = ["subnet-9012ijkl", "subnet-3456mnop"]
 }
 
-        EOS
+          EOS
         end
       end
 

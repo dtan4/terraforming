@@ -43,10 +43,8 @@ def humanize(string)
     .join(" ")
 end
 
-
-
 if ARGV.length != 1
-  $stderr.puts USAGE
+  warn USAGE
   exit 1
 end
 

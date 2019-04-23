@@ -75,7 +75,7 @@ resource "aws_iam_role" "fuga_role" {
 POLICY
 }
 
-        EOS
+          EOS
         end
       end
 

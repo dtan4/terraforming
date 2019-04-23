@@ -171,7 +171,7 @@ resource "aws_route_table" "my-route-table-2" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

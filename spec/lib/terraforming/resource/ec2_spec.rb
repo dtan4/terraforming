@@ -377,7 +377,7 @@ resource "aws_instance" "i-9012ijkl" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

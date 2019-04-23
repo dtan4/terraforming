@@ -132,7 +132,7 @@ resource "aws_alb" "fuga" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

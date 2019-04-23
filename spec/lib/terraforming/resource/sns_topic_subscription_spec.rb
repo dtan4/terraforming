@@ -16,25 +16,25 @@ module Terraforming
 
       let(:attributes_regular) do
         {
-          "Endpoint"                     => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
-          "Protocol"                     => "sqs",
-          "RawMessageDelivery"           => "false",
+          "Endpoint" => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
+          "Protocol" => "sqs",
+          "RawMessageDelivery" => "false",
           "ConfirmationWasAuthenticated" => "true",
-          "Owner"                        => "012345678901",
-          "SubscriptionArn"              => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
-          "TopicArn"                     => "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
+          "Owner" => "012345678901",
+          "SubscriptionArn" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
+          "TopicArn" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
         }
       end
 
       let(:attributes_email) do
         {
-          "Endpoint"                     => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
-          "Protocol"                     => "email-json",
-          "RawMessageDelivery"           => "false",
+          "Endpoint" => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
+          "Protocol" => "email-json",
+          "RawMessageDelivery" => "false",
           "ConfirmationWasAuthenticated" => "true",
-          "Owner"                        => "012345678901",
-          "SubscriptionArn"              => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
-          "TopicArn"                     => "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
+          "Owner" => "012345678901",
+          "SubscriptionArn" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
+          "TopicArn" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic"
         }
       end
 
@@ -53,7 +53,7 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
   raw_message_delivery            = "false"
 }
 
-        EOS
+          EOS
         end
         it "should generate commented tf for email subscriptions" do
           client.stub_responses(:get_subscription_attributes, attributes: attributes_email)
@@ -67,7 +67,7 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
 }
 */
 
-        EOS
+          EOS
         end
       end
 
@@ -79,13 +79,13 @@ resource "aws_sns_topic_subscription" "000ff1ce-dead-beef-f00d-ea7food5a1d1" {
               "primary" => {
                 "id" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
                 "attributes" => {
-                  "id"                              => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
-                  "topic_arn"                       => "arn:aws:sns:us-west-2:012345678901:a-cool-topic",
-                  "protocol"                        => "sqs",
-                  "endpoint"                        => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
-                  "raw_message_delivery"            => "false",
+                  "id" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic:000ff1ce-dead-beef-f00d-ea7food5a1d1",
+                  "topic_arn" => "arn:aws:sns:us-west-2:012345678901:a-cool-topic",
+                  "protocol" => "sqs",
+                  "endpoint" => "arn:aws:sqs:us-west-2:012345678901:a-cool-queue",
+                  "raw_message_delivery" => "false",
                   "confirmation_timeout_in_minutes" => "1",
-                  "endpoint_auto_confirms"          => "false"
+                  "endpoint_auto_confirms" => "false"
                 },
               },
             }

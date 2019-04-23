@@ -23,21 +23,21 @@ module Terraforming
         subscriptions.reject { |x| x["Protocol"].include?("email") }
                      .inject({}) do |resources, subscription|
           attributes = {
-            "id"                              => subscription["SubscriptionArn"],
-            "topic_arn"                       => subscription["TopicArn"],
-            "protocol"                        => subscription["Protocol"],
-            "endpoint"                        => subscription["Endpoint"],
-            "raw_message_delivery"            =>
+            "id" => subscription["SubscriptionArn"],
+            "topic_arn" => subscription["TopicArn"],
+            "protocol" => subscription["Protocol"],
+            "endpoint" => subscription["Endpoint"],
+            "raw_message_delivery" =>
               subscription.key?("RawMessageDelivery") ? subscription["RawMessageDelivery"] : "false",
             "confirmation_timeout_in_minutes" =>
               subscription.key?("ConfirmationTimeoutInMinutes") ? subscription["ConfirmationTimeoutInMinutes"] : "1",
-            "endpoint_auto_confirms"          =>
+            "endpoint_auto_confirms" =>
               subscription.key?("EndpointAutoConfirms") ? subscription["EndpointAutoConfirms"] : "false"
           }
           resources["aws_sns_topic_subscription.#{module_name_of(subscription)}"] = {
             "type" => "aws_sns_topic_subscription",
             "primary" => {
-              "id"         => subscription["SubscriptionArn"],
+              "id" => subscription["SubscriptionArn"],
               "attributes" => attributes
             }
           }

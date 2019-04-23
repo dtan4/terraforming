@@ -129,7 +129,7 @@ module Terraforming
     "Resource" : "*"
   } ]
 }
-EOS
+          EOS
         }
       end
 
@@ -176,7 +176,7 @@ EOS
 
   } ]
 }
-EOS
+          EOS
         }
       end
 
@@ -277,7 +277,7 @@ resource "aws_kms_key" "abcd1234-ab12-cd34-ef56-abcdef123456" {
 POLICY
 }
 
-        EOS
+          EOS
         end
       end
 

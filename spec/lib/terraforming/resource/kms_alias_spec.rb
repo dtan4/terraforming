@@ -44,7 +44,7 @@ resource "aws_kms_alias" "fuga" {
     target_key_id = "abcd1234-ab12-cd34-ef56-abcdef123456"
 }
 
-        EOS
+          EOS
         end
       end
 

@@ -51,7 +51,7 @@ resource "aws_iam_group" "fuga" {
     path = "/system/"
 }
 
-        EOS
+          EOS
         end
       end
 

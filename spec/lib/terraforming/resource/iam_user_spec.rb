@@ -45,7 +45,7 @@ resource "aws_iam_user" "fuga-piyo" {
     path = "/system/"
 }
 
-        EOS
+          EOS
         end
       end
 

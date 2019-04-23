@@ -67,7 +67,7 @@ resource "aws_subnet" "subnet-5678efgh-fuga" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

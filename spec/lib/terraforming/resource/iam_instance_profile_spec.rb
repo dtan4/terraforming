@@ -42,7 +42,7 @@ resource "aws_iam_instance_profile" "hoge_profile" {
     role = "hoge_role"
 }
 
-        EOS
+          EOS
         end
       end
 

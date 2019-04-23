@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "test" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 
@@ -67,7 +67,7 @@ resource "aws_internet_gateway" "test" {
               "primary" => {
                 "id" => "igw-1234abcd",
                 "attributes" => {
-                  "id"     => "igw-1234abcd",
+                  "id" => "igw-1234abcd",
                   "vpc_id" => "vpc-1234abcd",
                   "tags.#" => "0",
                 }
@@ -78,7 +78,7 @@ resource "aws_internet_gateway" "test" {
               "primary" => {
                 "id" => "igw-5678efgh",
                 "attributes" => {
-                  "id"     => "igw-5678efgh",
+                  "id" => "igw-5678efgh",
                   "vpc_id" => "vpc-5678efgh",
                   "tags.#" => "1",
                 }

@@ -183,7 +183,7 @@ resource "aws_network_acl" "fuga" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

@@ -219,7 +219,7 @@ resource "aws_route53_record" "failover-example-net-A-1" {
 
 }
 
-        EOS
+          EOS
         end
       end
 

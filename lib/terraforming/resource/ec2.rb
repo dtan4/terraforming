@@ -73,6 +73,7 @@ module Terraforming
 
       def block_devices_of(instance)
         return [] if instance.block_device_mappings.empty?
+
         @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten
       end
 
@@ -101,7 +102,7 @@ module Terraforming
       end
 
       def monitoring_state(instance)
-        %w(enabled pending).include?(instance.monitoring.state)
+        %w[enabled pending].include?(instance.monitoring.state)
       end
 
       def instances

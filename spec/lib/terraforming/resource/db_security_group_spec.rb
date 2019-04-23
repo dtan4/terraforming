@@ -92,7 +92,7 @@ resource "aws_db_security_group" "sgfoobar" {
 
 }
 
-        EOS
+          EOS
         end
       end
 

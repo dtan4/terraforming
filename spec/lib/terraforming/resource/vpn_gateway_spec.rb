@@ -57,7 +57,7 @@ resource "aws_vpn_gateway" "test" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 
@@ -69,7 +69,7 @@ resource "aws_vpn_gateway" "test" {
               "primary" => {
                 "id" => "vgw-1234abcd",
                 "attributes" => {
-                  "id"     => "vgw-1234abcd",
+                  "id" => "vgw-1234abcd",
                   "vpc_id" => "vpc-1234abcd",
                   "availability_zone" => "us-east-1c",
                   "tags.#" => "0",
@@ -81,7 +81,7 @@ resource "aws_vpn_gateway" "test" {
               "primary" => {
                 "id" => "vgw-5678efgh",
                 "attributes" => {
-                  "id"     => "vgw-5678efgh",
+                  "id" => "vgw-5678efgh",
                   "vpc_id" => "vpc-5678efgh",
                   "availability_zone" => "us-east-1d",
                   "tags.#" => "1",

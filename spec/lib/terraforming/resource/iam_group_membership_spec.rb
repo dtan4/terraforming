@@ -92,7 +92,7 @@ resource "aws_iam_group_membership" "fuga" {
     group = "fuga"
 }
 
-        EOS
+          EOS
         end
       end
 

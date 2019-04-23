@@ -127,7 +127,7 @@ resource "aws_network_interface" "eni-2345efgh" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 

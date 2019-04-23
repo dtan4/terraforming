@@ -203,7 +203,7 @@ resource "aws_autoscaling_group" "piyo" {
 
 }
 
-        EOS
+          EOS
         end
       end
 

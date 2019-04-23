@@ -247,7 +247,7 @@ resource "aws_elb" "fuga" {
     }
 }
 
-        EOS
+          EOS
         end
       end
 
