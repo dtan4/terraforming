@@ -159,6 +159,8 @@ resource "aws_autoscaling_group" "hoge" {
     min_size                  = 1
     name                      = "hoge"
 
+
+
     tag {
         key   = "foo1"
         value = "bar"
@@ -177,6 +179,8 @@ resource "aws_autoscaling_group" "fuga" {
     name                      = "fuga"
     vpc_zone_identifier       = ["subnet-1234abcd", "subnet-5678efgh"]
 
+
+
 }
 
 resource "aws_autoscaling_group" "piyo" {
@@ -188,6 +192,8 @@ resource "aws_autoscaling_group" "piyo" {
     min_size                  = 1
     name                      = "piyo"
     vpc_zone_identifier       = ["subnet-1234abcd", "subnet-5678efgh"]
+
+
 
     tag {
         key   = "foo1"
