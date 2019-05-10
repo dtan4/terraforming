@@ -6,6 +6,8 @@ module Terraforming
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
     class_option :assume, type: :string, desc: "Role ARN to assume"
+    class_option :mfa_serial, type: :string, desc: "Serial number of MFA device"
+    class_option :token_code, type: :string, desc: "Token code from MFA device"
     class_option :use_bundled_cert,
                  type: :boolean,
                  desc: "Use the bundled CA certificate from AWS SDK"
@@ -235,15 +237,17 @@ module Terraforming
     def configure_aws(options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
       Aws.config[:region] = options[:region] if options[:region]
-
       if options[:assume]
-        args = { role_arn: options[:assume], role_session_name: "terraforming-session-#{Time.now.to_i}" }
+        args = { role_arn: options[:assume], role_session_name: "terraforming-session-#{Time.now.to_i}"}
+        args[:serial_number] = options[:mfa_serial] if options[:mfa_serial]
+        args[:token_code] = options[:token_code] if options[:token_code]
         args[:client] = Aws::STS::Client.new(profile: options[:profile]) if options[:profile]
         Aws.config[:credentials] = Aws::AssumeRoleCredentials.new(args)
       end
 
       Aws.use_bundled_cert! if options[:use_bundled_cert]
     end
+
 
     def execute(klass, options)
       configure_aws(options)
