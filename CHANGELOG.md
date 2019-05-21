@@ -1,3 +1,30 @@
+# [v0.18.0](https://github.com/dtan4/terraforming/releases/tag/v0.18.0) (2019-05-11)
+
+## Resource
+
+- AWS DynamoDB table [#440](https://github.com/dtan4/terraforming/pull/440) (thanks @laxmiprasanna-gunna)
+
+## Fixed / Updated
+
+- Rename symbol of DynamoDB [#457](https://github.com/dtan4/terraforming/pull/457)
+- Add IPv6 support to AWS Security Group (`terraforming sg`) [#438](https://github.com/dtan4/terraforming/pull/438) (thanks @babbottscott)
+- Render notification_topic_arn when exporting ElastiCache clusters [#436](https://github.com/dtan4/terraforming/pull/436) (thanks @mozamimy)
+- Fix nil check of AWS IAM instance profiles (`terraforming iamip`) [#415](https://github.com/dtan4/terraforming/pull/415) (thanks @savankumargudaas)
+
+## Fixed / Updated
+
+- Support Ruby from 2.3 to 2.6
+- Support the latest EFS client [#453](https://github.com/dtan4/terraforming/pull/453)
+- Fix cross-account security group reference [#389](https://github.com/dtan4/terraforming/pull/389) (thanks @seren)
+
+# [v0.17.0](https://github.com/dtan4/terraforming/releases/tag/v0.17.0) (2019-04-21)
+
+## Fixed / Updated
+
+- Support Ruby from 2.3 to 2.6
+- Support the latest EFS client [#453](https://github.com/dtan4/terraforming/pull/453)
+- Fix cross-account security group reference [#389](https://github.com/dtan4/terraforming/pull/389) (thanks @seren)
+
 # [v0.16.0](https://github.com/dtan4/terraforming/releases/tag/v0.16.0) (2017-10-23)
 
 - Declare supported Terraform version: v0.9.3 or higher

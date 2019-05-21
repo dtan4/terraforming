@@ -1,11 +1,12 @@
 language: ruby
 rvm:
-- 2.5.1
-- 2.4.4
-- 2.3.7
+  # https://www.ruby-lang.org/en/downloads/branches/
+  - 2.6
+  - 2.5
+  - 2.4
+  # macOS system Ruby is Ruby 2.3
+  - 2.3
 env:
-  global:
-    - secure: n0mxwnyjuXI4mJO4mp++2TnsPJ+XgCF/J1U2L5piE5j3xMhSU+5V0JrA1uFlS0Pemb44M7BjgmF9S4G35BwyAQpctpCYhqy9tFa6+Y6nxEv5hCv2cZz7BSAZM6eb+zq20409hxTHRaQOr1DBeE4R5S2PrmOXRqvYfTRv3LNSLFk=
   matrix:
     - OJ=0
     - OJ=1
@@ -14,6 +15,3 @@ branches:
     - master
 before_script:
   - if [[ $OJ -eq 1 ]]; then gem install oj; fi
-notifications:
-  slack:
-    secure: iTI8zpxXQJqf5e9ix4buLRsGlf9lJRZqA9Fawdqm41msBrC0Zsp31XzBS7ZPiTcdHhImtOC4lccTCW2C8kR6waaG5VOF0U2BwyKaNFKsXMaVk6yrNhYkvJ9YVicuU9hL+JKLyBrSDYQ7+vXcHqaz4H4dYpPThrv6sfq4jBOp+eM=

@@ -87,6 +87,47 @@ module Terraforming
             auto_minor_version_upgrade: false,
             security_groups: [],
           },
+          {
+            cache_cluster_id: "piyo",
+            client_download_landing_page: "https://console.aws.amazon.com/elasticache/home#client-download:",
+            cache_node_type: "cache.t2.micro",
+            engine: "redis",
+            engine_version: "2.8.6",
+            cache_cluster_status: "available",
+            num_cache_nodes: 1,
+            preferred_availability_zone: "ap-northeast-1b",
+            cache_cluster_create_time: Time.parse("2014-06-25 12:34:56 UTC"),
+            preferred_maintenance_window: "fri:20:00-fri:21:00",
+            pending_modified_values: {},
+            cache_security_groups: [
+              { cache_security_group_name: "sg-hoge", status: "active" },
+            ],
+            cache_parameter_group: {
+              cache_parameter_group_name: "default.redis2.8",
+              parameter_apply_status: "in-sync",
+              cache_node_ids_to_reboot: []
+            },
+            cache_subnet_group_name: "subnet-fuga",
+            cache_nodes: [
+              {
+                cache_node_id: "0001",
+                cache_node_status: "available",
+                cache_node_create_time: Time.parse("2014-08-28 12:51:55 UTC"),
+                endpoint: {
+                  address: "fuga.def456.0001.apne1.cache.amazonaws.com",
+                  port: 6379
+                },
+                parameter_group_status: "in-sync",
+                customer_availability_zone: "ap-northeast-1b"
+              }
+            ],
+            auto_minor_version_upgrade: false,
+            security_groups: [],
+            notification_configuration: {
+              topic_arn: "arn:aws:sns:ap-northeast-1:123456789012:test",
+              topic_status: "active",
+            },
+          },
         ]
       end
 
@@ -98,26 +139,38 @@ module Terraforming
         it "should generate tf" do
           expect(described_class.tf(client: client)).to eq <<-EOS
 resource "aws_elasticache_cluster" "hoge" {
-    cluster_id           = "hoge"
-    engine               = "memcached"
-    engine_version       = "1.4.5"
-    node_type            = "cache.m1.small"
-    num_cache_nodes      = 1
-    parameter_group_name = "default.memcached1.4"
-    port                 = 11211
-    subnet_group_name    = "subnet-hoge"
-    security_group_ids   = ["sg-abcd1234"]
+    cluster_id             = "hoge"
+    engine                 = "memcached"
+    engine_version         = "1.4.5"
+    node_type              = "cache.m1.small"
+    num_cache_nodes        = 1
+    parameter_group_name   = "default.memcached1.4"
+    port                   = 11211
+    subnet_group_name      = "subnet-hoge"
+    security_group_ids     = ["sg-abcd1234"]
 }
 
 resource "aws_elasticache_cluster" "fuga" {
-    cluster_id           = "fuga"
-    engine               = "redis"
-    engine_version       = "2.8.6"
-    node_type            = "cache.t2.micro"
-    num_cache_nodes      = 1
-    parameter_group_name = "default.redis2.8"
-    port                 = 6379
-    security_group_names = ["sg-hoge"]
+    cluster_id             = "fuga"
+    engine                 = "redis"
+    engine_version         = "2.8.6"
+    node_type              = "cache.t2.micro"
+    num_cache_nodes        = 1
+    parameter_group_name   = "default.redis2.8"
+    port                   = 6379
+    security_group_names   = ["sg-hoge"]
+}
+
+resource "aws_elasticache_cluster" "piyo" {
+    cluster_id             = "piyo"
+    engine                 = "redis"
+    engine_version         = "2.8.6"
+    node_type              = "cache.t2.micro"
+    num_cache_nodes        = 1
+    parameter_group_name   = "default.redis2.8"
+    port                   = 6379
+    security_group_names   = ["sg-hoge"]
+    notification_topic_arn = "arn:aws:sns:ap-northeast-1:123456789012:test"
 }
 
         EOS
@@ -166,6 +219,28 @@ resource "aws_elasticache_cluster" "fuga" {
                   "subnet_group_name" => "subnet-fuga",
                   "tags.#" => "0",
                   "port" => "6379"
+                }
+              }
+            },
+            "aws_elasticache_cluster.piyo" => {
+              "type" => "aws_elasticache_cluster",
+              "primary" => {
+                "id" => "piyo",
+                "attributes" => {
+                  "cache_nodes.#" => "1",
+                  "cluster_id" => "piyo",
+                  "engine" => "redis",
+                  "engine_version" => "2.8.6",
+                  "id" => "piyo",
+                  "node_type" => "cache.t2.micro",
+                  "num_cache_nodes" => "1",
+                  "parameter_group_name" => "default.redis2.8",
+                  "security_group_ids.#" => "0",
+                  "security_group_names.#" => "1",
+                  "subnet_group_name" => "subnet-fuga",
+                  "tags.#" => "0",
+                  "port" => "6379",
+                  "notification_topic_arn" => "arn:aws:sns:ap-northeast-1:123456789012:test"
                 }
               }
             }
