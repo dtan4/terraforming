@@ -1,21 +1,24 @@
 <% cache_clusters.each do |cache_cluster| -%>
 resource "aws_elasticache_cluster" "<%= module_name_of(cache_cluster) %>" {
-    cluster_id           = "<%= cache_cluster.cache_cluster_id %>"
-    engine               = "<%= cache_cluster.engine %>"
-    engine_version       = "<%= cache_cluster.engine_version %>"
-    node_type            = "<%= cache_cluster.cache_node_type %>"
-    num_cache_nodes      = <%= cache_cluster.num_cache_nodes %>
-    parameter_group_name = "<%= cache_cluster.cache_parameter_group.cache_parameter_group_name %>"
+    cluster_id             = "<%= cache_cluster.cache_cluster_id %>"
+    engine                 = "<%= cache_cluster.engine %>"
+    engine_version         = "<%= cache_cluster.engine_version %>"
+    node_type              = "<%= cache_cluster.cache_node_type %>"
+    num_cache_nodes        = <%= cache_cluster.num_cache_nodes %>
+    parameter_group_name   = "<%= cache_cluster.cache_parameter_group.cache_parameter_group_name %>"
   <%- if cache_cluster.configuration_endpoint -%>
-    port                 = <%= cache_cluster.configuration_endpoint.port %>
+    port                   = <%= cache_cluster.configuration_endpoint.port %>
   <%- else -%>
-    port                 = <%= cache_cluster.cache_nodes[0].endpoint.port %>
+    port                   = <%= cache_cluster.cache_nodes[0].endpoint.port %>
   <%- end -%>
   <%- if cluster_in_vpc?(cache_cluster) -%>
-    subnet_group_name    = "<%= cache_cluster.cache_subnet_group_name %>"
-    security_group_ids   = <%= security_group_ids_of(cache_cluster).inspect %>
+    subnet_group_name      = "<%= cache_cluster.cache_subnet_group_name %>"
+    security_group_ids     = <%= security_group_ids_of(cache_cluster).inspect %>
   <%- else -%>
-    security_group_names = <%= security_group_names_of(cache_cluster).inspect %>
+    security_group_names   = <%= security_group_names_of(cache_cluster).inspect %>
+  <%- end -%>
+  <%- if cache_cluster.notification_configuration -%>
+    notification_topic_arn = "<%= cache_cluster.notification_configuration.topic_arn %>"
   <%- end -%>
 }
 
