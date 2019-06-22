@@ -1,0 +1,12 @@
+<% queues.each do |queue| -%>
+resource "aws_batch_job_queue" "<%= normalize_module_name(queue.job_queue_name) %>" {
+    name                = "<%= queue.job_queue_name %>"
+    priority            = "<%= queue.priority %>"
+    state               = "<%= queue.state %>"
+    compute_environments = [
+<% queue.compute_environment_order.each do |compute_environment| -%>
+        "<%= compute_environment.compute_environment %>",
+<% end -%>
+    ]
+}
+<%- end -%>
