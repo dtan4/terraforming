@@ -29,6 +29,7 @@ module Terraforming
             "name" => role.role_name,
             "path" => role.path,
             "unique_id" => role.role_id,
+            "description" => role.description,
           }
           resources["aws_iam_role.#{module_name_of(role)}"] = {
             "type" => "aws_iam_role",
