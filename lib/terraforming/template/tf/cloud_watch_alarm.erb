@@ -1,5 +1,5 @@
 <% alarms.each do |alarm| -%>
-    resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_name) %>" {
+resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_name) %>" {
     alarm_name          = "<%= alarm.alarm_name %>"
     comparison_operator = "<%= alarm.comparison_operator %>"
     evaluation_periods  = "<%= alarm.evaluation_periods %>"
