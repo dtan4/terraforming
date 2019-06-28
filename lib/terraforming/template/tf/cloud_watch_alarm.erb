@@ -1,5 +1,5 @@
 <% alarms.each do |alarm| -%>
-resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_name) %>" {
+    resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_name) %>" {
     alarm_name          = "<%= alarm.alarm_name %>"
     comparison_operator = "<%= alarm.comparison_operator %>"
     evaluation_periods  = "<%= alarm.evaluation_periods %>"
@@ -8,6 +8,7 @@ resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_na
     period              = "<%= alarm.period %>"
     statistic           = "<%= alarm.statistic %>"
     threshold           = "<%= alarm.threshold %>"
+    treat_missing_data  = "<%= alarm.treat_missing_data %>"
     alarm_description   = "<%= alarm.alarm_description %>"
 <%- unless alarm.ok_actions.empty? -%>
     ok_actions          = <%= alarm.ok_actions %>
@@ -19,7 +20,7 @@ resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_na
     actions_enabled     = <%= alarm.actions_enabled %>
 <%- end -%>
 <%- unless alarm.dimensions.empty? -%>
-    dimensions {
+    dimensions          = {
 <% alarm.dimensions.each do |dimension| -%>
         <%= dimension.name %> = "<%= dimension.value %>"
 <% end -%>
