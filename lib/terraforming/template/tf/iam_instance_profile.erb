@@ -2,7 +2,9 @@
 resource "aws_iam_instance_profile" "<%= module_name_of(profile) %>" {
     name = "<%= profile.instance_profile_name %>"
     path = "<%= profile.path %>"
+    <%- if profile.roles[0] != nil -%>
     role = "<%= profile.roles[0].role_name %>"
+    <%- end -%>
 }
 
 <% end -%>

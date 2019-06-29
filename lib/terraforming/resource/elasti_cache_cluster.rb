@@ -42,6 +42,10 @@ module Terraforming
                                  cache_cluster.cache_nodes[0].endpoint.port.to_s
                                end
 
+          if cache_cluster.notification_configuration
+            attributes["notification_topic_arn"] = cache_cluster.notification_configuration.topic_arn
+          end
+
           resources["aws_elasticache_cluster.#{module_name_of(cache_cluster)}"] = {
             "type" => "aws_elasticache_cluster",
             "primary" => {
