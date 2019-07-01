@@ -60,7 +60,7 @@ resource "aws_cloudwatch_metric_alarm" "Alarm-With-Dimensions" {
     threshold           = "10000.0"
     alarm_description   = ""
     alarm_actions       = ["arn:aws:sns:region:account:lambda-alerts"]
-    dimensions {
+    dimensions = {
         FunctionName = "beep-beep"
     }
 }
