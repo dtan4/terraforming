@@ -63,6 +63,7 @@ module Terraforming
 resource "aws_s3_bucket" "hoge" {
     bucket = "hoge"
     acl    = "private"
+    region = ""
     policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -80,13 +81,30 @@ resource "aws_s3_bucket" "hoge" {
   ]
 }
 POLICY
+    tags {
+    }
+    versioning {
+      enabled = false
+    }
+    logging {
+      target_bucket = "TargetBucket"
+      target_prefix = "TargetPrefix"
+    }
 }
-
 resource "aws_s3_bucket" "fuga" {
     bucket = "fuga"
     acl    = "private"
+    region = ""
+    tags {
+    }
+    versioning {
+      enabled = false
+    }
+    logging {
+      target_bucket = "TargetBucket"
+      target_prefix = "TargetPrefix"
+    }
 }
-
         EOS
           end
         end
@@ -144,8 +162,17 @@ resource "aws_s3_bucket" "fuga" {
 resource "aws_s3_bucket" "piyo" {
     bucket = "piyo"
     acl    = "private"
+    region = ""
+    tags {
+    }
+    versioning {
+      enabled = false
+    }
+    logging {
+      target_bucket = "TargetBucket"
+      target_prefix = "TargetPrefix"
+    }
 }
-
         EOS
           end
         end
