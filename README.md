@@ -20,6 +20,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 - [Run as Docker container](#run-as-docker-container-)
 - [Development](#development)
 - [Contributing](#contributing)
+- [Similar projects](#similar-projects)
 - [License](#license)
 
 ## Supported version
@@ -399,6 +400,13 @@ Please read [Contribution Guide](CONTRIBUTING.md) at first.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Similar projects
+
+There are some similar tools to import your existing infrastructure to terraform configuration.
+
+- [GoogleCloudPlatform/terraformer](https://github.com/GoogleCloudPlatform/terraformer)
+- [cycloidio/terracognita](https://github.com/cycloidio/terracognita/)
 
 ## License
 
