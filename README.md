@@ -403,7 +403,7 @@ Please read [Contribution Guide](CONTRIBUTING.md) at first.
 
 ## Similar projects
 
-There are some similar tools to import your existing infrastructure to terraform configuration.
+There are some similar tools to import your existing infrastructure to Terraform configuration.
 
 - [GoogleCloudPlatform/terraformer](https://github.com/GoogleCloudPlatform/terraformer)
 - [cycloidio/terracognita](https://github.com/cycloidio/terracognita/)
