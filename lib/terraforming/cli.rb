@@ -135,6 +135,11 @@ module Terraforming
       execute(Terraforming::Resource::KMSKey, options)
     end
 
+    desc "lf", "Lambda Function"
+    def lf
+      execute(Terraforming::Resource::LambdaFunction, options)
+    end
+
     desc "lc", "Launch Configuration"
     def lc
       execute(Terraforming::Resource::LaunchConfiguration, options)

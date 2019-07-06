@@ -225,6 +225,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "lf" do
+        let(:klass)   { Terraforming::Resource::LambdaFunction }
+        let(:command) { :lf }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "igw" do
         let(:klass)   { Terraforming::Resource::InternetGateway }
         let(:command) { :igw }
