@@ -22,6 +22,7 @@ module Terraforming
             ok_actions: [],
             period: 300,
             statistic: "Average",
+            treat_missing_data: "missing",
             threshold: 10000.0
           },
           {
@@ -37,6 +38,7 @@ module Terraforming
             ok_actions: [],
             period: 120,
             statistic: "Average",
+            treat_missing_data: "notBreaching",
             threshold: 80.0
           }
         ]
@@ -58,9 +60,10 @@ resource "aws_cloudwatch_metric_alarm" "Alarm-With-Dimensions" {
     period              = "300"
     statistic           = "Average"
     threshold           = "10000.0"
+    treat_missing_data  = "missing"
     alarm_description   = ""
     alarm_actions       = ["arn:aws:sns:region:account:lambda-alerts"]
-    dimensions {
+    dimensions          = {
         FunctionName = "beep-beep"
     }
 }
@@ -74,6 +77,7 @@ resource "aws_cloudwatch_metric_alarm" "terraform-test-foobar5" {
     period              = "120"
     statistic           = "Average"
     threshold           = "80.0"
+    treat_missing_data  = "notBreaching"
     alarm_description   = "This metric monitors ec2 cpu utilization"
     actions_enabled     = false
 }
@@ -102,6 +106,7 @@ resource "aws_cloudwatch_metric_alarm" "terraform-test-foobar5" {
                   "period" => "300",
                   "statistic" => "Average",
                   "threshold" => "10000.0",
+                  "treat_missing_data" => "missing",
                   "unit" => "",
                   "insufficient_data_actions.#" => "0",
                   "alarm_actions.#" => "1",
@@ -128,6 +133,7 @@ resource "aws_cloudwatch_metric_alarm" "terraform-test-foobar5" {
                   "period" => "120",
                   "statistic" => "Average",
                   "threshold" => "80.0",
+                  "treat_missing_data" => "notBreaching",
                   "unit" => "",
                   "insufficient_data_actions.#" => "0",
                   "alarm_actions.#" => "0",
