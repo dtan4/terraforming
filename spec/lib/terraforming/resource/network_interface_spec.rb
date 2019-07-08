@@ -122,7 +122,7 @@ resource "aws_network_interface" "eni-2345efgh" {
         instance     = "i-12345678"
         device_index = 0
     }
-    tags {
+    tags = {
         "Name" = "fuga"
     }
 }

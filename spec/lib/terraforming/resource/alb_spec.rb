@@ -114,7 +114,7 @@ resource "aws_alb" "hoge" {
         prefix  = "hoge"
     }
 
-    tags {
+    tags = {
         "Environment" = "Production"
     }
 }
@@ -128,7 +128,7 @@ resource "aws_alb" "fuga" {
 
     enable_deletion_protection = true
 
-    tags {
+    tags = {
     }
 }
 

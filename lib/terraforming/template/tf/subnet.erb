@@ -5,7 +5,7 @@ resource "aws_subnet" "<%= module_name_of(subnet) %>" {
     availability_zone       = "<%= subnet.availability_zone %>"
     map_public_ip_on_launch = <%= subnet.map_public_ip_on_launch %>
 
-    tags {
+    tags = {
 <% subnet.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>

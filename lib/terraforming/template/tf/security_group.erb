@@ -51,7 +51,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 
 <% end -%>
 <% if security_group.tags.length > 0 -%>
-    tags {
+    tags = {
 <% security_group.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
