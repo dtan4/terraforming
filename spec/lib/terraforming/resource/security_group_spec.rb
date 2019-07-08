@@ -21,7 +21,10 @@ module Terraforming
                 to_port: 22,
                 user_id_group_pairs: [],
                 ip_ranges: [
-                  { cidr_ip: "0.0.0.0/0" }
+                  { 
+                    cidr_ip: "0.0.0.0/0", 
+                    description: "ip_range description test", 
+                  }
                 ],
                 ipv_6_ranges: [
                   { cidr_ipv_6: "::/0" }
@@ -33,6 +36,7 @@ module Terraforming
                 to_port: 22,
                 user_id_group_pairs: [
                   {
+                    description: "user_id_group_pair description test", 
                     user_id: "987654321012",
                     group_id: "sg-9876uxyz",
                     group_name: "piyo"
@@ -86,7 +90,10 @@ module Terraforming
                   { cidr_ip: "0.0.0.0/0" }
                 ],
                 ipv_6_ranges: [
-                  { cidr_ipv_6: "::/0" }
+                  { 
+                    cidr_ipv_6: "::/0",
+                    description: "ipv_6_range description test"
+                  }
                 ]
               },
               {
@@ -185,7 +192,10 @@ module Terraforming
                   { cidr_ipv_6: "::/0" }
                 ],
                 prefix_list_ids: [
-                  { prefix_list_id: "pl-xxxxxx" }
+                  { 
+                    prefix_list_id: "pl-xxxxxx",
+                    description: "prefix_list_id description test",
+                  }
                 ],
               },
             ],
@@ -209,6 +219,7 @@ resource "aws_security_group" "hoge" {
     vpc_id      = ""
 
     ingress {
+        description     = "ip_range description test"
         from_port       = 22
         to_port         = 22
         protocol        = "tcp"
@@ -217,6 +228,7 @@ resource "aws_security_group" "hoge" {
     }
 
     ingress {
+        description     = "user_id_group_pair description test"
         from_port       = 22
         to_port         = 22
         protocol        = "tcp"
@@ -233,6 +245,7 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
     vpc_id      = "vpc-1234abcd"
 
     ingress {
+        description     = ""
         from_port       = 0
         to_port         = 65535
         protocol        = "tcp"
@@ -241,6 +254,7 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
     }
 
     ingress {
+        description     = "ipv_6_range description test"
         from_port       = 22
         to_port         = 22
         protocol        = "tcp"
@@ -251,6 +265,7 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
     }
 
     ingress {
+        description     = ""
         from_port       = 7777
         to_port         = 7777
         protocol        = "tcp"
@@ -260,6 +275,7 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
 
 
     egress {
+        description     = ""
         from_port       = 22
         to_port         = 22
         protocol        = "tcp"
@@ -280,6 +296,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
     vpc_id      = "vpc-1234abcd"
 
     ingress {
+        description     = ""
         from_port       = 22
         to_port         = 22
         protocol        = "tcp"
@@ -291,6 +308,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
 
 
     egress {
+        description     = "prefix_list_id description test"
         from_port       = 1
         to_port         = 65535
         protocol        = "-1"
@@ -326,6 +344,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.#" => "2",
                   "ingress.31326685.cidr_blocks.#" => "1",
                   "ingress.31326685.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.31326685.description" => "ip_range description test",
                   "ingress.31326685.from_port" => "22",
                   "ingress.31326685.ipv6_cidr_blocks.#" => "1",
                   "ingress.31326685.ipv6_cidr_blocks.0" => "::/0",
@@ -335,6 +354,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.31326685.self" => "false",
                   "ingress.31326685.to_port" => "22",
                   "ingress.3232230010.cidr_blocks.#" => "0",
+                  "ingress.3232230010.description" => "user_id_group_pair description test",
                   "ingress.3232230010.from_port" => "22",
                   "ingress.3232230010.ipv6_cidr_blocks.#" => "0",
                   "ingress.3232230010.prefix_list_ids.#" => "0",
@@ -361,6 +381,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.#" => "1",
                   "egress.2007587753.cidr_blocks.#" => "1",
                   "egress.2007587753.cidr_blocks.0" => "0.0.0.0/0",
+                  "egress.2007587753.description" => "",
                   "egress.2007587753.from_port" => "22",
                   "egress.2007587753.ipv6_cidr_blocks.#" => "1",
                   "egress.2007587753.ipv6_cidr_blocks.0" => "::/0",
@@ -372,6 +393,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.2007587753.to_port" => "22",
                   "ingress.#" => "3",
                   "ingress.1728187046.cidr_blocks.#" => "0",
+                  "ingress.1728187046.description" => "",
                   "ingress.1728187046.from_port" => "7777",
                   "ingress.1728187046.ipv6_cidr_blocks.#" => "0",
                   "ingress.1728187046.prefix_list_ids.#" => "0",
@@ -381,6 +403,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1728187046.self" => "true",
                   "ingress.1728187046.to_port" => "7777",
                   "ingress.1849628954.cidr_blocks.#" => "0",
+                  "ingress.1849628954.description" => "",
                   "ingress.1849628954.from_port" => "0",
                   "ingress.1849628954.ipv6_cidr_blocks.#" => "0",
                   "ingress.1849628954.prefix_list_ids.#" => "0",
@@ -390,6 +413,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.1849628954.to_port" => "65535",
                   "ingress.2890765491.cidr_blocks.#" => "1",
                   "ingress.2890765491.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.2890765491.description" => "ipv_6_range description test",
                   "ingress.2890765491.from_port" => "22",
                   "ingress.2890765491.ipv6_cidr_blocks.#" => "1",
                   "ingress.2890765491.ipv6_cidr_blocks.0" => "::/0",
@@ -417,6 +441,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "egress.#" => "1",
                   "egress.3936132414.cidr_blocks.#" => "1",
                   "egress.3936132414.cidr_blocks.0" => "0.0.0.0/0",
+                  "egress.3936132414.description" => "prefix_list_id description test",
                   "egress.3936132414.from_port" => "1",
                   "egress.3936132414.ipv6_cidr_blocks.#" => "1",
                   "egress.3936132414.ipv6_cidr_blocks.0" => "::/0",
@@ -429,6 +454,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
                   "ingress.#" => "1",
                   "ingress.3239858.cidr_blocks.#" => "1",
                   "ingress.3239858.cidr_blocks.0" => "0.0.0.0/0",
+                  "ingress.3239858.description" => "",
                   "ingress.3239858.from_port" => "22",
                   "ingress.3239858.ipv6_cidr_blocks.#" => "1",
                   "ingress.3239858.ipv6_cidr_blocks.0" => "::/0",

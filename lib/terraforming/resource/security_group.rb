@@ -96,6 +96,7 @@ module Terraforming
           "#{type}.#{hashcode}.prefix_list_ids.#" => permission.prefix_list_ids.length.to_s,
           "#{type}.#{hashcode}.security_groups.#" => security_groups.length.to_s,
           "#{type}.#{hashcode}.self" => self_referenced_permission?(security_group, permission).to_s,
+          "#{type}.#{hashcode}.description" => description_of(permission).to_s,
         }
 
         permission.ip_ranges.each_with_index do |range, index|
@@ -189,6 +190,35 @@ module Terraforming
         attributes = { "tags.#" => tags.length.to_s }
         tags.each { |tag| attributes["tags.#{tag.key}"] = tag.value }
         attributes
+      end
+
+      def description_of(permission)
+        # order doesn't matter as rules created together have same description
+        permission.ip_ranges.each do |rule|
+          unless rule.description.to_s.empty?
+            return rule.description
+          end
+        end
+
+        permission.ipv_6_ranges.each do |rule|
+          unless rule.description.to_s.empty?
+            return rule.description
+          end
+        end
+
+        permission.prefix_list_ids.each do |rule|
+          unless rule.description.to_s.empty?
+            return rule.description
+          end
+        end
+
+        permission.user_id_group_pairs.each do |rule|
+          unless rule.description.to_s.empty?
+            return rule.description
+          end
+        end
+
+        ""
       end
     end
   end
