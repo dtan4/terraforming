@@ -1,4 +1,5 @@
 <% load_balancers.each do |load_balancer| -%>
+  <%- sleep(0.2)  -%>
   <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
 resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
     name                        = "<%= load_balancer.load_balancer_name %>"

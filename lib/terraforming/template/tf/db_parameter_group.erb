@@ -2,7 +2,7 @@
 resource "aws_db_parameter_group" "<%= module_name_of(parameter_group) %>" {
     name        = "<%= parameter_group.db_parameter_group_name %>"
     family      = "<%= parameter_group.db_parameter_group_family %>"
-    description = "<%= parameter_group.description %>"
+    description = <%= parameter_group.description.inspect %>
 
 <% db_parameters_in(parameter_group).each do |parameter| -%>
     parameter {

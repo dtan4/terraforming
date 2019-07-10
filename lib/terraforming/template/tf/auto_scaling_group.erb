@@ -11,6 +11,7 @@ resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
     max_size                  = <%= group.max_size %>
     min_size                  = <%= group.min_size %>
     name                      = "<%= group.auto_scaling_group_name %>"
+    enabled_metrics           = <%= group.enabled_metrics.map(&:metric) %>
 <%- if vpc_zone_specified -%>
     vpc_zone_identifier       = <%= vpc_zone_identifier_of(group).inspect %>
 <%- end -%>
