@@ -55,6 +55,11 @@ module Terraforming
       execute(Terraforming::Resource::ElastiCacheCluster, options)
     end
 
+    desc "ecpg", "ElastiCache Parameter Group"
+    def ecpg
+      execute(Terraforming::Resource::ElastiCacheParameterGroup, options)
+    end
+
     desc "ecsn", "ElastiCache Subnet Group"
     def ecsn
       execute(Terraforming::Resource::ElastiCacheSubnetGroup, options)
