@@ -16,7 +16,7 @@ resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
 <%- end -%>
 
 <% group.tags.each do |tag| -%>
-    tag {
+    tag = {
         key   = "<%= tag.key %>"
         value = "<%= tag.value %>"
         propagate_at_launch = <%= tag.propagate_at_launch.to_s %>

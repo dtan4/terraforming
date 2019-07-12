@@ -48,9 +48,12 @@ resource "aws_dynamodb_table" "<%= table.table_name -%>" {
         <%- end %>
     }
 <%- end -%>
-<%- tags(table).each do |tag| -%>
-    tags {
+
+<%- if tags(table).length > 0 -%>
+    tags = {
+    <%- tags(table).each do |tag| -%>
         <%= tag.key %> = "<%= tag.value -%>"
+    <%- end -%>
     }
 <%- end -%>
 <%- if table.stream_specification -%>
