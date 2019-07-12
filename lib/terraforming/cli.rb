@@ -264,24 +264,27 @@ module Terraforming
           f.flush
         end
       else
-
-        # apply excluding of resources
-        r = result.split("\n\nresource ")
-        rc = r.clone
-        if @@resource_exclude_list.count > 0
-          rc.each do |resource|
-            jsonstring = resource.to_s
-            File.write(".terraforming/resources.excluded", "")
-            if jsonstring.match(Regexp.union(@@resource_exclude_list))
-              File.write(".terraforming/resources.excluded", "\n---\n" + jsonstring, File.size('.terraforming/resources.excluded'), mode: 'a')
-              r.delete(resource)
+        if options[:tfstate] # return state
+          puts result
+        else # return resources
+          # apply excluding of resources
+          r = result.split("\n\nresource ")
+          rc = r.clone
+          if @@resource_exclude_list.count > 0
+            rc.each do |resource|
+              jsonstring = resource.to_s
+              File.write(".terraforming/resources.excluded", "")
+              if jsonstring.match(Regexp.union(@@resource_exclude_list))
+                File.write(".terraforming/resources.excluded", "\n---\n" + jsonstring, File.size('.terraforming/resources.excluded'), mode: 'a')
+                r.delete(resource)
+              end
             end
           end
-        end
-        if r.join("\n\nresource ").start_with?('resource ') or r.join("\n\nresource ").strip == ""
-          puts r.join("\n\nresource ")
-        else
-          puts "resource " + r.join("\n\nresource ")
+          if r.join("\n\nresource ").start_with?('resource ') or r.join("\n\nresource ").strip == ""
+            puts r.join("\n\nresource ")
+          else
+            puts "resource " + r.join("\n\nresource ")
+          end
         end
       end
     end
