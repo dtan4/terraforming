@@ -16,9 +16,3 @@ resource "aws_route53_zone" "<%= module_name_of(hosted_zone) %>" {
 <% end -%>
     }
 }
-
-<% end -%>
-vpc {
-    vpc_id     = "<%= vpc.vpc_id %>"
-
-}
