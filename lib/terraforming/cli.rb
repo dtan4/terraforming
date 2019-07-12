@@ -271,6 +271,7 @@ module Terraforming
         if @@resource_exclude_list.count > 0
           rc.each do |resource|
             jsonstring = resource.to_s
+            File.write(".terraforming/resources.excluded", "")
             if jsonstring.match(Regexp.union(@@resource_exclude_list))
               File.write(".terraforming/resources.excluded", "\n---\n" + jsonstring, File.size('.terraforming/resources.excluded'), mode: 'a')
               r.delete(resource)
@@ -294,6 +295,7 @@ module Terraforming
       if @@resource_exclude_list.count > 0
         klass.tfstate.each do |resource|
           jsonstring = MultiJson.encode(resource, pretty: true).to_s
+          File.write(".terraforming/resources.tstate.excluded", "")
           if jsonstring.match(Regexp.union(@@resource_exclude_list))
             File.write(".terraforming/resources.tstate.excluded", "\n---\n" + jsonstring, File.size('.terraforming/resources.tstate.excluded'), mode: 'a')
             r.delete(resource[0])
