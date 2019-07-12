@@ -266,7 +266,7 @@ module Terraforming
       else
 
         # apply excluding of resources
-        r = result.split("\n\n")
+        r = result.split("\n\nresource ")
         rc = r.clone
         if @@resource_exclude_list.count > 0
           rc.each do |resource|
@@ -278,7 +278,7 @@ module Terraforming
             end
           end
         end
-        puts r.join("\n\n")
+        puts r.join("\n\nresource ")
       end
     end
 
