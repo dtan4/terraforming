@@ -5,7 +5,7 @@ resource "aws_vpn_gateway" "<%= module_name_of(vpn_gateway) %>" {
     availability_zone = "<%= vpn_gateway.availability_zone %>"
     tags {
 <% vpn_gateway.tags.each do |tag| -%>
-        "<%= tag.key %>" = "<%= tag.value %>"
+        <%= tag.key %> = "<%= tag.value %>"
 <% end -%>
     }
 }

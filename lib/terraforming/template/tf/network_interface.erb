@@ -13,7 +13,7 @@ resource "aws_network_interface" "<%= module_name_of(network_interface) %>" {
 <% if network_interface.tag_set.length > 0 -%>
     tags {
 <% network_interface.tag_set.each do |tag| -%>
-        "<%= tag.key %>" = "<%= tag.value %>"
+        <%= tag.key %> = "<%= tag.value %>"
 <% end -%>
     }
 <% end -%>
