@@ -278,7 +278,7 @@ module Terraforming
             end
           end
         end
-        puts r.join("\n\nresource ")
+        puts "resource " + r.join("\n\nresource ")
       end
     end
 
