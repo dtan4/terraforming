@@ -6,6 +6,7 @@ module Terraforming
     class_option :profile, type: :string, desc: "AWS credentials profile"
     class_option :region, type: :string, desc: "AWS region"
     class_option :assume, type: :string, desc: "Role ARN to assume"
+    class_option :resource_exclude_file, type: :string, desc: "File for declaring excluded resources"
     class_option :use_bundled_cert,
                  type: :boolean,
                  desc: "Use the bundled CA certificate from AWS SDK"
@@ -242,6 +243,14 @@ module Terraforming
         Aws.config[:credentials] = Aws::AssumeRoleCredentials.new(args)
       end
 
+      # read resource_exclude_list -> Define strings to exclude resources from
+      if options[:resource_exclude_file]
+        @@resource_exclude_list = File.readlines(options[:resource_exclude_file]).map { |r| r.strip }.reject { |l| l.empty? }
+        Dir.mkdir(".terraforming") unless File.exists?(".terraforming") # create a directory for a resource excludes registry
+      else
+        @@resource_exclude_list = Array.new
+      end
+
       Aws.use_bundled_cert! if options[:use_bundled_cert]
     end
 
@@ -255,7 +264,21 @@ module Terraforming
           f.flush
         end
       else
-        puts result
+
+        # apply excluding of resources
+        r = result.split("\n\n")
+        rc = r.clone
+        if @@resource_exclude_list.count > 0
+          rc.each do |resource|
+            jsonstring = resource.to_s
+            File.write(".terraforming/resources.excluded", "")
+            if jsonstring.match(Regexp.union(@@resource_exclude_list))
+              r.delete(resource)
+              File.open(".terraforming/resources.excluded", "a"){|f| f.write("\n---\n" + jsonstring)}
+            end
+          end
+        end
+        puts r.join("\n\n")
       end
     end
 
@@ -266,8 +289,22 @@ module Terraforming
     def tfstate(klass, tfstate_path)
       tfstate = tfstate_path ? MultiJson.load(open(tfstate_path).read) : tfstate_skeleton
       tfstate["serial"] = tfstate["serial"] + 1
-      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(klass.tfstate)
-      MultiJson.encode(tfstate, pretty: true)
+
+      # apply excluding of resource states
+      r = klass.tfstate.clone
+      if @@resource_exclude_list.count > 0
+        klass.tfstate.each do |resource|
+          jsonstring = MultiJson.encode(resource, pretty: true).to_s
+          File.write(".terraforming/resources.tstate.excluded", "")
+          if jsonstring.match(Regexp.union(@@resource_exclude_list))
+            r.delete(resource[0])
+            File.open(".terraforming/resources.tstate.excluded", "a"){|f| f.write("\n---\n" + jsonstring)}
+          end
+        end
+      end
+
+      tfstate["modules"][0]["resources"] = tfstate["modules"][0]["resources"].merge(r)
+      return MultiJson.encode(tfstate, pretty: true)
     end
 
     def tfstate_skeleton
