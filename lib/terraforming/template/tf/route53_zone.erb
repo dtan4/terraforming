@@ -2,10 +2,12 @@
 resource "aws_route53_zone" "<%= module_name_of(hosted_zone) %>" {
     name       = "<%= name_of(hosted_zone) %>"
     comment    = "<%= comment_of(hosted_zone) %>"
+
 <%- if private_hosted_zone?(hosted_zone) -%>
-  <%- vpc = vpc_of(hosted_zone) -%>
-    vpc_id     = "<%= vpc.vpc_id %>"
-    vpc_region = "<%= vpc.vpc_region %>"
+    vpc {
+        vpc_id     = "<%= vpc.vpc_id %>"
+        vpc_region = "<%= vpc.vpc_region %>"
+    }
 <%- end -%>
 
     tags {
@@ -16,3 +18,7 @@ resource "aws_route53_zone" "<%= module_name_of(hosted_zone) %>" {
 }
 
 <% end -%>
+vpc {
+    vpc_id     = "<%= vpc.vpc_id %>"
+
+}

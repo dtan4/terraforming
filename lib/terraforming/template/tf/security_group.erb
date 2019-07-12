@@ -1,5 +1,5 @@
 <% security_groups.each do |security_group| -%>
-resource "aws_security_group" "<%= module_name_of(security_group) %>" {
+resource "aws_security_group" "<%= security_group.group_id %>" {
     name        = "<%= security_group.group_name %>"
     description = "<%= security_group.description %>"
     vpc_id      = "<%= security_group.vpc_id || '' %>"
