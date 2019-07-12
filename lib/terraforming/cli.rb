@@ -278,7 +278,11 @@ module Terraforming
             end
           end
         end
-        puts "resource " + r.join("\n\nresource ")
+        if r.join("\n\nresource ").start_with?('resource ') or r.join("\n\nresource ").strip == ""
+          puts r.join("\n\nresource ")
+        else
+          puts "resource " + r.join("\n\nresource ")
+        end
       end
     end
 
