@@ -32,6 +32,7 @@ module Terraforming
                 "force_destroy" => "false",
                 "id" => bucket.name,
                 "policy" => bucket_policy ? bucket_policy.policy.read : "",
+                "region" => @client.config.region
               }
             }
           }
