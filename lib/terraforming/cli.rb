@@ -20,6 +20,11 @@ module Terraforming
       execute(Terraforming::Resource::AutoScalingGroup, options)
     end
 
+    desc "bjq", "Batch Job Queue"
+    def bjq
+      execute(Terraforming::Resource::BatchJobQueue, options)
+    end
+
     desc "cwa", "CloudWatch Alarm"
     def cwa
       execute(Terraforming::Resource::CloudWatchAlarm, options)
