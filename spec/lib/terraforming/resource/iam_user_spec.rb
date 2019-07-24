@@ -28,8 +28,31 @@ module Terraforming
         ]
       end
 
+      let(:tags_response) do
+        [
+          {
+            is_truncated: false,
+            tags: [
+              {
+                key: "Name",
+                value: "test"
+              },
+              {
+                key: "Team",
+                value: "developers"
+              }
+            ]
+          },
+          {
+            is_truncated: false,
+            tags: []
+          }
+        ]
+      end
+
       before do
         client.stub_responses(:list_users, users: users)
+        client.stub_responses(:list_user_tags, tags_response.first, tags_response.last)
       end
 
       describe ".tf" do
@@ -38,6 +61,11 @@ module Terraforming
 resource "aws_iam_user" "hoge" {
     name = "hoge"
     path = "/"
+
+    tags = {
+        "Name" = "test"
+        "Team" = "developers"
+    }
 }
 
 resource "aws_iam_user" "fuga-piyo" {
@@ -63,6 +91,10 @@ resource "aws_iam_user" "fuga-piyo" {
                   "path" => "/",
                   "unique_id" => "ABCDEFGHIJKLMN1234567",
                   "force_destroy" => "false",
+                  "tags" => {
+                    "Name" => "test",
+                    "Team" => "developers"
+                  }
                 }
               }
             },
