@@ -26,18 +26,22 @@ module Terraforming
             "id" => profile.instance_profile_name,
             "name" => profile.instance_profile_name,
             "path" => profile.path,
-            "role" => profile.roles[0].role_name,
             "roles.#" => profile.roles.length.to_s,
           }
-          resources["aws_iam_instance_profile.#{module_name_of(profile)}"] = {
-            "type" => "aws_iam_instance_profile",
-            "primary" => {
-              "id" => profile.instance_profile_name,
-              "attributes" => attributes
+          if profile.roles.length > 0
+            attributes["role"] = profile.roles[0].role_name
+          end
+          if attributes["role"]
+            resources["aws_iam_instance_profile.#{module_name_of(profile)}"] = {
+              "type" => "aws_iam_instance_profile",
+              "primary" => {
+                "id" => profile.instance_profile_name,
+                "attributes" => attributes
+              }
             }
-          }
-
+          end
           resources
+
         end
       end
 
