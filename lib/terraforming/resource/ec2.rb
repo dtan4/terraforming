@@ -68,7 +68,7 @@ module Terraforming
       private
 
       def block_device_ids_of(instance)
-        instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }
+        instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }.sort
       end
 
       def spawned_from_auto_scaling_group?(instance)
@@ -84,7 +84,7 @@ module Terraforming
 
       def block_devices_of(instance)
         return [] if instance.block_device_mappings.empty?
-        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten
+        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten.sort
       end
 
       def block_device_mapping_of(instance, volume_id)
@@ -134,7 +134,7 @@ module Terraforming
       end
 
       def vpc_security_groups_of(instance)
-        instance.security_groups.select { |security_group| /\Asg-/ =~ security_group.group_id }
+        instance.security_groups.select { |security_group| /\Asg-/ =~ security_group.group_id }.sort
       end
     end
   end

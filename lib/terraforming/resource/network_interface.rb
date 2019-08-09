@@ -49,11 +49,11 @@ module Terraforming
       end
 
       def private_ips_of(network_interface)
-        network_interface.private_ip_addresses.map { |addr| addr.private_ip_address }
+        network_interface.private_ip_addresses.map { |addr| addr.private_ip_address }.sort
       end
 
       def security_groups_of(network_interface)
-        network_interface.groups.map { |group| group.group_id }
+        network_interface.groups.map { |group| group.group_id }.sort
       end
 
       def module_name_of(network_interface)

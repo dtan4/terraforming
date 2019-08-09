@@ -1,5 +1,5 @@
 <% route_tables.each do |route_table| -%>
-resource "aws_route_table" "rt-<%= module_name_of(route_table) %>" {
+resource "aws_route_table" "rt-<%= module_name_of(route_table) + "-" + route_table.vpc_id %>" {
     vpc_id     = "<%= route_table.vpc_id %>"
 
 <% routes_of(route_table).each do |route| -%>

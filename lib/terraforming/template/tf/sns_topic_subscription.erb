@@ -2,7 +2,7 @@
 <% if subscription["Protocol"].include?("email") -%>
 /*
 <% end -%>
-resource "aws_sns_topic_subscription" "<%= module_name_of(subscription) %>" {
+resource "aws_sns_topic_subscription" "snss-<%= module_name_of(subscription) %>" {
   topic_arn                       = "<%= subscription["TopicArn"] %>"
   protocol                        = "<%= subscription["Protocol"] %>"
   endpoint                        = "<%= subscription["Endpoint"] %>"
