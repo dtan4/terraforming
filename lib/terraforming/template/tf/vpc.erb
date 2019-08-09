@@ -5,7 +5,7 @@ resource "aws_vpc" "<%= module_name_of(vpc) %>" {
     enable_dns_support   = <%= enable_dns_support?(vpc) %>
     instance_tenancy     = "<%= vpc.instance_tenancy %>"
 
-    tags {
+    tags = {
 <% vpc.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>

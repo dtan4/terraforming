@@ -1,5 +1,5 @@
 <% db_parameter_groups.each do |parameter_group| -%>
-resource "aws_db_parameter_group" "<%= module_name_of(parameter_group) %>" {
+resource "aws_db_parameter_group" "dbpg-<%= module_name_of(parameter_group) %>" {
     name        = "<%= parameter_group.db_parameter_group_name %>"
     family      = "<%= parameter_group.db_parameter_group_family %>"
     description = "<%= parameter_group.description %>"

@@ -71,6 +71,17 @@ module Terraforming
         instance.block_device_mappings.map { |bdm| bdm.ebs.volume_id }
       end
 
+      def spawned_from_auto_scaling_group?(instance)
+        # we don't want to include instances that have been instantiated by an autoscaler
+        # they all will have the same hostname which breaks terraform.
+        instance.tags.each do |tag|
+            if tag.key == "aws:autoscaling:groupName"
+                return true
+            end
+        end
+        return false
+      end
+
       def block_devices_of(instance)
         return [] if instance.block_device_mappings.empty?
         @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten

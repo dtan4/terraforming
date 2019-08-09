@@ -1,5 +1,5 @@
 <% keys.each do |key| -%>
-resource "aws_kms_key" "<%= module_name_of(key) %>" {
+resource "aws_kms_key" "key-<%= module_name_of(key) %>" {
     description             = "<%= key.description %>"
     key_usage               = "<%= key.key_usage %>"
     is_enabled              = <%= key.enabled %>

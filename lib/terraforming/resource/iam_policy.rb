@@ -48,7 +48,8 @@ module Terraforming
       end
 
       def iam_policy_description(policy)
-        @client.get_policy(policy_arn: policy.arn).policy.description
+        desc = @client.get_policy(policy_arn: policy.arn).policy.description
+        return %(desc) # escape quotes and other stuff
       end
 
       def iam_policy_version_of(policy)

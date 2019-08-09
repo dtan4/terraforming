@@ -97,7 +97,8 @@ module Terraforming
 
       # TODO(dtan4): change method name...
       def name_of(dns_name)
-        dns_name.gsub(/\.\z/, "")
+        name = dns_name.gsub(/\.\z/, "")
+        return "dns-#{name}" # terraform insists these start with a letter
       end
 
       def module_name_of(record, counter)
