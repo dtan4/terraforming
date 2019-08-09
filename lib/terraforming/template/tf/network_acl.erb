@@ -1,5 +1,5 @@
 <% network_acls.each do |network_acl| -%>
-resource "aws_network_acl" "<%= module_name_of(network_acl) %>" {
+resource "aws_network_acl" "<%= module_name_of(network_acl) + "-" + SecureRandom.uuid[1..5] %>" {
     vpc_id     = "<%= network_acl.vpc_id %>"
     subnet_ids = <%= subnet_ids_of(network_acl).inspect %>
 

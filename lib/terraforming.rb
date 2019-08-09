@@ -16,6 +16,7 @@ require "aws-sdk-sns"
 require "aws-sdk-sqs"
 
 require "erb"
+require "securerandom"
 require "multi_json"
 require "thor"
 require "zlib"

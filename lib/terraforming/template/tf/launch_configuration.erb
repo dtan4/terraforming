@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "<%= module_name_of(launch_configuration) %>
         <%- if block_device.ebs.iops -%>
         iops                  = <%= block_device.ebs.iops %>
         <%- end -%>
-        delete_on_termination = <%= block_device.ebs.delete_on_termination %>
+        delete_on_termination = <%= block_device.ebs.delete_on_termination or false %>
         <%- if block_device.ebs.encrypted -%>
         encrypted             = <%= block_device.ebs.encrypted %>
         <%- end -%>
