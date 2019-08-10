@@ -21,7 +21,7 @@ resource "aws_security_group" "<%= module_name_of(security_group) %>" {
 <%- end -%>
 <%- if permission.user_id_group_pairs.length > 0 -%>
   <%- self_referenced = self_referenced_permission?(security_group, permission) -%>
-        security_groups = <%= security_groups.inspect %>
+        security_groups = <%= security_groups.sort.inspect %>
         self            = <%= self_referenced %>
 <%- end -%>
     }
