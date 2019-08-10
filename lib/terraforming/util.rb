@@ -18,8 +18,10 @@ module Terraforming
     end
 
     def prettify_policy(document, breakline: false, unescape: false)
-      json = JSON.pretty_generate(JSON.parse(unescape ? CGI.unescape(document) : document))
+      entity = JSON.parse(unescape ? CGI.unescape(document) : document)
+      json = JSON.neat_generate(entity, sort:false, wrap:40)
       json = json.gsub("${", "&{")
+
 
       if breakline
         json[-1] != "\n" ? json << "\n" : json

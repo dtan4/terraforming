@@ -7,7 +7,7 @@ resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
   <%- else -%>
     availability_zones          = <%= load_balancer.availability_zones.inspect %>
   <%- end -%>
-    security_groups             = <%= load_balancer.security_groups.inspect %>
+    security_groups             = <%= load_balancer.security_groups.sort.inspect %>
     instances                   = <%= load_balancer.instances.map { |instance| instance.instance_id }.inspect %>
     cross_zone_load_balancing   = <%= load_balancer_attributes.cross_zone_load_balancing.enabled %>
     idle_timeout                = <%= load_balancer_attributes.connection_settings.idle_timeout %>

@@ -1,4 +1,4 @@
-<% buckets.each do |bucket| -%>
+<% buckets.sort_by { |b| b.name }.each do |bucket| -%>
 resource "aws_s3_bucket" "<%= module_name_of(bucket) %>" {
     bucket = "<%= bucket.name %>"
     acl    = "private"

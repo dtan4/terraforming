@@ -45,7 +45,8 @@ module Terraforming
       private
 
       def iam_roles
-        @client.list_roles.map(&:roles).flatten
+        r = @client.list_roles.map(&:roles).flatten
+        return r.sort_by { |iam| iam.role_name }
       end
 
       def module_name_of(role)

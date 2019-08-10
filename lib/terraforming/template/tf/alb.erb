@@ -1,4 +1,4 @@
-<% load_balancers.sort.each do |load_balancer| -%>
+<% load_balancers.sort_by { |lb| lb.load_balancer_name }.each do |load_balancer| -%>
   <%- load_balancer_attributes = load_balancer_attributes_of(load_balancer) -%>
   <%- tags = tags_of(load_balancer) -%>
 resource "aws_alb" "alb-<%= module_name_of(load_balancer) %>" {
@@ -6,7 +6,7 @@ resource "aws_alb" "alb-<%= module_name_of(load_balancer) %>" {
     internal        = <%= internal?(load_balancer).to_s %>
     name            = "<%= load_balancer.load_balancer_name %>"
     security_groups = <%= load_balancer.security_groups.inspect %>
-    subnets         = <%= load_balancer.availability_zones.map { |az| az.subnet_id }.inspect %>
+    subnets         = <%= load_balancer.availability_zones.map { |az| az.subnet_id }.sort.inspect %>
 
     enable_deletion_protection = <%= load_balancer_attributes["deletion_protection.enabled"].to_s %>
 

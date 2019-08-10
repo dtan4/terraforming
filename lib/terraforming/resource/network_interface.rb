@@ -61,7 +61,8 @@ module Terraforming
       end
 
       def network_interfaces
-        @client.describe_network_interfaces.map(&:network_interfaces).flatten
+        interfaces = @client.describe_network_interfaces.map(&:network_interfaces).flatten
+        return interfaces.sort_by(&:network_interface_id)
       end
     end
   end

@@ -84,7 +84,9 @@ module Terraforming
 
       def block_devices_of(instance)
         return [] if instance.block_device_mappings.empty?
-        @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten.sort
+        devices = @client.describe_volumes(volume_ids: block_device_ids_of(instance)).map(&:volumes).flatten
+        devices = devices.sort_by(&:volume_id)
+        return devices
       end
 
       def block_device_mapping_of(instance, volume_id)
@@ -134,7 +136,8 @@ module Terraforming
       end
 
       def vpc_security_groups_of(instance)
-        instance.security_groups.select { |security_group| /\Asg-/ =~ security_group.group_id }.sort
+        sgs = instance.security_groups.select { |security_group| /\Asg-/ =~ security_group.group_id }
+        return sgs.sort_by { |g| g.group_id }
       end
     end
   end

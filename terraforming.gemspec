@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "aws-sdk-sqs", "~> 1"
   spec.add_dependency "multi_json", "~> 1.12.1"
   spec.add_dependency "thor"
+  spec.add_dependency "neatjson"
 
   spec.add_development_dependency "coveralls", "~> 0.8.13"
   spec.add_development_dependency "rake"
