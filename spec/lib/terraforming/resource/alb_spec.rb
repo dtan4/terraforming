@@ -115,7 +115,7 @@ resource "aws_alb" "hoge" {
     }
 
     tags = {
-        "Environment" = "Production"
+        Environment = "Production"
     }
 }
 

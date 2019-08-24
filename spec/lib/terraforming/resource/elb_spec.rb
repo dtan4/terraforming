@@ -205,7 +205,7 @@ resource "aws_elb" "hoge" {
     }
 
     tags = {
-        Name = "elb-1"
+        name = "elb-1"
     }
 }
 
@@ -243,7 +243,7 @@ resource "aws_elb" "fuga" {
     }
 
     tags = {
-        Name = "elb-1"
+        name = "elb-1"
     }
 }
 
