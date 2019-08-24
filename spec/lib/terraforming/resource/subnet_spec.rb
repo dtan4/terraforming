@@ -51,8 +51,8 @@ resource "aws_subnet" "subnet-1234abcd-hoge" {
     availability_zone       = "ap-northeast-1c"
     map_public_ip_on_launch = false
 
-    tags {
-        "Name" = "hoge"
+    tags = {
+        Name = "hoge"
     }
 }
 
@@ -62,8 +62,8 @@ resource "aws_subnet" "subnet-5678efgh-fuga" {
     availability_zone       = "ap-northeast-1c"
     map_public_ip_on_launch = false
 
-    tags {
-        "Name" = "fuga"
+    tags = {
+        Name = "fuga"
     }
 }
 
