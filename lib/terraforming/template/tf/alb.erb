@@ -18,9 +18,9 @@ resource "aws_alb" "<%= module_name_of(load_balancer) %>" {
     }
 
 <%- end -%>
-    tags {
+    tags = {
 <% tags.each do |tag| -%>
-        "<%= tag.key %>" = "<%= tag.value %>"
+        <%= tag.key %> = "<%= tag.value %>"
 <% end -%>
     }
 }
