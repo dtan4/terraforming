@@ -49,7 +49,7 @@ resource "aws_dynamodb_table" "<%= table.table_name -%>" {
     }
 <%- end -%>
 <%- tags(table).each do |tag| -%>
-    tags {
+    tags = {
         <%= tag.key %> = "<%= tag.value -%>"
     }
 <%- end -%>

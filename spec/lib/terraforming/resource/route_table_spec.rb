@@ -153,8 +153,8 @@ resource "aws_route_table" "my-route-table" {
 
     propagating_vgws = ["vgw-1a4j20b"]
 
-    tags {
-        "Name" = "my-route-table"
+    tags = {
+        Name = "my-route-table"
     }
 }
 
@@ -166,8 +166,8 @@ resource "aws_route_table" "my-route-table-2" {
         gateway_id = "vgw-2345cdef"
     }
 
-    tags {
-        "Name" = "my-route-table-2"
+    tags = {
+        Name = "my-route-table-2"
     }
 }
 

@@ -45,15 +45,15 @@ module Terraforming
 resource "aws_vpn_gateway" "vgw-1234abcd" {
     vpc_id = "vpc-1234abcd"
     availability_zone = "us-east-1c"
-    tags {
+    tags = {
     }
 }
 
 resource "aws_vpn_gateway" "test" {
     vpc_id = "vpc-5678efgh"
     availability_zone = "us-east-1d"
-    tags {
-        "Name" = "test"
+    tags = {
+        Name = "test"
     }
 }
 

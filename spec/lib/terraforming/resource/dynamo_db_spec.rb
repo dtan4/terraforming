@@ -193,7 +193,7 @@ resource "aws_dynamodb_table" "test-ddb" {
         projection_type = "INCLUDE"
         non_key_attributes = ["fghi", "jklm"]
     }
-    tags {
+    tags = {
         abcd = "efgh"
     }
     stream_enabled = true

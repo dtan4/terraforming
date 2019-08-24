@@ -89,8 +89,8 @@ resource "aws_route53_zone" "hoge-net-public" {
     name       = "hoge.net"
     comment    = ""
 
-    tags {
-        "Environment" = "dev"
+    tags = {
+        Environment = "dev"
     }
 }
 
@@ -100,8 +100,8 @@ resource "aws_route53_zone" "fuga-net-private" {
     vpc_id     = "vpc-1234abcd"
     vpc_region = "ap-northeast-1"
 
-    tags {
-        "Environment" = "dev"
+    tags = {
+        Environment = "dev"
     }
 }
 

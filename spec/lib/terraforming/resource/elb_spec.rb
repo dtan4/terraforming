@@ -204,8 +204,8 @@ resource "aws_elb" "hoge" {
         timeout             = 5
     }
 
-    tags {
-        "name" = "elb-1"
+    tags = {
+        name = "elb-1"
     }
 }
 
@@ -242,8 +242,8 @@ resource "aws_elb" "fuga" {
         timeout             = 5
     }
 
-    tags {
-        "name" = "elb-1"
+    tags = {
+        name = "elb-1"
     }
 }
 

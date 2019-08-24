@@ -138,8 +138,8 @@ resource "aws_network_acl" "hoge" {
         cidr_block = "0.0.0.0/0"
     }
 
-    tags {
-        "Name" = "hoge"
+    tags = {
+        Name = "hoge"
     }
 }
 
@@ -178,8 +178,8 @@ resource "aws_network_acl" "fuga" {
         icmp_type  = "4"
     }
 
-    tags {
-        "Name" = "fuga"
+    tags = {
+        Name = "fuga"
     }
 }
 

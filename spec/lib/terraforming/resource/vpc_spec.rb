@@ -63,8 +63,8 @@ resource "aws_vpc" "hoge" {
     enable_dns_support   = true
     instance_tenancy     = "default"
 
-    tags {
-        "Name" = "hoge"
+    tags = {
+        Name = "hoge"
     }
 }
 
@@ -74,8 +74,8 @@ resource "aws_vpc" "fuga" {
     enable_dns_support   = true
     instance_tenancy     = "default"
 
-    tags {
-        "Name" = "fuga"
+    tags = {
+        Name = "fuga"
     }
 }
 
