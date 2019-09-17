@@ -15,6 +15,14 @@ resource "aws_autoscaling_group" "<%= module_name_of(group) %>" {
     vpc_zone_identifier       = <%= vpc_zone_identifier_of(group).inspect %>
 <%- end -%>
 
+    <%- if group.load_balancer_names.any? -%>
+        load_balancers = <%= group.load_balancer_names.inspect %>
+    <%- end -%>
+
+    <%- if group.target_group_arns.any? -%>
+        target_group_arns = <%= group.target_group_arns.inspect %>
+    <%- end -%>
+
 <% group.tags.each do |tag| -%>
     tag {
         key   = "<%= tag.key %>"

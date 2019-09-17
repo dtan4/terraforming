@@ -31,7 +31,7 @@ module Terraforming
             "health_check_type" => group.health_check_type,
             "id" => group.auto_scaling_group_name,
             "launch_configuration" => group.launch_configuration_name,
-            "load_balancers.#" => "0",
+            "load_balancers.#" => group.load_balancer_names.count.to_s,
             "max_size" => group.max_size.to_s,
             "min_size" => group.min_size.to_s,
             "name" => group.auto_scaling_group_name,
