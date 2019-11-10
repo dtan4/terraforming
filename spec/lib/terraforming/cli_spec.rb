@@ -190,6 +190,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "iamrpa" do
+        let(:klass)   { Terraforming::Resource::IAMRolePolicyAttachment }
+        let(:command) { :iamrpa }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "iamu" do
         let(:klass)   { Terraforming::Resource::IAMUser }
         let(:command) { :iamu }
