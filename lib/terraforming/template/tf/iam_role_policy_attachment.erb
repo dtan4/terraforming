@@ -1,0 +1,7 @@
+<% iam_role_policy_attachments.each do |role_policy_attachment| -%>
+resource "aws_iam_role_policy_attachment" "<%= module_name_of(role_policy_attachment) %>" {
+    policy_arn = "<%= role_policy_attachment[:policy_arn] %>"
+    role       = "<%= role_policy_attachment[:role] %>"
+}
+
+<% end -%>
