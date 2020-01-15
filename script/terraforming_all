@@ -1,0 +1,13 @@
+#!/bin/bash
+###################################################
+# Script by Martin Kraus Larsen <martin@mpsoft.dk>
+
+# Build array of Terraforming-commands
+arrCmds=( asg dbpg dbsg dbsn ec2 ecc ecsn elb iamg iamgm iamgp iamip iamp iamr iamrp iamu iamup nacl r53r r53z rds rt rta s3 sg sn vpc )
+
+# Run it
+for i in "${arrCmds[@]}"
+do
+  echo "Terraforming the $i"
+  terraforming $i > $i.tf
+done
