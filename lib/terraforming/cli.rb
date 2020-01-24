@@ -234,7 +234,11 @@ module Terraforming
 
     def configure_aws(options)
       Aws.config[:credentials] = Aws::SharedCredentials.new(profile_name: options[:profile]) if options[:profile]
-      Aws.config[:region] = options[:region] if options[:region]
+      Aws.config[:region] = if options[:region]
+                              options[:region]
+                            elsif (region = Aws.shared_config.region(options))
+                              region
+                            end
 
       if options[:assume]
         args = { role_arn: options[:assume], role_session_name: "terraforming-session-#{Time.now.to_i}" }
