@@ -56,7 +56,7 @@ module Terraforming
 			  {
                 destination_cidr_block: '192.168.3.0/24',
                 destination_prefix_list_id: nil,
-				gateway_id: nil,
+		gateway_id: nil,
                 nat_gateway_id: 'nat-0a123456789012a3b',
                 instance_id: nil,
                 instance_owner_id: nil,
@@ -162,7 +162,7 @@ resource "aws_route_table" "my-route-table" {
         vpc_peering_connection_id = "pcx-c56789de"
     }
 
-	route {
+    route {
         cidr_block = "192.168.3.0/24"
         nat_gateway_id = "nat-0a123456789012a3b"
     }
@@ -224,9 +224,9 @@ resource "aws_route_table" "my-route-table-2" {
                   "route.2351420441.network_interface_id" => "",
                   "route.2351420441.vpc_peering_connection_id" => "pcx-c56789de",
 				
-				  "route.3152305367.cidr_block" => "192.168.3.0/24",
+		  "route.3152305367.cidr_block" => "192.168.3.0/24",
                   "route.3152305367.gateway_id" => "",
-				  "route.3152305367.nat_gateway_id" => "nat-0a123456789012a3b",
+		  "route.3152305367.nat_gateway_id" => "nat-0a123456789012a3b",
                   "route.3152305367.instance_id" => "",
                   "route.3152305367.network_interface_id" => "",
                   "route.3152305367.vpc_peering_connection_id" => "",
