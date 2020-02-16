@@ -31,7 +31,7 @@ Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, t
 
 ## Installation
 
-Add this line to your application's Gemfile:
+If you have RubyGems installed, add this line to your application's Gemfile:
 
 ```ruby
 gem 'terraforming'
@@ -44,6 +44,10 @@ And then execute:
 Or install it yourself as:
 
     $ gem install terraforming
+
+If you are on macOS but you do not use Ruby, and you have [Homebrew](https://brew.sh/) installed, then you can install using:
+
+    $ brew install terraforming
 
 ## Prerequisites
 
