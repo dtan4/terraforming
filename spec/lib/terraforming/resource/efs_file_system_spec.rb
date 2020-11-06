@@ -48,7 +48,7 @@ resource "aws_efs_file_system" "fs-0000abcd" {
     creation_token = "console-1234abcd-1234-abcd-a123-d34db33f0000"
     file_system_id = "fs-0000abcd"
     performance_mode = "generalPurpose"
-    tags {
+    tags = {
         Name = "efs_name_0"
     }
 }
@@ -56,7 +56,7 @@ resource "aws_efs_file_system" "fs-abcd1234" {
     creation_token = "console-0000abcd-4321-dcba-a123-d34db33f0000"
     file_system_id = "fs-abcd1234"
     performance_mode = "generalPurpose"
-    tags {
+    tags = {
         Name = "efs_name_1"
     }
 }

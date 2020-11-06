@@ -10,7 +10,7 @@ resource "aws_efs_file_system" "<%= module_name_of(efs) %>" {
     performance_mode = "<%= efs.performance_mode %>"
 <% end -%>
 <% if efs.name -%>
-    tags {
+    tags = {
         Name = "<%= efs.name %>"
     }
 <% end -%>
