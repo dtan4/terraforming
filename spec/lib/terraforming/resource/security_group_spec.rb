@@ -269,7 +269,7 @@ resource "aws_security_group" "vpc-1234abcd-fuga" {
         self            = true
     }
 
-    tags {
+    tags = {
         "Name" = "fuga"
     }
 }
@@ -299,7 +299,7 @@ resource "aws_security_group" "vpc-1234abcd-piyo" {
         ipv6_cidr_blocks     = ["::/0"]
     }
 
-    tags {
+    tags = {
         "Name" = "piyo"
     }
 }

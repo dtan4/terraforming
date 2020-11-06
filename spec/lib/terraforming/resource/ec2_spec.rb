@@ -331,7 +331,7 @@ resource "aws_instance" "hoge" {
         iops                  = 24
     }
 
-    tags {
+    tags = {
         "Name" = "hoge"
     }
 }
@@ -357,7 +357,7 @@ resource "aws_instance" "i-5678efgh" {
         delete_on_termination = true
     }
 
-    tags {
+    tags = {
     }
 }
 
@@ -373,7 +373,7 @@ resource "aws_instance" "i-9012ijkl" {
     private_ip                  = "10.0.0.102"
     source_dest_check           = true
 
-    tags {
+    tags = {
     }
 }
 
