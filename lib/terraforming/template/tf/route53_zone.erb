@@ -8,7 +8,7 @@ resource "aws_route53_zone" "<%= module_name_of(hosted_zone) %>" {
     vpc_region = "<%= vpc.vpc_region %>"
 <%- end -%>
 
-    tags {
+    tags = {
 <% tags_of(hosted_zone).each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
