@@ -8,6 +8,9 @@ resource "aws_route_table" "<%= module_name_of(route_table) %>" {
 <% if route.gateway_id -%>
         gateway_id = "<%= route.gateway_id %>"
 <% end -%>
+<% if route.nat_gateway_id -%>
+        nat_gateway_id = "<%= route.nat_gateway_id %>"
+<% end -%>
 <% if route.instance_id -%>
         instance_id = "<%= route.instance_id %>"
 <% end -%>

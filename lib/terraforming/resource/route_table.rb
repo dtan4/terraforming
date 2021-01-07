@@ -76,6 +76,7 @@ module Terraforming
         attributes = {
           "route.#{hashcode}.cidr_block" => route.destination_cidr_block.to_s,
           "route.#{hashcode}.gateway_id" => route.gateway_id.to_s,
+          "route.#{hashcode}.nat_gateway_id" => route.nat_gateway_id.to_s,
           "route.#{hashcode}.instance_id" => route.instance_id.to_s,
           "route.#{hashcode}.network_interface_id" => route.network_interface_id.to_s,
           "route.#{hashcode}.vpc_peering_connection_id" => route.vpc_peering_connection_id.to_s
