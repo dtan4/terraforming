@@ -64,6 +64,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "cwlg" do
+        let(:klass)   { Terraforming::Resource::CloudWatchLogGroup }
+        let(:command) { :cwlg }
+
+        it_behaves_like "CLI examples"
+      end
+      
       describe "dbpg" do
         let(:klass)   { Terraforming::Resource::DBParameterGroup }
         let(:command) { :dbpg }

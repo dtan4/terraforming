@@ -1,0 +1,11 @@
+<% log_groups.each do |log_group| -%>
+resource "aws_cloudwatch_log_group" "<%= normalize_module_name(log_group.name) %>" {
+    id                  = "<%= log_group.name %>"
+    name                = "<%= log_group.name %>"
+    name_prefix         = "<%= log_group.name_prefix %>"
+    retention_in_days   = "<%= log_group.retention_in_days %>"
+    tags                = "<%= log_group.tags %>"
+    arn                 = "<%= log_group.arn %>"
+}
+
+<%- end -%>
