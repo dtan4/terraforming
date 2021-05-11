@@ -21,61 +21,54 @@ module Terraforming
 
       def tfstate
         log_groups.inject({}) do |resources, log_group|
+          attributes = {
+            "arn"                 => log_group["arn"].to_s,
+            "creation_time"       => log_group["creation_time"].to_i,
+            "kms_key_id"          => log_group["kms_key_id"].to_s,
+            "log_group_name"      => log_group["log_group_name"].to_s,
+            "name_prefix"         => log_group["name_prefix"].to_s,
+            "metric_filter_count" => log_group["metric_filter_count"].to_i,
+            "retention_in_days"   => log_group["retention_in_days"].to_i,
+            "stored_bytes"        => log_group["stored_bytes"].to_i
+          }
+
+          #attributes.merge!(tag_attributes_of(log_group))
+
           resources["aws_cloudwatch_log_group.#{module_name_of(log_group)}"] = {
             "type" => "aws_cloudwatch_log_group",
             "primary" => {
-              "id" => log_group.name,
-              "attributes" => log_group_attributes(log_group)
+              "id" => log_group.log_group_name,
+              "attributes" => attributes
             }
           }
-          resources
         end
       end
 
       private
-
-      def log_group_attributes(log_group)
-        attributes = {
-          "id" => log_group.name.to_s,
-          "name" => log_group.name.to_s,
-          "name_prefix" => sanitize(log_group.name_prefix),
-          "retention_in_days" => log_group.retention_in_days,
-          "tags" => log_group.tags,
-          "arn" => log_group.arn
-        }
-        add_checksummed_attributes(attributes, log_group)
-      end
 
       def log_groups
         @client.describe_log_groups.map(&:log_groups).flatten
       end
 
       def module_name_of(log_group)
-        normalize_module_name(log_group.name)
+        normalize_module_name(log_group.log_group_name)
       end
 
-      def sanitize(argument)
-        argument.nil? ? "" : argument
-      end
-
-      def add_checksummed_attributes(attributes, log_group)
-        %w(insufficient_data_actions log_group_actions ok_actions dimensions).each do |action|
-          attribute = log_group.send(action.to_sym)
-          attributes["#{action}.#"] = attribute.size.to_s
-          attribute.each do |attr|
-            if attr.is_a? String
-              checksum = Zlib.crc32(attr)
-              value = attr
-            else
-              checksum = attr.name
-              value = attr.value
-            end
-            attributes["#{action}.#{checksum}"] = value
-          end
+      def tag_attributes_of(log_group)
+        tags = tags_of(log_group)
+        attributes = { "tags.%" => tags.length.to_s }
+        tags.each do |tag|
+          attributes["tags.#{tag.key}"] = tag.value
         end
-
         attributes
       end
+
+      def tags_of(log_group)
+        @client.list_tags_log_group({
+          log_group_name: "#{log_group.log_group_name}"
+        })
+      end      
+
     end
   end
 end
