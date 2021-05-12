@@ -26,13 +26,10 @@ module Terraforming
             "creation_time"       => log_group["creation_time"].to_i,
             "kms_key_id"          => log_group["kms_key_id"].to_s,
             "log_group_name"      => log_group["log_group_name"].to_s,
-            "name_prefix"         => log_group["name_prefix"].to_s,
             "metric_filter_count" => log_group["metric_filter_count"].to_i,
             "retention_in_days"   => log_group["retention_in_days"].to_i,
             "stored_bytes"        => log_group["stored_bytes"].to_i
           }
-
-          #attributes.merge!(tag_attributes_of(log_group))
 
           resources["aws_cloudwatch_log_group.#{module_name_of(log_group)}"] = {
             "type" => "aws_cloudwatch_log_group",
