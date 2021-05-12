@@ -49,22 +49,7 @@ module Terraforming
 
       def module_name_of(log_group)
         normalize_module_name(log_group.log_group_name)
-      end
-
-      def tag_attributes_of(log_group)
-        tags = tags_of(log_group)
-        attributes = { "tags.%" => tags.length.to_s }
-        tags.each do |tag|
-          attributes["tags.#{tag.key}"] = tag.value
-        end
-        attributes
-      end
-
-      def tags_of(log_group)
-        @client.list_tags_log_group({
-          log_group_name: "#{log_group.log_group_name}"
-        })
-      end      
+      end    
 
     end
   end
