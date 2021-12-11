@@ -1,5 +1,18 @@
 # Terraforming
 
+## Project Status (2021-12-11): No longer actively maintained
+
+Terraforming is no longer actively maintained.
+
+**If you want to generate Terraform configurations from existing cloud resources,** consider using other tools, such as
+
+- [Terraformer](https://github.com/GoogleCloudPlatform/terraformer) which supports many cloud providers not only AWS but also GCP, Azure, GitHub, Kubernetes, etc., and is able to generate configurations based on the latest provider's resource schema.
+- [Terracognita](https://github.com/cycloidio/terracognita)
+
+Thank you for your contributions and supports in the past 6 years.
+
+---
+
 [![Build Status](https://travis-ci.org/dtan4/terraforming.svg?branch=master)](https://travis-ci.org/dtan4/terraforming)
 [![Code Climate](https://codeclimate.com/github/dtan4/terraforming/badges/gpa.svg)](https://codeclimate.com/github/dtan4/terraforming)
 [![Coverage Status](https://coveralls.io/repos/github/dtan4/terraforming/badge.svg?branch=increase-test-cov-160528)](https://coveralls.io/github/dtan4/terraforming)
