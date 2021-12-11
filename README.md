@@ -6,7 +6,6 @@
 [![Gem Version](https://badge.fury.io/rb/terraforming.svg)](http://badge.fury.io/rb/terraforming)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming/status "Docker Repository on Quay.io")](https://quay.io/repository/dtan4/terraforming)
-[![Join the chat at https://gitter.im/dtan4/terraforming](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dtan4/terraforming?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
 
