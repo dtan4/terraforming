@@ -22,18 +22,20 @@ Thank you for your contributions and supports in the past 6 years.
 
 Export existing AWS resources to [Terraform](https://terraform.io/) style (tf, tfstate)
 
-- [Supported version](#supported-version)
-- [Installation](#installation)
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-  -  [Export tf](#export-tf)
-  -  [Export tfstate](#export-tfstate)
-    -  [Example: Export all](#example-export-all)
-- [Run as Docker container](#run-as-docker-container-)
-- [Development](#development)
-- [Contributing](#contributing)
-- [Similar projects](#similar-projects)
-- [License](#license)
+- [Terraforming](#terraforming)
+  - [Supported version](#supported-version)
+  - [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Usage](#usage)
+    - [Export tf](#export-tf)
+    - [Export tfstate](#export-tfstate)
+      - [Example: Export all](#example-export-all)
+    - [Caveats](#caveats)
+  - [Run as Docker container ![Docker Repository on Quay.io](https://quay.io/repository/dtan4/terraforming)](#run-as-docker-container-)
+  - [Development](#development)
+  - [Contributing](#contributing)
+  - [Similar projects](#similar-projects)
+  - [License](#license)
 
 ## Supported version
 
@@ -99,6 +101,7 @@ Commands:
   terraforming alb             # ALB
   terraforming asg             # AutoScaling Group
   terraforming cwa             # CloudWatch Alarm
+  terraforming cwlg            # CloudWatch Log Group
   terraforming dbpg            # Database Parameter Group
   terraforming dbsg            # Database Security Group
   terraforming dbsn            # Database Subnet Group
