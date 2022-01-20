@@ -115,6 +115,11 @@ module Terraforming
       execute(Terraforming::Resource::IAMRolePolicy, options)
     end
 
+    desc "iamrpa", "IAM Role Policy Attachment"
+    def iamrpa
+      execute(Terraforming::Resource::IAMRolePolicyAttachment, options)
+    end
+
     desc "iamu", "IAM User"
     def iamu
       execute(Terraforming::Resource::IAMUser, options)
