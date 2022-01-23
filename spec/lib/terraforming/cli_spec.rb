@@ -57,6 +57,13 @@ module Terraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "bjq" do
+        let(:klass)   { Terraforming::Resource::BatchJobQueue }
+        let(:command) { :bjq }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "cwa" do
         let(:klass)   { Terraforming::Resource::CloudWatchAlarm }
         let(:command) { :cwa }
