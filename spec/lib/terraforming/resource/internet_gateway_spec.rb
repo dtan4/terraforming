@@ -43,14 +43,14 @@ module Terraforming
 resource "aws_internet_gateway" "igw-1234abcd" {
     vpc_id = "vpc-1234abcd"
 
-    tags {
+    tags = {
     }
 }
 
 resource "aws_internet_gateway" "test" {
     vpc_id = "vpc-5678efgh"
 
-    tags {
+    tags = {
         "Name" = "test"
     }
 }
