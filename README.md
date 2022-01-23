@@ -105,6 +105,7 @@ Commands:
   terraforming ddb             # DynamoDB
   terraforming ec2             # EC2
   terraforming ecc             # ElastiCache Cluster
+  terraforming ecpg            # ElastiCache Parameter Group
   terraforming ecsn            # ElastiCache Subnet Group
   terraforming efs             # EFS File System
   terraforming eip             # EIP
