@@ -41,7 +41,7 @@ resource "aws_elb" "<%= module_name_of(load_balancer) %>" {
         timeout             = <%= load_balancer.health_check.timeout %>
     }
 
-    tags {
+    tags = {
 <% @client.describe_tags(load_balancer_names: [load_balancer.load_balancer_name]).tag_descriptions.first.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>

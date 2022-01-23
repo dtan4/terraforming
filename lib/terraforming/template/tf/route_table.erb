@@ -24,7 +24,7 @@ resource "aws_route_table" "<%= module_name_of(route_table) %>" {
     propagating_vgws = <%= propagaving_vgws_of(route_table).inspect %>
 
 <% end -%>
-    tags {
+    tags = {
 <% route_table.tags.each do |tag| -%>
         "<%= tag.key %>" = "<%= tag.value %>"
 <% end -%>
