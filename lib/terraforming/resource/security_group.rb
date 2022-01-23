@@ -118,6 +118,53 @@ module Terraforming
       end
 
       def dedup_permissions(permissions, group_id)
+
+        more = []
+
+        permissions.each { |a|
+
+            if a.user_id_group_pairs.any?
+
+                pairs = []
+                h = Hash.new
+
+                a.user_id_group_pairs.each { |r, i|
+                    if r.description.nil?
+                        r.description = ""
+                    end
+                    if !h.has_key? r.description.to_s
+                       h[r.description] = [r]
+                    else
+                       h[r.description].push r
+                    end
+                }
+                h.each_pair { |k, v|
+                    if k.to_s.empty?
+                        next
+                    end
+                    a1 = a.dup
+                    a1.ipv_6_ranges = []
+                    a1.prefix_list_ids = []
+                    a1.ip_ranges = []
+                    a1.user_id_group_pairs = v
+                    more.push a1
+                }
+
+                if h.has_key? ""
+                    a.user_id_group_pairs   = h[""]
+                    more.push a
+                end
+
+
+            else
+
+                more.push a
+
+            end
+
+        }
+        permissions = more
+
         group_permissions(permissions).inject([]) do |result, (_, perms)|
           group_ids = perms.map(&:user_id_group_pairs).flatten.map(&:group_id)
 
@@ -132,6 +179,7 @@ module Terraforming
       end
 
       def group_permissions(permissions)
+
         permissions.group_by { |permission| [permission.ip_protocol, permission.to_port, permission.from_port] }
       end
 
