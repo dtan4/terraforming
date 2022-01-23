@@ -19,7 +19,7 @@ resource "aws_cloudwatch_metric_alarm" "<%= normalize_module_name(alarm.alarm_na
     actions_enabled     = <%= alarm.actions_enabled %>
 <%- end -%>
 <%- unless alarm.dimensions.empty? -%>
-    dimensions {
+    dimensions = {
 <% alarm.dimensions.each do |dimension| -%>
         <%= dimension.name %> = "<%= dimension.value %>"
 <% end -%>
