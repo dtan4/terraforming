@@ -555,6 +555,18 @@ resource "aws_s3_bucket" "fuga" {
           end
         end
 
+        context "with --assumes and --mfa_device without --tfstate" do
+          it "should switch roles using mfa and export tf" do
+            expect(klass).to receive(:tf).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: 'arn:aws:iam::123456789123:role/test-role',
+              region: 'ap-northeast-1',
+              mfa_serial: "arn:aws:iam::123456789012:mfa/test",
+              token_code: "123456"
+            })
+          end
+        end
+
         context "with --assumes and --tfstate" do
           it "should switch roles and export tfstate" do
             expect(klass).to receive(:tfstate).with(no_args)
@@ -566,12 +578,39 @@ resource "aws_s3_bucket" "fuga" {
           end
         end
 
+        context "with --assumes and --mfa_device and --tfstate" do
+          it "should switch roles using mfa and export tfstate" do
+            expect(klass).to receive(:tfstate).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: 'arn:aws:iam::123456789123:role/test-role',
+              region: 'ap-northeast-1',
+              mfa_serial: "arn:aws:iam::123456789012:mfa/test",
+              token_code: "123456",
+              tfstate: true
+            })
+          end
+        end
+
         context "with --assumes and --tfstate --merge TFSTATE" do
           it "should switch roles and export merged tfstate" do
             expect(klass).to receive(:tfstate).with(no_args)
             described_class.new.invoke(command, [], {
               assume: 'arn:aws:iam::123456789123:role/test-role',
               region: 'ap-northeast-1',
+              tfstate: true,
+              merge: tfstate_fixture_path
+            })
+          end
+        end
+
+        context "with --assumes and --mfa_device and --tfstate --merge TFSTATE" do
+          it "should switch roles using mfa and export merged tfstate" do
+            expect(klass).to receive(:tfstate).with(no_args)
+            described_class.new.invoke(command, [], {
+              assume: 'arn:aws:iam::123456789123:role/test-role',
+              region: 'ap-northeast-1',
+              mfa_serial: "arn:aws:iam::123456789012:mfa/test",
+              token_code: "123456",
               tfstate: true,
               merge: tfstate_fixture_path
             })
