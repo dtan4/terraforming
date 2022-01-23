@@ -47,6 +47,7 @@ module Terraforming
           "period" => alarm.period.to_s,
           "statistic" => alarm.statistic,
           "threshold" => alarm.threshold.to_s,
+          "treat_missing_data" => alarm.treat_missing_data,
           "unit" => sanitize(alarm.unit)
         }
         add_checksummed_attributes(attributes, alarm)
