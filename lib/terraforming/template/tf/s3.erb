@@ -2,11 +2,115 @@
 resource "aws_s3_bucket" "<%= module_name_of(bucket) %>" {
     bucket = "<%= bucket.name %>"
     acl    = "private"
-<%- unless (policy = bucket_policy_of(bucket)).nil? -%>
+    region = "<%=region(bucket)%>"
+  <%- unless (policy = bucket_policy_of(bucket)).nil? -%>
     policy = <<POLICY
-<%= prettify_policy(policy.policy.read) %>
+<%= prettify_policy(policy) %>
 POLICY
-<%- end -%>
-}
+  <%- end -%>
 
-<% end -%>
+  <%- if tagging?(bucket) -%>
+    tags {
+      <%- bucket.tagging.tag_set.each do |tag| -%>
+        <%= tag[:key] %> = "<%= tag[:value] %>"
+      <%- end -%>
+    }
+  <%- end -%>
+
+  <%- if cors?(bucket) -%>
+  <%- bucket.cors.cors_rules.each do |rule| -%>
+    cors_rule {
+        allowed_methods = <%= rule.allowed_methods %>
+        allowed_origins = <%= rule.allowed_origins %>
+      <%- unless rule.allowed_headers.nil? -%>
+        allowed_headers = <%= rule.allowed_headers %>
+      <%- end -%>
+      <%- unless rule.expose_headers.nil? -%>
+        expose_headers = <%= rule.expose_headers %>
+      <%- end -%>
+      <%- unless rule.max_age_seconds.nil? -%>
+        max_age_seconds = <%= rule.max_age_seconds %>
+      <%- end -%>
+    }
+  <%- end -%>
+  <%- end -%>
+
+  <%- unless bucket.versioning.status.nil? -%>
+    versioning {
+        enabled = <%= bucket.versioning.status == 'Enabled' %>
+    }
+  <%- end -%>
+
+  <%- unless bucket.logging.logging_enabled.nil? -%>
+    logging {
+        target_bucket = "<%= bucket.logging.logging_enabled.target_bucket %>"
+        target_prefix = "<%= bucket.logging.logging_enabled.target_prefix %>"
+    }
+  <%- end -%>
+
+  <%- if lifecycle?(bucket) -%>
+  <%- bucket.lifecycle_configuration.rules.each do |rule| -%>
+    lifecycle_rule {
+        id      = "<%= rule.id %>"
+        prefix  = "<%= rule.prefix %>"
+        enabled =  <%= rule.status == 'Enabled' %>
+      <%- rule.transitions.each do |transition| -%>
+        transition {
+            storage_class = "<%= transition.storage_class %>"
+          <%- unless transition.days.nil? %>
+            days = <%= transition.days %>
+          <%- end -%>
+          <%- unless transition.date.nil? -%>
+            date = "<%= transition.date %>"
+          <%- end -%>
+        }
+      <%- end -%>
+
+      <%- unless rule.expiration.nil? -%>
+        expiration {
+          <%- unless rule.expiration.days.nil? -%>
+            days = <%= rule.expiration.days %>
+          <%- end -%>
+          <%- unless rule.expiration.date.nil? -%>
+            date = "<%= rule.expiration.date %>"
+          <%- end -%>
+          <%- unless rule.expiration.expired_object_delete_marker.nil? -%>
+            expired_object_delete_marker = "<%= rule.expiration.expired_object_delete_marker %>"
+          <%- end -%>
+        }
+      <%- end -%>
+
+      <%- rule.noncurrent_version_transitions.each do |transition| -%>
+        noncurrent_version_transition {
+            days          = <%= transition.noncurrent_days %>
+            storage_class = "<%= transition.storage_class %>"
+        }
+      <%- end-%>
+
+      <%- unless rule.noncurrent_version_expiration.nil? -%>
+        noncurrent_version_expiration {
+            days = <%= rule.noncurrent_version_expiration.noncurrent_days %>
+        }
+      <%- end -%>
+
+      <%- unless rule.abort_incomplete_multipart_upload.nil? -%>
+        abort_incomplete_multipart_upload_days = <%= rule.abort_incomplete_multipart_upload.days_after_initiation %>
+      <%- end -%>
+    }
+  <%- end %>
+  <%- end -%>
+
+  <%- if website_configuation?(bucket) %>
+    website {
+        index_document = "<%= bucket.website.index_document.suffix %>"
+      <%- unless bucket.website.error_document.nil? %>
+        error_document = "<%= bucket.website.error_document.key %>"
+      <%- end -%>
+      <%- unless bucket.website.routing_rules.nil? %>
+        routing_rules = <%= prettify_website_routing_rules(bucket) %>
+      <%- end -%>
+    }
+  <%- end -%>
+
+}
+<%- end -%>
