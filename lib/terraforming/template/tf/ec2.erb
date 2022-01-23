@@ -2,8 +2,12 @@
 resource "aws_instance" "<%= module_name_of(instance) %>" {
     ami                         = "<%= instance.image_id %>"
     availability_zone           = "<%= instance.placement.availability_zone %>"
+    disable_api_termination     = <%= disable_api_termination(instance) %>
     ebs_optimized               = <%= instance.ebs_optimized %>
     instance_type               = "<%= instance.instance_type %>"
+<%- if iam_instance_profile?(instance) -%>
+    iam_instance_profile        = "<%= iam_instance_profile(instance) %>"
+<%- end -%>
 <%- unless instance.placement.group_name.empty? -%>
     placement_group             = "<%= instance.placement.group_name %>"
 <%- end -%>
@@ -17,9 +21,7 @@ resource "aws_instance" "<%= module_name_of(instance) %>" {
 <%- end -%>
     associate_public_ip_address = <%= associate_public_ip?(instance) %>
     private_ip                  = "<%= instance.private_ip_address %>"
-<%- if instance.source_dest_check -%>
-    source_dest_check           = <%= instance.source_dest_check %>
-<%- end -%>
+    source_dest_check           = <%= source_dest_check(instance) %>
 
 <% block_devices_of(instance).each do |block_device| -%>
 <%- mapping = block_device_mapping_of(instance, block_device.volume_id) -%>

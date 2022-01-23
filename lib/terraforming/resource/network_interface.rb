@@ -23,6 +23,7 @@ module Terraforming
         network_interfaces.inject({}) do |resources, network_interface|
           attributes = {
             "attachment.#" => attachment_of(network_interface) ? "1" : "0",
+            "description" => network_interface.description,
             "id" => network_interface.network_interface_id,
             "private_ips.#" => private_ips_of(network_interface).length.to_s,
             "security_groups.#" => security_groups_of(network_interface).length.to_s,
